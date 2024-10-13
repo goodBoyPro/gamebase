@@ -1,0 +1,107 @@
+#include "render_object.h"
+
+#include<GCamera.h>
+float vertex[] = {
+    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //
+    0.5f,  -0.5f, -0.5f, 1.0f, 0.0f, //
+    0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
+    0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
+    -0.5f, 0.5f,  -0.5f, 0.0f, 1.0f, //
+    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //
+
+    -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
+    0.5f,  -0.5f, 0.5f,  1.0f, 0.0f, //
+    0.5f,  0.5f,  0.5f,  1.0f, 1.0f, //
+    0.5f,  0.5f,  0.5f,  1.0f, 1.0f, //
+    -0.5f, 0.5f,  0.5f,  0.0f, 1.0f, //
+    -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
+
+    -0.5f, 0.5f,  0.5f,  1.0f, 0.0f, //
+    -0.5f, 0.5f,  -0.5f, 1.0f, 1.0f, //
+    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
+    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
+    -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
+    -0.5f, 0.5f,  0.5f,  1.0f, 0.0f, //
+
+    0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
+    0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
+    0.5f,  -0.5f, -0.5f, 0.0f, 1.0f, //
+    0.5f,  -0.5f, -0.5f, 0.0f, 1.0f, //
+    0.5f,  -0.5f, 0.5f,  0.0f, 0.0f, //
+    0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
+
+    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
+    0.5f,  -0.5f, -0.5f, 1.0f, 1.0f, //
+    0.5f,  -0.5f, 0.5f,  1.0f, 0.0f, //
+    0.5f,  -0.5f, 0.5f,  1.0f, 0.0f, //
+    -0.5f, -0.5f, 0.5f,  0.0f, 0.0f, //
+    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //
+
+    -0.5f, 0.5f,  -0.5f, 0.0f, 1.0f, //
+    0.5f,  0.5f,  -0.5f, 1.0f, 1.0f, //
+    0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
+    0.5f,  0.5f,  0.5f,  1.0f, 0.0f, //
+    -0.5f, 0.5f,  0.5f,  0.0f, 0.0f, //
+    -0.5f, 0.5f,  -0.5f, 0.0f, 1.0f  //
+};
+glm::vec3 cubePositions[] = {{0.0f, 0.0f, 0.0f},    {2.0f, 5.0f, -15.0f},
+                             {-1.5f, -2.2f, -2.5f}, {-3.8f, -2.0f, -12.3f},
+                             {2.4f, -0.4f, -3.5f},  {-1.7f, 3.0f, -7.5f},
+                             {1.3f, -2.0f, -2.5f},  {1.5f, 2.0f, -2.5f},
+                             {1.5f, 0.2f, -1.5f},   {-1.3f, 1.0f, -1.5f}};
+
+RenderObject::RenderObject() { init(); }
+
+RenderObject::~RenderObject() {}
+
+void RenderObject::init() {
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof vertex, vertex, GL_STATIC_DRAW);
+    // ebo
+    //  glGenBuffers(1,&ebo);
+    //  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo);
+    //  glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(indices),indices,GL_STATIC_DRAW);
+
+    // 指定VAO读取格式:索引，读取个数，间隔，第一个数据的偏移量
+    // 读取顶点数据
+    glVertexAttribPointer(6, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
+                          (void *)0);
+    glEnableVertexAttribArray(6);
+    // 读取UV
+    glVertexAttribPointer(8, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
+                          (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(8);
+}
+
+void RenderObject::draw() {
+    glBindVertexArray(vao);
+    shaderIns.use();
+    glUniform4f(glGetUniformLocation(shaderIns.ID, "ourColor"), 255, 0, 0, 1);
+    // 相机矩阵应该只在主循环调用一次，使用时应移出
+    glUniformMatrix4fv(glGetUniformLocation(shaderIns.ID, "viewMat"), 1,
+                       GL_FALSE, glm::value_ptr(gameCamera->getViewMat()));
+    glUniformMatrix4fv(glGetUniformLocation(shaderIns.ID, "projMat"), 1,
+                       GL_FALSE, glm::value_ptr(gameCamera->projMat));
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    
+}
+
+void RenderObject::drawGpuInstance() {
+     int shaderTime = clock() % 1000;
+        float redValue = shaderTime / 3000.f;
+        for (int i = 0; i < 10; ++i) {
+            glm::mat4 modelMat2;
+            static float ang;
+            modelMat2 = glm::translate(modelMat, cubePositions[i]);
+            modelMat2 = glm::rotate(modelMat2, glm::radians(ang), {1, 1, 1});
+            ang += 0.2;
+            glUniformMatrix4fv(
+                glGetUniformLocation(shaderIns.ID, "modelMat"), 1, GL_FALSE,
+                glm::value_ptr(modelMat2));
+
+            draw();
+        }
+}

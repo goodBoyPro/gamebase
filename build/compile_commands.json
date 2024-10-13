@@ -1,0 +1,14 @@
+[
+{
+  "directory": "G:/codeLearn/vsCode/gameX/project/build",
+  "command": "D:\\mingw64\\bin\\g++.exe -DUNICODE @CMakeFiles/Start.dir/includes_CXX.rsp  -Wall -fexec-charset=GBK  -g -std=gnu++20 -o CMakeFiles\\Start.dir\\start.cpp.obj -c G:\\codeLearn\\vsCode\\gameX\\project\\start.cpp",
+  "file": "G:/codeLearn/vsCode/gameX/project/start.cpp",
+  "output": "CMakeFiles/Start.dir/start.cpp.obj"
+},
+{
+  "directory": "G:/codeLearn/vsCode/gameX/project/build/work/src",
+  "command": "D:\\mingw64\\bin\\g++.exe -DEXPORT -DUNICODE -Dtimer_EXPORTS @CMakeFiles/timer.dir/includes_CXX.rsp  -Wall -fexec-charset=GBK  -g -std=gnu++20 -o CMakeFiles\\timer.dir\\__\\__\\lib\\timer.cpp.obj -c G:\\codeLearn\\vsCode\\gameX\\project\\lib\\timer.cpp",
+  "file": "G:/codeLearn/vsCode/gameX/project/lib/timer.cpp",
+  "output": "work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj"
+}
+]

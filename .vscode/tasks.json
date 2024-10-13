@@ -1,0 +1,12 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cmake",
+			"label": "Build_label",
+			"command": "test",
+			"problemMatcher": [],
+			"detail": "CMake 模板 测试 任务"
+		}
+	]
+}

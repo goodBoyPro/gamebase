@@ -1,0 +1,3 @@
+D:\mingw64\bin\cmake.exe -E rm -f CMakeFiles\Start.dir/objects.a
+D:\mingw64\bin\ar.exe qc CMakeFiles\Start.dir/objects.a @CMakeFiles\Start.dir\objects1.rsp
+D:\mingw64\bin\g++.exe  -Wall -fexec-charset=GBK  -g -Wl,--whole-archive CMakeFiles\Start.dir/objects.a -Wl,--no-whole-archive -o G:\codeLearn\vsCode\gameX\output\Start.exe -Wl,--out-implib,G:\codeLearn\vsCode\gameX\output\libStart.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Start.dir\linkLibs.rsp
