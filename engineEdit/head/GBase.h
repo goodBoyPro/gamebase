@@ -23,10 +23,16 @@
 
 #define FVector sf::Vector2f
 #define IVector sf::Vector2i
-
+#define DEBUG
+#ifdef DEBUG
+#define PRINTF(str)  printf("file【%s】\nline【%d】\nfunction【%s】\nvarname【"#str"】\ntext【%s】\n", __FILE__, __LINE__, __func__,str);
+#else 
+#define PRINTF(str)
+#endif
 template <class T> struct GVector {
     GVector() {};
     GVector(T Gx, T Gy) {
+       
         x = Gx;
         y = Gy;
     };

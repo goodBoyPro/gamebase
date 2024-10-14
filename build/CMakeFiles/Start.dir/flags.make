@@ -11,7 +11,7 @@ CXX_FLAGS =  -Wall -fexec-charset=GBK  -g -std=gnu++20
 
 RC_DEFINES = -DUNICODE
 
-RC_INCLUDES = -I G:\codeLearn\vsCode\gameX\project\work\head -I G:\codeLearn\vsCode\gameX\project\..\extern\include -I G:\codeLearn\vsCode\gameX\engine\head -I G:\codeLearn\vsCode\gameX\project\engineEdit\head
+RC_INCLUDES = -I G:\codeLearn\vsCode\gameX\project\work\head -I G:\codeLearn\vsCode\gameX\project\..\extern\include -I G:\codeLearn\vsCode\gameX\engine\head -I G:\codeLearn\vsCode\gameX\project\engineEdit\head -I G:\codeLearn\vsCode\gameX\project\lib\head
 
 RC_FLAGS = 
 

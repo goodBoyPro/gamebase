@@ -116,42 +116,578 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-work/src/CMakeFiles/timer.dir/rule:
-	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 work/src/CMakeFiles/timer.dir/rule
-.PHONY : work/src/CMakeFiles/timer.dir/rule
+work/src/CMakeFiles/game.dir/rule:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 work/src/CMakeFiles/game.dir/rule
+.PHONY : work/src/CMakeFiles/game.dir/rule
 
 # Convenience name for target.
-timer: work/src/CMakeFiles/timer.dir/rule
-.PHONY : timer
+game: work/src/CMakeFiles/game.dir/rule
+.PHONY : game
 
 # fast build rule for target.
-timer/fast:
-	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\timer.dir\build.make work/src/CMakeFiles/timer.dir/build
-.PHONY : timer/fast
+game/fast:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/build
+.PHONY : game/fast
 
-__/__/lib/timer.obj: __/__/lib/timer.cpp.obj
-.PHONY : __/__/lib/timer.obj
+GAnimation.obj: GAnimation.cpp.obj
+.PHONY : GAnimation.obj
 
 # target to build an object file
-__/__/lib/timer.cpp.obj:
-	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\timer.dir\build.make work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj
-.PHONY : __/__/lib/timer.cpp.obj
+GAnimation.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GAnimation.cpp.obj
+.PHONY : GAnimation.cpp.obj
 
-__/__/lib/timer.i: __/__/lib/timer.cpp.i
-.PHONY : __/__/lib/timer.i
+GAnimation.i: GAnimation.cpp.i
+.PHONY : GAnimation.i
 
 # target to preprocess a source file
-__/__/lib/timer.cpp.i:
-	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\timer.dir\build.make work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.i
-.PHONY : __/__/lib/timer.cpp.i
+GAnimation.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GAnimation.cpp.i
+.PHONY : GAnimation.cpp.i
 
-__/__/lib/timer.s: __/__/lib/timer.cpp.s
-.PHONY : __/__/lib/timer.s
+GAnimation.s: GAnimation.cpp.s
+.PHONY : GAnimation.s
 
 # target to generate assembly for a file
-__/__/lib/timer.cpp.s:
-	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\timer.dir\build.make work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.s
-.PHONY : __/__/lib/timer.cpp.s
+GAnimation.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GAnimation.cpp.s
+.PHONY : GAnimation.cpp.s
+
+GAnimationBp.obj: GAnimationBp.cpp.obj
+.PHONY : GAnimationBp.obj
+
+# target to build an object file
+GAnimationBp.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GAnimationBp.cpp.obj
+.PHONY : GAnimationBp.cpp.obj
+
+GAnimationBp.i: GAnimationBp.cpp.i
+.PHONY : GAnimationBp.i
+
+# target to preprocess a source file
+GAnimationBp.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GAnimationBp.cpp.i
+.PHONY : GAnimationBp.cpp.i
+
+GAnimationBp.s: GAnimationBp.cpp.s
+.PHONY : GAnimationBp.s
+
+# target to generate assembly for a file
+GAnimationBp.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GAnimationBp.cpp.s
+.PHONY : GAnimationBp.cpp.s
+
+GButton.obj: GButton.cpp.obj
+.PHONY : GButton.obj
+
+# target to build an object file
+GButton.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GButton.cpp.obj
+.PHONY : GButton.cpp.obj
+
+GButton.i: GButton.cpp.i
+.PHONY : GButton.i
+
+# target to preprocess a source file
+GButton.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GButton.cpp.i
+.PHONY : GButton.cpp.i
+
+GButton.s: GButton.cpp.s
+.PHONY : GButton.s
+
+# target to generate assembly for a file
+GButton.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GButton.cpp.s
+.PHONY : GButton.cpp.s
+
+GMouse.obj: GMouse.cpp.obj
+.PHONY : GMouse.obj
+
+# target to build an object file
+GMouse.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GMouse.cpp.obj
+.PHONY : GMouse.cpp.obj
+
+GMouse.i: GMouse.cpp.i
+.PHONY : GMouse.i
+
+# target to preprocess a source file
+GMouse.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GMouse.cpp.i
+.PHONY : GMouse.cpp.i
+
+GMouse.s: GMouse.cpp.s
+.PHONY : GMouse.s
+
+# target to generate assembly for a file
+GMouse.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GMouse.cpp.s
+.PHONY : GMouse.cpp.s
+
+GPhysix.obj: GPhysix.cpp.obj
+.PHONY : GPhysix.obj
+
+# target to build an object file
+GPhysix.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GPhysix.cpp.obj
+.PHONY : GPhysix.cpp.obj
+
+GPhysix.i: GPhysix.cpp.i
+.PHONY : GPhysix.i
+
+# target to preprocess a source file
+GPhysix.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GPhysix.cpp.i
+.PHONY : GPhysix.cpp.i
+
+GPhysix.s: GPhysix.cpp.s
+.PHONY : GPhysix.s
+
+# target to generate assembly for a file
+GPhysix.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GPhysix.cpp.s
+.PHONY : GPhysix.cpp.s
+
+GWidget.obj: GWidget.cpp.obj
+.PHONY : GWidget.obj
+
+# target to build an object file
+GWidget.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GWidget.cpp.obj
+.PHONY : GWidget.cpp.obj
+
+GWidget.i: GWidget.cpp.i
+.PHONY : GWidget.i
+
+# target to preprocess a source file
+GWidget.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GWidget.cpp.i
+.PHONY : GWidget.cpp.i
+
+GWidget.s: GWidget.cpp.s
+.PHONY : GWidget.s
+
+# target to generate assembly for a file
+GWidget.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/GWidget.cpp.s
+.PHONY : GWidget.cpp.s
+
+__/__/engineEdit/src/GActor.obj: __/__/engineEdit/src/GActor.cpp.obj
+.PHONY : __/__/engineEdit/src/GActor.obj
+
+# target to build an object file
+__/__/engineEdit/src/GActor.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GActor.cpp.obj
+.PHONY : __/__/engineEdit/src/GActor.cpp.obj
+
+__/__/engineEdit/src/GActor.i: __/__/engineEdit/src/GActor.cpp.i
+.PHONY : __/__/engineEdit/src/GActor.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/GActor.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GActor.cpp.i
+.PHONY : __/__/engineEdit/src/GActor.cpp.i
+
+__/__/engineEdit/src/GActor.s: __/__/engineEdit/src/GActor.cpp.s
+.PHONY : __/__/engineEdit/src/GActor.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/GActor.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GActor.cpp.s
+.PHONY : __/__/engineEdit/src/GActor.cpp.s
+
+__/__/engineEdit/src/GBase.obj: __/__/engineEdit/src/GBase.cpp.obj
+.PHONY : __/__/engineEdit/src/GBase.obj
+
+# target to build an object file
+__/__/engineEdit/src/GBase.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GBase.cpp.obj
+.PHONY : __/__/engineEdit/src/GBase.cpp.obj
+
+__/__/engineEdit/src/GBase.i: __/__/engineEdit/src/GBase.cpp.i
+.PHONY : __/__/engineEdit/src/GBase.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/GBase.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GBase.cpp.i
+.PHONY : __/__/engineEdit/src/GBase.cpp.i
+
+__/__/engineEdit/src/GBase.s: __/__/engineEdit/src/GBase.cpp.s
+.PHONY : __/__/engineEdit/src/GBase.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/GBase.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GBase.cpp.s
+.PHONY : __/__/engineEdit/src/GBase.cpp.s
+
+__/__/engineEdit/src/GCamera.obj: __/__/engineEdit/src/GCamera.cpp.obj
+.PHONY : __/__/engineEdit/src/GCamera.obj
+
+# target to build an object file
+__/__/engineEdit/src/GCamera.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GCamera.cpp.obj
+.PHONY : __/__/engineEdit/src/GCamera.cpp.obj
+
+__/__/engineEdit/src/GCamera.i: __/__/engineEdit/src/GCamera.cpp.i
+.PHONY : __/__/engineEdit/src/GCamera.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/GCamera.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GCamera.cpp.i
+.PHONY : __/__/engineEdit/src/GCamera.cpp.i
+
+__/__/engineEdit/src/GCamera.s: __/__/engineEdit/src/GCamera.cpp.s
+.PHONY : __/__/engineEdit/src/GCamera.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/GCamera.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GCamera.cpp.s
+.PHONY : __/__/engineEdit/src/GCamera.cpp.s
+
+__/__/engineEdit/src/GController.obj: __/__/engineEdit/src/GController.cpp.obj
+.PHONY : __/__/engineEdit/src/GController.obj
+
+# target to build an object file
+__/__/engineEdit/src/GController.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GController.cpp.obj
+.PHONY : __/__/engineEdit/src/GController.cpp.obj
+
+__/__/engineEdit/src/GController.i: __/__/engineEdit/src/GController.cpp.i
+.PHONY : __/__/engineEdit/src/GController.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/GController.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GController.cpp.i
+.PHONY : __/__/engineEdit/src/GController.cpp.i
+
+__/__/engineEdit/src/GController.s: __/__/engineEdit/src/GController.cpp.s
+.PHONY : __/__/engineEdit/src/GController.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/GController.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GController.cpp.s
+.PHONY : __/__/engineEdit/src/GController.cpp.s
+
+__/__/engineEdit/src/GDebug.obj: __/__/engineEdit/src/GDebug.cpp.obj
+.PHONY : __/__/engineEdit/src/GDebug.obj
+
+# target to build an object file
+__/__/engineEdit/src/GDebug.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GDebug.cpp.obj
+.PHONY : __/__/engineEdit/src/GDebug.cpp.obj
+
+__/__/engineEdit/src/GDebug.i: __/__/engineEdit/src/GDebug.cpp.i
+.PHONY : __/__/engineEdit/src/GDebug.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/GDebug.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GDebug.cpp.i
+.PHONY : __/__/engineEdit/src/GDebug.cpp.i
+
+__/__/engineEdit/src/GDebug.s: __/__/engineEdit/src/GDebug.cpp.s
+.PHONY : __/__/engineEdit/src/GDebug.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/GDebug.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GDebug.cpp.s
+.PHONY : __/__/engineEdit/src/GDebug.cpp.s
+
+__/__/engineEdit/src/GPlayerChar.obj: __/__/engineEdit/src/GPlayerChar.cpp.obj
+.PHONY : __/__/engineEdit/src/GPlayerChar.obj
+
+# target to build an object file
+__/__/engineEdit/src/GPlayerChar.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GPlayerChar.cpp.obj
+.PHONY : __/__/engineEdit/src/GPlayerChar.cpp.obj
+
+__/__/engineEdit/src/GPlayerChar.i: __/__/engineEdit/src/GPlayerChar.cpp.i
+.PHONY : __/__/engineEdit/src/GPlayerChar.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/GPlayerChar.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GPlayerChar.cpp.i
+.PHONY : __/__/engineEdit/src/GPlayerChar.cpp.i
+
+__/__/engineEdit/src/GPlayerChar.s: __/__/engineEdit/src/GPlayerChar.cpp.s
+.PHONY : __/__/engineEdit/src/GPlayerChar.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/GPlayerChar.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GPlayerChar.cpp.s
+.PHONY : __/__/engineEdit/src/GPlayerChar.cpp.s
+
+__/__/engineEdit/src/GSource.obj: __/__/engineEdit/src/GSource.cpp.obj
+.PHONY : __/__/engineEdit/src/GSource.obj
+
+# target to build an object file
+__/__/engineEdit/src/GSource.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GSource.cpp.obj
+.PHONY : __/__/engineEdit/src/GSource.cpp.obj
+
+__/__/engineEdit/src/GSource.i: __/__/engineEdit/src/GSource.cpp.i
+.PHONY : __/__/engineEdit/src/GSource.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/GSource.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GSource.cpp.i
+.PHONY : __/__/engineEdit/src/GSource.cpp.i
+
+__/__/engineEdit/src/GSource.s: __/__/engineEdit/src/GSource.cpp.s
+.PHONY : __/__/engineEdit/src/GSource.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/GSource.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GSource.cpp.s
+.PHONY : __/__/engineEdit/src/GSource.cpp.s
+
+__/__/engineEdit/src/GWorld.obj: __/__/engineEdit/src/GWorld.cpp.obj
+.PHONY : __/__/engineEdit/src/GWorld.obj
+
+# target to build an object file
+__/__/engineEdit/src/GWorld.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GWorld.cpp.obj
+.PHONY : __/__/engineEdit/src/GWorld.cpp.obj
+
+__/__/engineEdit/src/GWorld.i: __/__/engineEdit/src/GWorld.cpp.i
+.PHONY : __/__/engineEdit/src/GWorld.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/GWorld.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GWorld.cpp.i
+.PHONY : __/__/engineEdit/src/GWorld.cpp.i
+
+__/__/engineEdit/src/GWorld.s: __/__/engineEdit/src/GWorld.cpp.s
+.PHONY : __/__/engineEdit/src/GWorld.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/GWorld.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GWorld.cpp.s
+.PHONY : __/__/engineEdit/src/GWorld.cpp.s
+
+__/__/engineEdit/src/game.obj: __/__/engineEdit/src/game.cpp.obj
+.PHONY : __/__/engineEdit/src/game.obj
+
+# target to build an object file
+__/__/engineEdit/src/game.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/game.cpp.obj
+.PHONY : __/__/engineEdit/src/game.cpp.obj
+
+__/__/engineEdit/src/game.i: __/__/engineEdit/src/game.cpp.i
+.PHONY : __/__/engineEdit/src/game.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/game.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/game.cpp.i
+.PHONY : __/__/engineEdit/src/game.cpp.i
+
+__/__/engineEdit/src/game.s: __/__/engineEdit/src/game.cpp.s
+.PHONY : __/__/engineEdit/src/game.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/game.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/game.cpp.s
+.PHONY : __/__/engineEdit/src/game.cpp.s
+
+__/__/engineEdit/src/main.obj: __/__/engineEdit/src/main.cpp.obj
+.PHONY : __/__/engineEdit/src/main.obj
+
+# target to build an object file
+__/__/engineEdit/src/main.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/main.cpp.obj
+.PHONY : __/__/engineEdit/src/main.cpp.obj
+
+__/__/engineEdit/src/main.i: __/__/engineEdit/src/main.cpp.i
+.PHONY : __/__/engineEdit/src/main.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/main.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/main.cpp.i
+.PHONY : __/__/engineEdit/src/main.cpp.i
+
+__/__/engineEdit/src/main.s: __/__/engineEdit/src/main.cpp.s
+.PHONY : __/__/engineEdit/src/main.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/main.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/main.cpp.s
+.PHONY : __/__/engineEdit/src/main.cpp.s
+
+__/__/engineEdit/src/mylib.obj: __/__/engineEdit/src/mylib.cpp.obj
+.PHONY : __/__/engineEdit/src/mylib.obj
+
+# target to build an object file
+__/__/engineEdit/src/mylib.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/mylib.cpp.obj
+.PHONY : __/__/engineEdit/src/mylib.cpp.obj
+
+__/__/engineEdit/src/mylib.i: __/__/engineEdit/src/mylib.cpp.i
+.PHONY : __/__/engineEdit/src/mylib.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/mylib.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/mylib.cpp.i
+.PHONY : __/__/engineEdit/src/mylib.cpp.i
+
+__/__/engineEdit/src/mylib.s: __/__/engineEdit/src/mylib.cpp.s
+.PHONY : __/__/engineEdit/src/mylib.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/mylib.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/mylib.cpp.s
+.PHONY : __/__/engineEdit/src/mylib.cpp.s
+
+__/__/engineEdit/src/thread_pool.obj: __/__/engineEdit/src/thread_pool.cpp.obj
+.PHONY : __/__/engineEdit/src/thread_pool.obj
+
+# target to build an object file
+__/__/engineEdit/src/thread_pool.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/thread_pool.cpp.obj
+.PHONY : __/__/engineEdit/src/thread_pool.cpp.obj
+
+__/__/engineEdit/src/thread_pool.i: __/__/engineEdit/src/thread_pool.cpp.i
+.PHONY : __/__/engineEdit/src/thread_pool.i
+
+# target to preprocess a source file
+__/__/engineEdit/src/thread_pool.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/thread_pool.cpp.i
+.PHONY : __/__/engineEdit/src/thread_pool.cpp.i
+
+__/__/engineEdit/src/thread_pool.s: __/__/engineEdit/src/thread_pool.cpp.s
+.PHONY : __/__/engineEdit/src/thread_pool.s
+
+# target to generate assembly for a file
+__/__/engineEdit/src/thread_pool.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/engineEdit/src/thread_pool.cpp.s
+.PHONY : __/__/engineEdit/src/thread_pool.cpp.s
+
+__/__/version.obj: __/__/version.rc.obj
+.PHONY : __/__/version.obj
+
+# target to build an object file
+__/__/version.rc.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/__/__/version.rc.obj
+.PHONY : __/__/version.rc.obj
+
+actorTest.obj: actorTest.cpp.obj
+.PHONY : actorTest.obj
+
+# target to build an object file
+actorTest.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/actorTest.cpp.obj
+.PHONY : actorTest.cpp.obj
+
+actorTest.i: actorTest.cpp.i
+.PHONY : actorTest.i
+
+# target to preprocess a source file
+actorTest.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/actorTest.cpp.i
+.PHONY : actorTest.cpp.i
+
+actorTest.s: actorTest.cpp.s
+.PHONY : actorTest.s
+
+# target to generate assembly for a file
+actorTest.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/actorTest.cpp.s
+.PHONY : actorTest.cpp.s
+
+camera.obj: camera.cpp.obj
+.PHONY : camera.obj
+
+# target to build an object file
+camera.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/camera.cpp.obj
+.PHONY : camera.cpp.obj
+
+camera.i: camera.cpp.i
+.PHONY : camera.i
+
+# target to preprocess a source file
+camera.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/camera.cpp.i
+.PHONY : camera.cpp.i
+
+camera.s: camera.cpp.s
+.PHONY : camera.s
+
+# target to generate assembly for a file
+camera.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/camera.cpp.s
+.PHONY : camera.cpp.s
+
+house.obj: house.cpp.obj
+.PHONY : house.obj
+
+# target to build an object file
+house.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/house.cpp.obj
+.PHONY : house.cpp.obj
+
+house.i: house.cpp.i
+.PHONY : house.i
+
+# target to preprocess a source file
+house.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/house.cpp.i
+.PHONY : house.cpp.i
+
+house.s: house.cpp.s
+.PHONY : house.s
+
+# target to generate assembly for a file
+house.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/house.cpp.s
+.PHONY : house.cpp.s
+
+shader.obj: shader.cpp.obj
+.PHONY : shader.obj
+
+# target to build an object file
+shader.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/shader.cpp.obj
+.PHONY : shader.cpp.obj
+
+shader.i: shader.cpp.i
+.PHONY : shader.i
+
+# target to preprocess a source file
+shader.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/shader.cpp.i
+.PHONY : shader.cpp.i
+
+shader.s: shader.cpp.s
+.PHONY : shader.s
+
+# target to generate assembly for a file
+shader.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/shader.cpp.s
+.PHONY : shader.cpp.s
+
+trees.obj: trees.cpp.obj
+.PHONY : trees.obj
+
+# target to build an object file
+trees.cpp.obj:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/trees.cpp.obj
+.PHONY : trees.cpp.obj
+
+trees.i: trees.cpp.i
+.PHONY : trees.i
+
+# target to preprocess a source file
+trees.cpp.i:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/trees.cpp.i
+.PHONY : trees.cpp.i
+
+trees.s: trees.cpp.s
+.PHONY : trees.s
+
+# target to generate assembly for a file
+trees.cpp.s:
+	cd /d G:\codeLearn\vsCode\gameX\project\build && $(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/trees.cpp.s
+.PHONY : trees.cpp.s
 
 # Help Target
 help:
@@ -161,10 +697,77 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... timer
-	@echo ... __/__/lib/timer.obj
-	@echo ... __/__/lib/timer.i
-	@echo ... __/__/lib/timer.s
+	@echo ... game
+	@echo ... GAnimation.obj
+	@echo ... GAnimation.i
+	@echo ... GAnimation.s
+	@echo ... GAnimationBp.obj
+	@echo ... GAnimationBp.i
+	@echo ... GAnimationBp.s
+	@echo ... GButton.obj
+	@echo ... GButton.i
+	@echo ... GButton.s
+	@echo ... GMouse.obj
+	@echo ... GMouse.i
+	@echo ... GMouse.s
+	@echo ... GPhysix.obj
+	@echo ... GPhysix.i
+	@echo ... GPhysix.s
+	@echo ... GWidget.obj
+	@echo ... GWidget.i
+	@echo ... GWidget.s
+	@echo ... __/__/engineEdit/src/GActor.obj
+	@echo ... __/__/engineEdit/src/GActor.i
+	@echo ... __/__/engineEdit/src/GActor.s
+	@echo ... __/__/engineEdit/src/GBase.obj
+	@echo ... __/__/engineEdit/src/GBase.i
+	@echo ... __/__/engineEdit/src/GBase.s
+	@echo ... __/__/engineEdit/src/GCamera.obj
+	@echo ... __/__/engineEdit/src/GCamera.i
+	@echo ... __/__/engineEdit/src/GCamera.s
+	@echo ... __/__/engineEdit/src/GController.obj
+	@echo ... __/__/engineEdit/src/GController.i
+	@echo ... __/__/engineEdit/src/GController.s
+	@echo ... __/__/engineEdit/src/GDebug.obj
+	@echo ... __/__/engineEdit/src/GDebug.i
+	@echo ... __/__/engineEdit/src/GDebug.s
+	@echo ... __/__/engineEdit/src/GPlayerChar.obj
+	@echo ... __/__/engineEdit/src/GPlayerChar.i
+	@echo ... __/__/engineEdit/src/GPlayerChar.s
+	@echo ... __/__/engineEdit/src/GSource.obj
+	@echo ... __/__/engineEdit/src/GSource.i
+	@echo ... __/__/engineEdit/src/GSource.s
+	@echo ... __/__/engineEdit/src/GWorld.obj
+	@echo ... __/__/engineEdit/src/GWorld.i
+	@echo ... __/__/engineEdit/src/GWorld.s
+	@echo ... __/__/engineEdit/src/game.obj
+	@echo ... __/__/engineEdit/src/game.i
+	@echo ... __/__/engineEdit/src/game.s
+	@echo ... __/__/engineEdit/src/main.obj
+	@echo ... __/__/engineEdit/src/main.i
+	@echo ... __/__/engineEdit/src/main.s
+	@echo ... __/__/engineEdit/src/mylib.obj
+	@echo ... __/__/engineEdit/src/mylib.i
+	@echo ... __/__/engineEdit/src/mylib.s
+	@echo ... __/__/engineEdit/src/thread_pool.obj
+	@echo ... __/__/engineEdit/src/thread_pool.i
+	@echo ... __/__/engineEdit/src/thread_pool.s
+	@echo ... __/__/version.obj
+	@echo ... actorTest.obj
+	@echo ... actorTest.i
+	@echo ... actorTest.s
+	@echo ... camera.obj
+	@echo ... camera.i
+	@echo ... camera.s
+	@echo ... house.obj
+	@echo ... house.i
+	@echo ... house.s
+	@echo ... shader.obj
+	@echo ... shader.i
+	@echo ... shader.s
+	@echo ... trees.obj
+	@echo ... trees.i
+	@echo ... trees.s
 .PHONY : help
 
 

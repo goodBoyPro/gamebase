@@ -68,29 +68,29 @@ include work/src/CMakeFiles/timer.dir/progress.make
 # Include the compile flags for this target's objects.
 include work/src/CMakeFiles/timer.dir/flags.make
 
-work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj: work/src/CMakeFiles/timer.dir/flags.make
-work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj: work/src/CMakeFiles/timer.dir/includes_CXX.rsp
-work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj: G:/codeLearn/vsCode/gameX/project/lib/timer.cpp
-work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj: work/src/CMakeFiles/timer.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=G:\codeLearn\vsCode\gameX\project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj"
-	cd /d G:\codeLearn\vsCode\gameX\project\build\work\src && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj -MF CMakeFiles\timer.dir\__\__\lib\timer.cpp.obj.d -o CMakeFiles\timer.dir\__\__\lib\timer.cpp.obj -c G:\codeLearn\vsCode\gameX\project\lib\timer.cpp
+work/src/CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj: work/src/CMakeFiles/timer.dir/flags.make
+work/src/CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj: work/src/CMakeFiles/timer.dir/includes_CXX.rsp
+work/src/CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj: G:/codeLearn/vsCode/gameX/project/lib/src/timer.cpp
+work/src/CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj: work/src/CMakeFiles/timer.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=G:\codeLearn\vsCode\gameX\project\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object work/src/CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj"
+	cd /d G:\codeLearn\vsCode\gameX\project\build\work\src && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT work/src/CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj -MF CMakeFiles\timer.dir\__\__\lib\src\timer.cpp.obj.d -o CMakeFiles\timer.dir\__\__\lib\src\timer.cpp.obj -c G:\codeLearn\vsCode\gameX\project\lib\src\timer.cpp
 
-work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/timer.dir/__/__/lib/timer.cpp.i"
-	cd /d G:\codeLearn\vsCode\gameX\project\build\work\src && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E G:\codeLearn\vsCode\gameX\project\lib\timer.cpp > CMakeFiles\timer.dir\__\__\lib\timer.cpp.i
+work/src/CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.i"
+	cd /d G:\codeLearn\vsCode\gameX\project\build\work\src && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E G:\codeLearn\vsCode\gameX\project\lib\src\timer.cpp > CMakeFiles\timer.dir\__\__\lib\src\timer.cpp.i
 
-work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/timer.dir/__/__/lib/timer.cpp.s"
-	cd /d G:\codeLearn\vsCode\gameX\project\build\work\src && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S G:\codeLearn\vsCode\gameX\project\lib\timer.cpp -o CMakeFiles\timer.dir\__\__\lib\timer.cpp.s
+work/src/CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.s"
+	cd /d G:\codeLearn\vsCode\gameX\project\build\work\src && D:\mingw64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S G:\codeLearn\vsCode\gameX\project\lib\src\timer.cpp -o CMakeFiles\timer.dir\__\__\lib\src\timer.cpp.s
 
 # Object files for target timer
 timer_OBJECTS = \
-"CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj"
+"CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj"
 
 # External object files for target timer
 timer_EXTERNAL_OBJECTS =
 
-work/src/libtimer.dll: work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj
+work/src/libtimer.dll: work/src/CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj
 work/src/libtimer.dll: work/src/CMakeFiles/timer.dir/build.make
 work/src/libtimer.dll: work/src/CMakeFiles/timer.dir/linkLibs.rsp
 work/src/libtimer.dll: work/src/CMakeFiles/timer.dir/objects1.rsp

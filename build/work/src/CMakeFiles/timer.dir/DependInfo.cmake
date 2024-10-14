@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "G:/codeLearn/vsCode/gameX/project/lib/timer.cpp" "work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj" "gcc" "work/src/CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj.d"
+  "G:/codeLearn/vsCode/gameX/project/lib/src/timer.cpp" "work/src/CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj" "gcc" "work/src/CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

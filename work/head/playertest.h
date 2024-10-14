@@ -10,7 +10,7 @@ class Playertest : public GPlayerChar {
     /* data */
   public:
     Playertest() {
-
+        PRINTF("test");
         sprPt = aniBp.sprPt;
         sprPt->setScale(2, 2);
 
@@ -31,7 +31,7 @@ class Playertest : public GPlayerChar {
     GPhysix gph;
     GTalk gtalk;
     GWidget widget = {{WINW / 2, WINH / 2}, 800, 600};
-
+    DelayTask task = {100, []() { printf("task"); }};
     virtual void dataLoop() {
         cameraFollowPlayer();
         GPlayerChar::dataLoop();
@@ -65,7 +65,7 @@ class Playertest : public GPlayerChar {
     IVector psInWin;
     virtual void drawLoop() override {
         psInWin = wsToWin(posInWs);
-
+       
         // 阴影
         GSource::getSource().texSpr[10].spr.setScale(0.3, 0.2);
         GSource::getSource().texSpr[10].spr.setPosition(psInWin.x,

@@ -18,6 +18,7 @@ include_directories(
     ../extern/include
    ${ABS_DIR}/engine/head
    ${ABS_DIR}/project/engineEdit/head
+   ${ABS_DIR}/project/lib/head
 )
 
 #自定义设置

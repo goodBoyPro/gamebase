@@ -260,7 +260,7 @@ work/src/CMakeFiles/game.dir/GAnimation.cpp.obj: G:/codeLearn/vsCode/gameX/proje
   G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/Sprite.hpp \
   G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/Text.hpp \
   G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/VertexBuffer.hpp \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -848,7 +848,7 @@ work/src/CMakeFiles/game.dir/GAnimationBp.cpp.obj: G:/codeLearn/vsCode/gameX/pro
   G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/Sprite.hpp \
   G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/Text.hpp \
   G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/VertexBuffer.hpp \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -1498,7 +1498,7 @@ work/src/CMakeFiles/game.dir/GButton.cpp.obj: G:/codeLearn/vsCode/gameX/project/
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -2090,7 +2090,7 @@ work/src/CMakeFiles/game.dir/GMouse.cpp.obj: G:/codeLearn/vsCode/gameX/project/w
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -2678,7 +2678,7 @@ work/src/CMakeFiles/game.dir/GPhysix.cpp.obj: G:/codeLearn/vsCode/gameX/project/
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -3266,7 +3266,7 @@ work/src/CMakeFiles/game.dir/GWidget.cpp.obj: G:/codeLearn/vsCode/gameX/project/
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -3859,7 +3859,7 @@ work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GActor.cpp.obj: G:/codeLearn/v
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -4652,7 +4652,7 @@ work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GBase.cpp.obj: G:/codeLearn/vs
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -5460,7 +5460,7 @@ work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GCamera.cpp.obj: G:/codeLearn/
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -6253,7 +6253,7 @@ work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GController.cpp.obj: G:/codeLe
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -6843,7 +6843,7 @@ work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GDebug.cpp.obj: G:/codeLearn/v
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -7434,7 +7434,7 @@ work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GPlayerChar.cpp.obj: G:/codeLe
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -8183,7 +8183,7 @@ work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GSource.cpp.obj: G:/codeLearn/
   G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/Sprite.hpp \
   G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/Text.hpp \
   G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/VertexBuffer.hpp \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -8830,7 +8830,7 @@ work/src/CMakeFiles/game.dir/__/__/engineEdit/src/GWorld.cpp.obj: G:/codeLearn/v
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -9429,7 +9429,7 @@ work/src/CMakeFiles/game.dir/__/__/engineEdit/src/game.cpp.obj: G:/codeLearn/vsC
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -10255,7 +10255,7 @@ work/src/CMakeFiles/game.dir/__/__/engineEdit/src/main.cpp.obj: G:/codeLearn/vsC
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -11464,7 +11464,7 @@ work/src/CMakeFiles/game.dir/actorTest.cpp.obj: G:/codeLearn/vsCode/gameX/projec
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -12457,7 +12457,7 @@ work/src/CMakeFiles/game.dir/house.cpp.obj: G:/codeLearn/vsCode/gameX/project/wo
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -13453,7 +13453,7 @@ work/src/CMakeFiles/game.dir/trees.cpp.obj: G:/codeLearn/vsCode/gameX/project/wo
   D:/mingw64/include/c++/13.1.0/bits/parse_numbers.h \
   D:/mingw64/include/c++/13.1.0/bits/std_mutex.h \
   D:/mingw64/include/c++/13.1.0/bits/unique_lock.h \
-  G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+  G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
   D:/mingw64/include/c++/13.1.0/atomic \
   D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
   D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
@@ -13735,6 +13735,8 @@ work/src/CMakeFiles/game.dir/trees.cpp.obj: G:/codeLearn/vsCode/gameX/project/wo
 
 
 G:/codeLearn/vsCode/gameX/extern/include/stb_image.h:
+
+G:/codeLearn/vsCode/gameX/project/work/src/shader.cpp:
 
 G:/codeLearn/vsCode/gameX/project/work/src/camera.cpp:
 
@@ -14804,10 +14806,6 @@ D:/mingw64/x86_64-w64-mingw32/include/libloaderapi.h:
 
 D:/mingw64/include/c++/13.1.0/bits/basic_string.tcc:
 
-G:/codeLearn/vsCode/gameX/extern/include/glm/detail/type_float.hpp:
-
-D:/mingw64/include/c++/13.1.0/semaphore:
-
 D:/mingw64/include/c++/13.1.0/bits/stl_algobase.h:
 
 G:/codeLearn/vsCode/gameX/extern/include/glm/gtc/type_ptr.hpp:
@@ -14874,13 +14872,11 @@ D:/mingw64/include/c++/13.1.0/cstdlib:
 
 D:/mingw64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/prfchiintrin.h:
 
-G:/codeLearn/vsCode/gameX/project/work/src/shader.cpp:
+G:/codeLearn/vsCode/gameX/extern/include/glm/detail/type_float.hpp:
 
-G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h:
+D:/mingw64/include/c++/13.1.0/semaphore:
 
-D:/mingw64/include/c++/13.1.0/bits/stl_iterator_base_funcs.h:
-
-D:/mingw64/x86_64-w64-mingw32/include/wnnc.h:
+G:/codeLearn/vsCode/gameX/project/lib/head/timer.h:
 
 D:/mingw64/include/c++/13.1.0/atomic:
 
@@ -15307,6 +15303,10 @@ D:/mingw64/x86_64-w64-mingw32/include/stringapiset.h:
 G:/codeLearn/vsCode/gameX/extern/include/GL/glew.h:
 
 D:/mingw64/x86_64-w64-mingw32/include/winver.h:
+
+D:/mingw64/include/c++/13.1.0/bits/stl_iterator_base_funcs.h:
+
+D:/mingw64/x86_64-w64-mingw32/include/wnnc.h:
 
 D:/mingw64/x86_64-w64-mingw32/include/virtdisk.h:
 

@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj"
-  "CMakeFiles/timer.dir/__/__/lib/timer.cpp.obj.d"
+  "CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj"
+  "CMakeFiles/timer.dir/__/__/lib/src/timer.cpp.obj.d"
   "libtimer.dll"
   "libtimer.dll.a"
   "libtimer.dll.manifest"

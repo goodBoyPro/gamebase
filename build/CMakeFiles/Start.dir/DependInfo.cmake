@@ -22,6 +22,7 @@ set(CMAKE_RC_TARGET_INCLUDE_PATH
   "G:/codeLearn/vsCode/gameX/project/../extern/include"
   "G:/codeLearn/vsCode/gameX/engine/head"
   "G:/codeLearn/vsCode/gameX/project/engineEdit/head"
+  "G:/codeLearn/vsCode/gameX/project/lib/head"
   )
 
 # The set of dependency files which are needed:

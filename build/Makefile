@@ -129,17 +129,17 @@ Start/fast:
 .PHONY : Start/fast
 
 #=============================================================================
-# Target rules for targets named timer
+# Target rules for targets named game
 
 # Build rule for target.
-timer: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 timer
-.PHONY : timer
+game: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 game
+.PHONY : game
 
 # fast build rule for target.
-timer/fast:
-	$(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\timer.dir\build.make work/src/CMakeFiles/timer.dir/build
-.PHONY : timer/fast
+game/fast:
+	$(MAKE) $(MAKESILENT) -f work\src\CMakeFiles\game.dir\build.make work/src/CMakeFiles/game.dir/build
+.PHONY : game/fast
 
 start.obj: start.cpp.obj
 .PHONY : start.obj
@@ -182,7 +182,7 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... Start
-	@echo ... timer
+	@echo ... game
 	@echo ... start.obj
 	@echo ... start.i
 	@echo ... start.s

@@ -257,7 +257,7 @@ work/src/CMakeFiles/game.dir/GAnimation.cpp.obj: \
  G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/Sprite.hpp \
  G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/Text.hpp \
  G:/codeLearn/vsCode/gameX/extern/include/SFML/Graphics/VertexBuffer.hpp \
- G:/codeLearn/vsCode/gameX/project/engineEdit/head/timer.h \
+ G:/codeLearn/vsCode/gameX/project/lib/head/timer.h \
  D:/mingw64/include/c++/13.1.0/atomic \
  D:/mingw64/include/c++/13.1.0/bits/atomic_base.h \
  D:/mingw64/include/c++/13.1.0/bits/atomic_lockfree_defines.h \
