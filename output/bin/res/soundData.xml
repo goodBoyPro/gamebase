@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<node>
+		<id>1</id>
+		<name>1.mp3</name>
+		<path>res/sound/step.wav</path>
+		<type>bgm</type>
+	</node>
+	<node>
+		<id>2</id>
+		<name>step.wav</name>
+		<path>res/sound/step.wav</path>
+		<type>sound</type>
+	</node>
+</root>
