@@ -15,10 +15,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexec-charset=GBK ")
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/work/head
-    ${ABS_DIR}/project/extern/include
+    ${ABS_DIR}/gamebase/extern/include
    ${ABS_DIR}/engine/head
-   ${ABS_DIR}/project/engineEdit/head
-   ${ABS_DIR}/project/lib/head
+   ${ABS_DIR}/gamebase/engineEdit/head
+   ${ABS_DIR}/gamebase/lib/head
 )
 
 #自定义设置
@@ -29,7 +29,7 @@ add_definitions(-DUNICODE )  #预定义前需要加-D
 set(CMAKE_BUILD_RPATH ${ABS_DIR}/build)
 
 #启动程序
-set(EXECUTABLE_OUTPUT_PATH ${ABS_DIR}/project/output)
+set(EXECUTABLE_OUTPUT_PATH ${ABS_DIR}/gamebase/output)
 add_executable(Start start.cpp version.rc)
 
 add_subdirectory(./work/src)
