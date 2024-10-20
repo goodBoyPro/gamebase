@@ -55,7 +55,7 @@ void GWidget::draw() {
 
 void GWidget::addToViewport() {
 
-    widgetPtr = this;
+    setWidgetPtr(this);
     saveController = getPlayerController();
     setPlayerController(&widgetController);
     
@@ -64,7 +64,7 @@ void GWidget::addToViewport() {
 
 void GWidget::remove() {
     ;
-    widgetPtr = nullptr;
+   setWidgetPtr(nullptr);
     setPlayerController(saveController);
    
     isOpened = false;

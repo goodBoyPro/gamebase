@@ -45,17 +45,6 @@ class worldTest : public GWorld {
              b->posInWs = {rand() % 1000 * pixSize, rand() % 1000 * pixSize};
              houseVec.push_back(b);
         }
-
-        // delay(10, 30000, []() {
-        //     new actorTest;
-        //      new actorTest;
-        //       new actorTest;
-        //       new actorTest;
-        //      new actorTest;
-        //       new actorTest;
-             
-                                      
-        // });
        
     };
     ~worldTest() { delete getPlayerCharactor(); };

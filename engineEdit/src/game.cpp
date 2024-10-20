@@ -8,7 +8,8 @@
 sf::RenderTexture *renderTexGl;
 sf::RenderTexture *renderTexSpr;
 // 单例对象
-sf::RenderTexture *createRenderTexGl(sf::RenderWindow *window) {
+sf::RenderTexture *createRenderTexGl(sf::RenderWindow *window)
+{
     sf::ContextSettings settings;
     settings.depthBits = 24;
     settings.stencilBits = 8;
@@ -23,13 +24,14 @@ sf::RenderTexture *createRenderTexGl(sf::RenderWindow *window) {
     glEnable(GL_TEXTURE_2D);
     return &rt;
 }
-sf::RenderWindow *createwindow() {
+sf::RenderWindow *createwindow()
+{
     sf::ContextSettings settings;
 
     settings.depthBits = 24;
     settings.stencilBits = 8;
-    //const float W_H_ratio = static_cast<float>(WINW) / WINH;
-    //const float FOV = 45.0f;
+    // const float W_H_ratio = static_cast<float>(WINW) / WINH;
+    // const float FOV = 45.0f;
     const sf::String TITLE = "game";
     static sf::RenderWindow window(
         sf::VideoMode(WINW, WINH, 32), TITLE,
@@ -37,9 +39,9 @@ sf::RenderWindow *createwindow() {
 
     window.setActive();
 
-     window.setMouseCursorVisible(false);
-     window.setMouseCursorGrabbed(true);
-     
+    window.setMouseCursorVisible(false);
+    window.setMouseCursorGrabbed(true);
+
     // 初始化GLEW 必须再窗口之后
     glewExperimental = GL_TRUE;
     glewInit();
@@ -48,54 +50,60 @@ sf::RenderWindow *createwindow() {
     setWindow(&window);
     return &window;
 }
-
-Game::Game() {
+GController gameController1;
+Game::Game()
+{
     // 首先调用来初始化opengl
     // window = new sf::RenderWindow(sf::VideoMode(WINW, WINH), "game");
-   
+
     createwindow();
     setWinIcon();
     setGameIns(this);
     renderTexGl = createRenderTexGl(getWindow());
 
-    mouseGame = new GMouse;
+   
     gameEvent = &event;
-    gameController = new GController;
+     mouseGame =new GMouse;
+    gameController =&gameController1;
     setPlayerController(gameController);
+}
 
-    world1 = new worldTest;
-    setWorld(world1);
-    
-
+Game::~Game()
+{
+   
+    delete getWindow();
+    delete mouseGame;
+   
+}
+void Game::gameBegin()
+{
     std::thread dLoop(dataLoop, this);
     renderLoop2D();
     dLoop.join();
 }
-
-Game::~Game() {
-    delete mouseGame;
-    delete getWindow();
-    delete gameController;
-    delete world1;
-}
 std::vector<GActor *> actorsOn;
 sf::Time sft__ = sf::microseconds(1);
 void sleepCustom() { sf::sleep(sft__); }
-void Game::dataLoop() {
+void Game::dataLoop()
+{
     static DWORD timeFlag = 0;
 
     std::list<GActor *>::iterator it = actors.begin();
     std::unique_lock lk(actorsMutex, std::defer_lock);
 
-    while (bGameContinue) {
+    while (bGameContinue)
+    {
         timeFlag = GetTickCount();
         it = actors.begin();
         lk.lock();
         actorsOn.clear();
         // 相机跟随:在开启场景剔除功能后，不在这里调用可能会因为玩家离相机过远无法执行
-        getPlayerCharactor()->cameraFollowPlayer();
-        for (; it != actors.end();) {
-            if ((*it)->isValid == 0) {
+        if (getPlayerCharactor())
+            getPlayerCharactor()->cameraFollowPlayer();
+        for (; it != actors.end();)
+        {
+            if ((*it)->isValid == 0)
+            {
 
                 delete (*it);
                 it = actors.erase(it);
@@ -105,8 +113,9 @@ void Game::dataLoop() {
             // 性能较差
             // thread_pool::ThreadPool.addTask([=]() { (*it)->dataLoop(); });
             //(*it)->dataLoop();
-            if (fabs((*it)->posInWs.x - getGameCamera()->posInWs.x) < loopDistance &&
-                fabs((*it)->posInWs.y - getGameCamera()->posInWs.y) < loopDistance) {
+            if (getGameCamera() &&fabs((*it)->posInWs.x - getGameCamera()->posInWs.x) < loopDistance &&
+                fabs((*it)->posInWs.y - getGameCamera()->posInWs.y) < loopDistance)
+            {
 
                 actorsOn.push_back(*it);
                 (*it)->dataLoop();
@@ -115,8 +124,8 @@ void Game::dataLoop() {
             it++;
         }
         lk.unlock();
-        
-        getWorld()->dataLoop();
+        if (getWorld())
+            getWorld()->dataLoop();
         if (GetTickCount() == timeFlag)
             threadSleep(1);
 
@@ -126,63 +135,70 @@ void Game::dataLoop() {
         delete ac;
 }
 
-void Game::renderLoop2D() {
+void Game::renderLoop2D()
+{
 
-     getWindow()->setFramerateLimit(frameLimit);
+    getWindow()->setFramerateLimit(frameLimit);
     std::unique_lock lk(actorsMutex, std::defer_lock);
 
-    while (bGameContinue) {
+    while (bGameContinue)
+    {
 
         pollKey();
 
-       // resizeWindow(window);
+        // resizeWindow(window);
         // 绘制地图//////////////////////////////
-        worldCurrent->drawLoop();
+        if (getWorld())
+            getWorld()->drawLoop();
         // 绘制actor////////////////////////////
         lk.lock();
-         
+
         // std::vector<GActor *> temp(actors.begin(), actors.end());
-        std::sort(actorsOn.begin(), actorsOn.end(), [](GActor *a, GActor *b) {
+        std::sort(actorsOn.begin(), actorsOn.end(), [](GActor *a, GActor *b)
+                  {
             if (a->posInWs.y != b->posInWs.y)
                 return a->posInWs.y < b->posInWs.y;
-            return a->posInWs.x < b->posInWs.x;
-        });
-        for (auto ac : actorsOn) {
+            return a->posInWs.x < b->posInWs.x; });
+        for (auto ac : actorsOn)
+        {
 
             ac->drawLoop();
         }
 
         lk.unlock();
         // 绘制UI
-        if (widgetPtr) {
-            //window->setView(GWidget::viewPort);
-            widgetPtr->draw();
+        if (getWidgetPtr())
+        {
+            getWidgetPtr()->draw();
         }
-        //window->setView(window->getDefaultView());
-        // 绘制鼠标/////////////////////////////
+        // window->setView(window->getDefaultView());
+        //  绘制鼠标/////////////////////////////
         if (mouseGame)
             mouseGame->drawMouseCusor();
         // 显示DEBUG////////////////////////////////
         debugDisplay();
 
         getWindow()->display();
-       getWindow()->clear();
+        getWindow()->clear();
 
     } // while
 }
 
 sf::Sprite sprGl;
 
-void Game::pollKey() {
-    if (getPlayerController()) {
+void Game::pollKey()
+{
+    if (getPlayerController())
+    {
         getPlayerController()->pollKey();
     }
 }
 
-void Game::setWinIcon() {
+void Game::setWinIcon()
+{
     sf::Image ic;
-    ic.loadFromFile("res/a.png");    
-    getWindow()->setIcon(48, 48,ic.getPixelsPtr());
+    ic.loadFromFile("res/a.png");
+    getWindow()->setIcon(48, 48, ic.getPixelsPtr());
 }
 
 // 测试内容////////////////////////////////////////////////////////////////////////////////////////////////////////////////

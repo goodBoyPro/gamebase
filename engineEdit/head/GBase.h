@@ -70,22 +70,16 @@ void setWindow(sf::RenderWindow *window_);
 
 
 // 全局变量
-//extern class GPlayerChar *playerCharacter;
-//extern class GController *playerController;
-//extern class Game *gameIns;
-//extern sf::RenderWindow *window;
 extern sf::Event *gameEvent;
-//extern class GWorld *world;
 extern int frameLimit;
 extern float pixSize;
 // 全局相机
-//extern class GCamera *gameCamera;
 extern int deltaTime;
 // Actors
 extern std::mutex actorsMutex;
 extern std::list<class GActor *> actors;
 void addActors(GActor *actor);
-extern class GWidget *widgetPtr;
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 // 全局方法//

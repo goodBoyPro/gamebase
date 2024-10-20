@@ -8,6 +8,7 @@ class Game : public GObject {
   public:
     Game(/* args */);
     virtual ~Game();
+    virtual void gameBegin();
     virtual void dataLoop();    
     void renderLoop2D();   
     sf::RenderWindow *gameWindow;

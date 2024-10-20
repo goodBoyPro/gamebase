@@ -9,8 +9,8 @@ GWorld::GWorld() {
     //  spr.setPosition(0,0);
 
     // playerCharacter = new GPlayerChar;
-    sprPt = &spr;
-    worldCurrent = this;
+    sprPt = &spr;   
+    setWorld(this);
     
 }
 
@@ -22,4 +22,4 @@ void GWorld::drawLoop() {
     sprPt->setPosition(wsToWin(posWs).x, wsToWin(posWs).y);
     getWindow()->draw(*sprPt);
 }
-GWorld *worldCurrent = nullptr;
+

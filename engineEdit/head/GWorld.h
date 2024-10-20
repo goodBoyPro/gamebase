@@ -17,6 +17,6 @@ class GWorld : public GObject {
     virtual void drawLoop();
     
 };
-extern GWorld *worldCurrent;
+
 
 #endif

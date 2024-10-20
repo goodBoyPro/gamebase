@@ -1,10 +1,12 @@
-
+#include<GDebug.h>
+#include <GCamera.h>
 #include <GAnimationBp.h>
 #include <GPhysix.h>
 #include <GPlayerChar.h>
 #include <GSource.h>
 #include <GTalk.h>
 #include <GWidget.h>
+#include<GController.h>
 class Playertest : public GPlayerChar {
   private:
     /* data */
