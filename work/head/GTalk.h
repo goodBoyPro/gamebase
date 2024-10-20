@@ -51,7 +51,7 @@ class GTalk {
         spr.setScale(1, 0.5);
         spr.setPosition(pos.x, pos.y);
         spr.setOrigin(0,256);
-        window->draw(spr);
+       getWindow()->draw(spr);
 
         printText(consStr, pos.x + leftEdge,
                   pos.y -

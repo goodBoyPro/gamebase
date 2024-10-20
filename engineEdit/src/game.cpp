@@ -45,24 +45,27 @@ sf::RenderWindow *createwindow() {
     glewInit();
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_2D);
+    setWindow(&window);
     return &window;
 }
 
 Game::Game() {
     // 首先调用来初始化opengl
     // window = new sf::RenderWindow(sf::VideoMode(WINW, WINH), "game");
-    window = createwindow();
+   
+    createwindow();
     setWinIcon();
-    gameIns = this;
-    renderTexGl = createRenderTexGl(window);
+    setGameIns(this);
+    renderTexGl = createRenderTexGl(getWindow());
 
     mouseGame = new GMouse;
     gameEvent = &event;
     gameController = new GController;
-    playerController = gameController;
+    setPlayerController(gameController);
 
     world1 = new worldTest;
-    world = world1;
+    setWorld(world1);
+    
 
     std::thread dLoop(dataLoop, this);
     renderLoop2D();
@@ -71,7 +74,7 @@ Game::Game() {
 
 Game::~Game() {
     delete mouseGame;
-    delete window;
+    delete getWindow();
     delete gameController;
     delete world1;
 }
@@ -90,7 +93,7 @@ void Game::dataLoop() {
         lk.lock();
         actorsOn.clear();
         // 相机跟随:在开启场景剔除功能后，不在这里调用可能会因为玩家离相机过远无法执行
-        playerCharacter->cameraFollowPlayer();
+        getPlayerCharactor()->cameraFollowPlayer();
         for (; it != actors.end();) {
             if ((*it)->isValid == 0) {
 
@@ -102,8 +105,8 @@ void Game::dataLoop() {
             // 性能较差
             // thread_pool::ThreadPool.addTask([=]() { (*it)->dataLoop(); });
             //(*it)->dataLoop();
-            if (fabs((*it)->posInWs.x - gameCamera->posInWs.x) < loopDistance &&
-                fabs((*it)->posInWs.y - gameCamera->posInWs.y) < loopDistance) {
+            if (fabs((*it)->posInWs.x - getGameCamera()->posInWs.x) < loopDistance &&
+                fabs((*it)->posInWs.y - getGameCamera()->posInWs.y) < loopDistance) {
 
                 actorsOn.push_back(*it);
                 (*it)->dataLoop();
@@ -113,7 +116,7 @@ void Game::dataLoop() {
         }
         lk.unlock();
         
-        world->dataLoop();
+        getWorld()->dataLoop();
         if (GetTickCount() == timeFlag)
             threadSleep(1);
 
@@ -125,7 +128,7 @@ void Game::dataLoop() {
 
 void Game::renderLoop2D() {
 
-     window->setFramerateLimit(frameLimit);
+     getWindow()->setFramerateLimit(frameLimit);
     std::unique_lock lk(actorsMutex, std::defer_lock);
 
     while (bGameContinue) {
@@ -162,8 +165,8 @@ void Game::renderLoop2D() {
         // 显示DEBUG////////////////////////////////
         debugDisplay();
 
-        window->display();
-        window->clear();
+        getWindow()->display();
+       getWindow()->clear();
 
     } // while
 }
@@ -171,15 +174,15 @@ void Game::renderLoop2D() {
 sf::Sprite sprGl;
 
 void Game::pollKey() {
-    if (playerController) {
-        playerController->pollKey();
+    if (getPlayerController()) {
+        getPlayerController()->pollKey();
     }
 }
 
 void Game::setWinIcon() {
     sf::Image ic;
     ic.loadFromFile("res/a.png");    
-    window->setIcon(48, 48,ic.getPixelsPtr());
+    getWindow()->setIcon(48, 48,ic.getPixelsPtr());
 }
 
 // 测试内容////////////////////////////////////////////////////////////////////////////////////////////////////////////////

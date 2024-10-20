@@ -20,6 +20,6 @@ void GWorld::dataLoop() {}
 
 void GWorld::drawLoop() {
     sprPt->setPosition(wsToWin(posWs).x, wsToWin(posWs).y);
-    window->draw(*sprPt);
+    getWindow()->draw(*sprPt);
 }
 GWorld *worldCurrent = nullptr;

@@ -26,9 +26,9 @@ class worldTest : public GWorld {
         mapTex.display();        
         spr.setTexture(mapTex.getTexture(), 1);
         
-
-        playerCharacter = new Playertest;
-        playerCharacter->posInWs = {500*pixSize, 500*pixSize};
+        setPlayerCharactor(new Playertest);
+       
+        getPlayerCharactor()->posInWs = {500*pixSize, 500*pixSize};
        
         
         for (int i = 0; i < 200;i++)
@@ -58,5 +58,5 @@ class worldTest : public GWorld {
         // });
        
     };
-    ~worldTest() { delete playerCharacter; };
+    ~worldTest() { delete getPlayerCharactor(); };
 };

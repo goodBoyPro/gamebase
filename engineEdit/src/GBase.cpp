@@ -23,6 +23,29 @@ int frameLimit = 60;
 float pixSize = 0.01f;
 int deltaTime;
 GWidget *widgetPtr = nullptr;
+
+//接口
+ GPlayerChar *getPlayerCharactor(){return playerCharacter;}
+ GController *getPlayerController(){return playerController;}
+ Game *getGameIns(){return gameIns;}
+ GWorld *getWorld(){return world;}
+ sf::RenderWindow *getWindow(){return window;}
+ GCamera *getGameCamera(){return gameCamera;}
+ GWidget *getWidgetPtr(){return widgetPtr;}
+
+
+void setPlayerCharactor(class GPlayerChar *player_){playerCharacter = player_;}
+void setPlayerController(class GController *controller_){playerController = controller_;}
+void setGameIns(class Game *game_){gameIns = game_;}
+void setWorld(class GWorld *world_){world = world_;}
+void setGameCamera(class GCamera *camera_){gameCamera = camera_;}
+void setWidgetPtr(class GWidget *widget_){widgetPtr = widget_;}
+void setWindow(sf::RenderWindow *window_){window = window_;}
+
+
+
+
+
 std::mutex actorsMutex;
 std::list<class GActor *> actors;
 void addActors(GActor *actor) {

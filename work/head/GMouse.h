@@ -11,15 +11,15 @@ class GMouse {
     sf::Sprite spr;
 
     void drawMouseText() {
-        printText(L"我是鼠标", sf::Mouse::getPosition(*window).x,
-                  sf::Mouse::getPosition(*window).y, 60, sf::Color(255, 0, 0));
+        printText(L"我是鼠标", sf::Mouse::getPosition(*getWindow()).x,
+                  sf::Mouse::getPosition(*getWindow()).y, 60, sf::Color(255, 0, 0));
     };
     void drawMouseCusor() {
-        spr.setPosition((FVector)(sf::Mouse::getPosition(*window)));
-        window->draw(spr);
+        spr.setPosition((FVector)(sf::Mouse::getPosition(*getWindow())));
+        getWindow()->draw(spr);
     }
     void setMouseVisible(bool isVisible){
-        window->setMouseCursorVisible(isVisible);
+        getWindow()->setMouseCursorVisible(isVisible);
     }
 };
 

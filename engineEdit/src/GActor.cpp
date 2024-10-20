@@ -4,7 +4,7 @@
 void GActor::drawLoop() {
     IVector psInWin = wsToWin(posInWs);
     sprPt->setPosition(psInWin.x, psInWin.y-z/pixSize);
-    window->draw(*sprPt);
+    getWindow()->draw(*sprPt);
 }
 
 void GActor::dataLoop() {}

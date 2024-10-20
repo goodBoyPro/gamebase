@@ -4,7 +4,8 @@
 GPlayerChar::GPlayerChar()
 {
     controller = new GController;
-    playerController = controller;
+    setPlayerController(controller);
+    
     controller->bindKey[GController::w] = std::bind(&GPlayerChar::moveUp, this, -1);
     controller->bindKey[GController::s] = [&]()
     { moveUp(1); };
@@ -30,7 +31,8 @@ GPlayerChar::GPlayerChar()
     //  spr.setTexture(tex);
     //  spr.setOrigin(tex.getSize().x/2,tex.getSize().y);
     //  spr.setScale(4,4);
-    gameCamera = camera;
+    setGameCamera(camera);
+   
     camera->posInWs.x = posInWs.x;
         camera->posInWs.y = posInWs.y;
 }
@@ -70,7 +72,7 @@ void GPlayerChar::moveRight(float value)
 void GPlayerChar::setPosMouse(float value)
 {
     isMouseMove = 1;
-    posMouseClicked = winToWs(sf::Mouse::getPosition(*window));
+    posMouseClicked = winToWs(sf::Mouse::getPosition(*getWindow()));
 }
 
 void GPlayerChar::moveToMouse()
@@ -113,7 +115,7 @@ void GPlayerChar::drawLoop()
   
     IVector psInWin = wsToWin(posInWs);
     sprPt->setPosition(psInWin.x, psInWin.y);
-    window->draw(*sprPt);
+    getWindow()->draw(*sprPt);
 }
 
 //场景剔除可能会造成loop不调用，因此在主循环中调用

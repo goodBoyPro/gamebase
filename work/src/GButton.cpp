@@ -43,12 +43,12 @@ void GButton::drawLoop() {
     spr.setPosition(position.x, position.y);
     spr.setTextureRect({state * sprOriginSize.y, 0,
                         sprOriginSize.y, sprOriginSize.y});
-    window->draw(spr);
+    getWindow()->draw(spr);
     printText(wchar,position.x+height*0.5,position.y+height*0.3,height*0.3,*colorPtr);
 }
 bool GButton::isMouseOn() {
-    int x = sf::Mouse::getPosition(*window).x - position.x;
-    int y = sf::Mouse::getPosition(*window).y - position.y;
+    int x = sf::Mouse::getPosition(*getWindow()).x - position.x;
+    int y = sf::Mouse::getPosition(*getWindow()).y - position.y;
     if (x < 0 || x > width || y < 0 || y > height)
         return false;
     return true;

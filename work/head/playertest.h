@@ -15,12 +15,12 @@ class Playertest : public GPlayerChar {
         sprPt->setScale(2, 2);
 
         gph.gravity = -30;
-        playerController->KEYJUMP = [&]() {
+        getPlayerController()->KEYJUMP = [&]() {
             if (!gph.speedZ)
                 gph.speedZ = 6;
         };
 
-        playerController->bindKey[GController::uiOpenOrClose] = [&]() {
+        getPlayerController()->bindKey[GController::uiOpenOrClose] = [&]() {
             widget.addToViewport();
         };
         // getSource().sounds[1].sound.play();
@@ -70,7 +70,7 @@ class Playertest : public GPlayerChar {
         GSource::getSource().texSpr[10].spr.setScale(0.3, 0.2);
         GSource::getSource().texSpr[10].spr.setPosition(psInWin.x,
                                                         psInWin.y - 5);
-        window->draw(getSource().texSpr[10].spr);
+        getWindow()->draw(getSource().texSpr[10].spr);
 
         // 角色
         updateState();
@@ -87,8 +87,8 @@ class Playertest : public GPlayerChar {
         swprintf(gddd.wchar_, L"场景对象数量：%d", actors.size());
         static GDebug gd2;
         swprintf(gd2.wchar_, L"键鼠位置：%f,%f",
-                 winToWs(sf::Mouse::getPosition(*window)).x,
-                 winToWs(sf::Mouse::getPosition(*window)).y);
+                 winToWs(sf::Mouse::getPosition(*getWindow())).x,
+                 winToWs(sf::Mouse::getPosition(*getWindow())).y);
     };
     virtual void cameraFollowPlayer() override {
         

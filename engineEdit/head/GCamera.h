@@ -7,7 +7,7 @@ class GCamera :public GObject {
   private:
     /* data */
   public:
-    GCamera() { gameCamera = this; };
+    GCamera() { setGameCamera(this); }
     ~GCamera(){};
     IVector positionInWin = IVector(WINW / 2, WINH / 2);
     FVector posInWs=FVector(0,0);

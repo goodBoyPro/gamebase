@@ -15,7 +15,7 @@
 #include <unordered_set>
 #include <vector>
 #include <windows.h>
-
+#include<atomic>
 #include <algorithm>
 
 #define WINH 900
@@ -23,12 +23,17 @@
 
 #define FVector sf::Vector2f
 #define IVector sf::Vector2i
+
 #define DEBUG
 #ifdef DEBUG
 #define PRINTF(str)  printf("file【%s】\nline【%d】\nfunction【%s】\nvarname【"#str"】\ntext【%s】\n", __FILE__, __LINE__, __func__,str);
 #else 
 #define PRINTF(str)
 #endif
+
+typedef std::atomic<int> intAtomic;
+typedef std::atomic<float> floatAtomic;
+
 template <class T> struct GVector {
     GVector() {};
     GVector(T Gx, T Gy) {
@@ -46,18 +51,35 @@ template <class T> struct GVector {
     };
 };
 ///////////////////////////////////////////////////////////////////////////////
-// 全局变量
-extern class GPlayerChar *playerCharacter;
-extern class GController *playerController;
-extern class Game *gameIns;
+class GPlayerChar *getPlayerCharactor();
+class GController *getPlayerController();
+class Game *getGameIns();
+class GWorld *getWorld();
+class GCamera *getGameCamera();
+class GWidget *getWidgetPtr();
+class sf::RenderWindow *getWindow();
 
-extern sf::RenderWindow *window;
+void setPlayerCharactor(class GPlayerChar *player_);
+void setPlayerController(class GController *controller_);
+void setGameIns(class Game *game_);
+void setWorld(class GWorld *world_);
+void setGameCamera(class GCamera *camera_);
+void setWidgetPtr(class GWidget *widget_);
+void setWindow(sf::RenderWindow *window_);
+
+
+
+// 全局变量
+//extern class GPlayerChar *playerCharacter;
+//extern class GController *playerController;
+//extern class Game *gameIns;
+//extern sf::RenderWindow *window;
 extern sf::Event *gameEvent;
-extern class GWorld *world;
+//extern class GWorld *world;
 extern int frameLimit;
 extern float pixSize;
 // 全局相机
-extern class GCamera *gameCamera;
+//extern class GCamera *gameCamera;
 extern int deltaTime;
 // Actors
 extern std::mutex actorsMutex;

@@ -6,7 +6,8 @@
                 "${workspaceFolder}/**",
                 "G:/codeLearn/vsCode/gameX/engine/head",
                 "G:/codeLearn/vsCode/gameX/extern/include",
-                "${workspaceFolder}/engineEdit/head"
+                "${workspaceFolder}/engineEdit/head",
+                "${workspaceFolder}/extern/include"
             ],
             "defines": [
                 "_DEBUG",

@@ -7,15 +7,14 @@ class Game : public GObject {
     /* data */
   public:
     Game(/* args */);
-    Game(int x){};
-    ~Game();
-    void dataLoop();    
+    virtual ~Game();
+    virtual void dataLoop();    
     void renderLoop2D();   
     sf::RenderWindow *gameWindow;
     sf::Event event;
     // 响应按键
-    void pollKey();     
-    void setWinIcon();
+    virtual void pollKey();     
+    virtual void setWinIcon();
     // 由于控制器的全局指针随时会变，每个对象的控制器需要单独标记
     class GController *gameController;
     class GMouse *mouseGame;

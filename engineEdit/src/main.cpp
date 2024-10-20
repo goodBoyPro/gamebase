@@ -1,4 +1,4 @@
-#include <game.h>
+#include <gametest.h>
 #include <xmlRead.hpp>
 #include<mylib.h>
 #if 1
@@ -8,14 +8,13 @@ int main() {
         return 0;
 
     initTools();
-    
-    gameIns = new Game;
-    delete gameIns;
+    gametest g;
     xlib::getTimer().brun = false;
     return 0;
 }
+#endif
 
-#else
+#if 0
 int main(){
     
     xmlRead xr("res/animData.xml");
