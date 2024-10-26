@@ -4,9 +4,10 @@
 #define GBASE_H
 #include <string>
 
-
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
+#include <algorithm>
+#include <atomic>
 #include <cmath>
 #include <list>
 #include <mutex>
@@ -15,8 +16,6 @@
 #include <unordered_set>
 #include <vector>
 #include <windows.h>
-#include<atomic>
-#include <algorithm>
 
 #define WINH 900
 #define WINW 1200
@@ -26,8 +25,11 @@
 
 #define DEBUG
 #ifdef DEBUG
-#define PRINTF(str)  printf("file【%s】\nline【%d】\nfunction【%s】\nvarname【"#str"】\ntext【%s】\n", __FILE__, __LINE__, __func__,str);
-#else 
+#define PRINTF(str)                                                            \
+    printf("file【%s】\nline【%d】\nfunction【%s】\nvarname【" #str            \
+           "】\ntext【%s】\n",                                                 \
+           __FILE__, __LINE__, __func__, str);
+#else
 #define PRINTF(str)
 #endif
 
@@ -37,7 +39,7 @@ typedef std::atomic<float> floatAtomic;
 template <class T> struct GVector {
     GVector() {};
     GVector(T Gx, T Gy) {
-       
+
         x = Gx;
         y = Gy;
     };
@@ -67,8 +69,6 @@ void setGameCamera(class GCamera *camera_);
 void setWidgetPtr(class GWidget *widget_);
 void setWindow(sf::RenderWindow *window_);
 
-
-
 // 全局变量
 extern sf::Event *gameEvent;
 extern int frameLimit;
@@ -79,7 +79,6 @@ extern int deltaTime;
 extern std::mutex actorsMutex;
 extern std::list<class GActor *> actors;
 void addActors(GActor *actor);
-
 
 ///////////////////////////////////////////////////////////////////////////////////
 // 全局方法//
@@ -110,18 +109,43 @@ void printNum(int __int, int x = 0, int y = 0, int size = 30,
 IVector wsToWin(const FVector &PositionInWS);
 FVector winToWs(const IVector &positionInWin);
 template <class T> float getLength(const T &vec) {
-    return pow(vec.x * vec.x + vec.y * vec.y, 0.5f);
+    return sqrtf(vec.x * vec.x + vec.y * vec.y);
 }
 // 标准化
 FVector normalize(const FVector &G);
 
+
+
+
 namespace nsg {
 
 void funcEmpty();
+//两点距离
+template <class T> float getDistance(T a,T b) {
+    T c=b-a;
+    return sqrtf((float)(c.x*c.x+c.y*c.y));
+}
 float fInterpTo(float current, float target, float speed);
 // 使用缓动函数的插值
 float smoothInterpolateTo(float current, float target, float speed,
                           float deltaTime);
+//创建一个只执行一次的任务
+class DoOnce {
+  public:
+  template<class T>
+    DoOnce(T func) : callbackFunc(func) {}
+    void operator()() {
+        if (canDo) {
+            callbackFunc();
+            canDo = false;
+        }
+    }
+    void reset() { canDo = true; }
+
+  private:
+    bool canDo = true;
+    std::function<void()> callbackFunc;
 };
+}; // namespace nsg
 
 #endif

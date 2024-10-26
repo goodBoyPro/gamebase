@@ -15,13 +15,13 @@ class house : public GActor {
 
   public:
     house(int _index) { ;
-        sprPt = &houseTex.spr;
+       setRenderSprite(&houseTex.spr);
         index = _index;
     };
     ~house(){};
     int index;
     virtual void drawLoop()override{
-        sprPt->setTextureRect({index/3*256,index%3*256,256,256});
+        getRenderSprite()->setTextureRect({index/3*256,index%3*256,256,256});
         GActor::drawLoop();
     };
     static houseTexture houseTex;

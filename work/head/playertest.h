@@ -1,23 +1,24 @@
-#include<GDebug.h>
-#include <GCamera.h>
 #include <GAnimationBp.h>
+#include <GCamera.h>
+#include <GCollision.h>
+#include <GController.h>
+#include <GDebug.h>
 #include <GPhysix.h>
 #include <GPlayerChar.h>
 #include <GSource.h>
 #include <GTalk.h>
 #include <GWidget.h>
-#include<GController.h>
 class Playertest : public GPlayerChar {
   private:
     /* data */
   public:
     Playertest() {
-        PRINTF("test");
-        sprPt = aniBp.sprPt;
-        sprPt->setScale(2, 2);
+
+        setRenderSprite(aniBp.sprPt);
+        getRenderSprite()->setScale(2, 2);
 
         gph.gravity = -30;
-        getPlayerController()->KEYJUMP = [&]() {
+        getPlayerController()->bindKey[GController::space] = [&]() {
             if (!gph.speedZ)
                 gph.speedZ = 6;
         };
@@ -27,6 +28,8 @@ class Playertest : public GPlayerChar {
         };
         // getSource().sounds[1].sound.play();
     };
+
+    GCollision collision;
 
     GAnimationBp aniBp;
 
@@ -58,7 +61,7 @@ class Playertest : public GPlayerChar {
         if (z > 0.001) {
             aniBp.state = GAnimationBp::jump;
         } else {
-            if (getLength(v) > 0.0001)
+            if (speed > 0.001)
                 aniBp.state = GAnimationBp::walk;
             else
                 aniBp.state = GAnimationBp::idle;
@@ -66,25 +69,26 @@ class Playertest : public GPlayerChar {
     }
     IVector psInWin;
     virtual void drawLoop() override {
-        psInWin = wsToWin(posInWs);
-       
         // 阴影
         GSource::getSource().texSpr[10].spr.setScale(0.3, 0.2);
         GSource::getSource().texSpr[10].spr.setPosition(psInWin.x,
                                                         psInWin.y - 5);
         getWindow()->draw(getSource().texSpr[10].spr);
+        GPlayerChar::drawLoop();
+
+        psInWin = wsToWin(getPosInWs());
 
         // 角色
         updateState();
-        sprPt->setPosition(psInWin.x, psInWin.y - z / pixSize);
         aniBp.updateAnim();
 
         const wchar_t *ch = L"hello World\n你好！\n呵呵！";
-        gtalk.draw({sprPt->getPosition().x,
-                    sprPt->getPosition().y - sprPt->getGlobalBounds().height},
+        gtalk.draw({getRenderSprite()->getPosition().x,
+                    getRenderSprite()->getPosition().y -
+                        getRenderSprite()->getGlobalBounds().height},
                    ch);
         static GDebug db;
-        swprintf(db.wchar_, L"玩家位置：%f,%f", posInWs.x, posInWs.y);
+        swprintf(db.wchar_, L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
         static GDebug gddd;
         swprintf(gddd.wchar_, L"场景对象数量：%d", actors.size());
         static GDebug gd2;
@@ -93,12 +97,11 @@ class Playertest : public GPlayerChar {
                  winToWs(sf::Mouse::getPosition(*getWindow())).y);
     };
     virtual void cameraFollowPlayer() override {
-        
+
         // camera->posInWs.x = nsg::smoothInterpolateTo(
         //     camera->posInWs.x, posInWs.x, 0.001f, deltaTime);
         // camera->posInWs.y = nsg::smoothInterpolateTo(
         //     camera->posInWs.y, posInWs.y, 0.001f, deltaTime);
-        camera->posInWs.x = posInWs.x;
-        camera->posInWs.y = posInWs.y;
+        camera->posInWs = getPosInWs();
     };
 };

@@ -15,13 +15,13 @@ class trees : public GActor {
 
   public:
     trees(int _index) { ;
-        sprPt = &treeTex.spr;
+        setRenderSprite(&treeTex.spr);
         index = _index;
     };
     ~trees(){};
     int index;
     virtual void drawLoop()override{
-        sprPt->setTextureRect({index/5*256,index%5*256,256,256});
+        getRenderSprite()->setTextureRect({index/5*256,index%5*256,256,256});
         GActor::drawLoop();
     };
     static treesTexture treeTex;

@@ -11,8 +11,7 @@ if(1)
 link_directories(${ABS_DIR}/gamebase/lib/outlib
                 ${ABS_DIR}/gamebase/extern/lib
                 ${ABS_DIR}/gamebase/extern/lib/sfml)
-add_executable(${PROJECT_NAME} 
-                                ${src} 
+add_executable(${PROJECT_NAME}  ${src} 
                                 ${ABS_DIR}/gamebase/version.rc)
 target_link_libraries(${PROJECT_NAME} opengl32 sfml-graphics sfml-window sfml-system sfml-audio timer winmm glew32 glfw3dll)
 endif()

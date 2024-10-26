@@ -22,10 +22,10 @@ class GController : public GObject {
     /* data */
   public:
     enum key {
-        w,
-        a,
-        s,
-        d,
+        w=0,wr,//
+        a,ar,
+        s,sr,
+        d,dr,
         q,
         e,
         r,
@@ -52,8 +52,8 @@ class GController : public GObject {
     std::function<void()> emptyFunc;
 
   public:
-    std::function<void()> bindKey[30];
-    std::function<void(float)> bindAxis[30];
+    std::function<void()> bindKey[128];
+    std::function<void(float)> bindAxis[128];
     virtual void pollKey();
 };
 

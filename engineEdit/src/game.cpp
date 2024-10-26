@@ -113,8 +113,8 @@ void Game::dataLoop()
             // 性能较差
             // thread_pool::ThreadPool.addTask([=]() { (*it)->dataLoop(); });
             //(*it)->dataLoop();
-            if (getGameCamera() &&fabs((*it)->posInWs.x - getGameCamera()->posInWs.x) < loopDistance &&
-                fabs((*it)->posInWs.y - getGameCamera()->posInWs.y) < loopDistance)
+            if (getGameCamera() &&fabs((*it)->getPosInWs().x - getGameCamera()->posInWs.x) < loopDistance &&
+                fabs((*it)->getPosInWs().y - getGameCamera()->posInWs.y) < loopDistance)
             {
 
                 actorsOn.push_back(*it);
@@ -156,9 +156,9 @@ void Game::renderLoop2D()
         // std::vector<GActor *> temp(actors.begin(), actors.end());
         std::sort(actorsOn.begin(), actorsOn.end(), [](GActor *a, GActor *b)
                   {
-            if (a->posInWs.y != b->posInWs.y)
-                return a->posInWs.y < b->posInWs.y;
-            return a->posInWs.x < b->posInWs.x; });
+            if (a->getPosInWs().y != b->getPosInWs().y)
+                return a->getPosInWs().y < b->getPosInWs().y;
+            return a->getPosInWs().x < b->getPosInWs().x; });
         for (auto ac : actorsOn)
         {
 

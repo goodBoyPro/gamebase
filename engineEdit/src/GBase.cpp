@@ -8,7 +8,7 @@
 #include <GWorld.h>
 #include <cmath>
 #include <math.h>
-
+#include<camera.h>
 // 全局变量
 GPlayerChar *playerCharacter = nullptr;
 GController *playerController = nullptr;
@@ -24,27 +24,26 @@ float pixSize = 0.01f;
 int deltaTime;
 GWidget *widgetPtr = nullptr;
 
-//接口
- GPlayerChar *getPlayerCharactor(){return playerCharacter;}
- GController *getPlayerController(){return playerController;}
- Game *getGameIns(){return gameIns;}
- GWorld *getWorld(){return world;}
- sf::RenderWindow *getWindow(){return window;}
- GCamera *getGameCamera(){return gameCamera;}
- GWidget *getWidgetPtr(){return widgetPtr;}
+// 接口
+GPlayerChar *getPlayerCharactor() { return playerCharacter; }
+GController *getPlayerController() { return playerController; }
+Game *getGameIns() { return gameIns; }
+GWorld *getWorld() { return world; }
+sf::RenderWindow *getWindow() { return window; }
+GCamera *getGameCamera() { return gameCamera; }
+GWidget *getWidgetPtr() { return widgetPtr; }
 
-
-void setPlayerCharactor(class GPlayerChar *player_){playerCharacter = player_;}
-void setPlayerController(class GController *controller_){playerController = controller_;}
-void setGameIns(class Game *game_){gameIns = game_;}
-void setWorld(class GWorld *world_){world = world_;}
-void setGameCamera(class GCamera *camera_){gameCamera = camera_;}
-void setWidgetPtr(class GWidget *widget_){widgetPtr = widget_;}
-void setWindow(sf::RenderWindow *window_){window = window_;}
-
-
-
-
+void setPlayerCharactor(class GPlayerChar *player_) {
+    playerCharacter = player_;
+}
+void setPlayerController(class GController *controller_) {
+    playerController = controller_;
+}
+void setGameIns(class Game *game_) { gameIns = game_; }
+void setWorld(class GWorld *world_) { world = world_; }
+void setGameCamera(class GCamera *camera_) { gameCamera = camera_; }
+void setWidgetPtr(class GWidget *widget_) { widgetPtr = widget_; }
+void setWindow(sf::RenderWindow *window_) { window = window_; }
 
 std::mutex actorsMutex;
 std::list<class GActor *> actors;
@@ -87,7 +86,7 @@ void resizeWindow(sf::RenderWindow *window) {
 }
 void initTools() {
     srand((int)time(NULL));
-    
+
     if (font[0].loadFromFile("res/heiti.ttf"))
         printf("font1加载成功\n");
     else
@@ -237,4 +236,6 @@ float smoothInterpolateTo(float current, float target, float speed,
 
 // 注意：在实际应用中，deltaTime应该由你的游戏引擎或应用程序框架提供，
 // 它表示从上一次调用此函数到当前调用之间的时间差（以秒为单位）。
+
+
 }; // namespace nsg

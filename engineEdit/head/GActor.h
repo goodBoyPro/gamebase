@@ -4,23 +4,31 @@
 
 class GActor : public GObject {
   private:
-    /* data */
+    FVector posInWs;
+    sf::Sprite *sprPt = nullptr;
   public:
     GActor(/* args */);
     virtual ~GActor();
     virtual void drawLoop();
     virtual void dataLoop();
 
-    FVector posInWs;
+    
     sf::Texture tex;
     sf::Sprite spr;
-    sf::Sprite *sprPt = nullptr;
+    
     //引用计数
     std::atomic<int> count = 1;
     virtual void destroyActor();
     float z=0;
- 
-    
+    public:
+      FVector& getPosInWs();
+      void setPosInWs(const FVector& pos_);
+      void setRenderSprite(sf::Sprite *sprPt_);
+      sf::Sprite* getRenderSprite();
+      void addWsPosOffset(const FVector& vec);
+
+      // 碰撞
+      // class CollisionInterface *collision = nullptr;
 };
 template <class T> T *createActor() { return new T; }
 

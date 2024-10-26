@@ -40,8 +40,27 @@ void GController::pollKey() {
             case sf::Keyboard::Space:
 
                 break;
-            case sf::Keyboard::BackSpace:               
+            case sf::Keyboard::BackSpace:
                 bindKey[GController::uiOpenOrClose]();
+                break;
+            default:
+                break;
+            }
+        }
+        if (getGameIns()->event.type == sf::Event::KeyReleased) {
+            switch (getGameIns()->event.key.code) {
+
+            case sf::Keyboard::A:
+                bindKey[GController::ar]();
+                break;
+            case sf::Keyboard::D:
+                bindKey[GController::dr]();
+                break;
+            case sf::Keyboard::W:
+                bindKey[GController::wr]();
+                break;
+            case sf::Keyboard::S:
+                bindKey[GController::sr]();
                 break;
             default:
                 break;

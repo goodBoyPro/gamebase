@@ -3,7 +3,7 @@
 
 #include "GActor.h"
 #include <random>
-
+#include<GCollision.h>
 class actorTest : public GActor {
   private:
   public:
@@ -19,17 +19,19 @@ class actorTest : public GActor {
 
     /* data */
   public:
+      GCollision collision=GCollision(10,getPosInWs());
     actorTest(/* args */) {
         delayTaskPtr = &dtp;
         spr.setTexture(GSource::gs.tex1);
         spr.setScale(2, 2);
         spr.setOrigin(24,48);
-        posInWs = {0, 0};
+        setPosInWs({0,0});
         static float x = 0;
         x += 1.f;
         velocity = {cosf(x) * 4.f, sinf(x) * 4.f};
 
         //actorEvent();
+
     };
     int isAsyncCanceled = 0;
     int isDead = 0;
@@ -55,8 +57,9 @@ class actorTest : public GActor {
         // }
          delayTaskPtr=delay(1, [this]() {
                 {
-                    //threadSleep(1);
-                    posInWs += velocity;
+                    //threadSleep(1);                  
+                    setPosInWs(getPosInWs()+velocity);
+                    setPosInWs(getPosInWs()+velocity);
                     createLoop();
                 }
             });
