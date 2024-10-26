@@ -5,7 +5,8 @@
 #include<camera.h>
 class GCamera :public GObject {
   private:
-    /* data */
+    char x[8];
+
   public:
     GCamera() { }
     ~GCamera(){};

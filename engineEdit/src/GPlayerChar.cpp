@@ -44,16 +44,16 @@ GPlayerChar::GPlayerChar() {
     //  spr.setTexture(tex);
     //  spr.setOrigin(tex.getSize().x/2,tex.getSize().y);
     //  spr.setScale(4,4);
-    camera = new GCamera;
-    setGameCamera(camera);
+    
+    setGameCamera(&camera);
 
-    camera->posInWs = getPosInWs();
+    camera.posInWs = getPosInWs();
     
 }
 
 GPlayerChar::~GPlayerChar() {
     delete controller;
-    delete camera;
+   
 }
 
 FVector GPlayerChar::getVelocity() { return getPosInWs()-posPrevious; }
@@ -124,4 +124,4 @@ void GPlayerChar::drawLoop() {
 }
 
 // 场景剔除可能会造成loop不调用，因此在主循环中调用
-void GPlayerChar::cameraFollowPlayer() { camera->posInWs = getPosInWs(); }
+void GPlayerChar::cameraFollowPlayer() { camera.posInWs = getPosInWs(); }

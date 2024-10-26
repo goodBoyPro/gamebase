@@ -61,7 +61,7 @@ class Playertest : public GPlayerChar {
         if (z > 0.001) {
             aniBp.state = GAnimationBp::jump;
         } else {
-            if (speed > 0.001)
+            if (getSpeed() > 0.001)
                 aniBp.state = GAnimationBp::walk;
             else
                 aniBp.state = GAnimationBp::idle;
@@ -102,6 +102,6 @@ class Playertest : public GPlayerChar {
         //     camera->posInWs.x, posInWs.x, 0.001f, deltaTime);
         // camera->posInWs.y = nsg::smoothInterpolateTo(
         //     camera->posInWs.y, posInWs.y, 0.001f, deltaTime);
-        camera->posInWs = getPosInWs();
+        camera.posInWs = getPosInWs();
     };
 };
