@@ -1,11 +1,12 @@
 #include "GActor.h"
 #include <GCamera.h>
+#include <GCollision.h>
 #include <game.h>
-
 void GActor::drawLoop() {
     IVector psInWin = wsToWin(posInWs);
-    sprPt->setPosition(psInWin.x, psInWin.y-z/pixSize);
+    sprPt->setPosition(psInWin.x, psInWin.y - z / pixSize);
     getWindow()->draw(*sprPt);
+   
 }
 
 void GActor::dataLoop() {}
@@ -16,16 +17,32 @@ void GActor::destroyActor() {
         destroyActor();
 }
 
-FVector& GActor::getPosInWs() { return posInWs; }
+FVector &GActor::getPosInWs() { return posInWs; }
 
-void GActor::setPosInWs(const FVector &pos_) { posInWs = pos_; }
+void GActor::setPosInWs(const FVector &pos_) {
+    posInWs = pos_;
+    if (collision)
+        collision->setPosition(pos_);
+}
 
 void GActor::setRenderSprite(sf::Sprite *sprPt_) { sprPt = sprPt_; }
 
 sf::Sprite *GActor::getRenderSprite() { return sprPt; }
 
-void GActor::addWsPosOffset(const FVector &vec) {
-    setPosInWs(getPosInWs() + vec);
+bool GActor::addWsPosOffset(const FVector &vec) {
+    if (collision && collision->isCollisionOn()) {
+        FVector testPos = getPosInWs() + vec;
+        collision->setPosition(testPos);
+        if (collision->isStock()) {
+            collision->setPosition(getPosInWs());
+            return 0;
+        } else {
+            setPosInWs(testPos);
+            return 1;
+        }
+    } else
+        setPosInWs(getPosInWs() + vec);
+        return 1;
 }
 
 GActor::GActor() {

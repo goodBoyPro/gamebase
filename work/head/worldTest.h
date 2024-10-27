@@ -1,9 +1,10 @@
+#include <GDebug.h>
 #include <GWorld.h>
 #include <actorTest.h>
-#include <GDebug.h>
 #include <house.h>
 #include <playertest.h>
 #include <trees.h>
+
 class worldTest : public GWorld {
   private:
     /* data */
@@ -28,17 +29,21 @@ class worldTest : public GWorld {
         spr.setTexture(mapTex.getTexture(), 1);
         Playertest *player = new Playertest;
         setPlayerCharactor(player);
-        actorTest *a = new actorTest;
+
+        actorTest *a = new actorTest;       
+        a->setPosInWs({800 * pixSize, 800 * pixSize});
+        actorTest *b = new actorTest;       
+        b->setPosInWs({900 * pixSize, 900 * pixSize});
+
 
         getPlayerCharactor()->setPosInWs({500 * pixSize, 500 * pixSize});
-        a->setPosInWs( {500 * pixSize, 500 * pixSize});
 
         for (int i = 0; i < 200; i++) {
             trees *a = new trees(rand() % 25);
             a->setPosInWs({rand() % 3840 * pixSize, rand() % 3840 * pixSize});
             treeVec.push_back(a);
         }
-        new house(1);
+
         for (int i = 0; i < 20; i++) {
             house *b = new house(rand() % 5);
 

@@ -2,8 +2,8 @@
 #define ACTORTEST
 
 #include "GActor.h"
+#include <GCollision.h>
 #include <random>
-#include<GCollision.h>
 class actorTest : public GActor {
   private:
   public:
@@ -19,20 +19,27 @@ class actorTest : public GActor {
 
     /* data */
   public:
-      GCollision collision=GCollision(10,getPosInWs());
+   
     actorTest(/* args */) {
         delayTaskPtr = &dtp;
         spr.setTexture(GSource::gs.tex1);
         spr.setScale(2, 2);
-        spr.setOrigin(24,48);
-        setPosInWs({0,0});
+        spr.setOrigin(24, 48);
+        setPosInWs({0, 0});
         static float x = 0;
         x += 1.f;
         velocity = {cosf(x) * 4.f, sinf(x) * 4.f};
 
-        //actorEvent();
-
+        // actorEvent();
+        collision = new GCollision;
+        //collision->setPosition(getPosInWs());
+        collision->setCollisionOn(true);
+        collision->setRadius(0.5);
+        
     };
+    ~actorTest() {
+        delete collision;
+    }
     int isAsyncCanceled = 0;
     int isDead = 0;
     FVector velocity;
@@ -40,12 +47,12 @@ class actorTest : public GActor {
     xlib::Timer20240522::DelayTask *delayTaskPtr = nullptr;
     static xlib::Timer20240522::DelayTask dtp;
     std::mutex mutAsuncTask;
-   
+
     bool flag = 0;
     // 所有事件写在此处
     void createLoop() {
-        //std::unique_lock lk(mutAsuncTask);
-       
+        // std::unique_lock lk(mutAsuncTask);
+
         // if (delayTaskPtr->isTaskValid) {
         //     delayTaskPtr = delay(1, [this]() {
         //         {
@@ -55,14 +62,14 @@ class actorTest : public GActor {
         //         }
         //     });
         // }
-         delayTaskPtr=delay(1, [this]() {
-                {
-                    //threadSleep(1);                  
-                    setPosInWs(getPosInWs()+velocity);
-                    setPosInWs(getPosInWs()+velocity);
-                    createLoop();
-                }
-            });
+        delayTaskPtr = delay(1, [this]() {
+            {
+                // threadSleep(1);
+                setPosInWs(getPosInWs() + velocity);
+                setPosInWs(getPosInWs() + velocity);
+                createLoop();
+            }
+        });
     };
 
     void stopAllAsyncTask() {
@@ -76,11 +83,11 @@ class actorTest : public GActor {
 
         delay(0, [this]() {
             std::unique_lock lk(mutAsuncTask);
-            //destroyActor();
+            // destroyActor();
         });
     }
     void actorEvent() {
-        //delay(rand() % 2000 + 1000, [this]() { destroy(); });
+        // delay(rand() % 2000 + 1000, [this]() { destroy(); });
         createLoop();
     }
 
@@ -90,6 +97,7 @@ class actorTest : public GActor {
         // }
     }
     virtual void drawLoop() {
+        
         GActor::drawLoop();
         // printf("%d\n", actors.size());对速度拖累很明显
         // printNum((int)actors.size());

@@ -30,7 +30,7 @@ class GSource {
     bool isLoadComplete = false;
     std::unordered_map<int, textureAndSprite> texSpr;
     std::unordered_map<int, soundRes> sounds;
-    std::unordered_map<int, GAnimation> animations;
+    std::map<int, GAnimation> animations;
 
     GSource() {
         loadTextureRes();

@@ -175,6 +175,8 @@ void Game::renderLoop2D()
         //  绘制鼠标/////////////////////////////
         if (mouseGame)
             mouseGame->drawMouseCusor();
+        //显示碰撞
+        GCollision::showCollisions();
         // 显示DEBUG////////////////////////////////
         debugDisplay();
 

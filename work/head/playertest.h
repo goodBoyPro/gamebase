@@ -27,9 +27,11 @@ class Playertest : public GPlayerChar {
             widget.addToViewport();
         };
         // getSource().sounds[1].sound.play();
+        collision = new GCollision;
+        collision->setCollisionOn(true);
+        collision->setRadius(0.2);
+        collision->setScale(1,0.5);
     };
-
-    GCollision collision;
 
     GAnimationBp aniBp;
 
@@ -49,7 +51,7 @@ class Playertest : public GPlayerChar {
         // 由于每隔4ms执行一次移动，在此期间，角色状态会被意外的切换
         // 解决方法：所有移动逻辑使用指定的移动方法；
     }
-    ~Playertest() = default;
+    virtual ~Playertest() { delete collision; };
     sf::Shader sh;
     void updateState() {
         FVector v = getVelocity();

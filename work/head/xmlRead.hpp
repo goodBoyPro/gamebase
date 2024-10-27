@@ -9,7 +9,7 @@
 // 访问方法：mapData[idInt]["key"]或objName[idInt]["key"]
 class xmlRead {
   public:
-    std::map<int, std::map<std::string, std::string>> mapData;
+    std::map<int, std::map<std::string, std::string>> mapData;//行，列，值
 
   public:
     xmlRead(const char *path) { loadXmlToMap(path); };

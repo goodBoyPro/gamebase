@@ -38,7 +38,7 @@ GWidget::GWidget(IVector pos, int width__, int height__) {
     btns.emplace_back(IVector(getLeftTopPoint().x+100,getLeftTopPoint().y+200),160,80,L"关闭游戏");
 
     btns[0].onClicked = [&]() { remove(); };
-    btns[1].onClicked = []() { getGameIns()->bGameContinue = 0; };
+    btns[1].onClicked = []() {  getWindow()->setMouseCursorGrabbed(false);getGameIns()->bGameContinue = 0; };
 }
 
 GWidget::~GWidget() {}
