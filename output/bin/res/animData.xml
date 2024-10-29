@@ -8,5 +8,7 @@
 		<sizey>50</sizey>
 		<row>4</row>
 		<column>20</column>
+		<originX>25</originX>
+		<originY>48</originY>
 	</node>
 </root>

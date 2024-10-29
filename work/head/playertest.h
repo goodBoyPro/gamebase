@@ -14,9 +14,6 @@ class Playertest : public GPlayerChar {
   public:
     Playertest() {
 
-       
-       
-
         gph.gravity = -30;
         getPlayerController()->bindKey[GController::space] = [&]() {
             if (!gph.speedZ)
@@ -30,7 +27,7 @@ class Playertest : public GPlayerChar {
         collision = new GCollision;
         collision->setCollisionOn(true);
         collision->setRadius(0.2);
-        collision->setScale(1,0.5);
+        collision->setScale(1, 0.5);
         setRenderAnimationBp(&aniBp);
         getRenderSprite()->setScale(2, 2);
     };
@@ -71,18 +68,18 @@ class Playertest : public GPlayerChar {
                 aniBp.state = GAnimationBp::idle;
         }
     }
-    IVector psInWin;
+
     virtual void drawLoop() override {
+        IVector psInWin = wsToWin(getPosInWs());
         // 阴影
         GSource::getSource().getSprite(10).setScale(0.3, 0.2);
-        GSource::getSource().getSprite(10).setPosition(psInWin.x,
-                                                        psInWin.y - 5);
+        GSource::getSource().getSprite(10).setPosition(psInWin.x, psInWin.y);
         getWindow()->draw(getSource().getSprite(10));
         GPlayerChar::drawLoop();
 
-        psInWin = wsToWin(getPosInWs());
-       
         drawAnimation();
+        sf::Sprite &sprtest = getSource().getTexArray(1).getSprite(0);
+       
 
         const wchar_t *ch = L"hello World\n你好！\n呵呵！";
         gtalk.draw({getRenderSprite()->getPosition().x,

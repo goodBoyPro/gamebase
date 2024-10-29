@@ -30,7 +30,9 @@ class GAnimation {
         sizey = std::stoi(map_["sizey"].c_str());
         row = std::stoi(map_["row"].c_str());
         column = std::stoi(map_["column"].c_str());
-        spr.setOrigin(sizex / 2, sizey);
+        int originX = std::stoi(map_["originX"]);
+        int originY = std::stoi(map_["originY"]);
+        spr.setOrigin(originX, originY);
        
     }
 

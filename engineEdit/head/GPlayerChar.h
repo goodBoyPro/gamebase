@@ -17,7 +17,7 @@ private:
   FVector moveUpVec = {0, 0};
   FVector moveRightVec = {0, 0};
   float speed = 0;
-  //class GAnimationBpInterface *aniBpPtr = nullptr;
+
 
 public:
   GPlayerChar(/* args */);
@@ -26,8 +26,7 @@ public:
 
   GCamera camera;
   FVector getVelocity();
-  //void setRenderAnimationBp(class GAnimationBpInterface *bp);
-  //class GAnimationBpInterface *getRenderAnimationBp() { return aniBpPtr; }
+
   virtual void updateState() = 0;
   void move(FVector _fvector, float _value);
   void moveUp(float value);
@@ -42,7 +41,7 @@ public:
   virtual void drawLoop() override;
   float getSpeed() { return speed; };
   void setSpeed(float value) { speed = value; };
-  //void drawAnimation();
+  
  
 
   virtual void cameraFollowPlayer();
