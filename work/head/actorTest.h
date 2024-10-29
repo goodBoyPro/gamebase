@@ -98,9 +98,8 @@ class actorTest : public GActor {
     }
     virtual void drawLoop() {
         
-        GActor::drawLoop();
-        // printf("%d\n", actors.size());对速度拖累很明显
-        // printNum((int)actors.size());
+       drawActor();
+       
     }
 };
 

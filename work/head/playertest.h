@@ -82,9 +82,7 @@ class Playertest : public GPlayerChar {
 
         psInWin = wsToWin(getPosInWs());
        
-        // 角色
-        // updateState();
-        // aniBp.updateAnim();
+        drawAnimation();
 
         const wchar_t *ch = L"hello World\n你好！\n呵呵！";
         gtalk.draw({getRenderSprite()->getPosition().x,

@@ -8,7 +8,8 @@
                 "G:/codeLearn/vsCode/gameX/extern/include",
                 "${workspaceFolder}/engineEdit/head",
                 "${workspaceFolder}/extern/include",
-                "${workspaceFolder}/lib/head"
+                "${workspaceFolder}/lib/head",
+                "${workspaceFolder}/work/head"
             ],
             "defines": [
                 "_DEBUG",

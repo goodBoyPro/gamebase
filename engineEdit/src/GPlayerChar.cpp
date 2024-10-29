@@ -1,4 +1,4 @@
-#include "GPlayerChar.h"
+#include <GPlayerChar.h>
 #include <GCamera.h>
 #include <GController.h>
 #include <GAnimationBp.h>
@@ -69,11 +69,11 @@ GPlayerChar::~GPlayerChar()
 
 FVector GPlayerChar::getVelocity() { return getPosInWs() - posPrevious; }
 
-void GPlayerChar::setRenderAnimationBp(GAnimationBpInterface *bp)
-{
-    aniBpPtr = bp;
-    setRenderSprite(aniBpPtr->sprPt);
-}
+// void GPlayerChar::setRenderAnimationBp(GAnimationBpInterface *bp)
+// {
+//     aniBpPtr = bp;
+//     setRenderSprite(aniBpPtr->sprPt);
+// }
 void GPlayerChar::move(FVector _fvector, float _value)
 {
     static canRun t1;
@@ -139,23 +139,24 @@ void GPlayerChar::dataLoop()
     else
         moveByKey();
 }
-#include <GDebug.h>
 void GPlayerChar::drawLoop()
 {
     if (isMovingA || isMovingD || isMovingS || isMovingW || isMouseMove)
         speed = 1;
     else
         speed = 0;
-
-    IVector psInWin = wsToWin(getPosInWs());
-    getRenderSprite()->setPosition(psInWin.x, psInWin.y - z / pixSize);
-    getWindow()->draw(*getRenderSprite());
-    if (aniBpPtr)
-    {
-        aniBpPtr->updateAnim();
-        updateState();
-    }
+    
 }
+
+// void GPlayerChar::drawAnimation()
+//  {   
+//     if (aniBpPtr)
+//     {
+//       aniBpPtr->updateAnim();
+//       updateState();
+//     }
+//      drawActor();
+//   };
 
 // 场景剔除可能会造成loop不调用，因此在主循环中调用
 void GPlayerChar::cameraFollowPlayer() { camera.posInWs = getPosInWs(); }

@@ -1,37 +1,44 @@
 #ifndef GACTOR_H
 #define GACTOR_H
 #include "GObject.h"
-#include<GCollision.h>
-class GActor : public GObject {
-  private:
-    FVector posInWs;
-    sf::Sprite *sprPt = nullptr;
-   
+#include <GCollision.h>
+class GActor : public GObject
+{
+private:
+  FVector posInWs;
+  sf::Sprite *sprPt = nullptr;
 
-  public:
-    GActor(/* args */);
-    virtual ~GActor();
-    virtual void drawLoop();
-    virtual void dataLoop();
+public:
+  GActor(/* args */);
+  virtual ~GActor();
+  virtual void drawLoop();
+  virtual void dataLoop();
 
-    sf::Texture tex;
-    sf::Sprite spr;
+  sf::Texture tex;
+  sf::Sprite spr;
 
-    // 引用计数
-    std::atomic<int> count = 1;
-    virtual void destroyActor();
-    float z = 0;
+  // 引用计数
+  std::atomic<int> count = 1;
+  virtual void destroyActor();
+  float z = 0;
 
-  public:
-    FVector &getPosInWs();
-    void setPosInWs(const FVector &pos_);
-    void setRenderSprite(sf::Sprite *sprPt_);
-    sf::Sprite *getRenderSprite();
-    virtual bool addWsPosOffset(const FVector &vec);
+public:
+  FVector &getPosInWs();
+  void setPosInWs(const FVector &pos_);
+  void setRenderSprite(sf::Sprite *sprPt_);
+  sf::Sprite *getRenderSprite();
+  virtual bool addWsPosOffset(const FVector &vec);
+  void drawActor()
+  {
+    IVector psInWin = wsToWin(posInWs);
+    sprPt->setPosition(psInWin.x, psInWin.y - z / pixSize);
+    getWindow()->draw(*sprPt);
+  };
 
-    // 碰撞
-    class CollisionInterface *collision = nullptr;
+  // 碰撞
+  class CollisionInterface *collision = nullptr;
 };
-template <class T> T *createActor() { return new T; }
+template <class T>
+T *createActor() { return new T; }
 
 #endif
