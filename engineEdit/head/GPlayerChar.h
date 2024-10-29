@@ -16,12 +16,17 @@ class GPlayerChar : public GActor {
     FVector moveUpVec = {0, 0};
     FVector moveRightVec = {0, 0};
     float speed = 0;
+    class GAnimationBpInterface *aniBpPtr=nullptr;
   public:
     GPlayerChar(/* args */);
     virtual ~GPlayerChar();
     class GController *controller = nullptr;
+    
     GCamera camera;
     FVector getVelocity();
+    void setRenderAnimationBp(class GAnimationBpInterface*bp);
+    class GAnimationBpInterface*getRenderAnimationBp(){return aniBpPtr;}
+    virtual void updateState()=0;
     void move(FVector _fvector, float _value);
     void moveUp(float value);
     void moveRight(float value);
@@ -31,6 +36,7 @@ class GPlayerChar : public GActor {
     void moveToMouse();
     void moveByKey();
     virtual void dataLoop() override;
+    //子类重载中应适时调用
     virtual void drawLoop() override;
     float getSpeed(){return speed;};
     void setSpeed(float value){speed = value;};

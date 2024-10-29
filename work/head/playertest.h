@@ -14,8 +14,8 @@ class Playertest : public GPlayerChar {
   public:
     Playertest() {
 
-        setRenderSprite(aniBp.sprPt);
-        getRenderSprite()->setScale(2, 2);
+       
+       
 
         gph.gravity = -30;
         getPlayerController()->bindKey[GController::space] = [&]() {
@@ -31,6 +31,8 @@ class Playertest : public GPlayerChar {
         collision->setCollisionOn(true);
         collision->setRadius(0.2);
         collision->setScale(1,0.5);
+        setRenderAnimationBp(&aniBp);
+        getRenderSprite()->setScale(2, 2);
     };
 
     GAnimationBp aniBp;
@@ -72,17 +74,17 @@ class Playertest : public GPlayerChar {
     IVector psInWin;
     virtual void drawLoop() override {
         // 阴影
-        GSource::getSource().texSpr[10].spr.setScale(0.3, 0.2);
-        GSource::getSource().texSpr[10].spr.setPosition(psInWin.x,
+        GSource::getSource().getSprite(10).setScale(0.3, 0.2);
+        GSource::getSource().getSprite(10).setPosition(psInWin.x,
                                                         psInWin.y - 5);
-        getWindow()->draw(getSource().texSpr[10].spr);
+        getWindow()->draw(getSource().getSprite(10));
         GPlayerChar::drawLoop();
 
         psInWin = wsToWin(getPosInWs());
-
+       
         // 角色
-        updateState();
-        aniBp.updateAnim();
+        // updateState();
+        // aniBp.updateAnim();
 
         const wchar_t *ch = L"hello World\n你好！\n呵呵！";
         gtalk.draw({getRenderSprite()->getPosition().x,

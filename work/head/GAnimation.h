@@ -13,7 +13,7 @@ class GAnimation {
     FVector scale = {1, 1};
 
   public:
-    GAnimation() { printf("cons1\n"); };
+    GAnimation() { };
     GAnimation(const char *path, int sizex_, int sizey_, int row_, int column_)
         : sizex(sizex_), sizey(sizey_), row(row_), column(column_) {
 
@@ -31,19 +31,12 @@ class GAnimation {
         row = std::stoi(map_["row"].c_str());
         column = std::stoi(map_["column"].c_str());
         spr.setOrigin(sizex / 2, sizey);
-        printf("aniConstruct\n");
+       
     }
 
     ~GAnimation() {};
     sf::Texture tex;
     sf::Sprite spr;
-
-    void init(const char *path, int sizex, int sizey, int row, int column) {
-        if (!tex.loadFromFile(path))
-            printf("%s load failed", path);
-        spr.setTexture(tex);
-    }
-
     // 设置动画起始帧与结束帧,第一格为0
     void play(int start_, int end_) {
         if (start == start_)
@@ -66,8 +59,9 @@ class GAnimation {
         }
     }
     void playSoundAtFrame(sf::Sound &s, int frame, bool &isPlayed);
+    void playSoundAtFrameOnce(int frame,nsg::DoOnce&once);
 
-//   private:
+   //private:
     int ptx = 0;
     int pty = 0;
     int sizex;

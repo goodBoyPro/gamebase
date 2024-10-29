@@ -2,7 +2,7 @@
 
 GAnimationBp::GAnimationBp():isPlayed(64,0){
     ;
-    animPt = &getSource().animations[1];
+    animPt = &getSource().getAnimation(1);
     animPt->play(40, 59);
     sprPt = &animPt->spr;
     animPt->scale = {2, 2};
@@ -36,7 +36,9 @@ void GAnimationBp::updateAnim() {
 
 void GAnimationBp::updateSound() {
     
-    animPt->playSoundAtFrame(getSource().sounds[2].sound, 3, (bool&)isPlayed[0]);
-    
-    animPt->playSoundAtFrame(getSource().sounds[2].sound, 13, (bool&)isPlayed[1]);
+    // animPt->playSoundAtFrame(getSource().getSound(2), 3, (bool&)isPlayed[0]);    
+    // animPt->playSoundAtFrame(getSource().getSound(2), 13, (bool&)isPlayed[1]);
+    animPt->playSoundAtFrameOnce(3,sound1);
+    animPt->playSoundAtFrameOnce(13,sound2);
+   
 }

@@ -2,10 +2,10 @@
 #include <GAnimation.h>
 GSource &getSource() { return GSource::getSource(); }
 
-sf::Sprite &getSprite(int id) { return getSource().texSpr[id].spr; }
+sf::Sprite &getSprite(int id) { return getSource().getSprite(id); }
 
-void GSource::loadAnimation() {
-    xmlRead xr("res/animData.xml");
+void GSource::loadAnimation(std::string pathAnimation) {
+    xmlRead xr(pathAnimation.c_str());
     for (auto &pair : xr.mapData) {
         
        
