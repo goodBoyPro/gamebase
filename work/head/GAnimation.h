@@ -23,13 +23,13 @@ class GAnimation {
         spr.setOrigin(sizex_ / 2, sizey_);
     };
     GAnimation(std::map<std::string, std::string> &map_) {
-        if (!tex.loadFromFile(map_["path"].c_str()))
+        if (!tex.loadFromFile(map_["path"]))
             printf("%s load failed", map_["path"].c_str());
         spr.setTexture(tex);
-        sizex = std::stoi(map_["sizex"].c_str());
-        sizey = std::stoi(map_["sizey"].c_str());
-        row = std::stoi(map_["row"].c_str());
-        column = std::stoi(map_["column"].c_str());
+        sizex = std::stoi(map_["sizex"]);
+        sizey = std::stoi(map_["sizey"]);
+        row = std::stoi(map_["row"]);
+        column = std::stoi(map_["column"]);
         int originX = std::stoi(map_["originX"]);
         int originY = std::stoi(map_["originY"]);
         spr.setOrigin(originX, originY);

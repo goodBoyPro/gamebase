@@ -237,5 +237,21 @@ float smoothInterpolateTo(float current, float target, float speed,
 // 注意：在实际应用中，deltaTime应该由你的游戏引擎或应用程序框架提供，
 // 它表示从上一次调用此函数到当前调用之间的时间差（以秒为单位）。
 
+//从形如“11,13”的字符串接受整数
+sf::Vector2i strTo2Int(const std::string &str)
+{
+  size_t pos = str.find(',');
+  return {
+      std::stoi(str.substr(0, pos)),
+      std::stoi(str.substr(pos + 1))};
+}
+//从形如“11,13”的字符串接受浮点
+sf::Vector2f strTo2Float(const std::string &str)
+{
+  size_t pos = str.find(',');
+  return {
+      std::stof(str.substr(0, pos)),
+      std::stof(str.substr(pos + 1))};
+}
 
 }; // namespace nsg

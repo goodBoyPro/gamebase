@@ -146,6 +146,10 @@ class DoOnce {
     bool canDo = true;
     std::function<void()> callbackFunc;
 };
+//从形如“11,13”的字符串接受整数
+sf::Vector2i strTo2Int(const std::string &str);
+//从形如“11,13”的字符串接受浮点
+sf::Vector2f strTo2Float(const std::string &str);
 }; // namespace nsg
 
 #endif
