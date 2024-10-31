@@ -14,6 +14,8 @@ struct treesTexture {
 class trees : public GActor {
 
   public:
+  void gameBegin(){}
+  void eventTick(){}
     trees(int _index) { ;
         setRenderSprite(&treeTex.spr);
         index = _index;

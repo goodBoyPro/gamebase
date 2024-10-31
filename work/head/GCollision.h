@@ -37,7 +37,7 @@ class polygon {
     
     
 };
-class CollisionInterface : public GObject {
+class CollisionInterface : public GComponent {
   private:
     FVector position;
     FVector origin;

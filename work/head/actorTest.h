@@ -7,6 +7,7 @@
 class actorTest : public GActor {
   private:
   public:
+  
     struct GSource {
         sf::Texture tex1;
         sf::Texture tex2;
@@ -19,7 +20,9 @@ class actorTest : public GActor {
 
     /* data */
   public:
-   
+   void gameBegin(){}
+   sf::Sprite spr;
+  void eventTick(){}
     actorTest(/* args */) {
         delayTaskPtr = &dtp;
         spr.setTexture(GSource::gs.tex1);
@@ -31,14 +34,17 @@ class actorTest : public GActor {
         velocity = {cosf(x) * 4.f, sinf(x) * 4.f};
 
         // actorEvent();
-        collision = new GCollision;
-        //collision->setPosition(getPosInWs());
-        collision->setCollisionOn(true);
+       
+        //GCollision *collision=(GCollision*)createComponent(new GCollision);
+         GCollision *collision=createComponent<GCollision>(new GCollision);
         collision->setRadius(0.5);
+        setMoveCollision(collision);
+
+       
         
     };
     ~actorTest() {
-        delete collision;
+        delete collisionForMove;
     }
     int isAsyncCanceled = 0;
     int isDead = 0;

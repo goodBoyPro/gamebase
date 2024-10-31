@@ -2,16 +2,19 @@
 #include <GCamera.h>
 #include <GCollision.h>
 #include <game.h>
-void GActor::drawLoop() {
+sf::Texture GActor::tex;
+sf::Sprite GActor::spr;
+void GActor::drawLoop()
+{
     IVector psInWin = wsToWin(posInWs);
     sprPt->setPosition(psInWin.x, psInWin.y - z / pixSize);
     getWindow()->draw(*sprPt);
-   
 }
 
 void GActor::dataLoop() {}
 
-void GActor::destroyActor() {
+void GActor::destroyActor()
+{
     isValid = 0;
     if (isValid)
         destroyActor();
@@ -19,35 +22,62 @@ void GActor::destroyActor() {
 
 FVector &GActor::getPosInWs() { return posInWs; }
 
-void GActor::setPosInWs(const FVector &pos_) {
+void GActor::setPosInWs(const FVector &pos_)
+{
     posInWs = pos_;
-    if (collision)
-        collision->setPosition(pos_);
+    if (collisionForMove)
+        collisionForMove->setPosition(pos_);
 }
 
 void GActor::setRenderSprite(sf::Sprite *sprPt_) { sprPt = sprPt_; }
 
 sf::Sprite *GActor::getRenderSprite() { return sprPt; }
 
-bool GActor::addWsPosOffset(const FVector &vec) {
-    if (collision && collision->isCollisionOn()) {
+bool GActor::addWsPosOffset(const FVector &vec)
+{
+    if (collisionForMove && collisionForMove->isCollisionOn())
+    {
         FVector testPos = getPosInWs() + vec;
-        collision->setPosition(testPos);
-        if (collision->isStock()) {
-            collision->setPosition(getPosInWs());
+        collisionForMove->setPosition(testPos);
+        if (collisionForMove->isStock())
+        {
+            collisionForMove->setPosition(getPosInWs());
             return 0;
-        } else {
+        }
+        else
+        {
             setPosInWs(testPos);
             return 1;
         }
-    } else
+    }
+    else
         setPosInWs(getPosInWs() + vec);
-        return 1;
+    return 1;
 }
 
-GActor::GActor() {
+void GActor::drawActor()
+{
+     IVector psInWin = wsToWin(posInWs);
+    sprPt->setPosition(psInWin.x, psInWin.y - z / pixSize);
+    getWindow()->draw(*sprPt);
+}
+
+GActor::GActor()
+{
     addActors(this);
     setRenderSprite(&spr);
 }
 
-GActor::~GActor() {}
+GActor::~GActor()
+{
+   
+    for (auto component : allComponents)
+    {
+        delete component;
+        component=nullptr;
+    }
+    for(auto component:allActorComponents){
+        component->destroyActor();
+        component=nullptr;
+    }
+}
