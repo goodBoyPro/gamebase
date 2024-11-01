@@ -4,11 +4,12 @@
 #include "GActor.h"
 #include <GCollision.h>
 #include <random>
-class actorTest : public GActor {
-  private:
-  public:
-  
-    struct GSource {
+class actorTest : public GActor
+{
+private:
+public:
+    struct GSource
+    {
         sf::Texture tex1;
         sf::Texture tex2;
         sf::Texture tex3;
@@ -19,11 +20,12 @@ class actorTest : public GActor {
     };
 
     /* data */
-  public:
-   void gameBegin(){}
-   sf::Sprite spr;
-  void eventTick(){}
-    actorTest(/* args */) {
+public:
+    void gameBegin() {}
+    sf::Sprite spr;
+    void eventTick() {}
+    actorTest(/* args */)
+    {
         delayTaskPtr = &dtp;
         spr.setTexture(GSource::gs.tex1);
         spr.setScale(2, 2);
@@ -34,16 +36,14 @@ class actorTest : public GActor {
         velocity = {cosf(x) * 4.f, sinf(x) * 4.f};
 
         // actorEvent();
-       
-        //GCollision *collision=(GCollision*)createComponent(new GCollision);
-         GCollision *collision=createComponent<GCollision>(new GCollision);
+
+        // GCollision *collision=(GCollision*)createComponent(new GCollision);
+        GCollision *collision = createComponent<GCollision>(new GCollision);
         collision->setRadius(0.5);
         setMoveCollision(collision);
-
-       
-        
     };
-    ~actorTest() {
+    ~actorTest()
+    {
         delete collisionForMove;
     }
     int isAsyncCanceled = 0;
@@ -56,7 +56,8 @@ class actorTest : public GActor {
 
     bool flag = 0;
     // 所有事件写在此处
-    void createLoop() {
+    void createLoop()
+    {
         // std::unique_lock lk(mutAsuncTask);
 
         // if (delayTaskPtr->isTaskValid) {
@@ -68,41 +69,59 @@ class actorTest : public GActor {
         //         }
         //     });
         // }
-        delayTaskPtr = delay(1, [this]() {
+        delayTaskPtr = delay(1, [this]()
+                             {
             {
                 // threadSleep(1);
                 setPosInWs(getPosInWs() + velocity);
                 setPosInWs(getPosInWs() + velocity);
                 createLoop();
-            }
-        });
+            } });
     };
 
-    void stopAllAsyncTask() {
+    void stopAllAsyncTask()
+    {
         std::unique_lock lk(mutAsuncTask);
         isAsyncCanceled = 1;
         delayTaskPtr->isTaskValid = 0;
     }
-    void destroy() {
+    void destroy()
+    {
 
         stopAllAsyncTask();
 
-        delay(0, [this]() {
-            std::unique_lock lk(mutAsuncTask);
-            // destroyActor();
-        });
+        delay(0, [this]()
+              {
+                  std::unique_lock lk(mutAsuncTask);
+                  // destroyActor();
+              });
     }
-    void actorEvent() {
+    void actorEvent()
+    {
         // delay(rand() % 2000 + 1000, [this]() { destroy(); });
         createLoop();
     }
 
-    virtual void dataLoop() {
+    virtual void dataLoop()
+    {
         // if (t.delay(2)) {
         //     posInWs += velocity;
         // }
     }
-   
+};
+class actorComponentTest : public GActorComponent
+{
+public:
+    void eventTick() {}
+    void gameBegin(){}
+    actorComponentTest()
+    {
+        tex.loadFromFile("res/a.png");
+        spr.setTexture(tex);
+        setRenderSprite(&spr);
+    }
+    sf::Sprite spr;
+    sf::Texture tex;
 };
 
 #endif // ACTORTEST

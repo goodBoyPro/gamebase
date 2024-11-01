@@ -4,6 +4,7 @@
 #include <game.h>
 sf::Texture GActor::tex;
 sf::Sprite GActor::spr;
+long GActor::drawCallNum=0;
 void GActor::eventTick()
 {
     IVector psInWin = wsToWin(posInWs);
@@ -25,6 +26,10 @@ FVector &GActor::getPosInWs() { return posInWs; }
 void GActor::setPosInWs(const FVector &pos_)
 {
     posInWs = pos_;
+    for (auto component : allActorComponents)
+    {
+        bindActorComponent(component);
+    }
     if (collisionForMove)
         collisionForMove->setPosition(pos_);
 }
@@ -57,9 +62,15 @@ bool GActor::addWsPosOffset(const FVector &vec)
 
 void GActor::drawActor()
 {
-     IVector psInWin = wsToWin(posInWs);
+    IVector psInWin = wsToWin(posInWs);
     sprPt->setPosition(psInWin.x, psInWin.y - z / pixSize);
     getWindow()->draw(*sprPt);
+    drawCallNum++;
+}
+
+void GActor::bindActorComponent(GActorComponent *ptr)
+{
+    ptr->setPosInWs(posInWs + ptr->getRelativePosition());
 }
 
 GActor::GActor()
@@ -70,14 +81,15 @@ GActor::GActor()
 
 GActor::~GActor()
 {
-   
+
     for (auto component : allComponents)
     {
         delete component;
-        component=nullptr;
+        component = nullptr;
     }
-    for(auto component:allActorComponents){
+    for (auto component : allActorComponents)
+    {
         component->destroyActor();
-        component=nullptr;
+        component = nullptr;
     }
 }

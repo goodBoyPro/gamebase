@@ -8,6 +8,7 @@
 #include <GSource.h>
 #include <GTalk.h>
 #include <GWidget.h>
+#include<actorTest.h>
 class Playertest : public GPlayerChar
 {
 private:
@@ -41,7 +42,7 @@ public:
     }
     Playertest()
     {
-
+        createActorComponent<actorComponentTest>(new actorComponentTest);
         gph.gravity = -30;
         getPlayerController()->bindKey[GController::space] = [&]()
         {

@@ -179,6 +179,9 @@ void Game::renderLoop2D()
         GCollision::showCollisions();
         // 显示DEBUG////////////////////////////////
         debugDisplay();
+        static GDebug db;
+        swprintf(db.wchar_,L"drawCall:%ld",GActor::drawCallNum);
+        GActor::drawCallNum=0;
 
         getWindow()->display();
         getWindow()->clear();
