@@ -161,8 +161,8 @@ void Game::renderLoop2D()
             return a->getPosInWs().x < b->getPosInWs().x; });
         for (auto ac : actorsOn)
         {
-
-            ac->drawLoop();
+            ac->eventTick();
+            ac->drawActor();
         }
 
         lk.unlock();

@@ -15,17 +15,14 @@ class trees : public GActor {
 
   public:
   void gameBegin(){}
-  void eventTick(){}
+  void eventTick(){getRenderSprite()->setTextureRect({index/5*256,index%5*256,256,256});}
     trees(int _index) { ;
         setRenderSprite(&treeTex.spr);
         index = _index;
     };
     ~trees(){};
     int index;
-    virtual void drawLoop()override{
-        getRenderSprite()->setTextureRect({index/5*256,index%5*256,256,256});
-        GActor::drawLoop();
-    };
+   
     static treesTexture treeTex;
 };
 

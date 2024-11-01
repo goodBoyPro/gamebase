@@ -38,7 +38,7 @@ public:
   void moveByKey();
   virtual void dataLoop() override;
   // 子类重载中应适时调用
-  virtual void drawLoop() override;
+  // virtual void drawLoop() override;
   float getSpeed() { return speed; };
   void setSpeed(float value) { speed = value; };
   

@@ -4,7 +4,7 @@
 #include <game.h>
 sf::Texture GActor::tex;
 sf::Sprite GActor::spr;
-void GActor::drawLoop()
+void GActor::eventTick()
 {
     IVector psInWin = wsToWin(posInWs);
     sprPt->setPosition(psInWin.x, psInWin.y - z / pixSize);

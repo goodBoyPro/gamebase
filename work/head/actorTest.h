@@ -102,11 +102,7 @@ class actorTest : public GActor {
         //     posInWs += velocity;
         // }
     }
-    virtual void drawLoop() {
-        
-       drawActor();
-       
-    }
+   
 };
 
 #endif // ACTORTEST

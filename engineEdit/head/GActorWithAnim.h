@@ -23,7 +23,7 @@ public:
             aniBpPtr__antiRename->updateAnim();
             updateState();
         }
-        drawActor();
+       
     };
 };
 

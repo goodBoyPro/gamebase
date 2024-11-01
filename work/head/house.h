@@ -15,17 +15,14 @@ class house : public GActor {
 
   public:
   void gameBegin(){}
-  void eventTick(){}
+  void eventTick(){ getRenderSprite()->setTextureRect({index/3*256,index%3*256,256,256});}
     house(int _index) { ;
        setRenderSprite(&houseTex.spr);
         index = _index;
     };
     ~house(){};
     int index;
-    virtual void drawLoop()override{
-        getRenderSprite()->setTextureRect({index/3*256,index%3*256,256,256});
-        GActor::drawLoop();
-    };
+   
     static houseTexture houseTex;
     
 };

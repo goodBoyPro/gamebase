@@ -14,7 +14,31 @@ private:
     /* data */
 public:
     void gameBegin() {}
-    void eventTick() {}
+    void eventTick() {
+         IVector psInWin = wsToWin(getPosInWs());
+        // 阴影
+        GSource::getSource().getSprite(10).setScale(0.3, 0.2);
+        GSource::getSource().getSprite(10).setPosition(psInWin.x, psInWin.y);
+        getWindow()->draw(getSource().getSprite(10));
+       
+
+        drawAnimation();
+        sf::Sprite &sprtest = getSource().getTexArray(1).getSprite(0);
+
+        const wchar_t *ch = L"hello World\n你好！\n呵呵！";
+        gtalk.draw({getRenderSprite()->getPosition().x,
+                    getRenderSprite()->getPosition().y -
+                        getRenderSprite()->getGlobalBounds().height},
+                   ch);
+        static GDebug db;
+        swprintf(db.wchar_, L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
+        static GDebug gddd;
+        swprintf(gddd.wchar_, L"场景对象数量：%d", actors.size());
+        static GDebug gd2;
+        swprintf(gd2.wchar_, L"键鼠位置：%f,%f",
+                 winToWs(sf::Mouse::getPosition(*getWindow())).x,
+                 winToWs(sf::Mouse::getPosition(*getWindow())).y);
+    }
     Playertest()
     {
 
@@ -83,32 +107,7 @@ public:
         }
     }
 
-    virtual void drawLoop() override
-    {
-        IVector psInWin = wsToWin(getPosInWs());
-        // 阴影
-        GSource::getSource().getSprite(10).setScale(0.3, 0.2);
-        GSource::getSource().getSprite(10).setPosition(psInWin.x, psInWin.y);
-        getWindow()->draw(getSource().getSprite(10));
-        GPlayerChar::drawLoop();
-
-        drawAnimation();
-        sf::Sprite &sprtest = getSource().getTexArray(1).getSprite(0);
-
-        const wchar_t *ch = L"hello World\n你好！\n呵呵！";
-        gtalk.draw({getRenderSprite()->getPosition().x,
-                    getRenderSprite()->getPosition().y -
-                        getRenderSprite()->getGlobalBounds().height},
-                   ch);
-        static GDebug db;
-        swprintf(db.wchar_, L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
-        static GDebug gddd;
-        swprintf(gddd.wchar_, L"场景对象数量：%d", actors.size());
-        static GDebug gd2;
-        swprintf(gd2.wchar_, L"键鼠位置：%f,%f",
-                 winToWs(sf::Mouse::getPosition(*getWindow())).x,
-                 winToWs(sf::Mouse::getPosition(*getWindow())).y);
-    };
+   
     virtual void cameraFollowPlayer() override
     {
 
