@@ -2,9 +2,9 @@
 #define GACTOR_H
 #include "GObject.h"
 #include <GCollision.h>
-#include<game.h>
+#include <game.h>
 class GActorComponent;
-class GActor : public GObject {  
+class GActor : public GObject {
   protected:
   private:
     FVector posInWs;
@@ -12,22 +12,22 @@ class GActor : public GObject {
     static sf::Texture tex;
     static sf::Sprite spr;
     static void initGactor() {}
-   
+
     // 接口
   public:
     static long drawCallNum;
     virtual void gameBegin() = 0;
-    virtual void eventTick()=0;
+    virtual void eventTick() = 0;
     //
     void drawActor();
+
   public:
     GActor(/* args */);
     virtual ~GActor();
-    
+
     virtual void dataLoop();
 
-    // sf::Texture tex;
-    // sf::Sprite spr;
+   
 
     // 引用计数
     std::atomic<int> count = 1;
@@ -40,7 +40,6 @@ class GActor : public GObject {
     void setRenderSprite(sf::Sprite *sprPt_);
     sf::Sprite *getRenderSprite();
     virtual bool addWsPosOffset(const FVector &vec);
-    
 
     // 碰撞
     class CollisionInterface *collisionForMove = nullptr;
@@ -55,11 +54,12 @@ class GActor : public GObject {
     }
     template <class T> T *createActorComponent(GActorComponent *ptr) {
         allActorComponents.push_back(ptr);
-       bindActorComponent(ptr);
+        bindActorComponent(ptr);
         return (T *)ptr;
     }
-    private:
-    void bindActorComponent(GActorComponent*ptr);
+
+  private:
+    void bindActorComponent(GActorComponent *ptr);
 
   private:
     char xxx[16];
@@ -81,10 +81,10 @@ class GActorComponent : public GActor {
         sprPt1->setPosition(psInWin.x, psInWin.y - z / pixSize);
         getWindow()->draw(*sprPt1);
     }
-    public:
-    FVector&getRelativePosition(){return relativePosition;}
-    void setRelativePosition(const FVector&pos){relativePosition=pos;}
-    
+
+  public:
+    FVector &getRelativePosition() { return relativePosition; }
+    void setRelativePosition(const FVector &pos) { relativePosition = pos; }
 };
 
 #endif
