@@ -28,7 +28,6 @@ public:
   // 用来标记声音是否播放,但是数组大小大于8会造成动画不显示
   // bool isPlayed[16];
   std::vector<char> isPlayed;
-#define SOUNDWALK 1
   std::vector<sf::Sound *> sounds;
   GAnimation *animPt = nullptr;
   nsg::DoOnce sound1 = []()

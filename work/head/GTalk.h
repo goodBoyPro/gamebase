@@ -30,7 +30,7 @@ class GTalk {
     int strFlag = 0;
     canRun cr;
     canRun sr;
-    void draw(const FVector &pos, const wchar_t *ch) {
+    void draw(const FVector2 &pos, const wchar_t *ch) {
         const wchar_t *consStr;
         if (cr.delay(200)) {
             if (textFlag < 50)

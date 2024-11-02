@@ -21,9 +21,9 @@ void GActor::destroyActor()
         destroyActor();
 }
 
-FVector &GActor::getPosInWs() { return posInWs; }
+FVector3 &GActor::getPosInWs() { return posInWs; }
 
-void GActor::setPosInWs(const FVector &pos_)
+void GActor::setPosInWs(const FVector3 &pos_)
 {
     posInWs = pos_;
     for (auto component : allActorComponents)
@@ -38,11 +38,11 @@ void GActor::setRenderSprite(sf::Sprite *sprPt_) { sprPt = sprPt_; }
 
 sf::Sprite *GActor::getRenderSprite() { return sprPt; }
 
-bool GActor::addWsPosOffset(const FVector &vec)
+bool GActor::addWsPosOffset(const FVector3 &vec)
 {
     if (collisionForMove && collisionForMove->isCollisionOn())
     {
-        FVector testPos = getPosInWs() + vec;
+        FVector3 testPos = getPosInWs() + vec;
         collisionForMove->setPosition(testPos);
         if (collisionForMove->isStock())
         {
@@ -63,7 +63,7 @@ bool GActor::addWsPosOffset(const FVector &vec)
 void GActor::drawActor()
 {
     IVector psInWin = wsToWin(posInWs);
-    sprPt->setPosition(psInWin.x, psInWin.y - z / pixSize);
+    sprPt->setPosition(psInWin.x, psInWin.y);
     getWindow()->draw(*sprPt);
     drawCallNum++;
 }

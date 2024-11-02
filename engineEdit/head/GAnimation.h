@@ -10,7 +10,7 @@ class GAnimation {
   public:
     int currentFrame;
     float rate = 1;
-    FVector scale = {1, 1};
+    FVector3 scale = {1, 1,1};
 
   public:
     GAnimation() { };

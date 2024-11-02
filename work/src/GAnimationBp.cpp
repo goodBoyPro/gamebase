@@ -3,9 +3,10 @@
 GAnimationBp::GAnimationBp():isPlayed(64,0){
     ;
     animPt = &getSource().getAnimation(1);
+    animPt->spr.setScale(2,2);
     animPt->play(40, 59);
     sprPt = &animPt->spr;
-    animPt->scale = {2, 2};
+    animPt->scale = {2, 2,0};
 }
 
 void GAnimationBp::updateAnim() {

@@ -9,6 +9,7 @@ public:
 
   virtual ~GObject() = default;
   // std::atomic<bool> isValid;
+  
   bool isValid = true;
 };
 class GComponent : public GObject

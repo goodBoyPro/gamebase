@@ -11,7 +11,7 @@ class GCamera :public GObject {
     GCamera() { }
     ~GCamera(){};
     IVector positionInWin = IVector(WINW / 2, WINH / 2);
-    FVector posInWs=FVector(0,0);
+    FVector3 posInWs=FVector3(0,0,0);
     
     
     

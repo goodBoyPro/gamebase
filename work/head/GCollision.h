@@ -12,7 +12,7 @@ class polygon {
     sf::ConvexShape *shape=nullptr;;
     ~polygon(){
        delete shape;};
-    polygon(int count, float radius_, FVector pos_) {
+    polygon(int count, float radius_, FVector3 pos_) {
       shape=new sf::ConvexShape;
         shape->setFillColor(sf::Color(255, 1, 1, 0));
         shape->setOutlineColor(sf::Color(255, 255, 255));
@@ -25,7 +25,7 @@ class polygon {
                                cos(angle * i) * radius_ / pixSize});
         }
     }
-    void setshape(int count, float radius_, FVector pos_) {
+    void setshape(int count, float radius_, FVector3 pos_) {
         shape->setPointCount(count);
         shape->setPosition(pos_.x, pos_.y);
         float angle = 2 * 3.1415926 / count;
@@ -39,8 +39,8 @@ class polygon {
 };
 class CollisionInterface : public GComponent {
   private:
-    FVector position;
-    FVector origin;
+    FVector3 position;
+    FVector3 origin;
     float radius = 1;
     bool isValidCollision = 1;
     polygon *poly = nullptr;
@@ -66,8 +66,8 @@ class CollisionInterface : public GComponent {
             
         }
     }
-    FVector &getPosition() { return position; }
-    void setPosition(const FVector &position_) {
+    FVector3 &getPosition() { return position; }
+    void setPosition(const FVector3 &position_) {
         position = position_;
         IVector pos = wsToWin(position_);
         poly->shape->setPosition(pos.x, pos.y);
@@ -88,7 +88,7 @@ class GCollision : public CollisionInterface {
   private:
   public:
     GCollision() = default;
-    GCollision(float radius_, FVector position_) {
+    GCollision(float radius_, FVector3 position_) {
         setPosition(position_);
         setRadius(radius_);
     }

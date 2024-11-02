@@ -129,19 +129,19 @@ void printNum(int __int, int x, int y, int size, sf::Color color,
     printText(num, x, y, size, color, font_);
 }
 
-FVector normalize(const FVector &G) {
+FVector3 normalize(const FVector3 &G) {
     float a = pow(G.x * G.x + G.y * G.y, 0.5f);
     if (a)
-        return {G.x / a, G.y / a};
-    return {0, 0};
+        return {G.x / a, G.y / a,0};
+    return {0, 0,0};
 };
-IVector wsToWin(const FVector &PositionInWS) {
+IVector wsToWin(const FVector3 &PositionInWS) {
     return {(PositionInWS.x - gameCamera->posInWs.x) / pixSize + WINW / 2,
-            (PositionInWS.y - gameCamera->posInWs.y) / pixSize + WINH / 2};
+            (PositionInWS.y - gameCamera->posInWs.y) / pixSize + WINH / 2-PositionInWS.z/pixSize};
 }
-FVector winToWs(const IVector &positionInWin) {
+FVector3 winToWs(const IVector &positionInWin) {
     return {(positionInWin.x - WINW / 2) * pixSize + gameCamera->posInWs.x,
-            (positionInWin.y - WINH / 2) * pixSize + gameCamera->posInWs.y};
+            (positionInWin.y - WINH / 2) * pixSize + gameCamera->posInWs.y,0};
 }
 
 // FVector vectorWsToWin(const FVector &big, const FVector &end) {

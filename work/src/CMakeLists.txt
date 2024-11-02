@@ -3,7 +3,8 @@ set(EXECUTABLE_OUTPUT_PATH ${ABS_DIR}/gamebase/output/bin)
 
 file(GLOB_RECURSE src   ${CMAKE_CURRENT_SOURCE_DIR}/*.c *.cpp 
                         ${ABS_DIR}/engine/src/*.cpp *.c
-                        ${ABS_DIR}/gamebase/engineEdit/src/*.cpp *.c)
+                        ${ABS_DIR}/gamebase/engineEdit/src/*.cpp *.c
+                        ${ABS_DIR}/gamebase/workCode/*.cpp *.c)
 
 #aux_source_directory(. src)
 

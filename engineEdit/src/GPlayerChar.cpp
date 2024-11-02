@@ -37,7 +37,7 @@ GPlayerChar::GPlayerChar() {
     // 当键盘无操作，鼠标也无操作时才能执行
     controller->KEYIDLE = [this]() {
         if (!isMouseMove)
-            move({0, 0}, 0);
+            move({0, 0,0}, 0);
     };
 
     // 写在子类中
@@ -53,32 +53,32 @@ GPlayerChar::GPlayerChar() {
 
 GPlayerChar::~GPlayerChar() { delete controller; }
 
-FVector GPlayerChar::getVelocity() { return getPosInWs() - posPrevious; }
+FVector3 GPlayerChar::getVelocity() { return getPosInWs() - posPrevious; }
 
 // void GPlayerChar::setRenderAnimationBp(GAnimationBpInterface *bp)
 // {
 //     aniBpPtr = bp;
 //     setRenderSprite(aniBpPtr->sprPt);
 // }
-void GPlayerChar::move(FVector _fvector, float _value) {
+void GPlayerChar::move(FVector3 _fvector, float _value) {
     static canRun t1;
     if (t1.delay(MOVETICK)) {
         posPrevious = getPosInWs();
         bool flag = addWsPosOffset(_fvector * (_value * MOVETICK / 1000));
         if (!flag)
             isMouseMove = 0;
-        moveUpVec = {0, 0};
-        moveRightVec = {0, 0};
+        moveUpVec = {0, 0,0};
+        moveRightVec = {0, 0,0};
     }
 }
 
 void GPlayerChar::moveUp(float value) {
-    moveUpVec = {0, value};
+    moveUpVec = {0, value,0};
     isMouseMove = 0;
 }
 
 void GPlayerChar::moveRight(float value) {
-    moveRightVec = {value, 0};
+    moveRightVec = {value, 0,0};
     isMouseMove = 0;
 }
 
@@ -93,7 +93,7 @@ void GPlayerChar::moveToMouse() {
 
         static float precision = 0.1;
 
-        FVector a = normalize(posMouseClicked - getPosInWs());
+        FVector3 a = normalize(posMouseClicked - getPosInWs());
         if (fabs(getPosInWs().x - posMouseClicked.x) > precision ||
             fabs(getPosInWs().y - posMouseClicked.y) > precision) {
             move(a, speed);

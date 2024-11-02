@@ -7,7 +7,8 @@ class GActorComponent;
 class GActor : public GObject {
   protected:
   private:
-    FVector posInWs;
+    char memory[24];
+    FVector3 posInWs;
     sf::Sprite *sprPt = nullptr;
     static sf::Texture tex;
     static sf::Sprite spr;
@@ -35,11 +36,11 @@ class GActor : public GObject {
     float z = 0;
 
   public:
-    FVector &getPosInWs();
-    void setPosInWs(const FVector &pos_);
+    FVector3 &getPosInWs();
+    void setPosInWs(const FVector3 &pos_);
     void setRenderSprite(sf::Sprite *sprPt_);
     sf::Sprite *getRenderSprite();
-    virtual bool addWsPosOffset(const FVector &vec);
+    virtual bool addWsPosOffset(const FVector3 &vec);
 
     // 碰撞
     class CollisionInterface *collisionForMove = nullptr;
@@ -62,7 +63,7 @@ class GActor : public GObject {
     void bindActorComponent(GActorComponent *ptr);
 
   private:
-    char xxx[16];
+    
     std::vector<GComponent *> allComponents;
     std::vector<GActorComponent *> allActorComponents;
 };
@@ -74,17 +75,13 @@ template <class T> T *createActor() { return new T; }
 class GActorComponent : public GActor {
   private:
     sf::Sprite *sprPt1;
-    FVector relativePosition;
-    FVector relativeRotation;
-    void drawActor1() {
-        IVector psInWin = wsToWin(getPosInWs());
-        sprPt1->setPosition(psInWin.x, psInWin.y - z / pixSize);
-        getWindow()->draw(*sprPt1);
-    }
+    FVector3 relativePosition;
+    FVector3 relativeRotation;  
 
   public:
-    FVector &getRelativePosition() { return relativePosition; }
-    void setRelativePosition(const FVector &pos) { relativePosition = pos; }
+    virtual ~GActorComponent(){};
+    FVector3 &getRelativePosition() { return relativePosition; }
+    void setRelativePosition(const FVector3 &pos) { relativePosition = pos; }
 };
 
 #endif

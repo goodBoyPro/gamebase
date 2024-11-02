@@ -9,27 +9,30 @@
 #include <GTalk.h>
 #include <GWidget.h>
 #include<actorTest.h>
+#include<AnicomponentTest.h>
 class Playertest : public GPlayerChar
 {
 private:
     /* data */
 public:
+    char x[24];
     void gameBegin() {}
     void eventTick() {
-         IVector psInWin = wsToWin(getPosInWs());
+       
         // 阴影
         GSource::getSource().getSprite(10).setScale(0.3, 0.2);
-        GSource::getSource().getSprite(10).setPosition(psInWin.x, psInWin.y);
+        FVector3 &posActor=getPosInWs();
+        IVector posTemp=wsToWin({posActor.x,posActor.y,0});
+        GSource::getSource().getSprite(10).setPosition(posTemp.x,posTemp.y);
         getWindow()->draw(getSource().getSprite(10));
        
 
-        drawAnimation();
-        sf::Sprite &sprtest = getSource().getTexArray(1).getSprite(0);
+        
+       
 
         const wchar_t *ch = L"hello World\n你好！\n呵呵！";
-        gtalk.draw({getRenderSprite()->getPosition().x,
-                    getRenderSprite()->getPosition().y -
-                        getRenderSprite()->getGlobalBounds().height},
+        gtalk.draw({getPosInWs().x,
+                    getPosInWs().y -1},
                    ch);
         static GDebug db;
         swprintf(db.wchar_, L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
@@ -42,7 +45,11 @@ public:
     }
     Playertest()
     {
+        gtalk.draw({getPosInWs().x,
+                    getPosInWs().y -1},
+                   L"");
         createActorComponent<actorComponentTest>(new actorComponentTest);
+        setAnimationComponent<anicomponenttest>();
         gph.gravity = -30;
         getPlayerController()->bindKey[GController::space] = [&]()
         {
@@ -60,11 +67,11 @@ public:
         collisiontemp->setRadius(0.2);
         collisiontemp->setScale(1, 0.5);
         setMoveCollision(collisiontemp);
-        setRenderAnimationBp(&aniBp);
-        getRenderSprite()->setScale(2, 2);
+       
+        
     };
 
-    GAnimationBp aniBp;
+   
 
     GPhysix gph;
     GTalk gtalk;
@@ -75,36 +82,36 @@ public:
     {
         cameraFollowPlayer();
         GPlayerChar::dataLoop();
-
+        updateState();
         static canRun vTest;
         if (vTest.delay(25))
         {
         }
-        gph.drop(z);
+        gph.drop(getPosInWs().z);
 
         // 由于每隔4ms执行一次移动，在此期间，角色状态会被意外的切换
         // 解决方法：所有移动逻辑使用指定的移动方法；
     }
     virtual ~Playertest() {};
-    sf::Shader sh;
+   
     void updateState()
-    {
-        FVector v = getVelocity();
+    {   GAnimationBp*aniBpPtr=(GAnimationBp*)(getAnimationComponent()->getAnimationBp());
+        FVector3 v = getVelocity();
         if (v.x > 0)
-            aniBp.orientation = RIGHT_ORTN;
+            aniBpPtr->orientation = RIGHT_ORTN;
         else if (v.x < 0)
-            aniBp.orientation = LEFT_ORTN;
+            aniBpPtr->orientation = LEFT_ORTN;
 
-        if (z > 0.001)
+        if (getPosInWs().z > 0.001)
         {
-            aniBp.state = GAnimationBp::jump;
+            aniBpPtr->state = GAnimationBp::jump;
         }
         else
         {
             if (getSpeed() > 0.001)
-                aniBp.state = GAnimationBp::walk;
+                aniBpPtr->state = GAnimationBp::walk;
             else
-                aniBp.state = GAnimationBp::idle;
+                aniBpPtr->state = GAnimationBp::idle;
         }
     }
 

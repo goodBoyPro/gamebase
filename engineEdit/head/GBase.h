@@ -20,7 +20,8 @@
 #define WINH 900
 #define WINW 1200
 
-#define FVector sf::Vector2f
+#define FVector3 sf::Vector3f
+#define FVector2 sf::Vector2f
 #define IVector sf::Vector2i
 
 #define DEBUG
@@ -106,13 +107,13 @@ void printNum(int __int, int x = 0, int y = 0, int size = 30,
 // 显示鼠标
 
 // 空间变换
-IVector wsToWin(const FVector &PositionInWS);
-FVector winToWs(const IVector &positionInWin);
+IVector wsToWin(const FVector3 &PositionInWS);
+FVector3 winToWs(const IVector &positionInWin);
 template <class T> float getLength(const T &vec) {
     return sqrtf(vec.x * vec.x + vec.y * vec.y);
 }
 // 标准化
-FVector normalize(const FVector &G);
+FVector3 normalize(const FVector3 &G);
 
 
 

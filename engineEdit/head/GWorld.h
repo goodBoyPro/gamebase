@@ -9,7 +9,7 @@ class GWorld : public GObject {
   public:
     GWorld(/* args */);
     virtual~GWorld();
-    FVector posWs;
+    FVector3 posWs;
     sf::Sprite *sprPt;
     sf::Sprite spr;
     sf::Texture tex;

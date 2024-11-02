@@ -15,7 +15,7 @@ class GMouse {
                   sf::Mouse::getPosition(*getWindow()).y, 60, sf::Color(255, 0, 0));
     };
     void drawMouseCusor() {
-        spr.setPosition((FVector)(sf::Mouse::getPosition(*getWindow())));
+        spr.setPosition((sf::Vector2f)(sf::Mouse::getPosition(*getWindow())));
         getWindow()->draw(spr);
     }
     void setMouseVisible(bool isVisible){

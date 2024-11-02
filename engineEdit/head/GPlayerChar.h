@@ -2,6 +2,7 @@
 #define GPLAYERCHAR_H
 #include <GActorWithAnim.h>
 #include <GCamera.h>
+#include<GComponentAnimation.h>
 #define MOVETICK 10
 class GPlayerChar : public GActorWithAnim
 {
@@ -10,28 +11,32 @@ private:
   bool isMovingA = 0;
   bool isMovingS = 0;
   bool isMovingD = 0;
-  FVector posPrevious; // 用於判定角色朝向
+  FVector3 posPrevious; // 用於判定角色朝向
   bool isMouseMove = 0;
   float cameraDistance = pixSize * 100;
-  FVector moveVector = {0, 0};
-  FVector moveUpVec = {0, 0};
-  FVector moveRightVec = {0, 0};
+  FVector3 moveVector = {0, 0,0};
+  FVector3 moveUpVec = {0, 0,0};
+  FVector3 moveRightVec = {0, 0,0};
   float speed = 0;
-
+  GComponentAnimation*componentAnimationPtr=nullptr;
 
 public:
+  template<class T>
+  void setAnimationComponent(){componentAnimationPtr=createActorComponent<T>(new T);}
+  GComponentAnimation*getAnimationComponent(){return componentAnimationPtr;}
+
   GPlayerChar(/* args */);
   virtual ~GPlayerChar();
   class GController *controller = nullptr;
 
   GCamera camera;
-  FVector getVelocity();
+  FVector3 getVelocity();
 
   virtual void updateState() = 0;
-  void move(FVector _fvector, float _value);
+  void move(FVector3 _fvector, float _value);
   void moveUp(float value);
   void moveRight(float value);
-  FVector posMouseClicked;
+  FVector3 posMouseClicked;
   void setPosMouse(float value);
 
   void moveToMouse();

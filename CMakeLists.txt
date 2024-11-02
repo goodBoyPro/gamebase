@@ -19,6 +19,7 @@ include_directories(
    ${ABS_DIR}/engine/head
    ${ABS_DIR}/gamebase/engineEdit/head
    ${ABS_DIR}/gamebase/lib/head
+   ${ABS_DIR}/gamebase/workCode/    #测试用 完成后去掉
 )
 
 #自定义设置

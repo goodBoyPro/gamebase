@@ -31,23 +31,23 @@ class worldTest : public GWorld {
         setPlayerCharactor(player);
 
         actorTest *a = new actorTest;       
-        a->setPosInWs({800 * pixSize, 800 * pixSize});
+        a->setPosInWs({800 * pixSize, 800 * pixSize,0});
         actorTest *b = new actorTest;       
-        b->setPosInWs({900 * pixSize, 900 * pixSize});
+        b->setPosInWs({900 * pixSize, 900 * pixSize,0});
 
 
-        getPlayerCharactor()->setPosInWs({500 * pixSize, 500 * pixSize});
+        getPlayerCharactor()->setPosInWs({500 * pixSize, 500 * pixSize,0});
 
         for (int i = 0; i < 200; i++) {
             trees *a = new trees(rand() % 25);
-            a->setPosInWs({rand() % 3840 * pixSize, rand() % 3840 * pixSize});
+            a->setPosInWs({rand() % 3840 * pixSize, rand() % 3840 * pixSize,0});
             treeVec.push_back(a);
         }
 
         for (int i = 0; i < 20; i++) {
             house *b = new house(rand() % 5);
 
-            b->setPosInWs({rand() % 1000 * pixSize, rand() % 1000 * pixSize});
+            b->setPosInWs({rand() % 1000 * pixSize, rand() % 1000 * pixSize,0});
             houseVec.push_back(b);
         }
     };

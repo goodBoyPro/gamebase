@@ -1,17 +1,27 @@
 #if !defined(GCOMPONENTANIMATION_H)
 #define GCOMPONENTANIMATION_H
-#include<GActor.h>
-class GComponentAnimation:GActorComponent
+#include <GActor.h>
+#include <GAnimationBp.h>
+class GComponentAnimation :public GActorComponent
 {
 private:
-    /* data */
+    class GAnimationBpInterface *animationBpPtr = nullptr;
+
 public:
-    GComponentAnimation(/* args */){};
-    ~GComponentAnimation(){};
+    GComponentAnimation(/* args */) {};
+    virtual ~GComponentAnimation() { delete animationBpPtr; };
+    GAnimationBpInterface *getAnimationBp(){return animationBpPtr;}
+    template <class T>
+    void createAnimationBp()
+    {
+        animationBpPtr = new T;
+        setRenderSprite(animationBpPtr->sprPt);
+    };
+    virtual void dataLoop()
+    {
+        animationBpPtr->updateAnim();
+        animationBpPtr->updateSound();
+    };
 };
-
-
-
-
 
 #endif // GCOMPONENTANIMATION_H
