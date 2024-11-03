@@ -15,7 +15,7 @@ class house : public GActor {
 
   public:
   void gameBegin(){}
-  void eventTick(){ getRenderSprite()->setTextureRect({index/3*256,index%3*256,256,256});}
+  void eventTick(){ getRenderSprite()->setTextureRect({index/3*256,index%3*256,256,256});  }
     house(int _index) { ;
        setRenderSprite(&houseTex.spr);
         index = _index;

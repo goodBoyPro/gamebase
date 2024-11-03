@@ -2,56 +2,57 @@
 #define GPLAYERCHAR_H
 #include <GActorWithAnim.h>
 #include <GCamera.h>
-#include<GComponentAnimation.h>
+#include <component/GComponentAnimation.h>
 #define MOVETICK 10
-class GPlayerChar : public GActorWithAnim
-{
-private:
-  bool isMovingW = 0;
-  bool isMovingA = 0;
-  bool isMovingS = 0;
-  bool isMovingD = 0;
-  FVector3 posPrevious; // 用於判定角色朝向
-  bool isMouseMove = 0;
-  float cameraDistance = pixSize * 100;
-  FVector3 moveVector = {0, 0,0};
-  FVector3 moveUpVec = {0, 0,0};
-  FVector3 moveRightVec = {0, 0,0};
-  float speed = 0;
-  GComponentAnimation*componentAnimationPtr=nullptr;
+class GPlayerChar : public GActorWithAnim {
+  private:
+    bool isMovingW = 0;
+    bool isMovingA = 0;
+    bool isMovingS = 0;
+    bool isMovingD = 0;
+    FVector3 posPrevious; // 用於判定角色朝向
+    bool isMouseMove = 0;
+    float cameraDistance = pixSize * 100;
+    FVector3 moveVector = {0, 0, 0};
+    FVector3 moveUpVec = {0, 0, 0};
+    FVector3 moveRightVec = {0, 0, 0};
+    float speed = 0;
+    GComponentAnimation *componentAnimationPtr = nullptr;
 
-public:
-  template<class T>
-  void setAnimationComponent(){componentAnimationPtr=createActorComponent<T>(new T);}
-  GComponentAnimation*getAnimationComponent(){return componentAnimationPtr;}
+  public:
+    template <class T> GComponentAnimation *setAnimationComponent() {
+        componentAnimationPtr = createActorComponent<T>(new T);
+        return componentAnimationPtr;
+    }
+    GComponentAnimation *getAnimationComponent() {
+        return componentAnimationPtr;
+    }
 
-  GPlayerChar(/* args */);
-  virtual ~GPlayerChar();
-  class GController *controller = nullptr;
+    GPlayerChar(/* args */);
+    virtual ~GPlayerChar();
+    class GController *controller = nullptr;
 
-  GCamera camera;
-  FVector3 getVelocity();
+    GCamera camera;
+    FVector3 getVelocity();
 
-  virtual void updateState() = 0;
-  void move(FVector3 _fvector, float _value);
-  void moveUp(float value);
-  void moveRight(float value);
-  FVector3 posMouseClicked;
-  void setPosMouse(float value);
+    virtual void updateState() = 0;
+    void move(FVector3 _fvector, float _value);
+    void moveUp(float value);
+    void moveRight(float value);
+    FVector3 posMouseClicked;
+    void setPosMouse(float value);
 
-  void moveToMouse();
-  void moveByKey();
-  virtual void dataLoop() override;
-  // 子类重载中应适时调用
-  // virtual void drawLoop() override;
-  float getSpeed() { return speed; };
-  void setSpeed(float value) { speed = value; };
-  
- 
+    void moveToMouse();
+    void moveByKey();
+    virtual void dataLoop() override;
+    // 子类重载中应适时调用
+    // virtual void drawLoop() override;
+    float getSpeed() { return speed; };
+    void setSpeed(float value) { speed = value; };
 
-  virtual void cameraFollowPlayer();
+    virtual void cameraFollowPlayer();
 
-private:
+  private:
 };
 
 #endif

@@ -6,7 +6,7 @@ int main() {
     mylib::ProgramMutex proMut(L"main");
     if(proMut.isOtherProgramOn())
         return 0;
-
+    
     initTools();
     gametest g;
     xlib::getTimer().brun = false;

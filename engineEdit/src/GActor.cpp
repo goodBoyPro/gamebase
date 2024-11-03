@@ -7,9 +7,8 @@ sf::Sprite GActor::spr;
 long GActor::drawCallNum=0;
 void GActor::eventTick()
 {
-    IVector psInWin = wsToWin(posInWs);
-    sprPt->setPosition(psInWin.x, psInWin.y - z / pixSize);
-    getWindow()->draw(*sprPt);
+    
+    
 }
 
 void GActor::dataLoop() {}
@@ -34,7 +33,7 @@ void GActor::setPosInWs(const FVector3 &pos_)
         collisionForMove->setPosition(pos_);
 }
 
-void GActor::setRenderSprite(sf::Sprite *sprPt_) { sprPt = sprPt_; }
+void GActor::setRenderSprite( sf::Sprite *sprPt_) { sprPt = sprPt_; }
 
 sf::Sprite *GActor::getRenderSprite() { return sprPt; }
 
@@ -63,7 +62,7 @@ bool GActor::addWsPosOffset(const FVector3 &vec)
 void GActor::drawActor()
 {
     IVector psInWin = wsToWin(posInWs);
-    sprPt->setPosition(psInWin.x, psInWin.y);
+    (sprPt)->setPosition(psInWin.x, psInWin.y);
     getWindow()->draw(*sprPt);
     drawCallNum++;
 }
@@ -75,6 +74,11 @@ void GActor::bindActorComponent(GActorComponent *ptr)
 
 GActor::GActor()
 {
+    static bool init = []() {
+        spr.setTexture(tex);
+        return true;
+    }();
+    sprPt =&spr;
     addActors(this);
     setRenderSprite(&spr);
 }

@@ -15,25 +15,27 @@ class Playertest : public GPlayerChar
 private:
     /* data */
 public:
-    char x[24];
-    void gameBegin() {}
-    void eventTick() {
-       
-        // 阴影
+    char x[32];
+    virtual void drawActor()override{
+          // 阴影
         GSource::getSource().getSprite(10).setScale(0.3, 0.2);
-        FVector3 &posActor=getPosInWs();
-        IVector posTemp=wsToWin({posActor.x,posActor.y,0});
+        const FVector3 &posShadow={getPosInWs().x,getPosInWs().y,0.f};
+        IVector posTemp=wsToWin({posShadow.x,posShadow.y,0});
         GSource::getSource().getSprite(10).setPosition(posTemp.x,posTemp.y);
         getWindow()->draw(getSource().getSprite(10));
        
-
-        
+    }
+    actorTest *at = nullptr;
+    FVector3 atPos;
+    void gameBegin() { 
+         at = spawnActorAtLocation<actorTest>();
+         atPos = getPosInWs();
+    }
+    void eventTick() {
        
+        at->setPosInWs(atPos);
+        atPos = {atPos.x+=0.01,atPos.y+=0.01,0};
 
-        const wchar_t *ch = L"hello World\n你好！\n呵呵！";
-        gtalk.draw({getPosInWs().x,
-                    getPosInWs().y -1},
-                   ch);
         static GDebug db;
         swprintf(db.wchar_, L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
         static GDebug gddd;
@@ -45,11 +47,10 @@ public:
     }
     Playertest()
     {
-        gtalk.draw({getPosInWs().x,
-                    getPosInWs().y -1},
-                   L"");
         createActorComponent<actorComponentTest>(new actorComponentTest);
-        setAnimationComponent<anicomponenttest>();
+        GTalk *gt=createActorComponent<GTalk>(new GTalk);
+        GComponentAnimation *aniCom=setAnimationComponent<anicomponenttest>();
+        gt->playerSpr = aniCom->getRenderSprite();
         gph.gravity = -30;
         getPlayerController()->bindKey[GController::space] = [&]()
         {
@@ -74,7 +75,6 @@ public:
    
 
     GPhysix gph;
-    GTalk gtalk;
     GWidget widget = {{WINW / 2, WINH / 2}, 800, 600};
     DelayTask task = {100, []()
                       { printf("task"); }};

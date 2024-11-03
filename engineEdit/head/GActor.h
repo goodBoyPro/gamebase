@@ -8,10 +8,10 @@ class GActor : public GObject {
   protected:
   private:
     char memory[24];
-    FVector3 posInWs;
-    sf::Sprite *sprPt = nullptr;
+    FVector3 posInWs;    
     static sf::Texture tex;
     static sf::Sprite spr;
+    sf::Sprite *sprPt=nullptr;   
     static void initGactor() {}
 
     // 接口
@@ -20,7 +20,7 @@ class GActor : public GObject {
     virtual void gameBegin() = 0;
     virtual void eventTick() = 0;
     //
-    void drawActor();
+    virtual void drawActor();
 
   public:
     GActor(/* args */);
@@ -32,6 +32,7 @@ class GActor : public GObject {
 
     // 引用计数
     std::atomic<int> count = 1;
+    //资源在此处统一释放，用户不要delete
     virtual void destroyActor();
     float z = 0;
 
@@ -41,6 +42,7 @@ class GActor : public GObject {
     void setRenderSprite(sf::Sprite *sprPt_);
     sf::Sprite *getRenderSprite();
     virtual bool addWsPosOffset(const FVector3 &vec);
+
 
     // 碰撞
     class CollisionInterface *collisionForMove = nullptr;
@@ -67,7 +69,7 @@ class GActor : public GObject {
     std::vector<GComponent *> allComponents;
     std::vector<GActorComponent *> allActorComponents;
 };
-template <class T> T *createActor() { return new T; }
+template <class T> T *spawnActorAtLocation() { return (T*)(new T); }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////

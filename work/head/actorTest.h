@@ -21,26 +21,27 @@ public:
 
     /* data */
 public:
-    void gameBegin() {}
-    sf::Sprite spr;
-    void eventTick() {}
-    actorTest(/* args */)
-    {
-        delayTaskPtr = &dtp;
-        spr.setTexture(GSource::gs.tex1);
-        spr.setScale(2, 2);
-        spr.setOrigin(24, 48);
-        setPosInWs({0, 0,0});
-        static float x = 0;
-        x += 1.f;
-        velocity = {cosf(x) * 4.f, sinf(x) * 4.f,0};
+  
+  void gameBegin() {}
+  sf::Sprite spr;
+  void eventTick() {}
+  actorTest(/* args */) {
+      delayTaskPtr = &dtp;
+      setRenderSprite(&spr);
+      spr.setTexture(GSource::gs.tex1);
+      spr.setScale(2, 2);
+      spr.setOrigin(24, 48);
+      setPosInWs({0, 0, 0});
+      static float x = 0;
+      x += 1.f;
+      velocity = {cosf(x) * 4.f, sinf(x) * 4.f, 0};
 
-        // actorEvent();
+      // actorEvent();
 
-        // GCollision *collision=(GCollision*)createComponent(new GCollision);
-        GCollision *collision = createComponent<GCollision>(new GCollision);
-        collision->setRadius(0.5);
-        setMoveCollision(collision);
+      // GCollision *collision=(GCollision*)createComponent(new GCollision);
+      GCollision *collision = createComponent<GCollision>(new GCollision);
+      collision->setRadius(0.5);
+      setMoveCollision(collision);
     };
     ~actorTest()
     {
@@ -58,17 +59,7 @@ public:
     // 所有事件写在此处
     void createLoop()
     {
-        // std::unique_lock lk(mutAsuncTask);
-
-        // if (delayTaskPtr->isTaskValid) {
-        //     delayTaskPtr = delay(1, [this]() {
-        //         {
-        //             //threadSleep(1);
-        //             posInWs += velocity;
-        //             createLoop();
-        //         }
-        //     });
-        // }
+       
         delayTaskPtr = delay(1, [this]()
                              {
             {

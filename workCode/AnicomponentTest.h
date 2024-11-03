@@ -1,6 +1,6 @@
 #if !defined(ANICOMPONENTTEST_H)
 #define ANICOMPONENTTEST_H
-#include<GComponentAnimation.h>
+#include<component/GComponentAnimation.h>
 #include<GAnimationBp.h>
 class anicomponenttest:public GComponentAnimation
 {
