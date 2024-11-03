@@ -69,7 +69,11 @@ class GActor : public GObject {
     std::vector<GComponent *> allComponents;
     std::vector<GActorComponent *> allActorComponents;
 };
-template <class T> T *spawnActorAtLocation() { return (T*)(new T); }
+template <class T> T* spawnActorAtLocation() {
+  GActor*a=(GActor*)new T;
+  a->gameBegin();
+  return (T*)a; 
+  }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////

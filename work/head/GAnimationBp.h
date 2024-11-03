@@ -6,6 +6,7 @@
 class GAnimationBpInterface
 {
 public:
+ virtual ~GAnimationBpInterface(){}
   virtual void updateAnim() = 0;
   virtual void updateSound() = 0;
   sf::Sprite *sprPt = nullptr;

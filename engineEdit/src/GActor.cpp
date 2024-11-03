@@ -15,9 +15,19 @@ void GActor::dataLoop() {}
 
 void GActor::destroyActor()
 {
+    for (auto component : allComponents)
+    {
+        delete component;
+        component = nullptr;
+    }  
+    for (auto component : allActorComponents)
+    {
+        component->destroyActor();
+        component = nullptr;
+    }
     isValid = 0;
-    if (isValid)
-        destroyActor();
+    // if (isValid)
+    //     destroyActor();
 }
 
 FVector3 &GActor::getPosInWs() { return posInWs; }
@@ -86,14 +96,6 @@ GActor::GActor()
 GActor::~GActor()
 {
 
-    for (auto component : allComponents)
-    {
-        delete component;
-        component = nullptr;
-    }
-    for (auto component : allActorComponents)
-    {
-        component->destroyActor();
-        component = nullptr;
-    }
+    
+    
 }

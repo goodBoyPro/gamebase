@@ -25,17 +25,21 @@ public:
         getWindow()->draw(getSource().getSprite(10));
        
     }
-    actorTest *at = nullptr;
-    FVector3 atPos;
+  
+   
     void gameBegin() { 
-         at = spawnActorAtLocation<actorTest>();
-         atPos = getPosInWs();
+        
+        
     }
+    void SpawnAt(){delay(500,[&](){spawnActorAtLocation<actorTest>();SpawnAt();});};
+    DelayTask taskSpawnAT={8000,[](){spawnActorAtLocation<actorTest>();}}; 
     void eventTick() {
        
-        at->setPosInWs(atPos);
-        atPos = {atPos.x+=0.01,atPos.y+=0.01,0};
-
+        
+        
+         
+        
+       taskSpawnAT();
         static GDebug db;
         swprintf(db.wchar_, L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
         static GDebug gddd;
@@ -57,7 +61,7 @@ public:
             if (!gph.speedZ)
                 gph.speedZ = 6;
         };
-
+        
         getPlayerController()->bindKey[GController::uiOpenOrClose] = [&]()
         {
             widget.addToViewport();

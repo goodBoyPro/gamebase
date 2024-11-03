@@ -14,6 +14,8 @@ public:
 };
 class GComponent : public GObject
 {
+  public:
+  virtual~GComponent(){}
 };
 
 

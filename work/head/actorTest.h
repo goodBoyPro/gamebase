@@ -4,6 +4,7 @@
 #include "GActor.h"
 #include <GCollision.h>
 #include <random>
+#include<GPlayerChar.h>
 class actorTest : public GActor
 {
 private:
@@ -22,30 +23,33 @@ public:
     /* data */
 public:
   
-  void gameBegin() {}
+  void gameBegin() {
+    setPosInWs(getPlayerCharactor()->getPosInWs());
+    delay(3000,[&](){destroyActor();});
+  }
   sf::Sprite spr;
-  void eventTick() {}
+  
+  void eventTick() {
+    setPosInWs(getPosInWs()+FVector3(0.01,0.01,0));
+  }
   actorTest(/* args */) {
       delayTaskPtr = &dtp;
       setRenderSprite(&spr);
       spr.setTexture(GSource::gs.tex1);
-      spr.setScale(2, 2);
+      spr.setScale(0.7, 0.7);
       spr.setOrigin(24, 48);
       setPosInWs({0, 0, 0});
       static float x = 0;
       x += 1.f;
       velocity = {cosf(x) * 4.f, sinf(x) * 4.f, 0};
 
-      // actorEvent();
-
-      // GCollision *collision=(GCollision*)createComponent(new GCollision);
-      GCollision *collision = createComponent<GCollision>(new GCollision);
-      collision->setRadius(0.5);
-      setMoveCollision(collision);
+    //   GCollision *collision = createComponent<GCollision>(new GCollision);
+    //   collision->setRadius(0.5);
+    //   setMoveCollision(collision);
     };
-    ~actorTest()
+    virtual~actorTest()
     {
-        delete collisionForMove;
+        
     }
     int isAsyncCanceled = 0;
     int isDead = 0;
@@ -63,7 +67,7 @@ public:
         delayTaskPtr = delay(1, [this]()
                              {
             {
-                // threadSleep(1);
+                
                 setPosInWs(getPosInWs() + velocity);
                 setPosInWs(getPosInWs() + velocity);
                 createLoop();
@@ -87,17 +91,10 @@ public:
                   // destroyActor();
               });
     }
-    void actorEvent()
-    {
-        // delay(rand() % 2000 + 1000, [this]() { destroy(); });
-        createLoop();
-    }
+   
 
     virtual void dataLoop()
     {
-        // if (t.delay(2)) {
-        //     posInWs += velocity;
-        // }
     }
 };
 class actorComponentTest : public GActorComponent
