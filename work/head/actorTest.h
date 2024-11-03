@@ -30,7 +30,7 @@ public:
   sf::Sprite spr;
   
   void eventTick() {
-    setPosInWs(getPosInWs()+FVector3(0.01,0.01,0));
+    setPosInWs(getPosInWs()+velocity);
   }
   actorTest(/* args */) {
       delayTaskPtr = &dtp;
