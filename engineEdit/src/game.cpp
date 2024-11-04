@@ -138,7 +138,7 @@ void Game::dataLoop()
 void Game::renderLoop2D()
 {
     for(auto ac:actors){
-        ac->gameBegin();
+        ac->eventBegin();
     }
     getWindow()->setFramerateLimit(frameLimit);
     std::unique_lock lk(actorsMutex, std::defer_lock);

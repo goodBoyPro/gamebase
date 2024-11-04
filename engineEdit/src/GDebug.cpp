@@ -16,13 +16,12 @@ void debugDisplay() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 int GDebug::logIndex = 0;
 GDebug::GDebug() {
-    // debugPtr = this;
     addDebugTask(this);
 }
 
 
 
-GDebug::~GDebug() { shouldDestroy = 1; }
+GDebug::~GDebug() { }
 
 void GDebug::drawLog() {
 

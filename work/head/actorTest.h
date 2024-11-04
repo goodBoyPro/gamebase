@@ -23,7 +23,7 @@ public:
     /* data */
 public:
   
-  void gameBegin() {
+  void eventBegin() {
     setPosInWs(getPlayerCharactor()->getPosInWs());
     delay(3000,[&](){destroyActor();});
   }
@@ -108,7 +108,7 @@ public:
        setRelativePosition(pos);
         
     }
-    void gameBegin() {}
+    void eventBegin() {}
     actorComponentTest()
     {
         tex.loadFromFile("res/a.png");

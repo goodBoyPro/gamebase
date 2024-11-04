@@ -11,7 +11,7 @@ public:
         createAnimationBp<GAnimationBp>();
     };
     ~anicomponenttest(){};
-    void gameBegin(){}
+    void eventBegin(){}
     void eventTick(){}
 };
 

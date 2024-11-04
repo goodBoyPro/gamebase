@@ -24,11 +24,12 @@ class Playertest : public GPlayerChar {
         getWindow()->draw(getSource().getSprite(10));
     }
 
-    void gameBegin() { SpawnAt(); }
+    void eventBegin() { SpawnAt(); }
     void SpawnAt() {
         delay(500, [&]() {
             actorTest *a = spawnActorAtLocation<actorTest>(getPosInWs());
-            a->velocity = getVelocity();
+            
+            a->velocity = getVelocity()*2.f;
             SpawnAt();
         });
     };

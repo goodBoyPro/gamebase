@@ -17,7 +17,7 @@ add_executable(${PROJECT_NAME}  ${src}
 target_link_libraries(${PROJECT_NAME} opengl32 sfml-graphics sfml-window sfml-system sfml-audio timer winmm glew32 glfw3dll)
 endif()
 #生成库文件
-if(0)
+if(0)  
 add_definitions(-DEXPORT )
 set(libname timer)#设置
 add_library(${libname} SHARED ${ABS_DIR}/gamebase/lib/src/${libname}.cpp)#设置

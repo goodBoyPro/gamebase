@@ -4,7 +4,7 @@
 #include <GSource.h>
 class GTalk : public GActorComponent {
   public:
-    void gameBegin() {}
+    void eventBegin() {}
     void eventTick() {}
     sf::Sprite *playerSpr=nullptr;
 

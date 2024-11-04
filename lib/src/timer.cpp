@@ -68,7 +68,6 @@ Timer20240522::~Timer20240522() {
 
 Timer20240522& getTimer() {
     static Timer20240522 timerIns;
-    printf("gettiemr\n");
     return timerIns;
 }
 

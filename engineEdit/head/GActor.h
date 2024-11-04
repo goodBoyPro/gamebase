@@ -17,7 +17,7 @@ class GActor : public GObject {
     // 接口
   public:
     static long drawCallNum;
-    virtual void gameBegin() = 0;
+    virtual void eventBegin() = 0;
     virtual void eventTick() = 0;
     //
     virtual void drawActor();
@@ -71,7 +71,7 @@ class GActor : public GObject {
 };
 template <class T> T* spawnActorAtLocation(FVector3 pos={0,0,0}) {
   GActor*a=(GActor*)new T;
-  a->gameBegin();
+  a->eventBegin();
   a->setPosInWs(pos);
   return (T*)a; 
   }
