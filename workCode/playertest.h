@@ -36,15 +36,16 @@ class Playertest : public GPlayerChar {
     DelayTask taskSpawnAT = {8000, []() { spawnActorAtLocation<actorTest>(); }};
 
     void eventTick() {
-
-        static GDebug db;
-        swprintf(db.wchar_, L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
-        static GDebug gddd;
-        swprintf(gddd.wchar_, L"场景对象数量：%d", actors.size());
-        static GDebug gd2;
-        swprintf(gd2.wchar_, L"键鼠位置：%f,%f",
-                 winToWs(sf::Mouse::getPosition(*getWindow())).x,
-                 winToWs(sf::Mouse::getPosition(*getWindow())).y);
+        PRINTDEBUG( L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
+        PRINTDEBUG( L"场景对象数量：%d", actors.size());
+        PRINTDEBUG( L"键鼠位置：%f,%f",
+                  winToWs(sf::Mouse::getPosition(*getWindow())).x,
+                  winToWs(sf::Mouse::getPosition(*getWindow())).y);
+        PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);     
+       
+      
+       
+       
     }
     Playertest() {
         createActorComponent<actorComponentTest>(new actorComponentTest);

@@ -180,7 +180,7 @@ void Game::renderLoop2D()
         //显示碰撞
         GCollision::showCollisions();
         // 显示DEBUG////////////////////////////////
-        debugDisplay();
+        GDebug::debugDisplay();
         static GDebug db;
         swprintf(db.wchar_,L"drawCall:%ld",GActor::drawCallNum);
         GActor::drawCallNum=0;
@@ -189,6 +189,7 @@ void Game::renderLoop2D()
         getWindow()->clear();
 
     } // while
+    GDebug::clearDebugs();
 }
 
 sf::Sprite sprGl;

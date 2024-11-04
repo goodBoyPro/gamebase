@@ -7,7 +7,7 @@ class GActorComponent;
 class GActor : public GObject {
   protected:
   private:
-    char memory[24];
+    //char memory[24];
     FVector3 posInWs;    
     static sf::Texture tex;
     static sf::Sprite spr;
