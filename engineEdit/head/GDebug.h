@@ -18,7 +18,7 @@ public:
   virtual ~GDebug();
   int yPosition = 0;
   int texHight = 10;
-  wchar_t wchar_[64] = {0};
+  wchar_t wchar_[128] = {0};
   void drawLog(int index);
   static void clearDebugs();
   static void debugDisplay();

@@ -35,10 +35,12 @@ FVector3 &GActor::getPosInWs() { return posInWs; }
 void GActor::setPosInWs(const FVector3 &pos_)
 {
     posInWs = pos_;
+    //绑定actorComponent
     for (auto component : allActorComponents)
     {
         bindActorComponent(component);
     }
+    //绑定碰撞
     if (collisionForMove)
         collisionForMove->setPosition(pos_);
 }

@@ -3,6 +3,7 @@
 #include "GObject.h"
 #include <GCollision.h>
 #include <game.h>
+#include<gridmap.h>
 class GActorComponent;
 class GActor : public GObject {
   protected:
