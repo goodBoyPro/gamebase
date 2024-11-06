@@ -14,12 +14,27 @@ public:
         std::unique_lock lk(mut);
         std::list<T>::push_back(a);
     }
-    void pollList(std::function<bool(T)>condition,std::function<void(T)>callback)
+    // void pollList(std::function<bool(T)>condition,std::function<void(T)>callback)
+    // {
+    //     std::unique_lock lk(mut);
+    //     for (auto it =this->begin(); it != this->end();)
+    //     {
+    //         if (condition(*it))
+    //         {
+    //             delete *it;
+    //             it =this->erase(it);
+    //             continue;
+    //         }
+    //         callback(*it);
+    //         it++;
+    //     }
+    // }
+     void pollList(std::function<void(T)>callback)
     {
         std::unique_lock lk(mut);
         for (auto it =this->begin(); it != this->end();)
         {
-            if (condition(*it))
+            if (!(*it)->isValid)
             {
                 delete *it;
                 it =this->erase(it);
@@ -29,7 +44,10 @@ public:
             it++;
         }
     }
-    //特殊需求，不定义移除方法，以免死锁
+    void remove(T&ptr){
+          std::unique_lock lk(mut);
+          
+    }
 };
 
 

@@ -71,7 +71,7 @@ Game::Game()
 Game::~Game()
 {
    
-    delete getWindow();
+    // delete getWindow();是静态对象，不需要清理
     delete mouseGame;
    
 }
@@ -121,6 +121,7 @@ void Game::dataLoop()
 
         //     it++;
         // }
+          //for(auto elem:GActor::gridMapOfActor.actorsAlive){elem->dataLoop();}
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         lk.unlock();
         if (getWorld())
@@ -165,12 +166,16 @@ void Game::renderLoop2D()
         // }
         // lk.unlock();
         ////////////////////////////////////////////////////////////////////////////////////////
-        GActor::gridMapOfActor.setActorsAlive(GActor::gridMapOfActor.getPositionIndex(winToWs({WINW,WINH})));
+       
+        GActor::gridMapOfActor.setActorsAlive(getPlayerCharactor()->mapNodeId);
         for(auto elem:GActor::gridMapOfActor.actorsAlive){
             elem->eventTick();
+            elem->dataLoop();
             elem->drawActor();
         }
+         lk.lock();
         GActor::gridMapOfActor.actorsAlive.clear();
+          lk.unlock();
         // 绘制UI
         if (getWidgetPtr())
         {
@@ -192,7 +197,7 @@ void Game::renderLoop2D()
         getWindow()->clear();
 
     } // while
-    GDebug::clearDebugs();
+    
 }
 
 sf::Sprite sprGl;

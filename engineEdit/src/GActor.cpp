@@ -5,7 +5,7 @@
 sf::Texture GActor::tex;
 sf::Sprite GActor::spr;
 long GActor::drawCallNum=0;
-GridMap<GActor *> GActor::gridMapOfActor={FVector2(-400,-400),500,500,20,20};
+GridMap<GActor *> GActor::gridMapOfActor={FVector2(-400,-400),500,500,5,5};
 void GActor::eventTick()
 {
     
@@ -35,6 +35,8 @@ FVector3 &GActor::getPosInWs() { return posInWs; }
 
 void GActor::setPosInWs(const FVector3 &pos_)
 {
+    int id=GActor::gridMapOfActor.getPositionIndex(pos_);
+    if(!id)return;
     posInWs = pos_;
     //绑定actorComponent
     for (auto component : allActorComponents)
@@ -44,6 +46,11 @@ void GActor::setPosInWs(const FVector3 &pos_)
     //绑定碰撞
     if (collisionForMove)
         collisionForMove->setPosition(pos_);
+    
+    if(id!=mapNodeId){
+        GActor::gridMapOfActor.changeActorNode(this,id,mapNodeId);
+        printf("changed,");
+    }
 }
 
 void GActor::setRenderSprite( sf::Sprite *sprPt_) { sprPt = sprPt_; }
@@ -92,7 +99,7 @@ GActor::GActor()
         return true;
     }();
     sprPt =&spr;
-    addActors(this);
+    //addActors(this);
     setRenderSprite(&spr);
     //////////////////////
     mapNodeId=gridMapOfActor.addActor(this);

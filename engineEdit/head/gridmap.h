@@ -22,6 +22,7 @@ template <class T> struct gridmapNode {
                pos.y >= point.y && pos.y < point.y + gridmapNodeHeight;
     }
     void addActor(T ptr) { actors.addActor(ptr); }
+    ~gridmapNode(){for(auto elem:actors){delete elem;}}
 };
 
 template <class T> class GridMap {
@@ -98,42 +99,27 @@ template <class T> class GridMap {
             allNode[id].actors.addActor(a);
             return id;
         } else {
-            printf("actor is out edge");
+            printf("actor is out edge,been deleted");
             badActors.push_back(a);
             return 0;
         }
     }
     void setActorsAlive(int centerId) {
-        // for (auto elem : badActors)
-        //     delete elem;
+        
+        for (auto elem : badActors)
+            delete elem;
+        badActors.clear();
         gridmapNode<T> &gridNode = allNode[centerId];
 
-        gridNode.actors.pollList([](T ptr) { return !ptr->isValid; },
-                                 [&](T ptr) { actorsAlive.push_back(ptr); });
-        gridNode.left->actors.pollList(
-            [](T ptr) { return !ptr->isValid; },
-            [&](T ptr) { actorsAlive.push_back(ptr); });
-        gridNode.right->actors.pollList(
-            [](T ptr) { return !ptr->isValid; },
-            [&](T ptr) { actorsAlive.push_back(ptr); });
-        gridNode.up->actors.pollList(
-            [](T ptr) { return !ptr->isValid; },
-            [&](T ptr) { actorsAlive.push_back(ptr); });
-        gridNode.down->actors.pollList(
-            [](T ptr) { return !ptr->isValid; },
-            [&](T ptr) { actorsAlive.push_back(ptr); });
-        gridNode.leftup->actors.pollList(
-            [](T ptr) { return !ptr->isValid; },
-            [&](T ptr) { actorsAlive.push_back(ptr); });
-        gridNode.leftdown->actors.pollList(
-            [](T ptr) { return !ptr->isValid; },
-            [&](T ptr) { actorsAlive.push_back(ptr); });
-        gridNode.rightup->actors.pollList(
-            [](T ptr) { return !ptr->isValid; },
-            [&](T ptr) { actorsAlive.push_back(ptr); });
-        gridNode.rightdown->actors.pollList(
-            [](T ptr) { return !ptr->isValid; },
-            [&](T ptr) { actorsAlive.push_back(ptr); });
+        gridNode.actors.pollList([&](T a){actorsAlive.push_back(a);});
+        gridNode.left->actors.pollList([&](T a){actorsAlive.push_back(a);});
+        gridNode.right->actors.pollList([&](T a){actorsAlive.push_back(a);});
+        gridNode.up->actors.pollList([&](T a){actorsAlive.push_back(a);});
+        gridNode.down->actors.pollList([&](T a){actorsAlive.push_back(a);});
+        gridNode.leftup->actors.pollList([&](T a){actorsAlive.push_back(a);});
+        gridNode.leftdown->actors.pollList([&](T a){actorsAlive.push_back(a);});
+        gridNode.rightup->actors.pollList([&](T a){actorsAlive.push_back(a);});
+        gridNode.rightdown->actors.pollList([&](T a){actorsAlive.push_back(a);});
 
         std::sort(actorsAlive.begin(), actorsAlive.end(), [](T a, T b) {
             if (a->getPosInWs().y != b->getPosInWs().y)
@@ -141,8 +127,9 @@ template <class T> class GridMap {
             return a->getPosInWs().x < b->getPosInWs().x;
         });
     }
+    void changeActorNode(T ptr,int idNew,int idOld){}
 
-    ~GridMap() { delete[] allNode; }
+    ~GridMap() { delete[] allNode;printf("~gridMap"); }
 };
 
 #endif // GRIDMAP_H

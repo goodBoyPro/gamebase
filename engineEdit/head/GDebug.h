@@ -1,6 +1,7 @@
 #if !defined(GDBUG)
 #define GDBUG
 #include <GObject.h>
+#include<mutex>
 #include <set>
 #define PRINTDEBUG(...)                \
   {static GDebug __g__;                 \
@@ -22,6 +23,7 @@ public:
   void drawLog(int index);
   static void clearDebugs();
   static void debugDisplay();
+  static std::mutex mtx;
 };
 extern std::set<GDebug *> debugs__;
 

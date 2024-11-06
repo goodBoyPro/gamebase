@@ -14,9 +14,10 @@ class GActor : public GObject {
     static sf::Sprite spr;
     sf::Sprite *sprPt=nullptr;   
     static void initGactor() {}
-    int mapNodeId;
+    
     // 接口
   public:
+    int mapNodeId;
     static long drawCallNum;
     static GridMap<GActor *> gridMapOfActor;
     virtual void eventBegin() = 0;

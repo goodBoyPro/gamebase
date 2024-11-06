@@ -41,14 +41,15 @@ class Playertest : public GPlayerChar {
         PRINTDEBUG( L"键鼠位置：%f,%f",
                   winToWs(sf::Mouse::getPosition(*getWindow())).x,
                   winToWs(sf::Mouse::getPosition(*getWindow())).y);
-        PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);     
+        PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);   
+        PRINTDEBUG(L"玩家节点：%d,%d",mapNodeId,gridMapOfActor.getPositionIndex(getPosInWs()));  
        
       
        
        
     }
     Playertest() {
-        createActorComponent<actorComponentTest>(new actorComponentTest);
+        //createActorComponent<actorComponentTest>(new actorComponentTest);
         GTalk *gt = createActorComponent<GTalk>(new GTalk);
         GComponentAnimation *aniCom = setAnimationComponent<anicomponenttest>();
         gt->playerSpr = aniCom->getRenderSprite();
