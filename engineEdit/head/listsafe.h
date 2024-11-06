@@ -14,21 +14,7 @@ public:
         std::unique_lock lk(mut);
         std::list<T>::push_back(a);
     }
-    // void pollList(std::function<bool(T)>condition,std::function<void(T)>callback)
-    // {
-    //     std::unique_lock lk(mut);
-    //     for (auto it =this->begin(); it != this->end();)
-    //     {
-    //         if (condition(*it))
-    //         {
-    //             delete *it;
-    //             it =this->erase(it);
-    //             continue;
-    //         }
-    //         callback(*it);
-    //         it++;
-    //     }
-    // }
+   
      void pollList(std::function<void(T)>callback)
     {
         std::unique_lock lk(mut);

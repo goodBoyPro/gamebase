@@ -4,7 +4,12 @@
 #include <house.h>
 #include <playertest.h>
 #include <trees.h>
-
+class actortest2:public GActor{
+    public:
+    actortest2(){mapNodeId=40080;}
+    virtual ~actortest2(){}
+    void eventTick(){printf("actortest2");}
+};
 class worldTest : public GWorld {
   private:
     /* data */
@@ -38,18 +43,18 @@ class worldTest : public GWorld {
 
         getPlayerCharactor()->setPosInWs({500 * pixSize, 500 * pixSize,0});
 
-        for (int i = 0; i < 200; i++) {
-            trees *a = new trees(rand() % 25);
-            a->setPosInWs({rand() % 3840 * pixSize, rand() % 3840 * pixSize,0});
-            treeVec.push_back(a);
-        }
+        // for (int i = 0; i < 200; i++) {
+        //     trees *a = new trees(rand() % 25);
+        //     a->setPosInWs({rand() % 3840 * pixSize, rand() % 3840 * pixSize,0});
+        //     treeVec.push_back(a);
+        // }
 
-        for (int i = 0; i < 20; i++) {
-            house *b = new house(rand() % 5);
+        // for (int i = 0; i < 20; i++) {
+        //     house *b = new house(rand() % 5);
 
-            b->setPosInWs({rand() % 1000 * pixSize, rand() % 1000 * pixSize,0});
-            houseVec.push_back(b);
-        }
+        //     b->setPosInWs({rand() % 10000 * pixSize, rand() % 10000 * pixSize,0});
+        //     houseVec.push_back(b);
+        // }
     };
     ~worldTest() { delete getPlayerCharactor(); };
 };
