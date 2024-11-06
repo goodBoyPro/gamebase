@@ -1,10 +1,10 @@
 #if !defined(LISTSAFE_H)
 #define LISTSAFE_H
-#include <list>
+#include <set>
 #include <mutex>
 #include <functional>
 template<class T>
-class ListSafe : public std::list<T>
+class ListSafe : public std::multiset<T>
 {
 private:
     std::mutex mut;  
@@ -12,7 +12,7 @@ public:
     void addActor(const T &a)
     {
         std::unique_lock lk(mut);
-        std::list<T>::push_back(a);
+        std::multiset<T>::insert(a);
     }
    
      void pollList(std::function<void(T)>callback)
@@ -32,8 +32,9 @@ public:
     }
     void remove(T&ptr){
           std::unique_lock lk(mut);
-          
+          std::multiset<T>::erase(ptr);
     }
+    
 };
 
 

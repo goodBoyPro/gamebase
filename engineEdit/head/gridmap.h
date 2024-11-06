@@ -127,7 +127,19 @@ template <class T> class GridMap {
             return a->getPosInWs().x < b->getPosInWs().x;
         });
     }
-    void changeActorNode(T ptr,int idNew,int idOld){}
+    void changeActorNode(T ptr,int idNew,int idOld){
+        allNode[idOld].actors.remove(ptr);
+        allNode[idNew].actors.addActor(ptr);
+    }
+    int getActorsNumber() {
+        int a=0;
+        int num = row * column;
+        for (int i = 0; i <num;i++){
+            a += allNode[i].actors.size();
+        }          
+             
+        return a;
+    }
 
     ~GridMap() { delete[] allNode;printf("~gridMap"); }
 };

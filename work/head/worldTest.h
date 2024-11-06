@@ -9,6 +9,7 @@ class actortest2:public GActor{
     actortest2(){mapNodeId=40080;}
     virtual ~actortest2(){}
     void eventTick(){printf("actortest2");}
+    void eventBegin(){}
 };
 class worldTest : public GWorld {
   private:
@@ -35,26 +36,23 @@ class worldTest : public GWorld {
         Playertest *player = new Playertest;
         setPlayerCharactor(player);
 
-        actorTest *a = new actorTest;       
-        a->setPosInWs({800 * pixSize, 800 * pixSize,0});
-        actorTest *b = new actorTest;       
-        b->setPosInWs({900 * pixSize, 900 * pixSize,0});
+      
 
-
+        
         getPlayerCharactor()->setPosInWs({500 * pixSize, 500 * pixSize,0});
 
-        // for (int i = 0; i < 200; i++) {
-        //     trees *a = new trees(rand() % 25);
-        //     a->setPosInWs({rand() % 3840 * pixSize, rand() % 3840 * pixSize,0});
-        //     treeVec.push_back(a);
-        // }
+        for (int i = 0; i < 200; i++) {
+            trees *a = new trees(rand() % 25);
+            a->setPosInWs({rand() % 3840 * pixSize, rand() % 3840 * pixSize,0});
+            treeVec.push_back(a);
+        }
 
-        // for (int i = 0; i < 20; i++) {
-        //     house *b = new house(rand() % 5);
+        for (int i = 0; i < 20; i++) {
+            house *b = new house(rand() % 5);
 
-        //     b->setPosInWs({rand() % 10000 * pixSize, rand() % 10000 * pixSize,0});
-        //     houseVec.push_back(b);
-        // }
+            b->setPosInWs({rand() % 10000 * pixSize, rand() % 10000 * pixSize,0});
+            houseVec.push_back(b);
+        }
     };
     ~worldTest() { delete getPlayerCharactor(); };
 };

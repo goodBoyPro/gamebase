@@ -74,8 +74,8 @@ class GActor : public GObject {
 };
 template <class T> T* spawnActorAtLocation(FVector3 pos={0,0,0}) {
   GActor*a=(GActor*)new T;
-  a->eventBegin();
   a->setPosInWs(pos);
+  a->eventBegin();  
   return (T*)a; 
   }
 

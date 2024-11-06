@@ -137,7 +137,8 @@ void Game::dataLoop()
 
 void Game::renderLoop2D()
 {
-    for(auto ac:actors){
+    getPlayerCharactor()->eventBegin();
+    for(auto ac:GActor::gridMapOfActor.actorsAlive){
         ac->eventBegin();
     }
     getWindow()->setFramerateLimit(frameLimit);

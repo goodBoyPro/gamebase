@@ -49,6 +49,7 @@ void GActor::setPosInWs(const FVector3 &pos_)
     
     if(id!=mapNodeId){
         GActor::gridMapOfActor.changeActorNode(this,id,mapNodeId);
+        mapNodeId = id;
         //printf("changed,");
     }
 }

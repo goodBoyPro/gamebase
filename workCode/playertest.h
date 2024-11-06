@@ -24,32 +24,28 @@ class Playertest : public GPlayerChar {
         getWindow()->draw(getSource().getSprite(10));
     }
 
-    void eventBegin() {  }
+    virtual void eventBegin() override { SpawnAt(); }
     void SpawnAt() {
-        delay(500, [&]() {
+        delay(5, [&]() {
             actorTest *a = spawnActorAtLocation<actorTest>(getPosInWs());
-            
-            a->velocity = getVelocity()*2.f;
+            a->velocity = getVelocity() * 2.f;
             SpawnAt();
         });
     };
     DelayTask taskSpawnAT = {8000, []() { spawnActorAtLocation<actorTest>(); }};
 
     void eventTick() {
-        PRINTDEBUG( L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
-        PRINTDEBUG( L"场景对象数量：%d", actors.size());
-        PRINTDEBUG( L"键鼠位置：%f,%f",
-                  winToWs(sf::Mouse::getPosition(*getWindow())).x,
-                  winToWs(sf::Mouse::getPosition(*getWindow())).y);
-        PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);   
-        PRINTDEBUG(L"玩家节点：%d,%d",mapNodeId,gridMapOfActor.getPositionIndex(getPosInWs()));  
-       
-      
-       
-       
+        PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
+        PRINTDEBUG(L"场景对象数量：%d", gridMapOfActor.getActorsNumber());
+        PRINTDEBUG(L"键鼠位置：%f,%f",
+                   winToWs(sf::Mouse::getPosition(*getWindow())).x,
+                   winToWs(sf::Mouse::getPosition(*getWindow())).y);
+        PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
+        PRINTDEBUG(L"玩家节点：%d,%d", mapNodeId,
+                   gridMapOfActor.getPositionIndex(getPosInWs()));
     }
     Playertest() {
-        //createActorComponent<actorComponentTest>(new actorComponentTest);
+        createActorComponent<actorComponentTest>(new actorComponentTest);
         GTalk *gt = createActorComponent<GTalk>(new GTalk);
         GComponentAnimation *aniCom = setAnimationComponent<anicomponenttest>();
         gt->playerSpr = aniCom->getRenderSprite();
@@ -63,7 +59,6 @@ class Playertest : public GPlayerChar {
             widget.addToViewport();
         };
 
-       
         GCollision *collisiontemp = createComponent<GCollision>(new GCollision);
         collisiontemp->setRadius(0.2);
         collisiontemp->setScale(1, 0.5);
