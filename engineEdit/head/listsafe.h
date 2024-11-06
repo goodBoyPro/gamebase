@@ -21,6 +21,7 @@ public:
         {
             if (condition(*it))
             {
+                delete *it;
                 it =this->erase(it);
                 continue;
             }

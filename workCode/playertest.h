@@ -24,7 +24,7 @@ class Playertest : public GPlayerChar {
         getWindow()->draw(getSource().getSprite(10));
     }
 
-    void eventBegin() { SpawnAt(); }
+    void eventBegin() {  }
     void SpawnAt() {
         delay(500, [&]() {
             actorTest *a = spawnActorAtLocation<actorTest>(getPosInWs());
@@ -62,8 +62,7 @@ class Playertest : public GPlayerChar {
             widget.addToViewport();
         };
 
-        // GCollision *collisiontemp=static_cast<GCollision
-        // *>(createComponent(new GCollision));
+       
         GCollision *collisiontemp = createComponent<GCollision>(new GCollision);
         collisiontemp->setRadius(0.2);
         collisiontemp->setScale(1, 0.5);

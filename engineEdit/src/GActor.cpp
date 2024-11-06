@@ -5,6 +5,7 @@
 sf::Texture GActor::tex;
 sf::Sprite GActor::spr;
 long GActor::drawCallNum=0;
+GridMap<GActor *> GActor::gridMapOfActor={FVector2(-400,-400),500,500,20,20};
 void GActor::eventTick()
 {
     
@@ -93,6 +94,9 @@ GActor::GActor()
     sprPt =&spr;
     addActors(this);
     setRenderSprite(&spr);
+    //////////////////////
+    mapNodeId=gridMapOfActor.addActor(this);
+    /////////////////////
 }
 
 GActor::~GActor()

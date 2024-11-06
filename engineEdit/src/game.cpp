@@ -100,29 +100,28 @@ void Game::dataLoop()
         // 相机跟随:在开启场景剔除功能后，不在这里调用可能会因为玩家离相机过远无法执行
         if (getPlayerCharactor())
             getPlayerCharactor()->cameraFollowPlayer();
-        for (; it != actors.end();)
-        {
-            if ((*it)->isValid == 0)
-            {
+         //////////////////////////////////////////////////////////////////////////////////////////
+        // for (; it != actors.end();)
+        // {
+        //     if ((*it)->isValid == 0)
+        //     {
 
-                delete (*it);
-                it = actors.erase(it);
+        //         delete (*it);
+        //         it = actors.erase(it);
 
-                continue;
-            }
-            // 性能较差
-            // thread_pool::ThreadPool.addTask([=]() { (*it)->dataLoop(); });
-            //(*it)->dataLoop();
-            if (getGameCamera() &&fabs((*it)->getPosInWs().x - getGameCamera()->posInWs.x) < loopDistance &&
-                fabs((*it)->getPosInWs().y - getGameCamera()->posInWs.y) < loopDistance)
-            {
+        //         continue;
+        //     }
+        //     if (getGameCamera() &&fabs((*it)->getPosInWs().x - getGameCamera()->posInWs.x) < loopDistance &&
+        //         fabs((*it)->getPosInWs().y - getGameCamera()->posInWs.y) < loopDistance)
+        //     {
 
-                actorsOn.push_back(*it);
-                (*it)->dataLoop();
-            }
+        //         actorsOn.push_back(*it);
+        //         (*it)->dataLoop();
+        //     }
 
-            it++;
-        }
+        //     it++;
+        // }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         lk.unlock();
         if (getWorld())
             getWorld()->dataLoop();
@@ -153,21 +152,25 @@ void Game::renderLoop2D()
         if (getWorld())
             getWorld()->drawLoop();
         // 绘制actor////////////////////////////
-        lk.lock();
-
-        // std::vector<GActor *> temp(actors.begin(), actors.end());
-        std::sort(actorsOn.begin(), actorsOn.end(), [](GActor *a, GActor *b)
-                  {
-            if (a->getPosInWs().y != b->getPosInWs().y)
-                return a->getPosInWs().y < b->getPosInWs().y;
-            return a->getPosInWs().x < b->getPosInWs().x; });
-        for (auto ac : actorsOn)
-        {
-            ac->eventTick();
-            ac->drawActor();
+        // lk.lock();
+        // std::sort(actorsOn.begin(), actorsOn.end(), [](GActor *a, GActor *b)
+        //           {
+        //     if (a->getPosInWs().y != b->getPosInWs().y)
+        //         return a->getPosInWs().y < b->getPosInWs().y;
+        //     return a->getPosInWs().x < b->getPosInWs().x; });
+        // for (auto ac : actorsOn)
+        // {
+        //     ac->eventTick();
+        //     ac->drawActor();
+        // }
+        // lk.unlock();
+        ////////////////////////////////////////////////////////////////////////////////////////
+        GActor::gridMapOfActor.setActorsAlive(GActor::gridMapOfActor.getPositionIndex(winToWs({WINW,WINH})));
+        for(auto elem:GActor::gridMapOfActor.actorsAlive){
+            elem->eventTick();
+            elem->drawActor();
         }
-
-        lk.unlock();
+        GActor::gridMapOfActor.actorsAlive.clear();
         // 绘制UI
         if (getWidgetPtr())
         {
