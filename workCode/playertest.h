@@ -24,7 +24,9 @@ class Playertest : public GPlayerChar {
         getWindow()->draw(getSource().getSprite(10));
     }
 
-    virtual void eventBegin() override {  }
+    virtual void eventBegin() override {
+        for(int i=0;i<10000;i++)spawnActorAtLocation<actorTest>(getPosInWs());  
+        }
     void SpawnAt() {
         delay(500, [&]() {
             actorTest *a = spawnActorAtLocation<actorTest>(getPosInWs());
@@ -36,7 +38,7 @@ class Playertest : public GPlayerChar {
             a->velocity = getVelocity() * 2.f; }};
 
     void eventTick() {
-        taskSpawnAT();
+        
         PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
         PRINTDEBUG(L"场景对象数量：%d", gridMapOfActor.getActorsNumber());
         PRINTDEBUG(L"键鼠位置：%f,%f",

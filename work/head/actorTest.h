@@ -22,15 +22,24 @@ public:
 
     /* data */
 public:
-  
+std::mutex mtx;
+   xlib::Timer20240522::DelayTask *ptr=nullptr;
   void eventBegin() {
     setPosInWs(getPlayerCharactor()->getPosInWs());
-    delay(3000,[&](){destroyActor();});
+  
+    ptr=delay(3000,[&](){if(ptr)ptr->isTaskValid=0;destroyActor();});
+    ptr->isTaskValid=0;
   }
   sf::Sprite spr;
+  void delayTest(){
+     ptr=delay(15,[&](){
+        std::unique_lock lk(mtx);
+        setPosInWs(getPosInWs()+FVector3(0.01,0.01,0));});
+     delayTest();
+  }
   
   void eventTick() {
-    setPosInWs(getPosInWs()+velocity);
+    //setPosInWs(getPosInWs()+velocity);
   }
   actorTest(/* args */) {
       delayTaskPtr = &dtp;
@@ -49,7 +58,7 @@ public:
     };
     virtual~actorTest()
     {
-        
+         std::unique_lock lk(mtx);
     }
     int isAsyncCanceled = 0;
     int isDead = 0;
