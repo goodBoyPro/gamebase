@@ -109,7 +109,7 @@ GActor::GActor()
 
 GActor::~GActor()
 {
-
+  
     
     
 }

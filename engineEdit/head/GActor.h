@@ -1,6 +1,7 @@
 #ifndef GACTOR_H
 #define GACTOR_H
 #include "GObject.h"
+#include<mutex>
 #include <GCollision.h>
 #include <game.h>
 #include<gridmap.h>
