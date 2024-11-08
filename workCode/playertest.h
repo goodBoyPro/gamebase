@@ -25,7 +25,7 @@ class Playertest : public GPlayerChar {
     }
 
     virtual void eventBegin() override {
-        for(int i=0;i<10000;i++)spawnActorAtLocation<actorTest>(getPosInWs());  
+        for(int i=0;i<5000;i++)spawnActorAtLocation<actorTest>(getPosInWs());  
         }
     void SpawnAt() {
         delay(500, [&]() {

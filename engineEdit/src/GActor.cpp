@@ -15,7 +15,7 @@ void GActor::eventTick()
 void GActor::dataLoop() {}
 
 void GActor::destroyActor()
-{
+{   delay(0,[&](){
     for (auto component : allComponents)
     {
         delete component;
@@ -27,6 +27,19 @@ void GActor::destroyActor()
         component = nullptr;
     }
     isValid = 0;
+
+});
+    // for (auto component : allComponents)
+    // {
+    //     delete component;
+    //     component = nullptr;
+    // }  
+    // for (auto component : allActorComponents)
+    // {
+    //     component->destroyActor();
+    //     component = nullptr;
+    // }
+    // isValid = 0;
     // if (isValid)
     //     destroyActor();
 }

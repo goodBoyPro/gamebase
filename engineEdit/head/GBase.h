@@ -20,9 +20,7 @@
 #define WINH 900
 #define WINW 1200
 
-#define FVector3 sf::Vector3f
-#define FVector2 sf::Vector2f
-#define IVector sf::Vector2i
+
 
 #define DEBUG
 #ifdef DEBUG
@@ -33,9 +31,12 @@
 #else
 #define PRINTF(str)
 #endif
-
+typedef sf::Vector3f FVector3;
+typedef sf::Vector2f FVector2;
+typedef sf::Vector2i IVector;
 typedef std::atomic<int> intAtomic;
 typedef std::atomic<float> floatAtomic;
+typedef sf::Sprite gameSpr;
 
 template <class T> struct GVector {
     GVector() {};
