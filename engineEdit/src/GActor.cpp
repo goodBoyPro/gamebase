@@ -12,20 +12,14 @@ void GActor::eventTick()
     
 }
 
-void GActor::dataLoop() {}
+void GActor::dataLoop() {
+    for(auto task:allDelaytasks){
+        (*task)();
+    }
+}
 
 void GActor::destroyActor()
-{   delay(0,[&](){
-    for (auto component : allComponents)
-    {
-        delete component;
-        component = nullptr;
-    }  
-    for (auto component : allActorComponents)
-    {
-        component->destroyActor();
-        component = nullptr;
-    }
+{   delay(0,[&](){   
     isValid = 0;
 
 });
@@ -101,6 +95,8 @@ void GActor::drawActor()
     drawCallNum++;
 }
 
+
+
 void GActor::bindActorComponent(GActorComponent *ptr)
 {
     ptr->setPosInWs(posInWs + ptr->getRelativePosition());
@@ -122,7 +118,18 @@ GActor::GActor()
 
 GActor::~GActor()
 {
-  
-    
-    
+   for (auto component : allComponents)
+    {
+        delete component;
+        component = nullptr;
+    }  
+    for (auto component : allActorComponents)
+    {
+        component->destroyActor();
+        component = nullptr;
+    }
+    for (auto task : allDelaytasks){
+        delete task;
+    }
+        
 }

@@ -33,22 +33,22 @@ class worldTest : public GWorld {
         }
         mapTex.display();
         spr.setTexture(mapTex.getTexture(), 1);
-        Playertest *player = new Playertest;
+        Playertest *player =spawnActorAtLocation<Playertest>() ;
         setPlayerCharactor(player);     
         getPlayerCharactor()->setPosInWs({500 * pixSize, 500 * pixSize,0});
 
-        // for (int i = 0; i < 200; i++) {
-        //     trees *a = new trees(rand() % 25);
-        //     a->setPosInWs({rand() % 3840 * pixSize, rand() % 3840 * pixSize,0});
-        //     treeVec.push_back(a);
-        // }
+        for (int i = 0; i < 200; i++) {
+            trees *a = new trees(rand() % 25);
+            a->setPosInWs({rand() % 3840 * pixSize, rand() % 3840 * pixSize,0});
+            // treeVec.push_back(a);
+        }
 
-        // for (int i = 0; i < 20; i++) {
-        //     house *b = new house(rand() % 5);
+        for (int i = 0; i < 20; i++) {
+            house *b = new house(rand() % 5);
 
-        //     b->setPosInWs({rand() % 10000 * pixSize, rand() % 10000 * pixSize,0});
-        //     houseVec.push_back(b);
-        // }
+            b->setPosInWs({rand() % 10000 * pixSize, rand() % 10000 * pixSize,0});
+            // houseVec.push_back(b);
+        }
     };
     ~worldTest() { delete getPlayerCharactor(); };
 };

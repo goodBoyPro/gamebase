@@ -21,7 +21,7 @@ template <class T> struct gridmapNode {
         return pos.x >= point.x && pos.x < point.x + gridmapNodeWidth &&
                pos.y >= point.y && pos.y < point.y + gridmapNodeHeight;
     }
-    void addActor(T ptr) { actors.addActor(ptr); }
+   
     ~gridmapNode(){for(auto elem:actors){delete elem;}}
 };
 
@@ -140,6 +140,7 @@ template <class T> class GridMap {
              
         return a;
     }
+  
 
     ~GridMap() { delete[] allNode;printf("~gridMap"); }
 };

@@ -36,7 +36,7 @@ typedef sf::Vector2f FVector2;
 typedef sf::Vector2i IVector;
 typedef std::atomic<int> intAtomic;
 typedef std::atomic<float> floatAtomic;
-typedef sf::Sprite gameSpr;
+typedef sf::Sprite gameSprte;
 
 template <class T> struct GVector {
     GVector() {};
@@ -56,7 +56,6 @@ template <class T> struct GVector {
 };
 ///////////////////////////////////////////////////////////////////////////////
 class GPlayerChar *getPlayerCharactor();
-class GController *getPlayerController();
 class Game *getGameIns();
 class GWorld *getWorld();
 class GCamera *getGameCamera();
@@ -64,7 +63,6 @@ class GWidget *getWidgetPtr();
 class sf::RenderWindow *getWindow();
 
 void setPlayerCharactor(class GPlayerChar *player_);
-void setPlayerController(class GController *controller_);
 void setGameIns(class Game *game_);
 void setWorld(class GWorld *world_);
 void setGameCamera(class GCamera *camera_);

@@ -56,7 +56,7 @@ void GWidget::draw() {
 void GWidget::addToViewport() {
 
     setWidgetPtr(this);
-    saveController = getPlayerController();
+    saveController =(GController*)getPlayerController();
     setPlayerController(&widgetController);
     
     isOpened = true;

@@ -2,7 +2,7 @@
 
 #include <game.h>
 
-GController::~GController() {}
+
 
 void GController::pollKey() {
 

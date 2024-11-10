@@ -14,7 +14,7 @@ class Playertest : public GPlayerChar {
   private:
     /* data */
   public:
-    char x[40];
+    
     virtual void drawActor() override {
         // 阴影
         GSource::getSource().getSprite(10).setScale(0.3, 0.2);
@@ -25,7 +25,7 @@ class Playertest : public GPlayerChar {
     }
 
     virtual void eventBegin() override {
-        for(int i=0;i<5000;i++)spawnActorAtLocation<actorTest>(getPosInWs());  
+        // for(int i=0;i<5000;i++)spawnActorAtLocation<actorTest>(getPosInWs());  
         }
     void SpawnAt() {
         delay(500, [&]() {
@@ -54,7 +54,7 @@ class Playertest : public GPlayerChar {
         GComponentAnimation *aniCom = setAnimationComponent<anicomponenttest>();
         gt->playerSpr = aniCom->getRenderSprite();
         gph.gravity = -30;
-        getPlayerController()->bindKey[GController::space] = [&]() {
+        ((GController*)(getPlayerController()))->bindKey[GController::space] = [&]() {
             if (!gph.speedZ)
                 gph.speedZ = 6;
         };

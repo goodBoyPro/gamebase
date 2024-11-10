@@ -16,3 +16,11 @@ GDebug::~GDebug() {
 ##4
 
 有现成安全需求的类调用delay时可对 回调函数 和 析构函数 加锁
+
+##5
+
+避免定义带参数的构造函数，其初始化应在eventBegin中进行
+
+##6
+
+GetTickCount64()*timeScale; timeScale时浮点数时，会随着时间推移越来越慢，原因未知

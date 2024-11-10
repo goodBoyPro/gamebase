@@ -147,9 +147,9 @@ private:
     unitName uni;
     void delay()
     {
-        if (is_running && GetTickCount() - t >= delaytime)
+        if (is_running && getTime() - t >= delaytime)
         {
-            t = GetTickCount();
+            t = getTime();
             callback();
         }
     }

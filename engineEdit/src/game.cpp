@@ -8,8 +8,7 @@
 sf::RenderTexture *renderTexGl;
 sf::RenderTexture *renderTexSpr;
 // 单例对象
-sf::RenderTexture *createRenderTexGl(sf::RenderWindow *window)
-{
+sf::RenderTexture *createRenderTexGl(sf::RenderWindow *window) {
     sf::ContextSettings settings;
     settings.depthBits = 24;
     settings.stencilBits = 8;
@@ -24,8 +23,7 @@ sf::RenderTexture *createRenderTexGl(sf::RenderWindow *window)
     glEnable(GL_TEXTURE_2D);
     return &rt;
 }
-sf::RenderWindow *createwindow()
-{
+sf::RenderWindow *createwindow() {
     sf::ContextSettings settings;
 
     settings.depthBits = 24;
@@ -51,8 +49,7 @@ sf::RenderWindow *createwindow()
     return &window;
 }
 GController gameController1;
-Game::Game()
-{
+Game::Game() {
     // 首先调用来初始化opengl
     // window = new sf::RenderWindow(sf::VideoMode(WINW, WINH), "game");
 
@@ -61,22 +58,17 @@ Game::Game()
     setGameIns(this);
     renderTexGl = createRenderTexGl(getWindow());
 
-   
     gameEvent = &event;
-     mouseGame =new GMouse;
-    gameController =&gameController1;
+    mousePtr = new GMouse;
+    gameController = &gameController1;
     setPlayerController(gameController);
 }
 
-Game::~Game()
-{
-   
+Game::~Game() {
     // delete getWindow();是静态对象，不需要清理
-    delete mouseGame;
-   
+    delete mousePtr;
 }
-void Game::gameBegin()
-{
+void Game::gameBegin() {
     std::thread dLoop(dataLoop, this);
     renderLoop2D();
     dLoop.join();
@@ -84,46 +76,16 @@ void Game::gameBegin()
 std::vector<GActor *> actorsOn;
 sf::Time sft__ = sf::microseconds(1);
 void sleepCustom() { sf::sleep(sft__); }
-void Game::dataLoop()
-{
+void Game::dataLoop() {
     static DWORD timeFlag = 0;
 
-    std::list<GActor *>::iterator it = actors.begin();
-    std::unique_lock lk(actorsMutex, std::defer_lock);
-
-    while (bGameContinue)
-    {
+    while (bGameContinue) {
         timeFlag = GetTickCount();
-        it = actors.begin();
-        lk.lock();
-        actorsOn.clear();
+
         // 相机跟随:在开启场景剔除功能后，不在这里调用可能会因为玩家离相机过远无法执行
         if (getPlayerCharactor())
             getPlayerCharactor()->cameraFollowPlayer();
-         //////////////////////////////////////////////////////////////////////////////////////////
-        // for (; it != actors.end();)
-        // {
-        //     if ((*it)->isValid == 0)
-        //     {
 
-        //         delete (*it);
-        //         it = actors.erase(it);
-
-        //         continue;
-        //     }
-        //     if (getGameCamera() &&fabs((*it)->getPosInWs().x - getGameCamera()->posInWs.x) < loopDistance &&
-        //         fabs((*it)->getPosInWs().y - getGameCamera()->posInWs.y) < loopDistance)
-        //     {
-
-        //         actorsOn.push_back(*it);
-        //         (*it)->dataLoop();
-        //     }
-
-        //     it++;
-        // }
-          //for(auto elem:GActor::gridMapOfActor.actorsAlive){elem->dataLoop();}
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        lk.unlock();
         if (getWorld())
             getWorld()->dataLoop();
         if (GetTickCount() == timeFlag)
@@ -135,84 +97,47 @@ void Game::dataLoop()
         delete ac;
 }
 
-void Game::renderLoop2D()
-{
-    getPlayerCharactor()->eventBegin();
-    for(auto ac:GActor::gridMapOfActor.actorsAlive){
-        ac->eventBegin();
-    }
+void Game::renderLoop2D() {
     getWindow()->setFramerateLimit(frameLimit);
     std::unique_lock lk(actorsMutex, std::defer_lock);
+    while (bGameContinue) {
 
-    while (bGameContinue)
-    {
-
-        pollKey();
-
+        getPlayerController()->pollKey();
         // resizeWindow(window);
         // 绘制地图//////////////////////////////
         if (getWorld())
             getWorld()->drawLoop();
-        // 绘制actor////////////////////////////
-        // lk.lock();
-        // std::sort(actorsOn.begin(), actorsOn.end(), [](GActor *a, GActor *b)
-        //           {
-        //     if (a->getPosInWs().y != b->getPosInWs().y)
-        //         return a->getPosInWs().y < b->getPosInWs().y;
-        //     return a->getPosInWs().x < b->getPosInWs().x; });
-        // for (auto ac : actorsOn)
-        // {
-        //     ac->eventTick();
-        //     ac->drawActor();
-        // }
-        // lk.unlock();
-        ////////////////////////////////////////////////////////////////////////////////////////
-       
+        // 绘制actor
         GActor::gridMapOfActor.setActorsAlive(getPlayerCharactor()->mapNodeId);
-        for(auto elem:GActor::gridMapOfActor.actorsAlive){
+        for (auto elem : GActor::gridMapOfActor.actorsAlive) {
             elem->eventTick();
             elem->dataLoop();
             elem->drawActor();
         }
-         lk.lock();
+        lk.lock();
         GActor::gridMapOfActor.actorsAlive.clear();
-          lk.unlock();
+        lk.unlock();
         // 绘制UI
-        if (getWidgetPtr())
-        {
+        if (getWidgetPtr()) {
             getWidgetPtr()->draw();
         }
-        // window->setView(window->getDefaultView());
+
         //  绘制鼠标/////////////////////////////
-        if (mouseGame)
-            mouseGame->drawMouseCusor();
-        //显示碰撞
+        if (mousePtr)
+            mousePtr->drawMouseCusor();
+        // 显示碰撞
         GCollision::showCollisions();
         // 显示DEBUG////////////////////////////////
         GDebug::debugDisplay();
-        static GDebug db;
-        swprintf(db.wchar_,L"drawCall:%ld",GActor::drawCallNum);
-        GActor::drawCallNum=0;
+        PRINTDEBUG(L"drawCall:%ld", GActor::drawCallNum);
+        GActor::drawCallNum = 0;
 
         getWindow()->display();
         getWindow()->clear();
 
     } // while
-    
 }
-
-sf::Sprite sprGl;
-
-void Game::pollKey()
-{
-    if (getPlayerController())
-    {
-        getPlayerController()->pollKey();
-    }
-}
-
-void Game::setWinIcon()
-{
+void Game::setWinIcon() {
     sf::Image ic;
     ic.loadFromFile("res/a.png");
     getWindow()->setIcon(48, 48, ic.getPixelsPtr());

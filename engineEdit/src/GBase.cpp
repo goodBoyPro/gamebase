@@ -1,5 +1,5 @@
 #include "GBase.h"
-#include "GController.h"
+//#include "GController.h"
 #include "GPlayerChar.h"
 #include "game.h"
 #include <GCamera.h>
@@ -11,7 +11,7 @@
 #include<camera.h>
 // 全局变量
 GPlayerChar *playerCharacter = nullptr;
-GController *playerController = nullptr;
+// GController *playerController = nullptr;
 Game *gameIns = nullptr;
 sf::RenderWindow *window = nullptr;
 
@@ -26,7 +26,7 @@ GWidget *widgetPtr = nullptr;
 
 // 接口
 GPlayerChar *getPlayerCharactor() { return playerCharacter; }
-GController *getPlayerController() { return playerController; }
+//GController *getPlayerController() { return playerController; }
 Game *getGameIns() { return gameIns; }
 GWorld *getWorld() { return world; }
 sf::RenderWindow *getWindow() { return window; }
@@ -36,9 +36,9 @@ GWidget *getWidgetPtr() { return widgetPtr; }
 void setPlayerCharactor(class GPlayerChar *player_) {
     playerCharacter = player_;
 }
-void setPlayerController(class GController *controller_) {
-    playerController = controller_;
-}
+// void setPlayerController(class GController *controller_) {
+//     playerController = controller_;
+// }
 void setGameIns(class Game *game_) { gameIns = game_; }
 void setWorld(class GWorld *world_) { world = world_; }
 void setGameCamera(class GCamera *camera_) { gameCamera = camera_; }

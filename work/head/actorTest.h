@@ -24,17 +24,21 @@ class actorTest : public GActor {
     xlib::Timer20240522::DelayTask *ptr = nullptr;
     void eventBegin() {
         setPosInWs(getPlayerCharactor()->getPosInWs());
-        delayTest();
-         delay(3000,[&](){if(ptr)ptr->isTaskValid=0;destroyActor();});
+        // delayTest();
+        // delay(3000, [&]() {
+        //     if (ptr)
+        //         ptr->isTaskValid = 0;
+        //     destroyActor();
+        // });
     }
     sf::Sprite spr;
     void delayTest() {
-        if(!isValid)
+        if (!isValid)
             return;
         ptr = delay(15, [&]() {
-             std::unique_lock lk(mtx);
+            std::unique_lock lk(mtx);
             setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0));
-            if(!isValid)
+            if (!isValid)
                 return;
             delayTest();
         });
@@ -58,9 +62,7 @@ class actorTest : public GActor {
         //   GCollision); collision->setRadius(0.5);
         //   setMoveCollision(collision);
     };
-    virtual ~actorTest() {
-        std::unique_lock lk(mtx);
-    }
+    virtual ~actorTest() { std::unique_lock lk(mtx); }
     int isAsyncCanceled = 0;
     int isDead = 0;
     FVector3 velocity;
@@ -97,18 +99,19 @@ class actorTest : public GActor {
             // destroyActor();
         });
     }
-
-    virtual void dataLoop() {}
 };
 class actorComponentTest : public GActorComponent {
   public:
-    void eventTick() {
-        static float a;
-        FVector3 pos = {sinf(a / 30) / 4, cosf(a / 30) / 4, 0.7};
-        a++;
-        setRelativePosition(pos);
+    void eventTick() {}
+    void eventBegin() {
+        createDelayTask(10, [&]() {
+            static float a;
+            FVector3 pos = {sinf(a / 30) / 4, cosf(a / 30) / 4, 0.7};
+            a++;
+            
+            setRelativePosition(pos);
+        });
     }
-    void eventBegin() {}
     actorComponentTest() {
         tex.loadFromFile("res/a.png");
         spr.setTexture(tex);

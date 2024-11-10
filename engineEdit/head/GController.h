@@ -17,15 +17,19 @@
 #include <functional>
 #include <string.h>
 
-class GController : public GObject {
+class GController : public GControllerInterface {
   private:
     /* data */
   public:
     enum key {
-        w=0,wr,//
-        a,ar,
-        s,sr,
-        d,dr,
+        w = 0,
+        wr, //
+        a,
+        ar,
+        s,
+        sr,
+        d,
+        dr,
         q,
         e,
         r,
@@ -37,23 +41,11 @@ class GController : public GObject {
         mouseRight,
         mouseLeft,
         uiOpenOrClose,
-        openUi, closeUi
+        openUi,
+        closeUi
     };
-    GController() {
-        auto x = []() {};
-        auto y = [](float) {};//超出作用域后仍然起作用是因为这是一个复制操作
-        { printf("No Key Bind\n"); };
-        for (std::function<void()> &func : bindKey)
-            func =x;
-        for (std::function<void(float)> &func : bindAxis)
-            func = y;
-    };
-    virtual~GController();
-    std::function<void()> emptyFunc;
-
   public:
-    std::function<void()> bindKey[128];
-    std::function<void(float)> bindAxis[128];
+   
     virtual void pollKey();
 };
 

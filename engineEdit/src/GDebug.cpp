@@ -36,7 +36,3 @@ void GDebug::drawLog(int index)
     printText(wchar_, 0, 30 * index);
 }
 
-void GDebug::clearDebugs()
-{
-    // for(auto d:debugs__)delete d;都是静态变量，无需析构
-}

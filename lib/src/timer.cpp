@@ -1,10 +1,18 @@
 #include <assert.h>
 #include <timer.h>
 #include <windows.h>
+#include<chrono>
 thread_pool thread_pool::ThreadPool;
 //时间流
-float  timeScale=1;
-unsigned int getTime() { return GetTickCount() * timeScale; }
+float timeScale=1.f;
+int ts1 = 2;
+unsigned int getTime() { 
+    auto now = std::chrono::steady_clock::now();
+    auto duration_since_epoch = now.time_since_epoch();
+    auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(duration_since_epoch).count();
+    return milliseconds*timeScale;
+    //return GetTickCount64()*timeScale; 
+    }
 namespace xlib {
 
 
