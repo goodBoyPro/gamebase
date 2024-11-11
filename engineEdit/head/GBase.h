@@ -56,24 +56,22 @@ template <class T> struct GVector {
 };
 ///////////////////////////////////////////////////////////////////////////////
 class GPlayerChar *getPlayerCharactor();
-class Game *getGameIns();
+
 class GWorld *getWorld();
-class GCamera *getGameCamera();
+
 class GWidget *getWidgetPtr();
 class sf::RenderWindow *getWindow();
 
 void setPlayerCharactor(class GPlayerChar *player_);
-void setGameIns(class Game *game_);
+
 void setWorld(class GWorld *world_);
-void setGameCamera(class GCamera *camera_);
+
 void setWidgetPtr(class GWidget *widget_);
 void setWindow(sf::RenderWindow *window_);
 
 // 全局变量
-extern sf::Event *gameEvent;
 extern int frameLimit;
 extern float pixSize;
-// 全局相机
 extern int deltaTime;
 // Actors
 extern std::mutex actorsMutex;

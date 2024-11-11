@@ -1,24 +1,14 @@
 #include "GBase.h"
-//#include "GController.h"
 #include "GPlayerChar.h"
-#include "game.h"
-#include <GCamera.h>
-#include <GDebug.h>
 #include <GWidget.h>
 #include <GWorld.h>
 #include <cmath>
 #include <math.h>
-#include<camera.h>
+#include <GL/glew.h>
 // 全局变量
 GPlayerChar *playerCharacter = nullptr;
-// GController *playerController = nullptr;
-Game *gameIns = nullptr;
 sf::RenderWindow *window = nullptr;
-
-sf::Event *gameEvent = nullptr;
-GCamera *gameCamera;
 GWorld *world = nullptr;
-
 int frameLimit = 60;
 float pixSize = 0.01f;
 int deltaTime;
@@ -26,11 +16,9 @@ GWidget *widgetPtr = nullptr;
 
 // 接口
 GPlayerChar *getPlayerCharactor() { return playerCharacter; }
-//GController *getPlayerController() { return playerController; }
-Game *getGameIns() { return gameIns; }
 GWorld *getWorld() { return world; }
 sf::RenderWindow *getWindow() { return window; }
-GCamera *getGameCamera() { return gameCamera; }
+
 GWidget *getWidgetPtr() { return widgetPtr; }
 
 void setPlayerCharactor(class GPlayerChar *player_) {
@@ -39,9 +27,9 @@ void setPlayerCharactor(class GPlayerChar *player_) {
 // void setPlayerController(class GController *controller_) {
 //     playerController = controller_;
 // }
-void setGameIns(class Game *game_) { gameIns = game_; }
+
 void setWorld(class GWorld *world_) { world = world_; }
-void setGameCamera(class GCamera *camera_) { gameCamera = camera_; }
+
 void setWidgetPtr(class GWidget *widget_) { widgetPtr = widget_; }
 void setWindow(sf::RenderWindow *window_) { window = window_; }
 
@@ -135,24 +123,7 @@ FVector3 normalize(const FVector3 &G) {
         return {G.x / a, G.y / a,0};
     return {0, 0,0};
 };
-IVector wsToWin(const FVector3 &PositionInWS) {
-    return {(PositionInWS.x - gameCamera->posInWs.x) / pixSize + WINW / 2,
-            (PositionInWS.y - gameCamera->posInWs.y) / pixSize + WINH / 2-PositionInWS.z/pixSize};
-}
-FVector3 winToWs(const IVector &positionInWin) {
-    return {(positionInWin.x - WINW / 2) * pixSize + gameCamera->posInWs.x,
-            (positionInWin.y - WINH / 2) * pixSize + gameCamera->posInWs.y,0};
-}
-
-// FVector vectorWsToWin(const FVector &big, const FVector &end) {
-//     return FVector((end.x - big.x) / (getPixSizeWS().x),
-//                    (-end.y + big.y) / (getPixSizeWS().y));
-// }
-
-sf::Texture texMouse;
-sf::Sprite sprMouse;
 void mouseCursor() {
-
     printText(L"我是鼠标", sf::Mouse::getPosition(*window).x,
               sf::Mouse::getPosition(*window).y, 60, sf::Color(255, 0, 0));
 };

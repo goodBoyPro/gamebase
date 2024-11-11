@@ -1,6 +1,5 @@
 #include <AnicomponentTest.h>
 #include <GAnimationBp.h>
-#include <GCamera.h>
 #include <GCollision.h>
 #include <GController.h>
 #include <GDebug.h>
@@ -75,14 +74,10 @@ class Playertest : public GPlayerChar {
     virtual void dataLoop() {
         cameraFollowPlayer();
         GPlayerChar::dataLoop();
-        updateState();
         static canRun vTest;
         if (vTest.delay(25)) {
         }
         gph.drop(getPosInWs().z);
-
-        // 由于每隔4ms执行一次移动，在此期间，角色状态会被意外的切换
-        // 解决方法：所有移动逻辑使用指定的移动方法；
     }
     virtual ~Playertest() {};
 
@@ -107,10 +102,10 @@ class Playertest : public GPlayerChar {
 
     virtual void cameraFollowPlayer() override {
 
-        // camera->posInWs.x = nsg::smoothInterpolateTo(
-        //     camera->posInWs.x, posInWs.x, 0.001f, deltaTime);
-        // camera->posInWs.y = nsg::smoothInterpolateTo(
-        //     camera->posInWs.y, posInWs.y, 0.001f, deltaTime);
+        // camera.posInWs.x = nsg::smoothInterpolateTo(
+        //     camera.posInWs.x, getPosInWs().x, 0.001f, deltaTime);
+        // camera.posInWs.y = nsg::smoothInterpolateTo(
+        //     camera.posInWs.y,  getPosInWs().y, 0.001f, deltaTime);
         camera.posInWs = getPosInWs();
     };
 };

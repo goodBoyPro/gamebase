@@ -6,7 +6,7 @@
 #include <set>
 extern float gridmapNodeWidth;
 extern float gridmapNodeHeight;
-inline int releasedActorNum=0;
+inline int releasedActorNum = 0;
 template <class T> struct gridmapNode {
     gridmapNode *left = nullptr;
     gridmapNode *leftup = nullptr;
@@ -22,8 +22,13 @@ template <class T> struct gridmapNode {
         return pos.x >= point.x && pos.x < point.x + gridmapNodeWidth &&
                pos.y >= point.y && pos.y < point.y + gridmapNodeHeight;
     }
-   
-    ~gridmapNode(){for(auto elem:actors){delete elem;releasedActorNum++;}}
+
+    ~gridmapNode() {
+        for (auto elem : actors) {
+            delete elem;
+            releasedActorNum++;
+        }
+    }
 };
 
 template <class T> class GridMap {
@@ -39,7 +44,7 @@ template <class T> class GridMap {
     float edgeDown;
     gridmapNode<T> *allNode;
     std::vector<T> actorsAlive;
-     int getPositionIndex(const FVector3 &pos) {
+    int getPositionIndex(const FVector3 &pos) {
         if (pos.x < edgeLeft || pos.x >= edgeRight || pos.y < edgeUp ||
             pos.y >= edgeDown)
             return 0;
@@ -106,21 +111,25 @@ template <class T> class GridMap {
         }
     }
     void setActorsAlive(int centerId) {
-        
+
         for (auto elem : badActors)
             delete elem;
         badActors.clear();
         gridmapNode<T> &gridNode = allNode[centerId];
 
-        gridNode.actors.pollList([&](T a){actorsAlive.push_back(a);});
-        gridNode.left->actors.pollList([&](T a){actorsAlive.push_back(a);});
-        gridNode.right->actors.pollList([&](T a){actorsAlive.push_back(a);});
-        gridNode.up->actors.pollList([&](T a){actorsAlive.push_back(a);});
-        gridNode.down->actors.pollList([&](T a){actorsAlive.push_back(a);});
-        gridNode.leftup->actors.pollList([&](T a){actorsAlive.push_back(a);});
-        gridNode.leftdown->actors.pollList([&](T a){actorsAlive.push_back(a);});
-        gridNode.rightup->actors.pollList([&](T a){actorsAlive.push_back(a);});
-        gridNode.rightdown->actors.pollList([&](T a){actorsAlive.push_back(a);});
+        gridNode.actors.pollList([&](T a) { actorsAlive.push_back(a); });
+        gridNode.left->actors.pollList([&](T a) { actorsAlive.push_back(a); });
+        gridNode.right->actors.pollList([&](T a) { actorsAlive.push_back(a); });
+        gridNode.up->actors.pollList([&](T a) { actorsAlive.push_back(a); });
+        gridNode.down->actors.pollList([&](T a) { actorsAlive.push_back(a); });
+        gridNode.leftup->actors.pollList(
+            [&](T a) { actorsAlive.push_back(a); });
+        gridNode.leftdown->actors.pollList(
+            [&](T a) { actorsAlive.push_back(a); });
+        gridNode.rightup->actors.pollList(
+            [&](T a) { actorsAlive.push_back(a); });
+        gridNode.rightdown->actors.pollList(
+            [&](T a) { actorsAlive.push_back(a); });
 
         std::sort(actorsAlive.begin(), actorsAlive.end(), [](T a, T b) {
             if (a->getPosInWs().y != b->getPosInWs().y)
@@ -128,22 +137,25 @@ template <class T> class GridMap {
             return a->getPosInWs().x < b->getPosInWs().x;
         });
     }
-    void changeActorNode(T ptr,int idNew,int idOld){
+    void changeActorNode(T ptr, int idNew, int idOld) {
         allNode[idOld].actors.remove(ptr);
         allNode[idNew].actors.addActor(ptr);
     }
     int getActorsNumber() {
-        int a=0;
+        int a = 0;
         int num = row * column;
-        for (int i = 0; i <num;i++){
+        for (int i = 0; i < num; i++) {
             a += allNode[i].actors.size();
-        }          
-             
+        }
+
         return a;
     }
-  
 
-    ~GridMap() { delete[] allNode;printf("releasedActorNumber:%d\n",releasedActorNum);}
+    ~GridMap() {         
+        delete[] allNode;
+        printf("releasedActorNumber:%d\n", releasedActorNum);
+       
+    }
 };
 
 #endif // GRIDMAP_H

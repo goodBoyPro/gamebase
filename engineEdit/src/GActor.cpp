@@ -1,9 +1,9 @@
 #include "GActor.h"
-#include <GCamera.h>
+
 #include <GCollision.h>
 #include <game.h>
-sf::Texture GActor::tex;
-sf::Sprite GActor::spr;
+ sf::Texture GActor::texDefault;
+ sf::Sprite GActor::spriteDefault;
 long GActor::drawCallNum=0;
 GridMap<GActor *> GActor::gridMapOfActor={FVector2(-400,-400),500,500,5,5};
 void GActor::eventTick()
@@ -105,12 +105,12 @@ void GActor::bindActorComponent(GActorComponent *ptr)
 GActor::GActor()
 {
     static bool init = []() {
-        spr.setTexture(tex);
+        spriteDefault.setTexture(texDefault);
         return true;
     }();
-    sprPt =&spr;
+    sprPt =&spriteDefault;
     //addActors(this);
-    setRenderSprite(&spr);
+    setRenderSprite(&spriteDefault);
     //////////////////////
     mapNodeId=gridMapOfActor.addActor(this);
     /////////////////////

@@ -1,5 +1,5 @@
 #include <GAnimationBp.h>
-#include <GCamera.h>
+
 #include <GController.h>
 #include <GPlayerChar.h>
 GPlayerChar::GPlayerChar() {
@@ -117,6 +117,7 @@ void GPlayerChar::dataLoop() {
         speed = 1;
     else
         speed = 0;
+    updateState();
 }
 
 

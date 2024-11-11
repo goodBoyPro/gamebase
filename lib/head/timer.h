@@ -139,11 +139,11 @@ class DelayTask {
     }
 
 private:
+    unsigned int delaytime;
     std::function<void()> callback;
     bool is_running = true;
     unsigned int t = 0;
     unsigned long lt = 0;
-    unsigned int delaytime;
     unitName uni;
     void delay()
     {

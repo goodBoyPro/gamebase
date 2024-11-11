@@ -11,8 +11,8 @@ class GActor : public GObject {
   private:
     sf::Sprite *sprPt = nullptr;
     FVector3 posInWs;
-    static sf::Texture tex;
-    static sf::Sprite spr;
+    static sf::Texture texDefault;
+    static sf::Sprite spriteDefault;
     // 接口
   public:
     int mapNodeId;
@@ -52,7 +52,7 @@ class GActor : public GObject {
         collisionForMove = ptr;
     }
 
-    // 使用方法：createCollision(new T);创建后无需手动释放
+    // 使用方法：createCollision(new T);创建后由系统管理，无需手动释放
     template <class T> T *createComponent(GComponent *ptr) {
         allComponents.push_back(ptr);
         return (T *)ptr;

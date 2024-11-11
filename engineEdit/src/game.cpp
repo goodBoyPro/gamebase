@@ -1,11 +1,11 @@
 #include "game.h"
 #include <GActor.h>
-#include <GCamera.h>
+#include <GL/glew.h>
 #include <GController.h>
 #include <GDebug.h>
 #include <GMouse.h>
 #include <worldTest.h>
-sf::RenderTexture *renderTexGl;
+
 sf::RenderTexture *renderTexSpr;
 // 单例对象
 sf::RenderTexture *createRenderTexGl(sf::RenderWindow *window) {
@@ -54,11 +54,7 @@ Game::Game() {
     // window = new sf::RenderWindow(sf::VideoMode(WINW, WINH), "game");
 
     createwindow();
-    setWinIcon();
-    setGameIns(this);
-    renderTexGl = createRenderTexGl(getWindow());
-
-    gameEvent = &event;
+    setWinIcon();   
     mousePtr = new GMouse;
     gameController = &gameController1;
     setPlayerController(gameController);
@@ -73,7 +69,7 @@ void Game::gameBegin() {
     renderLoop2D();
     dLoop.join();
 }
-std::vector<GActor *> actorsOn;
+
 sf::Time sft__ = sf::microseconds(1);
 void sleepCustom() { sf::sleep(sft__); }
 void Game::dataLoop() {

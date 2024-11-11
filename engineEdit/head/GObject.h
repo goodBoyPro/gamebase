@@ -10,18 +10,19 @@ class GObject {
     bool isValid = true;
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//          GComponent            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//          GComponent
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GComponent : public GObject {
   public:
     virtual ~GComponent() {}
 };
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//          GControllerInterface            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//          GControllerInterface
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GControllerInterface : public GObject {
   private:
     static GControllerInterface *playerController;
+
   public:
     GControllerInterface() {
         for (std::function<void()> &func : bindKey)
@@ -33,43 +34,78 @@ class GControllerInterface : public GObject {
     std::function<void(float)> bindAxis[128];
     virtual void pollKey() = 0;
     virtual ~GControllerInterface() {}
-    public:
-      static GControllerInterface *getPlayerController() { return playerController; }
-      static void setPlayerController(GControllerInterface *ptr) {
-          playerController = ptr;
+
+  public:
+    static GControllerInterface *getPlayerController() {
+        return playerController;
+    }
+    static void setPlayerController(GControllerInterface *ptr) {
+        playerController = ptr;
     }
 };
-inline GControllerInterface* GControllerInterface::playerController = nullptr;
-inline GControllerInterface *getPlayerController(){
+inline GControllerInterface *GControllerInterface::playerController = nullptr;
+inline GControllerInterface *getPlayerController() {
     return GControllerInterface::getPlayerController();
 }
-inline void setPlayerController(GControllerInterface *ptr){
+inline void setPlayerController(GControllerInterface *ptr) {
     GControllerInterface::setPlayerController(ptr);
 }
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//           gameInterface             ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//          cameraInterface
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class GGameInterface:public GObject{
+class GCameraInterface : public GObject {
   private:
-  static GGameInterface*gameInsX;
+    static GCameraInterface *gameCameraX;
+    friend IVector wsToWin(const FVector3 &PositionInWS);
+    friend FVector3 winToWs(const IVector &positionInWin);
+
   public:
-  GGameInterface(){setGameIns(this);};
-  virtual~GGameInterface(){}
-  virtual void renderLoop2D()=0;
-  static GGameInterface*getGameIns(){return gameInsX;}
-  static void setGameIns(GGameInterface*ptr){gameInsX=ptr;}  
+    IVector positionInWin = IVector(WINW / 2, WINH / 2);
+    FVector3 posInWs = FVector3(0, 0, 0);
+    ~GCameraInterface() {};
+    static GCameraInterface *getGameCamera() { return gameCameraX; }
+    static void setGameCamera(GCameraInterface *ptr) { gameCameraX = ptr; }
 };
-inline GGameInterface*gameInsX=nullptr;
+inline GCameraInterface *GCameraInterface::gameCameraX = nullptr;
+inline void setGameCamera(class GCameraInterface *camera_) {
+    GCameraInterface::setGameCamera(camera_);
+}
+inline GCameraInterface *getGameCamera() {
+    return GCameraInterface::getGameCamera();
+}
+inline IVector wsToWin(const FVector3 &PositionInWS) {
+    return {
+        static_cast<int>(roundf((PositionInWS.x - GCameraInterface::gameCameraX->posInWs.x) / pixSize +
+            WINW / 2.f)),
+        static_cast<int>(roundf((PositionInWS.y - GCameraInterface::gameCameraX->posInWs.y) / pixSize +
+            WINH / 2.f - (PositionInWS.z / pixSize)))};
+}
+inline FVector3 winToWs(const IVector &positionInWin) {
+    return {(positionInWin.x - WINW / 2) * pixSize +
+                GCameraInterface::gameCameraX->posInWs.x,
+            (positionInWin.y - WINH / 2) * pixSize +
+                GCameraInterface::gameCameraX->posInWs.y,
+            0};
+}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//          cameraInterface               ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//           gameInterface
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class GCameraInterface:public GObject{
+class GGameInterface : public GObject {
   private:
-  static GCameraInterface*gameCameraX;
+    static GGameInterface *gameIns;
   public:
-  ~GCameraInterface(){};
-  static GCameraInterface*getGameCamera(){return gameCameraX;}
-  static void setGameCamera(GCameraInterface*ptr){gameCameraX=ptr;}
+    sf::Event event;
+    bool bGameContinue = 1;
+    GGameInterface() { setGameIns(this); };
+    virtual ~GGameInterface() {}
+    virtual void renderLoop2D() = 0;
+    static GGameInterface *&getGameIns() { return gameIns; }
+    static void setGameIns(GGameInterface *ptr) { gameIns = ptr; }
 };
-inline GCameraInterface*gameCameraX=nullptr;
+inline GGameInterface *GGameInterface::gameIns=nullptr;
+inline GGameInterface *&getGameIns() { return GGameInterface::getGameIns(); }
+inline void setGameIns(class GGameInterface *game_) {
+    GGameInterface::setGameIns(game_);
+}
 #endif
