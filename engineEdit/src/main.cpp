@@ -10,6 +10,7 @@ int main() {
     initTools();
     gametest g;
     xlib::getTimer().brun = false;
+    printf("\nprogram has ended without error\n");
     return 0;
 }
 #endif

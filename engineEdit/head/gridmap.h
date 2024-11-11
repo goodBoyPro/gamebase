@@ -6,6 +6,7 @@
 #include <set>
 extern float gridmapNodeWidth;
 extern float gridmapNodeHeight;
+inline int releasedActorNum=0;
 template <class T> struct gridmapNode {
     gridmapNode *left = nullptr;
     gridmapNode *leftup = nullptr;
@@ -22,7 +23,7 @@ template <class T> struct gridmapNode {
                pos.y >= point.y && pos.y < point.y + gridmapNodeHeight;
     }
    
-    ~gridmapNode(){for(auto elem:actors){delete elem;}}
+    ~gridmapNode(){for(auto elem:actors){delete elem;releasedActorNum++;}}
 };
 
 template <class T> class GridMap {
@@ -142,7 +143,7 @@ template <class T> class GridMap {
     }
   
 
-    ~GridMap() { delete[] allNode;printf("~gridMap"); }
+    ~GridMap() { delete[] allNode;printf("releasedActorNumber:%d\n",releasedActorNum);}
 };
 
 #endif // GRIDMAP_H

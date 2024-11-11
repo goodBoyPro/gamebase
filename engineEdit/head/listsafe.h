@@ -10,14 +10,10 @@ private:
     std::mutex mut;  
 public:
     void addActor(const T &a)
-    {
-        
+    {    
         std::unique_lock lk(mut);
-        std::multiset<T>::insert(a);
-       
-        
+        std::multiset<T>::insert(a);  
     }
-   
      void pollList(std::function<void(T)>callback)
     {
         std::unique_lock lk(mut);
@@ -36,8 +32,7 @@ public:
     void remove(T&ptr){
           std::unique_lock lk(mut);
           std::multiset<T>::erase(ptr);
-    }
-    
+    }   
 };
 
 

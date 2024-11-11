@@ -116,7 +116,7 @@ FVector3 normalize(const FVector3 &G);
 
 
 
-
+//namespacegame
 namespace nsg {
 
 void funcEmpty();
@@ -147,9 +147,9 @@ class DoOnce {
     std::function<void()> callbackFunc;
 };
 //从形如“11,13”的字符串接受整数
-sf::Vector2i strTo2Int(const std::string &str);
+IVector strTo2Int(const std::string &str);
 //从形如“11,13”的字符串接受浮点
-sf::Vector2f strTo2Float(const std::string &str);
+FVector2 strTo2Float(const std::string &str);
 }; // namespace nsg
 
 #endif
