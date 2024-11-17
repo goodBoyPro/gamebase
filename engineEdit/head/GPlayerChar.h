@@ -17,16 +17,10 @@ class GPlayerChar : public GActorWithAnim {
     FVector3 moveUpVec = {0, 0, 0};
     FVector3 moveRightVec = {0, 0, 0};
     float speed = 0;
-    GComponentAnimation *componentAnimationPtr = nullptr;
+   
 
   public:
-    template <class T> GComponentAnimation *setAnimationComponent() {
-        componentAnimationPtr = createActorComponent<T>(new T);
-        return componentAnimationPtr;
-    }
-    GComponentAnimation *getAnimationComponent() {
-        return componentAnimationPtr;
-    }
+ 
 
     GPlayerChar(/* args */);
     virtual ~GPlayerChar();

@@ -30,8 +30,7 @@ void GAnimationBp::updateAnim() {
     animPt->update();
      
     //getWindow()->draw(*sprPt);
-     //播放声音
-    updateSound();
+    
     
 }
 

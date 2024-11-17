@@ -50,7 +50,7 @@ class Playertest : public GPlayerChar {
     Playertest() {
         createActorComponent<actorComponentTest>(new actorComponentTest);
         GTalk *gt = createActorComponent<GTalk>(new GTalk);
-        GComponentAnimation *aniCom = setAnimationComponent<anicomponenttest>();
+        GComponentAnimation *aniCom = createAnimationComponent<anicomponenttest>();
         gt->playerSpr = aniCom->getRenderSprite();
         gph.gravity = -30;
         ((GController*)(getPlayerController()))->bindKey[GController::space] = [&]() {
