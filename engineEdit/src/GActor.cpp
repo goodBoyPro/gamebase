@@ -19,29 +19,18 @@ void GActor::dataLoop() {
 }
 
 void GActor::destroyActor()
-{   delay(0,[&](){   
-    isValid = 0;
-
-});
-    // for (auto component : allComponents)
-    // {
-    //     delete component;
-    //     component = nullptr;
-    // }  
-    // for (auto component : allActorComponents)
-    // {
-    //     component->destroyActor();
-    //     component = nullptr;
-    // }
-    // isValid = 0;
-    // if (isValid)
-    //     destroyActor();
+{
+    cancelAllAsyncTask();
+    isValid = 0; 
+    
 }
 
 FVector3 &GActor::getPosInWs() { return posInWs; }
 
-void GActor::setPosInWs(const FVector3 &pos_)
+void GActor::setPosInWs(const FVector3 pos_)
 {
+    if(isAllAsyncTaskCanceled)
+        return;
     int id=GActor::gridMapOfActor.getPositionIndex(pos_);
     if(!id)return;
     posInWs = pos_;
@@ -57,7 +46,7 @@ void GActor::setPosInWs(const FVector3 &pos_)
     if(id!=mapNodeId){
         GActor::gridMapOfActor.changeActorNode(this,id,mapNodeId);
         mapNodeId = id;
-        //printf("changed,");
+       
     }
 }
 
@@ -118,18 +107,18 @@ GActor::GActor()
 
 GActor::~GActor()
 {
-   for (auto component : allComponents)
-    {
-        delete component;
-        component = nullptr;
-    }  
-    for (auto component : allActorComponents)
-    {
-        component->destroyActor();
-        component = nullptr;
-    }
-    for (auto task : allDelaytasks){
-        delete task;
-    }
+//    for (auto component : allComponents)
+//     {
+//         delete component;
+//         component = nullptr;
+//     }  
+//     for (auto component : allActorComponents)
+//     {
+//         component->destroyActor();
+//         component = nullptr;
+//     }
+//     for (auto task : allDelaytasks){
+//         delete task;
+//     }
         
 }

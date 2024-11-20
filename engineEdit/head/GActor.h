@@ -41,7 +41,7 @@ class GActor : public GObject {
 
   public:
     FVector3 &getPosInWs();
-    void setPosInWs(const FVector3 &pos_);
+    void setPosInWs(const FVector3 pos_);
     void setRenderSprite(sf::Sprite *sprPt_);
     sf::Sprite *getRenderSprite();
     virtual bool addWsPosOffset(const FVector3 &vec);
@@ -71,6 +71,21 @@ class GActor : public GObject {
     std::vector<DelayTask *> allDelaytasks;
     std::vector<GComponent *> allComponents;
     std::vector<GActorComponent *> allActorComponents;
+  //计时器
+  public:
+    std::atomic<int> asyncTaskNumber = 0;
+    std::atomic<bool> isAllAsyncTaskCanceled = false;
+    void cancelAllAsyncTask() { isAllAsyncTaskCanceled = true; }
+  public:
+    int getAsyncTaskNumber() { return asyncTaskNumber.load(); }
+    template <class T> void DELAY(int timeDelay, T funcPtr_) {
+        if (isAllAsyncTaskCanceled)
+            return;
+        xlib::getTimer().addTaskSafe(getTime(), timeDelay, 1, &asyncTaskNumber,
+                                     &isAllAsyncTaskCanceled, funcPtr_);
+    }
+   
+
 };
 template <class T> T *spawnActorAtLocation(FVector3 pos = {0, 0, 0}) {
     GActor *a = (GActor *)new T;

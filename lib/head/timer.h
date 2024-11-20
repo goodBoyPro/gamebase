@@ -24,19 +24,32 @@ using funcType = std::function<void()>;
 class TIMERAPI Timer20240522 {
 
   public:
-   
-
     struct DelayTask {
+        void operator()() {
+            funcPtr();
+            --(*taskNumber);
+        }
         DelayTask() {}
         template <class T>
         DelayTask(int a, int b, int c, T func_)
             : time0(a), Delay(b), times(c), funcPtr(func_) {}
+        template <class T>
+        DelayTask(int a, int b, int c, std::atomic<int> *taskNum_,
+                  std::atomic<bool> *isCanceled_, T func_)
+            : time0(a), Delay(b), times(c), taskNumber(taskNum_),
+              isAllTaskCanceled(isCanceled_), funcPtr(func_) {
+            ++(*taskNumber);
+        }
+        ~DelayTask() {
+            
+            }
         int time0 = 0;
         int Delay = 0;
         int times = 1;
-        
-        // 标记任务已取消
-        bool isTaskValid = 1;
+        // 线程安全
+        std::atomic<int> *taskNumber = nullptr;
+        std::atomic<bool> *isAllTaskCanceled = nullptr;
+
         funcType funcPtr = nullptr;
     };
 
@@ -69,9 +82,19 @@ class TIMERAPI Timer20240522 {
         cond_.notify_all();
         return x;
     }
+    template <class T>
+    DelayTask *addTaskSafe(int time0, int timeDelay, int times,
+                           std::atomic<int> *taskNum_,
+                           std::atomic<bool> *isCanceled_, T funcPtr_) {
+
+        std::unique_lock lk(mut_);
+        auto x = &(tasks.emplace_back(time0, timeDelay, times, taskNum_,
+                                      isCanceled_, funcPtr_));
+        cond_.notify_all();
+        return x;
+    }
 };
 TIMERAPI Timer20240522 &getTimer();
-
 
 } // namespace xlib
 // 每隔指定时间执行操作，执行n次；
@@ -98,65 +121,46 @@ struct TIMERAPI canRun {
 };
 
 class DelayTask {
-    public:
-    enum unitName
-    {
-        microS = 0,
-        milliS = 1
-    };
+  public:
+    enum unitName { microS = 0, milliS = 1 };
     // template <typename T>
-    // DelayTask(int dalay_, T callback_func, unitName unit_ = milliS) : callback(callback_func), delaytime(dalay_), uni(unit_) {}
+    // DelayTask(int dalay_, T callback_func, unitName unit_ = milliS) :
+    // callback(callback_func), delaytime(dalay_), uni(unit_) {}
     // 增加可读性，牺牲少许性能
     DelayTask(int dalay_, std::function<void()> callback_func, //
-              unitName unit_ = milliS) : delaytime(dalay_),callback(std::move(callback_func)), uni(unit_)
-    {
-    }
-    void operator()()
-    {
+              unitName unit_ = milliS)
+        : delaytime(dalay_), callback(std::move(callback_func)), uni(unit_) {}
+    void operator()() {
         if (uni)
             delay();
         else
             delayH();
     }
 
-    void start()
-    {
-        is_running = true;
-    }
-    void stop()
-    {
-        is_running = false;
-    }
-    void setDelaytime(int dalay_)
-    {
-        delaytime = dalay_;
-    }
-    void setFirstDelay()
-    {
+    void start() { is_running = true; }
+    void stop() { is_running = false; }
+    void setDelaytime(int dalay_) { delaytime = dalay_; }
+    void setFirstDelay() {
         t = GetTickCount();
         lt = getTickH();
     }
 
-private:
+  private:
     unsigned int delaytime;
     std::function<void()> callback;
     bool is_running = true;
     unsigned int t = 0;
     unsigned long lt = 0;
     unitName uni;
-    void delay()
-    {
-        if (is_running && getTime() - t >= delaytime)
-        {
+    void delay() {
+        if (is_running && getTime() - t >= delaytime) {
             t = getTime();
             callback();
         }
     }
 
-    void delayH()
-    {
-        if (is_running && getTickH() - lt >= delaytime * msCount)
-        {
+    void delayH() {
+        if (is_running && getTickH() - lt >= delaytime * msCount) {
             lt = getTickH();
             callback();
         }
@@ -164,12 +168,10 @@ private:
     // 每微妙次数
     TIMERAPI static unsigned long msCount;
     // 千万分之一秒
-    long getTickH()
-    {
+    long getTickH() {
         static LARGE_INTEGER freq;
         static LARGE_INTEGER count;
-        static bool once = [&]() -> bool
-        {
+        static bool once = [&]() -> bool {
             if (!QueryPerformanceFrequency(&freq))
                 printf("timerError");
             msCount = freq.LowPart / 1000000;
@@ -181,7 +183,6 @@ private:
         return count.LowPart;
     }
 };
-
 
 // 休眠线程：毫秒
 extern "C" void TIMERAPI threadSleep(int time);

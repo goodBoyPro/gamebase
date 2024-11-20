@@ -25,21 +25,14 @@ class actorTest : public GActor {
     void eventBegin() {
         setPosInWs(getPlayerCharactor()->getPosInWs());
         delayTest();
-        delay(3000, [&]() {
-            if (ptr)
-                ptr->isTaskValid = 0;
-            destroyActor();
-        });
+        DELAY(4000, [&]() { destroyActor(); });
     }
     sf::Sprite spr;
     void delayTest() {
-        // if (!isValid)
-        //     return;
-        ptr = delay(15, [&]() {
-            std::unique_lock lk(mtx);
+
+        DELAY(3, [&]() {
             setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0));
-            if (!isValid)
-                return;
+
             delayTest();
         });
     }
@@ -57,14 +50,9 @@ class actorTest : public GActor {
         static float x = 0;
         x += 1.f;
         velocity = {cosf(x) * 4.f, sinf(x) * 4.f, 0};
-
-        //   GCollision *collision = createComponent<GCollision>(new
-        //   GCollision); collision->setRadius(0.5);
-        //   setMoveCollision(collision);
     };
     virtual ~actorTest() { std::unique_lock lk(mtx); }
-    int isAsyncCanceled = 0;
-    int isDead = 0;
+
     FVector3 velocity;
     canRun t;
     xlib::Timer20240522::DelayTask *delayTaskPtr = nullptr;
@@ -72,44 +60,27 @@ class actorTest : public GActor {
     std::mutex mutAsuncTask;
 
     bool flag = 0;
-    // 所有事件写在此处
-    void createLoop() {
-
-        delayTaskPtr = delay(1, [this]() {
-            {
-
-                setPosInWs(getPosInWs() + velocity);
-                setPosInWs(getPosInWs() + velocity);
-                createLoop();
-            }
-        });
-    };
-
-    void stopAllAsyncTask() {
-        std::unique_lock lk(mutAsuncTask);
-        isAsyncCanceled = 1;
-        delayTaskPtr->isTaskValid = 0;
-    }
-    void destroy() {
-
-        stopAllAsyncTask();
-
-        delay(0, [this]() {
-            std::unique_lock lk(mutAsuncTask);
-            // destroyActor();
-        });
-    }
 };
 class actorComponentTest : public GActorComponent {
   public:
     void eventTick() {}
     void eventBegin() {
-        createDelayTask(10, [&]() {
-            static float a;
+        // createDelayTask(10, [&]() {
+        //     static float a;
+        //     FVector3 pos = {sinf(a / 30) / 4, cosf(a / 30) / 4, 0.7};
+        //     a++;
+
+        //     setRelativePosition(pos);
+        // });
+        funcR();
+    }
+    void funcR() {
+        static float a;
+        DELAY(1, [&]() {
             FVector3 pos = {sinf(a / 30) / 4, cosf(a / 30) / 4, 0.7};
             a++;
-            
             setRelativePosition(pos);
+            funcR();
         });
     }
     actorComponentTest() {

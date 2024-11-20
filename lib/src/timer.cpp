@@ -32,24 +32,23 @@ void Timer20240522::loop() {
         lk.lock();
         cond_.wait(lk, [&]() { return !tasks.empty(); });        
         it = tasks.begin();
-        for (; it != tasks.end(); it++) {
-            if ((*it).times <= 0||!(*it).isTaskValid) {
-                
+        for (; it != tasks.end();) {
+            if ((*it).times <= 0||((*it).isAllTaskCanceled)->load()) {
+                --(*((*it).taskNumber));
                 it = tasks.erase(it);
-                it--;
-                continue;
-                
+                continue;               
             }
             int temp = getTime();
             if (temp - (*it).time0 >= (*it).Delay && (*it).times > 0) {
                //此处必须用线程池，否则会死锁
-                thread_pool::ThreadPool.addTask((*it).funcPtr);
+                ++*( (*it).taskNumber);
+                thread_pool::ThreadPool.addTask(*it);
                 
                 (*it).time0 = temp;
                 (*it).times--;
             }
-            
-            
+            it++;
+
         } // for
         lk.unlock();
         //频率越高性能越差的原因找到了：clock()在切换到别的线程时不计时，被其他线程高频抢占cpu,时间看起来变慢了

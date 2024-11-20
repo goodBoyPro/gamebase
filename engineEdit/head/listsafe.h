@@ -19,7 +19,7 @@ public:
         std::unique_lock lk(mut);
         for (auto it =this->begin(); it != this->end();)
         {
-            if (!(*it)->isValid)
+            if ((!(*it)->isValid)&&(*it)->getAsyncTaskNumber()==0)
             {
                 delete *it;
                 it =this->erase(it);
