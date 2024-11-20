@@ -6,6 +6,7 @@ class GActorWithAnim : public GActor
 {
 private:
     class GAnimationBpInterface *aniBpPtr__antiRename = nullptr;
+    class GComponentAnimation *componentAnimationPtr = nullptr;
 
 public:
     virtual void updateState() = 0;
@@ -16,15 +17,17 @@ public:
         setRenderSprite(aniBpPtr__antiRename->sprPt);
     };
     GAnimationBpInterface *getRenderAnimationBp() { return aniBpPtr__antiRename; }
-    void drawAnimation()
+    template <class T>
+    GComponentAnimation *createAnimationComponent()
     {
-        if (aniBpPtr__antiRename)
-        {
-            aniBpPtr__antiRename->updateAnim();
-            updateState();
-        }
-       
-    };
+        componentAnimationPtr = createActorComponent<T>(new T);
+        componentAnimationPtr->ownerPtr=this;
+        return (T*)componentAnimationPtr;
+    }
+    GComponentAnimation *getAnimationComponent()
+    {
+        return componentAnimationPtr;
+    }
 };
 
 #endif // MACRO

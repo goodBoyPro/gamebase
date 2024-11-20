@@ -117,7 +117,7 @@ void GPlayerChar::dataLoop() {
         speed = 1;
     else
         speed = 0;
-    updateState();
+    //updateState();
 }
 
 

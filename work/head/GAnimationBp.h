@@ -5,11 +5,19 @@
 #include <GSource.h>
 class GAnimationBpInterface
 {
+  private:std::vector<nsg::DoOnce*>___AllSounds___;
 public:
- virtual ~GAnimationBpInterface(){}
+  virtual ~GAnimationBpInterface() {for(auto ptr:___AllSounds___)delete ptr;}
   virtual void updateAnim() = 0;
   virtual void updateSound() = 0;
+  nsg::DoOnce* createSoundEvent(sf::Sound &sound_)
+  {
+    auto ptr=new nsg::DoOnce([&](){sound_.play();});
+    ___AllSounds___.push_back(ptr);
+    return ptr;
+  };
   sf::Sprite *sprPt = nullptr;
+  GAnimation *animPt = nullptr;
 };
 class GAnimationBp : public GAnimationBpInterface
 {
@@ -30,7 +38,7 @@ public:
   // bool isPlayed[16];
   std::vector<char> isPlayed;
   std::vector<sf::Sound *> sounds;
-  GAnimation *animPt = nullptr;
+  
   nsg::DoOnce sound1 = []()
   { getSource().getSound(2).play(); };
   nsg::DoOnce sound2 = []()
