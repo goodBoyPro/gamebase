@@ -49,6 +49,10 @@ class worldTest : public GWorld {
             b->setPosInWs({rand() % 10000 * pixSize, rand() % 10000 * pixSize,0});
             // houseVec.push_back(b);
         }
+        //线程安全测试
+        for(int i=0;i<10000;i++){
+            spawnActorAtLocation<actorTest>(getPlayerCharactor()->getPosInWs());
+        }
     };
     ~worldTest() { delete getPlayerCharactor(); };
 };

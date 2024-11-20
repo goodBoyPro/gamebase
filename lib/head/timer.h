@@ -34,9 +34,8 @@ class TIMERAPI Timer20240522 {
         int time0 = 0;
         int Delay = 0;
         int times = 1;
-
+        
         // 标记任务已取消
-
         bool isTaskValid = 1;
         funcType funcPtr = nullptr;
     };

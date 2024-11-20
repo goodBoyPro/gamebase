@@ -24,17 +24,17 @@ class actorTest : public GActor {
     xlib::Timer20240522::DelayTask *ptr = nullptr;
     void eventBegin() {
         setPosInWs(getPlayerCharactor()->getPosInWs());
-        // delayTest();
-        // delay(3000, [&]() {
-        //     if (ptr)
-        //         ptr->isTaskValid = 0;
-        //     destroyActor();
-        // });
+        delayTest();
+        delay(3000, [&]() {
+            if (ptr)
+                ptr->isTaskValid = 0;
+            destroyActor();
+        });
     }
     sf::Sprite spr;
     void delayTest() {
-        if (!isValid)
-            return;
+        // if (!isValid)
+        //     return;
         ptr = delay(15, [&]() {
             std::unique_lock lk(mtx);
             setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0));
