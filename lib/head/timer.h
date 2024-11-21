@@ -4,6 +4,7 @@
 #include <condition_variable>
 #include <functional>
 #include <list>
+#include<vector>
 #include <mutex>
 #include <thread>
 #include <windows.h>
@@ -66,6 +67,7 @@ class TIMERAPI Timer20240522 {
 
     std::thread *t1;
     void loop();
+    bool isPaused = true;
 
   public:
     std::condition_variable cond_;
@@ -73,7 +75,7 @@ class TIMERAPI Timer20240522 {
 
     ~Timer20240522();
     bool TIMERAPI bCont();
-
+    void  setPause(bool pause_) { isPaused = pause_; }
     template <class T>
     DelayTask *addTask(int time0, int timeDelay, int times, T funcPtr_) {
 

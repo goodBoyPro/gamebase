@@ -24,18 +24,14 @@ class actorTest : public GActor {
     xlib::Timer20240522::DelayTask *ptr = nullptr;
     void eventBegin() {
         setPosInWs(getPlayerCharactor()->getPosInWs());
-        delayTest();
-        DELAY(4000, [&]() { destroyActor(); });
+        DELAY(
+            30, [&]() { setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0)); },
+            true);
+        DELAY(5000, [&]() { destroyActor(); });
+        //createDelayTask(30,[&]() { setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0)); });
     }
     sf::Sprite spr;
-    void delayTest() {
-
-        DELAY(3, [&]() {
-            setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0));
-
-            delayTest();
-        });
-    }
+    void delayTest() {}
 
     void eventTick() {
         // setPosInWs(getPosInWs()+velocity);
@@ -80,8 +76,8 @@ class actorComponentTest : public GActorComponent {
             FVector3 pos = {sinf(a / 30) / 4, cosf(a / 30) / 4, 0.7};
             a++;
             setRelativePosition(pos);
-            funcR();
-        });
+            
+        },true);
     }
     actorComponentTest() {
         tex.loadFromFile("res/a.png");

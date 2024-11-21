@@ -78,9 +78,12 @@ class GActor : public GObject {
     void cancelAllAsyncTask() { isAllAsyncTaskCanceled = true; }
   public:
     int getAsyncTaskNumber() { return asyncTaskNumber.load(); }
-    template <class T> void DELAY(int timeDelay, T funcPtr_) {
+    template <class T> void DELAY(int timeDelay, T funcPtr_,bool bLoop=false) {
         if (isAllAsyncTaskCanceled)
             return;
+        if(bLoop)
+        xlib::getTimer().addTaskSafe(getTime(), timeDelay, -5, &asyncTaskNumber,
+                                     &isAllAsyncTaskCanceled, funcPtr_);
         xlib::getTimer().addTaskSafe(getTime(), timeDelay, 1, &asyncTaskNumber,
                                      &isAllAsyncTaskCanceled, funcPtr_);
     }

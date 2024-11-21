@@ -96,6 +96,7 @@ void Game::dataLoop() {
 void Game::renderLoop2D() {
     //getWindow()->setFramerateLimit(frameLimit);
     std::unique_lock lk(actorsMutex, std::defer_lock);
+    xlib::getTimer().setPause(false);
     while (bGameContinue) {
 
         getPlayerController()->pollKey();
