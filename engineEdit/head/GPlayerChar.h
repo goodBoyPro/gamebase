@@ -1,7 +1,7 @@
 #ifndef GPLAYERCHAR_H
 #define GPLAYERCHAR_H
 #include <GActorWithAnim.h>
-
+#include<component/GComponentCamera.h>
 #include <component/GComponentAnimation.h>
 #define MOVETICK 10
 class GPlayerChar : public GActorWithAnim {
@@ -25,8 +25,6 @@ class GPlayerChar : public GActorWithAnim {
     GPlayerChar(/* args */);
     virtual ~GPlayerChar();
     class GController *controller = nullptr;
-
-    GCameraInterface camera;
     FVector3 getVelocity();
 
     virtual void updateState() = 0;
@@ -44,7 +42,7 @@ class GPlayerChar : public GActorWithAnim {
     float getSpeed() { return speed; };
     void setSpeed(float value) { speed = value; };
 
-    virtual void cameraFollowPlayer();
+
 
   private:
 };

@@ -17,15 +17,15 @@ class trees : public GActor {
     gameSprte spr;
     void eventBegin() {}
     void eventTick() {
-        // getRenderSprite()->setTextureRect(
-        //     {index / 5 * 256, index % 5 * 256, 256, 256});
     }
-    trees(int _index) { ;
-        setRenderSprite(&spr);
+    void init(int _index){setRenderSprite(&(this->spr));
         index = _index;
         spr.setTexture(treeTex.tex);
+        spr.setOrigin({128,256});
         spr.setTextureRect(
-            {index / 5 * 256, index % 5 * 256, 256, 256});
+            {index / 5 * 256, index % 5 * 256, 256, 256});}
+    trees() { ;
+        
     };
     ~trees(){};
     int index;

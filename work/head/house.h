@@ -14,11 +14,17 @@ struct houseTexture {
 class house : public GActor {
 
   public:
-  void eventBegin(){}
-  void eventTick(){ getRenderSprite()->setTextureRect({index/3*256,index%3*256,256,256});  }
+    gameSprte spr;
+    void eventBegin() {}
+    void eventTick() {
+          }
     house(int _index) { ;
-       setRenderSprite(&houseTex.spr);
-        index = _index;
+       setRenderSprite(&spr);
+       spr.setTexture(houseTex.tex);
+       index = _index;
+       spr.setTextureRect(
+            {index / 3 * 256, index % 3 * 256, 256, 256});
+       spr.setOrigin(128,220);
     };
     ~house(){};
     int index;

@@ -85,7 +85,6 @@ class Playertest : public GPlayerChar {
     GWidget widget = {{WINW / 2, WINH / 2}, 800, 600};
     DelayTask task = {100, []() { printf("task"); }};
     virtual void dataLoop() {
-        cameraFollowPlayer();
         GPlayerChar::dataLoop();
         static canRun vTest;
         if (vTest.delay(25)) {
@@ -113,12 +112,5 @@ class Playertest : public GPlayerChar {
         }
     }
 
-    virtual void cameraFollowPlayer() override {
-
-        // camera.posInWs.x = nsg::smoothInterpolateTo(
-        //     camera.posInWs.x, getPosInWs().x, 0.001f, deltaTime);
-        // camera.posInWs.y = nsg::smoothInterpolateTo(
-        //     camera.posInWs.y,  getPosInWs().y, 0.001f, deltaTime);
-        camera.posInWs = getPosInWs();
-    };
+    
 };

@@ -54,11 +54,11 @@ class GActor : public GObject {
     }
 
     // 使用方法：createCollision(new T);创建后由系统管理，无需手动释放
-    template <class T> T *createComponent(GComponent *ptr) {
+    template <class T> T *createComponent(T *ptr) {
         allComponents.push_back(ptr);
         return (T *)ptr;
     }
-    template <class T> T *createActorComponent(GActorComponent *ptr) {
+    template <class T> T *createActorComponent(T *ptr) {
         allActorComponents.push_back(ptr);
         bindActorComponent(ptr);
         ptr->eventBegin();
@@ -92,6 +92,11 @@ class GActor : public GObject {
 };
 template <class T> T *spawnActorAtLocation(FVector3 pos = {0, 0, 0}) {
     GActor *a = (GActor *)new T;
+    a->setPosInWs(pos);
+    a->eventBegin();
+    return (T *)a;
+}
+template <class T> T *spawnActorArgsAtLocation(T *a,FVector3 pos = {0, 0, 0}) {
     a->setPosInWs(pos);
     a->eventBegin();
     return (T *)a;

@@ -76,11 +76,7 @@ void Game::dataLoop() {
     static DWORD timeFlag = 0;
 
     while (bGameContinue) {
-        timeFlag = GetTickCount();
-
-        // 相机跟随:在开启场景剔除功能后，不在这里调用可能会因为玩家离相机过远无法执行
-        if (getPlayerCharactor())
-            getPlayerCharactor()->cameraFollowPlayer();
+        timeFlag = GetTickCount();         
 
         if (getWorld())
             getWorld()->dataLoop();

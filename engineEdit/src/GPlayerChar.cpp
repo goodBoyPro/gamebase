@@ -39,27 +39,16 @@ GPlayerChar::GPlayerChar() {
         if (!isMouseMove)
             move({0, 0,0}, 0);
     };
-
-    // 写在子类中
-    //  tex.loadFromFile("bin/res/a.png");
-    //  spr.setTexture(tex);
-    //  spr.setOrigin(tex.getSize().x/2,tex.getSize().y);
-    //  spr.setScale(4,4);
-
-    setGameCamera(&camera);
-
-    camera.posInWs = getPosInWs();
+    GComponentCamera*cameraComPtr=createActorComponent(new GComponentCamera);
+    setGameCamera(&(cameraComPtr->camera));
+    
 }
 
 GPlayerChar::~GPlayerChar() { delete controller; }
 
 FVector3 GPlayerChar::getVelocity() { return getPosInWs() - posPrevious; }
 
-// void GPlayerChar::setRenderAnimationBp(GAnimationBpInterface *bp)
-// {
-//     aniBpPtr = bp;
-//     setRenderSprite(aniBpPtr->sprPt);
-// }
+
 void GPlayerChar::move(FVector3 _fvector, float _value) {
     static canRun t1;
     if (t1.delay(MOVETICK)) {
@@ -121,5 +110,5 @@ void GPlayerChar::dataLoop() {
 }
 
 
-// 场景剔除可能会造成loop不调用，因此在主循环中调用
-void GPlayerChar::cameraFollowPlayer() { camera.posInWs = getPosInWs(); }
+
+

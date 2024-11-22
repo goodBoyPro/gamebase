@@ -10,9 +10,11 @@ class GComponentCamera : public GActorComponent {
     ~GComponentCamera();
 
   public:
+  void eventTick(){}
+  void eventBegin(){}
     virtual void setPosInWs(const FVector3 pos_) {
         GActorComponent::setPosInWs(pos_);
-        camera.posInWs = pos_;
+        camera.posInWs = getPosInWs();
     }
 };
 //////////////////////////////////////////////////////////////////////////////////////////////
