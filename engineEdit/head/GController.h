@@ -42,7 +42,8 @@ class GController : public GControllerInterface {
         mouseLeft,
         uiOpenOrClose,
         openUi,
-        closeUi
+        closeUi,
+        b
     };
   public:
    

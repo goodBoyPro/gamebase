@@ -22,6 +22,8 @@ void GController::pollKey() {
     //     !sf::Keyboard::isKeyPressed(sf::Keyboard::S) &&
     //     !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     //     playerController->KEYIDLE();
+     if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+        getPlayerController()->bindKey[GController::b]();
 
     if (getWindow()->pollEvent(getGameIns()->event)) {
         if (getGameIns()->event.type == sf::Event::Closed) {

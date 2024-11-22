@@ -61,6 +61,9 @@ class Playertest : public GPlayerChar {
         getPlayerController()->bindKey[GController::uiOpenOrClose] = [&]() {
             widget.addToViewport();
         };
+        getPlayerController()->bindKey[GController::b] = [&]() {
+            spawnActorAtLocation<actorTest>(getPosInWs());
+        };
 
         GCollision *collisiontemp = createComponent<GCollision>(new GCollision);
         collisiontemp->setRadius(0.2);

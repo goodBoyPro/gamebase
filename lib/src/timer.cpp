@@ -2,7 +2,8 @@
 #include <chrono>
 #include <timer.h>
 #include <windows.h>
-thread_pool thread_pool::ThreadPool;
+
+// thread_pool thread_pool::ThreadPool;
 // 时间流
 float timeScale = 1.f;
 int ts1 = 2;
@@ -12,21 +13,19 @@ unsigned int getTime() {
     auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(
                             duration_since_epoch)
                             .count();
-    return milliseconds * timeScale;
-    // return GetTickCount64()*timeScale;
+    return milliseconds;
+    //  return GetTickCount64();
 }
 namespace xlib {
 
 void TimerManager::loop() {
     std::unique_lock lk(mut_, std::defer_lock);
-
-    // lk.unlock();
     while (brun) {
         // 动态调整计算频率
         if(isPaused)continue;
         static int timecost = 0;
         int a = getTime();
-        lk.lock();
+        //lk.lock();
         cond_.wait(lk, [&]() { return !tasks.empty(); });
         it = tasks.begin();
         for (; it != tasks.end();) {
@@ -39,16 +38,15 @@ void TimerManager::loop() {
             if (temp - (*it).____time0 >= (*it).____Delay && (*it).____times != 0) {
                 // 此处必须用线程池，否则会死锁
                 ++*((*it).____taskNumber);
-                thread_pool::ThreadPool.addTask(*it);
+                thread_pool::getThreadPool().addTask(&(*it));
 
                 (*it).____time0 = temp;
-                // if ((*it).____times != -5)
-                //     (*it).____times--;
+                
             }
             it++;
 
         } // for
-        lk.unlock();
+        //lk.unlock();
         // 频率越高性能越差的原因找到了：clock()在切换到别的线程时不计时，被其他线程高频抢占cpu,时间看起来变慢了
         timecost = getTime() - a;
         if (timecost < 1) {
@@ -66,7 +64,7 @@ TimerManager::TimerManager() {
 }
 TimerManager::~TimerManager() {
     brun = 0;
-    thread_pool::ThreadPool.isStop = true;
+    thread_pool::getThreadPool().isStop = true;
     t1->join();
     delete t1;
 }

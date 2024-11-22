@@ -4,9 +4,9 @@
 #include <condition_variable>
 #include <functional>
 #include <list>
-#include<vector>
 #include <mutex>
 #include <thread>
+#include <vector>
 #include <windows.h>
 #ifdef EXPORT
 #define TIMERAPI __declspec(dllexport)
@@ -23,32 +23,30 @@ namespace xlib {
 class TIMERAPI TimerManager {
 
   public:
-   
     struct DelayTask {
         void operator()() {
             ____funcPtr();
             --(*____taskNumber);
-            if(____times!=-5)
+            if (____times != -5)
                 ____times--;
         }
         DelayTask() {}
         template <class T>
-        DelayTask(int a, int b, int c, T func_)
-            : ____time0(a), ____Delay(b), ____times(c), ____funcPtr(func_) {}
-        template <class T>
         DelayTask(int a, int b, int c, std::atomic<int> *taskNum_,
                   std::atomic<bool> *isCanceled_, T func_)
-            : ____time0(a), ____Delay(b), ____times(c), ____taskNumber(taskNum_),
-              ____isAllTaskCanceled(isCanceled_), ____funcPtr(func_) {
+            : ____time0(a), ____Delay(b), ____times(c),
+              ____taskNumber(taskNum_), ____isAllTaskCanceled(isCanceled_),
+              ____funcPtr(func_) {
             ++(*____taskNumber);
         }
-       
+
         void cancelTask() { ____times = 0; }
         void setDelayTime(int dl_) { ____Delay = dl_; }
         int ____time0 = 0;
         int ____Delay = 0;
         int ____times = 1;
         // 线程安全
+        // 被计时队列持有时+1，被线程池队列持有时也+1
         std::atomic<int> *____taskNumber = nullptr;
         std::atomic<bool> *____isAllTaskCanceled = nullptr;
         std::function<void()> ____funcPtr = nullptr;
@@ -75,7 +73,7 @@ class TIMERAPI TimerManager {
 
     ~TimerManager();
     bool TIMERAPI bCont();
-    void  setPause(bool pause_) { isPaused = pause_; }
+    void setPause(bool pause_) { isPaused = pause_; }
     template <class T>
     DelayTask *addTask(int time0, int timeDelay, int times, T funcPtr_) {
 
@@ -100,17 +98,6 @@ class TIMERAPI TimerManager {
 TIMERAPI TimerManager &getTimer();
 
 } // namespace xlib
-// 每隔指定时间执行操作，执行n次；
-template <class T>
-xlib::TimerManager::DelayTask *delay(int timeDelay, int times, T funcPtr_) {
-    return xlib::getTimer().addTask(getTime(), timeDelay, times, funcPtr_);
-}
-// 立即执行一次，每隔指定时间执行操作，执行n次；
-template <class T>
-xlib::TimerManager::DelayTask *delayRnw(int timeDelay, int times, T funcPtr_) {
-    return xlib::getTimer().addTask(0, timeDelay, times, funcPtr_);
-}
-
 
 struct TIMERAPI canRun {
     int time0 = 0;
@@ -198,26 +185,19 @@ extern "C" void TIMERAPI threadSleep(int time);
 #include <stdio.h>
 #include <thread>
 #include <vector>
-class thread_pool {
+
+class TIMERAPI thread_pool {
 
   public:
-    // static thread_pool &getThreadPool() {
-    //     static thread_pool pool;
-    //     return pool;
-    // }
-    static thread_pool TIMERAPI ThreadPool;
+    static thread_pool &getThreadPool() {
+        static thread_pool pool;
+        return pool;
+    }
+    // static thread_pool TIMERAPI ThreadPool;
     bool isStop = 0;
 
   public:
     using taskType = std::function<void()>;
-
-    thread_pool() {
-
-        int threadNum = std::thread::hardware_concurrency() * 2 + 2;
-        for (int i = 0; i < threadNum; i++) {
-            threads.emplace_back(threadFunc, this);
-        }
-    }
 
     template <class T> void addTask(T f) {
 
@@ -227,7 +207,6 @@ class thread_pool {
         cond_.notify_one();
     }
     ~thread_pool() {
-        // std::unique_lock lk(mutex_);
         isStop = 1;
         cond_.notify_all();
         for (auto &x : threads)
@@ -235,24 +214,32 @@ class thread_pool {
     };
 
   private:
+    thread_pool() {
+        int threadNum = std::thread::hardware_concurrency() * 2 + 2;
+        for (int i = 0; i < threadNum; i++) {
+            threads.emplace_back(threadFunc, this);
+        }
+    }
     void threadFunc() {
-        while (!isStop) {
-            std::unique_lock lk(mutex_);
+        std::unique_lock lk(mutex_,std::defer_lock);
+        while (!isStop) {           
             cond_.wait(lk, [this]() { return isStop || !tasks.empty(); });
             if (isStop && tasks.empty()) {
                 lk.unlock();
                 break;
             }
-            std::function<void()> task = std::move(tasks.front());
+            xlib::TimerManager::DelayTask *task = std::move(tasks.front());
+            //lk.lock();
             tasks.pop();
-            lk.unlock();
-            task();
+            //lk.unlock();
+            (*task)();
         }
     }
 
     std::vector<std::thread> threads;
 
-    std::queue<taskType> tasks;
+    // std::queue<taskType> tasks;
+    std::queue<xlib::TimerManager::DelayTask *> tasks;
     std::mutex mutex_;
     std::condition_variable cond_;
 

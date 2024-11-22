@@ -34,7 +34,7 @@ class actorTest : public GActor {
     void delayTest() {}
 
     void eventTick() {
-        // setPosInWs(getPosInWs()+velocity);
+        
     }
     actorTest(/* args */) {
         delayTaskPtr = &dtp;
