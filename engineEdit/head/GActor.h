@@ -42,7 +42,7 @@ class GActor : public GObject {
 
   public:
     FVector3 &getPosInWs();
-    void setPosInWs(const FVector3 pos_);
+    virtual void setPosInWs(const FVector3 pos_);
     void setRenderSprite(sf::Sprite *sprPt_);
     sf::Sprite *getRenderSprite();
     virtual bool addWsPosOffset(const FVector3 &vec);

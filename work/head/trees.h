@@ -14,13 +14,18 @@ struct treesTexture {
 class trees : public GActor {
 
   public:
-  void eventBegin(){}
-  void eventTick(){
-    getRenderSprite()->setTextureRect({index/5*256,index%5*256,256,256});
+    gameSprte spr;
+    void eventBegin() {}
+    void eventTick() {
+        // getRenderSprite()->setTextureRect(
+        //     {index / 5 * 256, index % 5 * 256, 256, 256});
     }
     trees(int _index) { ;
-        setRenderSprite(&treeTex.spr);
+        setRenderSprite(&spr);
         index = _index;
+        spr.setTexture(treeTex.tex);
+        spr.setTextureRect(
+            {index / 5 * 256, index % 5 * 256, 256, 256});
     };
     ~trees(){};
     int index;

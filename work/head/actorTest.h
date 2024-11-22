@@ -25,10 +25,13 @@ class actorTest : public GActor {
     void eventBegin() {
         setPosInWs(getPlayerCharactor()->getPosInWs());
         DELAY(
-            30, [&]() { setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0)); },
+            5,
+            [&]() {
+                setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0));
+            },
             true);
-        DELAY(5000, [&]() { destroyActor(); });
-        //createDelayTask(30,[&]() { setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0)); });
+        //DELAY(5000, [&]() { destroyActor(); });
+        //createDelayTask(6,[&]() { setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0)); });
     }
     sf::Sprite spr;
     void delayTest() {}

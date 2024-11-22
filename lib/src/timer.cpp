@@ -20,6 +20,7 @@ namespace xlib {
 
 void TimerManager::loop() {
     std::unique_lock lk(mut_, std::defer_lock);
+    thread_pool &tp = thread_pool::getThreadPool();
     while (brun) {
         // 动态调整计算频率
         if(isPaused)continue;
@@ -28,20 +29,21 @@ void TimerManager::loop() {
         //lk.lock();
         cond_.wait(lk, [&]() { return !tasks.empty(); });
         it = tasks.begin();
+        int temp = getTime();
         for (; it != tasks.end();) {
             if ((*it).____times == 0 || ((*it).____isAllTaskCanceled)->load()) {
                 --(*((*it).____taskNumber));
                 it = tasks.erase(it);
                 continue;
             }
-            int temp = getTime();
+            
             if (temp - (*it).____time0 >= (*it).____Delay && (*it).____times != 0) {
                 // 此处必须用线程池，否则会死锁
                 ++*((*it).____taskNumber);
-                thread_pool::getThreadPool().addTask(&(*it));
-
-                (*it).____time0 = temp;
+                tp.addTask(&(*it));
                 
+                (*it).____time0 = temp;
+               
             }
             it++;
 

@@ -24,14 +24,24 @@ class Playertest : public GPlayerChar {
     }
 
     virtual void eventBegin() override {
-        // for(int i=0;i<5000;i++)spawnActorAtLocation<actorTest>(getPosInWs());  
+        // for(int i=0;i<5000;i++)spawnActorAtLocation<actorTest>(getPosInWs());
+        
         }
-    void SpawnAt() {
-        DELAY(500, [&]() {
-            actorTest *a = spawnActorAtLocation<actorTest>(getPosInWs());
-            a->velocity = getVelocity() * 2.f;
-            
-        },true);
+        void func() {
+            DELAY(4, [&]() {
+                spawnActorAtLocation<actorTest>(getPosInWs());
+                func();
+            });
+        }
+        void SpawnAt() {
+            DELAY(
+                500,
+                [&]() {
+                    actorTest *a =
+                        spawnActorAtLocation<actorTest>(getPosInWs());
+                    a->velocity = getVelocity() * 2.f;
+                },
+                true);
     };
     DelayTask taskSpawnAT = {500, [&]() {  actorTest *a = spawnActorAtLocation<actorTest>(getPosInWs());
             a->velocity = getVelocity() * 2.f; }};

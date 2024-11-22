@@ -189,11 +189,11 @@ extern "C" void TIMERAPI threadSleep(int time);
 class TIMERAPI thread_pool {
 
   public:
+   
     static thread_pool &getThreadPool() {
         static thread_pool pool;
-        return pool;
+        return pool;       
     }
-    // static thread_pool TIMERAPI ThreadPool;
     bool isStop = 0;
 
   public:
@@ -202,7 +202,7 @@ class TIMERAPI thread_pool {
     template <class T> void addTask(T f) {
 
         std::unique_lock lk(mutex_);
-        tasks.emplace(std::move(f));
+        tasks.emplace(f);
 
         cond_.notify_one();
     }
@@ -215,34 +215,34 @@ class TIMERAPI thread_pool {
 
   private:
     thread_pool() {
-        int threadNum = std::thread::hardware_concurrency() * 2 + 2;
+        //  int threadNum = std::thread::hardware_concurrency() * 2 + 2;
+        int threadNum = 1;
         for (int i = 0; i < threadNum; i++) {
             threads.emplace_back(threadFunc, this);
         }
     }
     void threadFunc() {
         std::unique_lock lk(mutex_,std::defer_lock);
-        while (!isStop) {           
+        while (!isStop) { 
+            lk.lock();          
             cond_.wait(lk, [this]() { return isStop || !tasks.empty(); });
             if (isStop && tasks.empty()) {
                 lk.unlock();
                 break;
             }
-            xlib::TimerManager::DelayTask *task = std::move(tasks.front());
-            //lk.lock();
+           
+            xlib::TimerManager::DelayTask *task = tasks.front();
+            
             tasks.pop();
-            //lk.unlock();
+            lk.unlock();
             (*task)();
         }
     }
 
     std::vector<std::thread> threads;
-
-    // std::queue<taskType> tasks;
     std::queue<xlib::TimerManager::DelayTask *> tasks;
     std::mutex mutex_;
     std::condition_variable cond_;
 
 }; // class
-
 #endif
