@@ -164,15 +164,7 @@ public:
 
         return a;
     }
-    void gameBegin(){
-        int num = row * column;
-        for (int i = 0; i < num; i++)
-        {
-            for(auto elem:allNode[i].actors){
-                elem->eventBegin();
-            }
-        }
-    }
+    
 
     ~GridMap()
     {

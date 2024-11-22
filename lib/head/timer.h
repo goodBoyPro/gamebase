@@ -19,51 +19,51 @@ extern float TIMERAPI timeScale;
 unsigned int TIMERAPI getTime();
 namespace xlib {
 
-using funcType = std::function<void()>;
-
 // 用户创建对象已禁止;系统已自动创建对象，用户无需创建
-class TIMERAPI Timer20240522 {
+class TIMERAPI TimerManager {
 
   public:
+   
     struct DelayTask {
         void operator()() {
-            funcPtr();
-            --(*taskNumber);
+            ____funcPtr();
+            --(*____taskNumber);
+            if(____times!=-5)
+                ____times--;
         }
         DelayTask() {}
         template <class T>
         DelayTask(int a, int b, int c, T func_)
-            : time0(a), Delay(b), times(c), funcPtr(func_) {}
+            : ____time0(a), ____Delay(b), ____times(c), ____funcPtr(func_) {}
         template <class T>
         DelayTask(int a, int b, int c, std::atomic<int> *taskNum_,
                   std::atomic<bool> *isCanceled_, T func_)
-            : time0(a), Delay(b), times(c), taskNumber(taskNum_),
-              isAllTaskCanceled(isCanceled_), funcPtr(func_) {
-            ++(*taskNumber);
+            : ____time0(a), ____Delay(b), ____times(c), ____taskNumber(taskNum_),
+              ____isAllTaskCanceled(isCanceled_), ____funcPtr(func_) {
+            ++(*____taskNumber);
         }
-        ~DelayTask() {
-            
-            }
-        int time0 = 0;
-        int Delay = 0;
-        int times = 1;
+       
+        void cancelTask() { ____times = 0; }
+        void setDelayTime(int dl_) { ____Delay = dl_; }
+        int ____time0 = 0;
+        int ____Delay = 0;
+        int ____times = 1;
         // 线程安全
-        std::atomic<int> *taskNumber = nullptr;
-        std::atomic<bool> *isAllTaskCanceled = nullptr;
-
-        funcType funcPtr = nullptr;
+        std::atomic<int> *____taskNumber = nullptr;
+        std::atomic<bool> *____isAllTaskCanceled = nullptr;
+        std::function<void()> ____funcPtr = nullptr;
     };
-
+    typedef DelayTask delaytaskPtr;
     bool brun = 1;
 
   private:
     // 单例模式
-    Timer20240522(/* args */);
-    friend Timer20240522 &getTimer();
+    TimerManager(/* args */);
+    friend TimerManager &getTimer();
     // 用于保护容器操作
     std::mutex mut_;
 
-    std::list<Timer20240522::DelayTask>::iterator it;
+    std::list<TimerManager::DelayTask>::iterator it;
 
     std::thread *t1;
     void loop();
@@ -71,9 +71,9 @@ class TIMERAPI Timer20240522 {
 
   public:
     std::condition_variable cond_;
-    std::list<Timer20240522::DelayTask> tasks;
+    std::list<TimerManager::DelayTask> tasks;
 
-    ~Timer20240522();
+    ~TimerManager();
     bool TIMERAPI bCont();
     void  setPause(bool pause_) { isPaused = pause_; }
     template <class T>
@@ -92,28 +92,25 @@ class TIMERAPI Timer20240522 {
         std::unique_lock lk(mut_);
         auto x = &(tasks.emplace_back(time0, timeDelay, times, taskNum_,
                                       isCanceled_, funcPtr_));
+        lk.unlock();
         cond_.notify_all();
         return x;
     }
 };
-TIMERAPI Timer20240522 &getTimer();
+TIMERAPI TimerManager &getTimer();
 
 } // namespace xlib
 // 每隔指定时间执行操作，执行n次；
 template <class T>
-xlib::Timer20240522::DelayTask *delay(int timeDelay, int times, T funcPtr_) {
+xlib::TimerManager::DelayTask *delay(int timeDelay, int times, T funcPtr_) {
     return xlib::getTimer().addTask(getTime(), timeDelay, times, funcPtr_);
 }
 // 立即执行一次，每隔指定时间执行操作，执行n次；
 template <class T>
-xlib::Timer20240522::DelayTask *delayRnw(int timeDelay, int times, T funcPtr_) {
+xlib::TimerManager::DelayTask *delayRnw(int timeDelay, int times, T funcPtr_) {
     return xlib::getTimer().addTask(0, timeDelay, times, funcPtr_);
 }
-// 一段时间后 执行一次
-template <class T>
-xlib::Timer20240522::DelayTask *delay(int timeDelay, T funcPtr_) {
-    return xlib::getTimer().addTask(getTime(), timeDelay, 1, funcPtr_);
-}
+
 
 struct TIMERAPI canRun {
     int time0 = 0;
@@ -246,7 +243,7 @@ class thread_pool {
                 lk.unlock();
                 break;
             }
-            taskType task = std::move(tasks.front());
+            std::function<void()> task = std::move(tasks.front());
             tasks.pop();
             lk.unlock();
             task();

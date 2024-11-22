@@ -27,11 +27,11 @@ class Playertest : public GPlayerChar {
         // for(int i=0;i<5000;i++)spawnActorAtLocation<actorTest>(getPosInWs());  
         }
     void SpawnAt() {
-        delay(500, [&]() {
+        DELAY(500, [&]() {
             actorTest *a = spawnActorAtLocation<actorTest>(getPosInWs());
             a->velocity = getVelocity() * 2.f;
-            SpawnAt();
-        });
+            
+        },true);
     };
     DelayTask taskSpawnAT = {500, [&]() {  actorTest *a = spawnActorAtLocation<actorTest>(getPosInWs());
             a->velocity = getVelocity() * 2.f; }};

@@ -17,7 +17,7 @@ unsigned int getTime() {
 }
 namespace xlib {
 
-void Timer20240522::loop() {
+void TimerManager::loop() {
     std::unique_lock lk(mut_, std::defer_lock);
 
     // lk.unlock();
@@ -30,20 +30,20 @@ void Timer20240522::loop() {
         cond_.wait(lk, [&]() { return !tasks.empty(); });
         it = tasks.begin();
         for (; it != tasks.end();) {
-            if ((*it).times == 0 || ((*it).isAllTaskCanceled)->load()) {
-                --(*((*it).taskNumber));
+            if ((*it).____times == 0 || ((*it).____isAllTaskCanceled)->load()) {
+                --(*((*it).____taskNumber));
                 it = tasks.erase(it);
                 continue;
             }
             int temp = getTime();
-            if (temp - (*it).time0 >= (*it).Delay && (*it).times != 0) {
+            if (temp - (*it).____time0 >= (*it).____Delay && (*it).____times != 0) {
                 // 此处必须用线程池，否则会死锁
-                ++*((*it).taskNumber);
+                ++*((*it).____taskNumber);
                 thread_pool::ThreadPool.addTask(*it);
 
-                (*it).time0 = temp;
-                if ((*it).times != -5)
-                    (*it).times--;
+                (*it).____time0 = temp;
+                // if ((*it).____times != -5)
+                //     (*it).____times--;
             }
             it++;
 
@@ -57,22 +57,22 @@ void Timer20240522::loop() {
     }
 }
 
-bool Timer20240522::bCont() { return false; }
+bool TimerManager::bCont() { return false; }
 
-Timer20240522::Timer20240522() {
+TimerManager::TimerManager() {
     t1 = new std::thread(loop, this);
     // assert(timer20240522Ins == nullptr);
     // timer20240522Ins = this;
 }
-Timer20240522::~Timer20240522() {
+TimerManager::~TimerManager() {
     brun = 0;
     thread_pool::ThreadPool.isStop = true;
     t1->join();
     delete t1;
 }
 
-Timer20240522 &getTimer() {
-    static Timer20240522 timerIns;
+TimerManager &getTimer() {
+    static TimerManager timerIns;
     return timerIns;
 }
 

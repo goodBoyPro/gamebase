@@ -24,3 +24,7 @@ GDebug::~GDebug() {
 ##6
 
 GetTickCount64()*timeScale; timeScale时浮点数时，会随着时间推移越来越慢，原因未知
+
+##7
+
+如果变量名以4个下划线开头，说明引擎建议用户不要直接访问该变量

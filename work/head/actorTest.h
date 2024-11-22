@@ -21,7 +21,7 @@ class actorTest : public GActor {
     /* data */
   public:
     std::mutex mtx;
-    xlib::Timer20240522::DelayTask *ptr = nullptr;
+    xlib::TimerManager::DelayTask *ptr = nullptr;
     void eventBegin() {
         setPosInWs(getPlayerCharactor()->getPosInWs());
         DELAY(
@@ -50,9 +50,9 @@ class actorTest : public GActor {
     virtual ~actorTest() { std::unique_lock lk(mtx); }
 
     FVector3 velocity;
-    canRun t;
-    xlib::Timer20240522::DelayTask *delayTaskPtr = nullptr;
-    static xlib::Timer20240522::DelayTask dtp;
+    
+    xlib::TimerManager::DelayTask *delayTaskPtr = nullptr;
+    static xlib::TimerManager::DelayTask dtp;
     std::mutex mutAsuncTask;
 
     bool flag = 0;

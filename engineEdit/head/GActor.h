@@ -5,6 +5,7 @@
 #include <game.h>
 #include <gridmap.h>
 #include <mutex>
+typedef 
 class GActorComponent;
 class GActor : public GObject {
   protected:
@@ -78,17 +79,16 @@ class GActor : public GObject {
     void cancelAllAsyncTask() { isAllAsyncTaskCanceled = true; }
   public:
     int getAsyncTaskNumber() { return asyncTaskNumber.load(); }
-    template <class T> void DELAY(int timeDelay, T funcPtr_,bool bLoop=false) {
+    template <class T> xlib::TimerManager::delaytaskPtr* DELAY(int timeDelay, T funcPtr_,bool bLoop=false) {
         if (isAllAsyncTaskCanceled)
-            return;
+            return nullptr;
         if(bLoop)
-        xlib::getTimer().addTaskSafe(getTime(), timeDelay, -5, &asyncTaskNumber,
+        return xlib::getTimer().addTaskSafe(getTime(), timeDelay, -5, &asyncTaskNumber,
                                      &isAllAsyncTaskCanceled, funcPtr_);
-        xlib::getTimer().addTaskSafe(getTime(), timeDelay, 1, &asyncTaskNumber,
+        return xlib::getTimer().addTaskSafe(getTime(), timeDelay, 1, &asyncTaskNumber,
                                      &isAllAsyncTaskCanceled, funcPtr_);
     }
-   
-
+    
 };
 template <class T> T *spawnActorAtLocation(FVector3 pos = {0, 0, 0}) {
     GActor *a = (GActor *)new T;
