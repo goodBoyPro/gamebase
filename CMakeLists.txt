@@ -11,7 +11,8 @@ get_filename_component(ABS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${ABS_DIR} ABSOLUTE)
 message(RootDirectory:${ABS_DIR})
 ########################################################################################
 SET(CMAKE_CXX_COMPILE_FEATURES "gcc")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexec-charset=GBK ")
+#不再此处设置，程序运行时start.cpp将终端切换为utf8
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexec-charset=GBK ")
 
 include_directories(
     ${PROJECT_SOURCE_DIR}/work/head

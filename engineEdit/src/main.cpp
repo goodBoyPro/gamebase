@@ -3,6 +3,7 @@
 #include<mylib.h>
 #if 1
 int main() {
+    system("chcp 65001");
     mylib::ProgramMutex proMut(L"main");
     if(proMut.isOtherProgramOn())
         return 0;

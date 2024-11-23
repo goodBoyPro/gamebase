@@ -129,6 +129,9 @@ public:
             return 0;
         }
     }
+    bool areFloatsEqual(float a, float b, float epsilon = 1e-6f) {
+    return std::abs(a - b) < epsilon;
+}
     void setActorsAlive(int centerId)
     {
 
@@ -142,9 +145,9 @@ public:
         for (auto elem : gridNode.nodeNear)
             elem->actors.pollList([&](T a)
                                   { actorsAlive.push_back(a); });
-        std::sort(actorsAlive.begin(), actorsAlive.end(), [](T a, T b)
+        std::sort(actorsAlive.begin(), actorsAlive.end(), [&](T a, T b)
                   {
-            if (a->getPosInWs().y != b->getPosInWs().y)
+            if (!areFloatsEqual(a->getPosInWs().y,b->getPosInWs().y))
                 return a->getPosInWs().y < b->getPosInWs().y;
             return a->getPosInWs().x < b->getPosInWs().x; });
     }

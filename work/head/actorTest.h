@@ -23,14 +23,14 @@ class actorTest : public GActor {
     std::mutex mtx;
     xlib::TimerManager::DelayTask *ptr = nullptr;
     void eventBegin() {
-        setPosInWs(getPlayerCharactor()->getPosInWs());
+        
         DELAY(
             5,
             [&]() {
                 setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0));
             },
             true);
-        //DELAY(5000, [&]() { destroyActor(); });
+        DELAY(5000, [&]() { destroyActor(); });
         //createDelayTask(6,[&]() { setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0)); });
     }
     sf::Sprite spr;

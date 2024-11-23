@@ -90,13 +90,13 @@ class GActor : public GObject {
     }
     
 };
-template <class T> T *spawnActorAtLocation(FVector3 pos = {0, 0, 0}) {
+template <class T> T *spawnActorAtLocation(FVector3 pos = {10,10, 0}) {
     GActor *a = (GActor *)new T;
     a->setPosInWs(pos);
     a->eventBegin();
     return (T *)a;
 }
-template <class T> T *spawnActorArgsAtLocation(T *a,FVector3 pos = {0, 0, 0}) {
+template <class T> T *spawnActorArgsAtLocation(T *a,FVector3 pos = {10, 10, 0}) {
     a->setPosInWs(pos);
     a->eventBegin();
     return (T *)a;

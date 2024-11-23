@@ -9,6 +9,8 @@ int main(){
     if(_chdir("bin")==0)printf("dir changed");  
     else
         perror("dir bad change");
+    //终端编码切换为utf8
+    system("chcp 65001");
     system("game.exe");
     return 0;
 }
