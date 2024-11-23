@@ -52,7 +52,8 @@ class TIMERAPI TimerManager {
         std::function<void()> ____funcPtr = nullptr;
     };
     typedef DelayTask delaytaskPtr;
-    bool brun = 1;
+    
+    void stop() { brun = false; }
 
   private:
     // 单例模式
@@ -66,7 +67,7 @@ class TIMERAPI TimerManager {
     std::thread *t1;
     void loop();
     bool isPaused = true;
-
+    bool brun = true;
   public:
     std::condition_variable cond_;
     std::list<TimerManager::DelayTask> tasks;

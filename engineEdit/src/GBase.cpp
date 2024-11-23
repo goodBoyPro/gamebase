@@ -1,10 +1,10 @@
 #include "GBase.h"
 #include "GPlayerChar.h"
+#include <GL/glew.h>
 #include <GWidget.h>
 #include <GWorld.h>
 #include <cmath>
 #include <math.h>
-#include <GL/glew.h>
 // 全局变量
 GPlayerChar *playerCharacter = nullptr;
 sf::RenderWindow *window = nullptr;
@@ -74,27 +74,18 @@ void resizeWindow(sf::RenderWindow *window) {
 }
 void initTools() {
     srand((int)time(NULL));
-
-    if (font[0].loadFromFile("res/heiti.ttf"))
-        printf("font1加载成功\n");
-    else
-        printf("font1加载失败\n");
-    if (font[1].loadFromFile("res/kaiti.ttf"))
-        printf("font2加载成功\n");
-    else
-        printf("font2加载失败\n");
-    if (font[2].loadFromFile("res/zhunyuan.ttf"))
-        printf("font3加载成功\n");
-    else
-        printf("font3加载失败\n");
+    if (!font[0].loadFromFile("res/font/heiti.ttf"))
+        PRINTF("font1加载失败\n");
+    if (!font[1].loadFromFile("res/font/kaiti.ttf"))
+        PRINTF("font2加载失败\n");
+    if (!font[2].loadFromFile("res/font/zhunyuan.ttf"))
+        PRINTF("font3加载失败\n");
 }
 
-sf::Text text;
-
 void printText(std::wstring str, int x, int y, int size, sf::Color color,
-               sf::Font *font_) {
-
-    text.setFont(*font_);
+               sf::Font &font_) {
+    static sf::Text text;
+    text.setFont(font_);
     text.setString(str);
     text.setPosition(sf::Vector2f(x, y));
     text.setFillColor(color);
@@ -104,14 +95,14 @@ void printText(std::wstring str, int x, int y, int size, sf::Color color,
 }
 
 void printNum(float __float, int x, int y, int size, sf::Color color,
-              sf::Font *font_) {
+              sf::Font &font_) {
     wchar_t num[32];
     swprintf_s(num, L"%f", __float);
     printText(num, x, y, size, color, font_);
 }
 
 void printNum(int __int, int x, int y, int size, sf::Color color,
-              sf::Font *font_) {
+              sf::Font &font_) {
     wchar_t num[32];
     swprintf_s(num, L"%d", __int);
     printText(num, x, y, size, color, font_);
@@ -120,8 +111,8 @@ void printNum(int __int, int x, int y, int size, sf::Color color,
 FVector3 normalize(const FVector3 &G) {
     float a = pow(G.x * G.x + G.y * G.y, 0.5f);
     if (a)
-        return {G.x / a, G.y / a,0};
-    return {0, 0,0};
+        return {G.x / a, G.y / a, 0};
+    return {0, 0, 0};
 };
 void mouseCursor() {
     printText(L"我是鼠标", sf::Mouse::getPosition(*window).x,
@@ -208,21 +199,15 @@ float smoothInterpolateTo(float current, float target, float speed,
 // 注意：在实际应用中，deltaTime应该由你的游戏引擎或应用程序框架提供，
 // 它表示从上一次调用此函数到当前调用之间的时间差（以秒为单位）。
 
-//从形如“11,13”的字符串接受整数
-sf::Vector2i strTo2Int(const std::string &str)
-{
-  size_t pos = str.find(',');
-  return {
-      std::stoi(str.substr(0, pos)),
-      std::stoi(str.substr(pos + 1))};
+// 从形如“11,13”的字符串接受整数
+sf::Vector2i strTo2Int(const std::string &str) {
+    size_t pos = str.find(',');
+    return {std::stoi(str.substr(0, pos)), std::stoi(str.substr(pos + 1))};
 }
-//从形如“11,13”的字符串接受浮点
-sf::Vector2f strTo2Float(const std::string &str)
-{
-  size_t pos = str.find(',');
-  return {
-      std::stof(str.substr(0, pos)),
-      std::stof(str.substr(pos + 1))};
+// 从形如“11,13”的字符串接受浮点
+sf::Vector2f strTo2Float(const std::string &str) {
+    size_t pos = str.find(',');
+    return {std::stof(str.substr(0, pos)), std::stof(str.substr(pos + 1))};
 }
 
 }; // namespace nsg
