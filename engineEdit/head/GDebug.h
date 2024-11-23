@@ -11,20 +11,56 @@
                                                                                \
 // 已实现线程安全
 class GDebug : public GObject {
-
   private:
     int yPosition = 0;
     int texHight = 10;
-
     void drawLog(int index);
     static std::mutex mtx;
-
   public:
     wchar_t wchar_[128] = {0};
     GDebug();
     virtual ~GDebug();
     static void debugDisplay();
 };
-extern std::set<GDebug *> debugs__;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+inline std::set<GDebug *> debugs__;
+inline std::mutex GDebug::mtx;
+
+inline void GDebug::debugDisplay()
+{
+    // 非必要操作，应避免在堆区创建对象；
+    //  debugs__.erase(std::remove_if(debugs__.begin(), debugs__.end(),
+    //                                [](GDebug *a) { return a->shouldDestroy; }),debugs__.end());
+    std::unique_lock lk(mtx);
+    int i = 0;
+    for (auto a : debugs__)
+    {   
+        if(a==nullptr)continue;
+        a->drawLog(i);
+        i++;
+    }
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+inline GDebug::GDebug()
+{
+    debugs__.emplace(this);
+}
+
+inline GDebug::~GDebug() {  
+    std::unique_lock lk(mtx);
+   debugs__.erase(this);//可能存在线程安全问题，遇到时解决//与clearDebugs()冲突
+}
+
+inline void GDebug::drawLog(int index)
+{
+    printText(wchar_, 0, 30 * index);
+}
+
+
 
 #endif // GDBUG

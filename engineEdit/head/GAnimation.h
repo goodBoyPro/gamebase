@@ -2,7 +2,7 @@
 #define GANIMATION_H
 #include <GBase.h>
 #include <SFML/Graphics.hpp>
-#include <timer.h>
+
 
 #define LEFT_ORTN 1   // 角色朝向左
 #define RIGHT_ORTN -1 // 角色朝向右

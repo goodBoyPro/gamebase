@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <chrono>
-#include <timer.h>
+#include <timeManager.h>
 #include <windows.h>
 
 // thread_pool thread_pool::ThreadPool;
@@ -18,38 +18,40 @@ unsigned int getTime() {
 }
 namespace xlib {
 
-void TimerManager::loop() {
+void TimeManager::loop() {
     std::unique_lock lk(mut_, std::defer_lock);
     thread_pool &tp = thread_pool::getThreadPool();
     while (brun) {
         // 动态调整计算频率
-        if(isPaused)continue;
+        if (isPaused)
+            continue;
         static int timecost = 0;
         int a = getTime();
-        //lk.lock();
+        // lk.lock();
         cond_.wait(lk, [&]() { return !tasks.empty(); });
         it = tasks.begin();
-        int temp = getTime();
+        static int temp = getTime();
         for (; it != tasks.end();) {
             if ((*it).____times == 0 || ((*it).____isAllTaskCanceled)->load()) {
                 --(*((*it).____taskNumber));
                 it = tasks.erase(it);
                 continue;
             }
-            
-            if (temp - (*it).____time0 >= (*it).____Delay && (*it).____times != 0) {
+
+            if (temp - (*it).____time0 >= (*it).____Delay &&
+                (*it).____times != 0) {
                 // 此处必须用线程池，否则会死锁
                 ++*((*it).____taskNumber);
                 tp.addTask(&(*it));
-                
+
                 (*it).____time0 = temp;
-               
+                
             }
             it++;
-
+            temp = getTime();
         } // for
-        //lk.unlock();
-        // 频率越高性能越差的原因找到了：clock()在切换到别的线程时不计时，被其他线程高频抢占cpu,时间看起来变慢了
+        // lk.unlock();
+        //  频率越高性能越差的原因找到了：clock()在切换到别的线程时不计时，被其他线程高频抢占cpu,时间看起来变慢了
         timecost = getTime() - a;
         if (timecost < 1) {
             threadSleep(1);
@@ -57,22 +59,22 @@ void TimerManager::loop() {
     }
 }
 
-bool TimerManager::bCont() { return false; }
+bool TimeManager::bCont() { return false; }
 
-TimerManager::TimerManager() {
+TimeManager::TimeManager() {
     t1 = new std::thread(loop, this);
     // assert(timer20240522Ins == nullptr);
     // timer20240522Ins = this;
 }
-TimerManager::~TimerManager() {
+TimeManager::~TimeManager() {
     brun = 0;
     thread_pool::getThreadPool().isStop = true;
     t1->join();
     delete t1;
 }
 
-TimerManager &getTimer() {
-    static TimerManager timerIns;
+TimeManager &getTimer() {
+    static TimeManager timerIns;
     return timerIns;
 }
 

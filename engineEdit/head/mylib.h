@@ -12,7 +12,7 @@ struct ProgramMutex {
     bool isOtherProgramOn() {
         if (GetLastError() == ERROR_ALREADY_EXISTS) {
             CloseHandle(hMutex);
-            printf("program is running");
+            printf("another program instance is running\n");
             return 1;
         }
         return 0;

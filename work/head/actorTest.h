@@ -21,7 +21,7 @@ class actorTest : public GActor {
     /* data */
   public:
     std::mutex mtx;
-    xlib::TimerManager::DelayTask *ptr = nullptr;
+    xlib::TimeManager::DelayTask *ptr = nullptr;
     void eventBegin() {
         
         DELAY(
@@ -54,8 +54,8 @@ class actorTest : public GActor {
 
     FVector3 velocity;
     
-    xlib::TimerManager::DelayTask *delayTaskPtr = nullptr;
-    static xlib::TimerManager::DelayTask dtp;
+    xlib::TimeManager::DelayTask *delayTaskPtr = nullptr;
+    static xlib::TimeManager::DelayTask dtp;
     std::mutex mutAsuncTask;
 
     bool flag = 0;

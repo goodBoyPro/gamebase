@@ -20,7 +20,7 @@ unsigned int TIMERAPI getTime();
 namespace xlib {
 
 // 用户创建对象已禁止;系统已自动创建对象，用户无需创建
-class TIMERAPI TimerManager {
+class TIMERAPI TimeManager {
 
   public:
     struct DelayTask {
@@ -52,27 +52,28 @@ class TIMERAPI TimerManager {
         std::function<void()> ____funcPtr = nullptr;
     };
     typedef DelayTask delaytaskPtr;
-    
+
     void stop() { brun = false; }
 
   private:
     // 单例模式
-    TimerManager(/* args */);
-    friend TimerManager &getTimer();
+    TimeManager(/* args */);
+    friend TimeManager &getTimer();
     // 用于保护容器操作
     std::mutex mut_;
 
-    std::list<TimerManager::DelayTask>::iterator it;
+    std::list<TimeManager::DelayTask>::iterator it;
 
     std::thread *t1;
     void loop();
     bool isPaused = true;
     bool brun = true;
+
   public:
     std::condition_variable cond_;
-    std::list<TimerManager::DelayTask> tasks;
+    std::list<TimeManager::DelayTask> tasks;
 
-    ~TimerManager();
+    ~TimeManager();
     bool TIMERAPI bCont();
     void setPause(bool pause_) { isPaused = pause_; }
     template <class T>
@@ -96,7 +97,7 @@ class TIMERAPI TimerManager {
         return x;
     }
 };
-TIMERAPI TimerManager &getTimer();
+TIMERAPI TimeManager &getTimer();
 
 } // namespace xlib
 
@@ -190,21 +191,20 @@ extern "C" void TIMERAPI threadSleep(int time);
 class TIMERAPI thread_pool {
 
   public:
-   
     static thread_pool &getThreadPool() {
         static thread_pool pool;
-        return pool;       
+        return pool;
     }
     bool isStop = 0;
 
   public:
-    using taskType = std::function<void()>;
+    
 
     template <class T> void addTask(T f) {
 
         std::unique_lock lk(mutex_);
-        tasks.emplace(f);
-
+        //tasks.emplace(f);
+        tasks.push(f);
         cond_.notify_one();
     }
     ~thread_pool() {
@@ -216,32 +216,31 @@ class TIMERAPI thread_pool {
 
   private:
     thread_pool() {
-        //  int threadNum = std::thread::hardware_concurrency() * 2 + 2;
-        int threadNum = 1;
+        //int threadNum = std::thread::hardware_concurrency() * 2 + 2;
+        int threadNum =1;
         for (int i = 0; i < threadNum; i++) {
             threads.emplace_back(threadFunc, this);
         }
     }
     void threadFunc() {
-        std::unique_lock lk(mutex_,std::defer_lock);
-        while (!isStop) { 
-            lk.lock();          
+        std::unique_lock lk(mutex_, std::defer_lock);
+        while (!isStop) {
+            lk.lock();
             cond_.wait(lk, [this]() { return isStop || !tasks.empty(); });
             if (isStop && tasks.empty()) {
-                lk.unlock();
+               lk.unlock();
                 break;
-            }
-           
-            xlib::TimerManager::DelayTask *task = tasks.front();
-            
+            }           
+            xlib::TimeManager::DelayTask *task = tasks.front();
             tasks.pop();
             lk.unlock();
             (*task)();
+            
         }
     }
 
     std::vector<std::thread> threads;
-    std::queue<xlib::TimerManager::DelayTask *> tasks;
+    std::queue<xlib::TimeManager::DelayTask *> tasks;
     std::mutex mutex_;
     std::condition_variable cond_;
 

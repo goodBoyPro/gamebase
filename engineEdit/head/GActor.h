@@ -5,7 +5,6 @@
 #include <game.h>
 #include <gridmap.h>
 #include <mutex>
-typedef 
 class GActorComponent;
 class GActor : public GObject {
   protected:
@@ -79,7 +78,7 @@ class GActor : public GObject {
     void cancelAllAsyncTask() { isAllAsyncTaskCanceled = true; }
   public:
     int getAsyncTaskNumber() { return asyncTaskNumber.load(); }
-    template <class T> xlib::TimerManager::delaytaskPtr* DELAY(int timeDelay, T funcPtr_,bool bLoop=false) {
+    template <class T> xlib::TimeManager::delaytaskPtr* DELAY(int timeDelay, T funcPtr_,bool bLoop=false) {
         if (isAllAsyncTaskCanceled)
             return nullptr;
         if(bLoop)
