@@ -2,28 +2,26 @@
 
 #include <game.h>
 
-
-
 void GController::pollKey() {
 
     // 无延迟按键
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        getPlayerController()->bindKey[GController::w]();
+        bindKey[GController::w]();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        getPlayerController()->bindKey[GController::a]();
+        bindKey[GController::a]();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        getPlayerController()->bindKey[GController::s]();
+        bindKey[GController::s]();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        getPlayerController()->bindKey[GController::d]();
+        bindKey[GController::d]();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        getPlayerController()->bindKey[GController::space]();
+        bindKey[GController::space]();
     // if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W) &&
     //     !sf::Keyboard::isKeyPressed(sf::Keyboard::A) &&
     //     !sf::Keyboard::isKeyPressed(sf::Keyboard::S) &&
     //     !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     //     playerController->KEYIDLE();
-     if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
-        getPlayerController()->bindKey[GController::b]();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
+        bindKey[GController::b]();
 
     if (getWindow()->pollEvent(getGameIns()->event)) {
         if (getGameIns()->event.type == sf::Event::Closed) {
@@ -72,11 +70,11 @@ void GController::pollKey() {
         if (getGameIns()->event.type == sf::Event::MouseButtonPressed) {
             switch (getGameIns()->event.mouseButton.button) {
             case sf::Mouse::Left:
-                getPlayerController()->bindKey[GController::mouseLeft]();
+                bindKey[GController::mouseLeft]();
 
                 break;
             case sf::Mouse::Right:
-                getPlayerController()->KEYRIGHT();
+                KEYRIGHT();
                 break;
 
             default:
@@ -98,12 +96,10 @@ void GController::pollKey() {
         //     }
         // }
         if (sf::Joystick::hasAxis(0, sf::Joystick::Axis::X)) {
-            getPlayerController()->AXISX(
-                sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) / 50);
+            AXISX(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::X) / 50);
         }
         if (sf::Joystick::hasAxis(0, sf::Joystick::Axis::Y)) {
-            getPlayerController()->AXISY(
-                sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) / 50);
+            AXISY(sf::Joystick::getAxisPosition(0, sf::Joystick::Axis::Y) / 50);
         }
     }
 }

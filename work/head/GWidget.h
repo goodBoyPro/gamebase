@@ -2,7 +2,7 @@
 #define GWIDGET_H
 #include <GObject.h>
 #include<GButton.h>
-
+#include<GController.h>
 class GWidget : public GObject {
   private:
     /* data */
@@ -22,7 +22,7 @@ class GWidget : public GObject {
     sf::Sprite spr;
     sf::Texture tex;
     std::vector<GButton> btns;
-    static class GController widgetController;
+    GController widgetController;
     IVector getLeftTopPoint();
     bool isOpened = 0;
     //切换ui显示

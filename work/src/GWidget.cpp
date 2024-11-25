@@ -3,21 +3,8 @@
 #include <GDebug.h>
 #include<game.h>
 sf::View GWidget::viewPort;
-GController GWidget::widgetController;
-GWidget::GWidget() {
-
-   // viewPort.setViewport(sf::FloatRect(0.2, 0.2, 0.6, 0.6));
-
-    // tex.loadFromFile("bin/res/widget.png");
-    // spr.setTexture(tex);
-    // spr.setScale(8, 8);
-    // widgetController.bindKey[GController::closeUi] = [&]() { remove(); };
-    // btns.emplace_back(400, 40);
-    // btns.emplace_back(200, 40);
-
-    // btns[0].onClicked = []() { printf("button0 is pressed\n"); };
-    // btns[1].onClicked = []() { printf("button1 is pressed\n"); };
-}
+//GController GWidget::widgetController;
+GWidget::GWidget() {}
 
 GWidget::GWidget(IVector pos, int width__, int height__) {
     position=pos;
@@ -66,7 +53,7 @@ void GWidget::remove() {
     ;
    setWidgetPtr(nullptr);
     setPlayerController(saveController);
-   
+    widgetController.disableActive();
     isOpened = false;
 }
 

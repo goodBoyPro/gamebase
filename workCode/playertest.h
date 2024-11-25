@@ -63,15 +63,15 @@ class Playertest : public GPlayerChar {
         GComponentAnimation *aniCom = createAnimationComponent<anicomponenttest>();
         gt->playerSpr = aniCom->getRenderSprite();
         gph.gravity = -30;
-        ((GController*)(getPlayerController()))->bindKey[GController::space] = [&]() {
+        controller->bindKey[GController::space] = [&]() {
             if (!gph.speedZ)
                 gph.speedZ = 6;
         };
 
-        getPlayerController()->bindKey[GController::uiOpenOrClose] = [&]() {
+        controller->bindKey[GController::uiOpenOrClose] = [&]() {
             widget.addToViewport();
         };
-        getPlayerController()->bindKey[GController::b] = [&]() {
+        controller->bindKey[GController::b] = [&]() {
             spawnActorAtLocation<actorTest>(getPosInWs());
         };
 

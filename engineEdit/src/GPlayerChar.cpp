@@ -10,7 +10,6 @@ GPlayerChar::GPlayerChar() {
         isMovingW = 1;
         moveUp(-1);
     };
-    // std::bind(&GPlayerChar::moveUp, this, -1);
     controller->bindKey[GController::s] = [&]() {
         isMovingS = 1;
         moveUp(1);

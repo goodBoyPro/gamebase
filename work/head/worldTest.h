@@ -51,7 +51,7 @@ class worldTest : public GWorld {
                 {rand() % 10000 * pixSize, rand() % 10000 * pixSize, 0});
         }
         // 线程安全测试
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 20000; i++) {
             spawnActorAtLocation<actorTest>(getPlayerCharactor()->getPosInWs());
         }
     };

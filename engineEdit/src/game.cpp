@@ -48,7 +48,7 @@ sf::RenderWindow *createwindow() {
     setWindow(&window);
     return &window;
 }
-GController gameController1;
+
 Game::Game() {
     // 首先调用来初始化opengl
     // window = new sf::RenderWindow(sf::VideoMode(WINW, WINH), "game");
@@ -56,8 +56,8 @@ Game::Game() {
     createwindow();
     setWinIcon();   
     mousePtr = new GMouse;
-    gameController = &gameController1;
-    setPlayerController(gameController);
+   
+    
 }
 
 Game::~Game() {
@@ -92,10 +92,17 @@ void Game::dataLoop() {
 void Game::renderLoop2D() {
     getWindow()->setFramerateLimit(frameLimit);
     std::unique_lock lk(actorsMutex, std::defer_lock);
+    std::vector<GControllerInterface *> &allController =
+        GControllerInterface::getAllController();
     xlib::getTimer().setPause(false);
     while (bGameContinue) {
 
-        getPlayerController()->pollKey();
+       getPlayerController()->pollKey();
+        // for(auto ctrl:allController){
+        //     if(ctrl)
+        //         ctrl->pollKey();
+        // }       
+
         // resizeWindow(window);
         // 绘制地图//////////////////////////////
         if (getWorld())
