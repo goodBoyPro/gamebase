@@ -111,7 +111,7 @@ public:
     // 全局资源
     static GSource &getSource()
     {
-        static GSource gs__("res/animData.xml", "res/picData.xml",
+        static GSource gs__("res/textureArray.xml", "res/picData.xml",
                             "res/soundData.xml", "res/animData.xml");
         return gs__;
     }

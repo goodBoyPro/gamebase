@@ -71,33 +71,40 @@ class GActor : public GObject {
     std::vector<DelayTask *> allDelaytasks;
     std::vector<GComponent *> allComponents;
     std::vector<GActorComponent *> allActorComponents;
-  //计时器
+    // 计时器
   public:
     std::atomic<int> asyncTaskNumber = 0;
     std::atomic<bool> isAllAsyncTaskCanceled = false;
     void cancelAllAsyncTask() { isAllAsyncTaskCanceled = true; }
+
   public:
     int getAsyncTaskNumber() { return asyncTaskNumber.load(); }
-    template <class T> xlib::TimeManager::delaytaskPtr* DELAY(int timeDelay, T funcPtr_,bool bLoop=false) {
+    template <class T>
+    xlib::TimeManager::delaytaskPtr *DELAY(int timeDelay, T funcPtr_,
+                                           bool bLoop = false) {
         if (isAllAsyncTaskCanceled)
             return nullptr;
-        if(bLoop)
-        return xlib::getTimer().addTaskSafe(getTime(), timeDelay, -5, &asyncTaskNumber,
-                                     &isAllAsyncTaskCanceled, funcPtr_);
-        return xlib::getTimer().addTaskSafe(getTime(), timeDelay, 1, &asyncTaskNumber,
-                                     &isAllAsyncTaskCanceled, funcPtr_);
+        if (bLoop)
+            return xlib::getTimer().addTaskSafe(
+                getTime(), timeDelay, -5, &asyncTaskNumber,
+                &isAllAsyncTaskCanceled, funcPtr_);
+        return xlib::getTimer().addTaskSafe(getTime(), timeDelay, 1,
+                                            &asyncTaskNumber,
+                                            &isAllAsyncTaskCanceled, funcPtr_);
     }
-    
 };
-template <class T> T *spawnActorAtLocation(FVector3 pos = {10,10, 0}) {
+template <class T> T *spawnActorAtLocation(FVector3 pos = {10, 10, 0}) {
     GActor *a = (GActor *)new T;
     a->setPosInWs(pos);
-    a->eventBegin();
+    if (a->mapNodeId)
+        a->eventBegin();
     return (T *)a;
 }
-template <class T> T *spawnActorArgsAtLocation(T *a,FVector3 pos = {10, 10, 0}) {
+template <class T>
+T *spawnActorArgsAtLocation(T *a, FVector3 pos = {10, 10, 0}) {
     a->setPosInWs(pos);
-    a->eventBegin();
+    if (a->mapNodeId)
+        a->eventBegin();
     return (T *)a;
 }
 

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<node>
+		<id>1</id>
+		<name>trees.png</name>
+		<path>res/trees_256x5.png</path>
+		<sizex>256</sizex>
+		<sizey>256</sizey>
+		<row>5</row>
+		<column>5</column>
+		<originX>128</originX>
+		<originY>250</originY>
+	</node>
+</root>

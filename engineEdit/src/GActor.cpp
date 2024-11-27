@@ -25,10 +25,14 @@ void GActor::destroyActor()
     
 }
 
-FVector3 &GActor::getPosInWs() { return posInWs; }
+FVector3 &GActor::getPosInWs() {
+    
+    return posInWs;
+}
 
 void GActor::setPosInWs(const FVector3 pos_)
 {
+    
     if(isAllAsyncTaskCanceled)
         return;
     int id=GActor::gridMapOfActor.getPositionIndex(pos_);

@@ -31,7 +31,7 @@ class actorTest : public GActor {
             },
             true);
         DELAY(5000, [&]() { destroyActor(); });
-        //createDelayTask(6,[&]() { setPosInWs(getPosInWs() + FVector3(0.01, 0.01, 0)); });
+        
     }
     sf::Sprite spr;
     void delayTest() {}

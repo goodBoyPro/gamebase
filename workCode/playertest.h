@@ -70,6 +70,8 @@ class Playertest : public GPlayerChar {
 
         controller->bindKey[GController::uiOpenOrClose] = [&]() {
             widget.addToViewport();
+              
+
         };
         controller->bindKey[GController::b] = [&]() {
             spawnActorAtLocation<actorTest>(getPosInWs());

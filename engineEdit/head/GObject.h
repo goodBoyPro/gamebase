@@ -34,7 +34,7 @@ class GControllerInterface : public GObject {
   public:
     GControllerInterface() {
         getAllController().push_back(this);
-        id = getAllController().size();
+        id = getAllController().size()-1;
         for (std::function<void()> &func : bindKey)
             func = []() { printf("No Key Bind\n"); };
         for (std::function<void(float)> &func : bindAxis)
@@ -142,6 +142,7 @@ class WidgetInterface : public GObject {
     WidgetInterface() {
         getAllWidget().push_back(this);
         id = getAllWidget().size();
+        disableActive();
     }
 };
 

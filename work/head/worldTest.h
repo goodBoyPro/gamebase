@@ -4,13 +4,6 @@
 #include <house.h>
 #include <playertest.h>
 #include <trees.h>
-class actortest2 : public GActor {
-  public:
-    actortest2() { mapNodeId = 40080; }
-    virtual ~actortest2() {}
-    void eventTick() { printf("actortest2"); }
-    void eventBegin() {}
-};
 class worldTest : public GWorld {
   private:
     /* data */
@@ -37,22 +30,17 @@ class worldTest : public GWorld {
         setPlayerCharactor(player);
         getPlayerCharactor()->setPosInWs({500 * pixSize, 500 * pixSize, 0});
 
-        for (int i = 0; i < 200; i++) {
+         for (int i = 0; i < 10; i++) {
 
             trees *a = spawnActorAtLocation<trees>(
                 {rand() % 3840 * pixSize, rand() % 3840 * pixSize, 0});
             a->init(rand() % 25);
         }
+       
 
-        for (int i = 0; i < 200; i++) {
-
-            spawnActorArgsAtLocation(
-                new house(rand() % 5),
-                {rand() % 10000 * pixSize, rand() % 10000 * pixSize, 0});
-        }
         // 线程安全测试
-        for (int i = 0; i < 20000; i++) {
-            spawnActorAtLocation<actorTest>(getPlayerCharactor()->getPosInWs());
+        for (int i = 0; i < 30000; i++) {
+            spawnActorAtLocation<actorTest>({5,6,0});
         }
     };
     ~worldTest() { delete getPlayerCharactor(); };
