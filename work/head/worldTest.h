@@ -28,7 +28,7 @@ class worldTest : public GWorld {
         spr.setTexture(mapTex.getTexture(), 1);
         Playertest *player = spawnActorAtLocation<Playertest>();
         setPlayerCharactor(player);
-        getPlayerCharactor()->setPosInWs({500 * pixSize, 500 * pixSize, 0});
+        getPlayerCharactor()->setPosInWs({0 * pixSize, 0 * pixSize, 0});
 
          for (int i = 0; i < 10; i++) {
 
@@ -40,7 +40,7 @@ class worldTest : public GWorld {
 
         // 线程安全测试
         for (int i = 0; i < 30000; i++) {
-            spawnActorAtLocation<actorTest>({5,6,0});
+            spawnActorAtLocation<actorTest>({5,5,0});
         }
     };
     ~worldTest() { delete getPlayerCharactor(); };
