@@ -2,6 +2,7 @@
     "files.associations": {
         "*.usf": "hlsl",
         "*.ush": "hlsl",
+        "*.json": "json",
         "array": "cpp",
         "atomic": "cpp",
         "bit": "cpp",
@@ -73,6 +74,7 @@
         "fstream": "cpp",
         "iostream": "cpp",
         "unordered_set": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "shared_mutex": "cpp"
     }
 }

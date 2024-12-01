@@ -11,4 +11,15 @@
 		<originX>128</originX>
 		<originY>250</originY>
 	</node>
+	<node>
+		<id>2</id>
+		<name>house.png</name>
+		<path>res/house_256x3.png</path>
+		<sizex>256</sizex>
+		<sizey>256</sizey>
+		<row>3</row>
+		<column>3</column>
+		<originX>128</originX>
+		<originY>250</originY>
+	</node>
 </root>

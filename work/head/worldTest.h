@@ -30,13 +30,20 @@ class worldTest : public GWorld {
         setPlayerCharactor(player);
         getPlayerCharactor()->setPosInWs({0 * pixSize, 0 * pixSize, 0});
 
-         for (int i = 0; i < 10; i++) {
+        //  for (int i = 0; i < 10; i++) {
 
-            trees *a = spawnActorAtLocation<trees>(
-                {rand() % 3840 * pixSize, rand() % 3840 * pixSize, 0});
-            a->init(rand() % 25);
+        //     trees *a = spawnActorAtLocation<trees>(
+        //         {rand() % 3840 * pixSize, rand() % 3840 * pixSize, 0});
+        //     a->init(rand() % 25);
+        // }
+        float n = 0;
+        for (int i = 0; i < 10; i++) {
+
+            trees *a = spawnActorArgsAtLocation<trees>(new trees(2,1),
+               {n,n,0});
+            n++;
+            //a->init(rand() % 25);
         }
-       
 
         // 线程安全测试
         for (int i = 0; i < 30000; i++) {
