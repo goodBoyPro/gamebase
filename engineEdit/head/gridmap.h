@@ -4,6 +4,7 @@
 #include <list>
 #include <listsafe.h>
 #include <set>
+#include<shared_mutex>
 inline float gridmapNodeWidth;
 inline float gridmapNodeHeight;
 inline int releasedActorNum = 0;
@@ -46,7 +47,11 @@ template <class T> class GridMap {
     float edgeUp;
     float edgeDown;
     gridmapNode<T> *allNode;
-    std::vector<T> actorsAlive;
+    struct compare {
+        bool operator()(const T a, const T b) const{ return a->getPosInWs().y < b->getPosInWs().y; }
+    };
+
+    std::multiset<T,compare> actorsAlive;
     int getPositionIndex(const FVector3 &pos) {
         if (pos.x < edgeLeft || pos.x >= edgeRight || pos.y < edgeUp ||
             pos.y >= edgeDown)
@@ -59,8 +64,8 @@ template <class T> class GridMap {
             float width_)
         : beginPoint(beginPoint_), row(row_), column(column_), height(height_),
           width(width_) {
-        gridmapNodeWidth = width;
-        gridmapNodeHeight = height;
+        gridmapNodeWidth = width_;
+        gridmapNodeHeight = height_;
         edgeUp = beginPoint.y + height;
         edgeDown = beginPoint.y + height * (row - 1);
         edgeLeft = beginPoint.x + width;
@@ -117,8 +122,11 @@ template <class T> class GridMap {
             return 0;
         }
     }
-    bool areFloatsEqual(const float a, const float b, float epsilon = 1e-6f) {
-        return std::abs(a - b) < epsilon;
+    bool areFloatsEqual(const float a, const float b, float epsilon = 1e-5f) {
+        return std::fabs(a - b) < epsilon;
+    }
+    bool areFloatsLessThan(float a, float b, float epsilon = 1e-6f) {
+        return a < (b - epsilon);
     }
     void setActorsAlive(int centerId) {
 
@@ -127,18 +135,24 @@ template <class T> class GridMap {
         badActors.clear();
         gridmapNode<T> &gridNode = allNode[centerId];
 
-        gridNode.actors.pollList([&](T a) { actorsAlive.push_back(a); });
-        for (auto elem : gridNode.nodeNear)
-            elem->actors.pollList([&](T a) { actorsAlive.push_back(a); });
-        //多线程中此处仍有bug  getPosInWs().y访问了无效值
-        std::sort(actorsAlive.begin(), actorsAlive.end(), [&](T a, T b) {
-            if (!areFloatsEqual(a->getPosInWs().y, b->getPosInWs().y))
-                return a->getPosInWs().y < b->getPosInWs().y;
-            return a->getPosInWs().x < b->getPosInWs().x;
-            
-        });
+        gridNode.actors.pollList([&](T a) { actorsAlive.insert(a); });
+        for (auto elem : gridNode.nodeNear) {
+            if (elem) {
+                elem->actors.pollList([&](T a) { actorsAlive.insert(a); });
+            }
+        }
+
+        // 多线程中此处仍有bug  getPosInWs().y访问了无效值
+        // std::unique_lock lk(sortMut);
+        // std::sort(actorsAlive.begin(), actorsAlive.end(), [&](T a, T b) {
+        //     if (!areFloatsEqual(a->getPosInWs().y, b->getPosInWs().y))
+        //         return a->getPosInWs().y < b->getPosInWs().y;
+        //     return a->getPosInWs().x < b->getPosInWs().x;
+           
+        // });
         
-    }
+        }
+    std::shared_mutex sortMut;
     void changeActorNode(T ptr, int idNew, int idOld) {
         allNode[idOld].actors.remove(ptr);
         allNode[idNew].actors.addActor(ptr);

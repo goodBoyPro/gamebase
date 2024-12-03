@@ -91,7 +91,7 @@ class Playertest : public GPlayerChar {
         static canRun vTest;
         if (vTest.delay(25)) {
         }
-        gph.drop(getPosInWs().z);
+        //gph.drop(getPosInWs().z);
     }
     virtual ~Playertest() {};
 

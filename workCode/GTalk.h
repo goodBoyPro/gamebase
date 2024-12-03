@@ -42,7 +42,7 @@ class GTalk : public GActorComponent {
         consStr = str[strFlag].substr(0, textFlag).c_str();
         sf::Sprite &sprTemp = *getRenderSprite();
         sprTemp.setScale(1, 0.5);
-        FVector3 &pos = getPosInWs();
+        const FVector3 &pos = getPosInWs();
         IVector posWin = wsToWin(pos);
         sprTemp.setPosition(posWin.x, posWin.y-playerSpr->getGlobalBounds().height);
         sprTemp.setOrigin(0, 256);

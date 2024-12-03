@@ -10,7 +10,7 @@ class GActor : public GObject {
   protected:
   private:
     sf::Sprite *sprPt = nullptr;
-    FVector3 posInWs;
+    FVector3 posInWs={0,0,0};
     static sf::Texture texDefault;
     static sf::Sprite spriteDefault;
     // 接口
@@ -40,12 +40,15 @@ class GActor : public GObject {
     float z = 0;
 
   public:
-    FVector3 &getPosInWs();
+    const FVector3 &getPosInWs()const;
+    
     virtual void setPosInWs(const FVector3 pos_);
     void setRenderSprite(sf::Sprite *sprPt_);
     sf::Sprite *getRenderSprite();
     virtual bool addWsPosOffset(const FVector3 &vec);
-
+    bool operator<(const GActor& other)const{
+        return getPosInWs().y > other.getPosInWs().y;
+    }
     // 碰撞
     class CollisionInterface *collisionForMove = nullptr;
     void setMoveCollision(class CollisionInterface *ptr) {

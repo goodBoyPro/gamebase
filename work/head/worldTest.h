@@ -45,9 +45,9 @@ class worldTest : public GWorld {
             //a->init(rand() % 25);
         }
 
-        // 线程安全测试
+        //线程安全测试
         for (int i = 0; i < 30000; i++) {
-            spawnActorAtLocation<actorTest>({5,5,0});
+            spawnActorAtLocation<actorTest>({0,0,0});
         }
     };
     ~worldTest() { delete getPlayerCharactor(); };

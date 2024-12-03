@@ -5,7 +5,7 @@
  sf::Texture GActor::texDefault;
  sf::Sprite GActor::spriteDefault;
 long GActor::drawCallNum=0;
-GridMap<GActor *> GActor::gridMapOfActor={FVector2(-400,-400),500,500,5,5};
+GridMap<GActor *> GActor::gridMapOfActor={FVector2(-10.f,-10.f),500,500,5.f,5.f};
 void GActor::eventTick()
 {
     
@@ -25,18 +25,19 @@ void GActor::destroyActor()
     
 }
 
-FVector3 &GActor::getPosInWs() {
+const FVector3 &GActor::getPosInWs()const{
     
     return posInWs;
 }
 
 void GActor::setPosInWs(const FVector3 pos_)
 {
-    
+    //std::shared_lock lk(gridMapOfActor.sortMut);
     if(isAllAsyncTaskCanceled)
         return;
     int id=GActor::gridMapOfActor.getPositionIndex(pos_);
     if(!id)return;
+   
     posInWs = pos_;
     //绑定actorComponent
     for (auto component : allActorComponents)
