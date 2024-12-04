@@ -205,9 +205,14 @@ sf::Vector2i strTo2Int(const std::string &str) {
     return {std::stoi(str.substr(0, pos)), std::stoi(str.substr(pos + 1))};
 }
 // 从形如“11,13”的字符串接受浮点
-sf::Vector2f strTo2Float(const std::string &str) {
-    size_t pos = str.find(',');
-    return {std::stof(str.substr(0, pos)), std::stof(str.substr(pos + 1))};
+FVector3 strTo3Float(const std::string &str) {
+    float a, b, c;
+    size_t pos1 = str.find(',');
+    a = std::stof(str.substr(0, pos1));
+    size_t pos2 = str.find(',',pos1+1);
+    b = std::stof(str.substr(pos1+1, pos2-pos1-1));
+    c = std::stof(str.substr(pos2+1));
+    return {a,b,c};
 }
 
 }; // namespace nsg

@@ -40,8 +40,12 @@ class GActor : public GObject {
     float z = 0;
 
   public:
-    const FVector3 &getPosInWs()const;
-    
+    void setSize(float x,float y){if(sprPt){
+      const sf::Vector2u texSize = sprPt->getTexture()->getSize();
+            sprPt->setScale(x/texSize.x,y/texSize.y);
+    }            
+    }
+    const FVector3 &getPosInWs()const;    
     virtual void setPosInWs(const FVector3 pos_);
     void setRenderSprite(sf::Sprite *sprPt_);
     sf::Sprite *getRenderSprite();

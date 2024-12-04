@@ -147,7 +147,7 @@ class DoOnce {
 //从形如“11,13”的字符串接受整数
 IVector strTo2Int(const std::string &str);
 //从形如“11,13”的字符串接受浮点
-FVector2 strTo2Float(const std::string &str);
+FVector3 strTo3Float(const std::string &str);
 }; // namespace nsg
 
 #endif

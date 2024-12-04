@@ -29,26 +29,32 @@ class worldTest : public GWorld {
         Playertest *player = spawnActorAtLocation<Playertest>();
         setPlayerCharactor(player);
         getPlayerCharactor()->setPosInWs({0 * pixSize, 0 * pixSize, 0});
+        nlohmann::json info =
+            loadDataFromJson("res/datalist/world/world1.json");
+        for (auto ob : info) {
+            std::string fileIDs = ob["fileID"];
+            std::string picIndexs = ob["picIndex"];
+            std::string positionS = ob["position"];
+            int fileID = std::stoi(fileIDs);
+            int picIndex=std::stoi(picIndexs);
+            FVector3 pos = nsg::strTo3Float(positionS);
+            spawnActorArgsAtLocation(new trees(fileID,picIndex),
+                                     pos);
+        }
 
-        //  for (int i = 0; i < 10; i++) {
+        // float n = 0;
+        // for (int i = 0; i < 10; i++) {
 
-        //     trees *a = spawnActorAtLocation<trees>(
-        //         {rand() % 3840 * pixSize, rand() % 3840 * pixSize, 0});
-        //     a->init(rand() % 25);
+        //     trees *a = spawnActorArgsAtLocation<trees>(new trees(2,1),
+        //        {n,n,0});
+        //     n++;
+
         // }
-        float n = 0;
-        for (int i = 0; i < 10; i++) {
 
-            trees *a = spawnActorArgsAtLocation<trees>(new trees(2,1),
-               {n,n,0});
-            n++;
-            //a->init(rand() % 25);
-        }
-
-        //线程安全测试
-        for (int i = 0; i < 30000; i++) {
-            spawnActorAtLocation<actorTest>({0,0,0});
-        }
+        // 线程安全测试
+        //  for (int i = 0; i < 30000; i++) {
+        //      spawnActorAtLocation<actorTest>({0,0,0});
+        //  }
     };
     ~worldTest() { delete getPlayerCharactor(); };
 };
