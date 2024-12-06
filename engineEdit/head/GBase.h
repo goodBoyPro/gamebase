@@ -60,8 +60,9 @@ class GPlayerChar *getPlayerCharactor();
 class GWorld *getWorld();
 
 class GWidget *getWidgetPtr();
+//需要在第一次调用前先调用createWindow()
 class sf::RenderWindow *getWindow();
-
+sf::RenderWindow *createwindow();
 void setPlayerCharactor(class GPlayerChar *player_);
 
 void setWorld(class GWorld *world_);

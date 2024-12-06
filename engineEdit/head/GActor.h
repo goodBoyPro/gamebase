@@ -41,7 +41,7 @@ class GActor : public GObject {
 
   public:
     void setSize(float x,float y){if(sprPt){
-      const sf::Vector2u texSize = sprPt->getTexture()->getSize();
+      const FVector2 &texSize = sprPt->getLocalBounds().getSize();
             sprPt->setScale(x/texSize.x,y/texSize.y);
     }            
     }
