@@ -73,10 +73,12 @@ class GCameraInterface : public GObject {
   public:
     IVector positionInWin = IVector(WINW / 2, WINH / 2);
     FVector3 posInWs = FVector3(0, 0, 0);
+    static FVector3 posForDraw;
     ~GCameraInterface() {};
     static GCameraInterface *getGameCamera() { return gameCameraX; }
     static void setGameCamera(GCameraInterface *ptr) { gameCameraX = ptr; }
 };
+inline FVector3 GCameraInterface::posForDraw={0,0,0};
 inline GCameraInterface *GCameraInterface::gameCameraX = nullptr;
 inline void setGameCamera(class GCameraInterface *camera_) {
     GCameraInterface::setGameCamera(camera_);
@@ -85,11 +87,11 @@ inline GCameraInterface *getGameCamera() {
     return GCameraInterface::getGameCamera();
 }
 inline IVector wsToWin(const FVector3 &PositionInWS) {
-    return {static_cast<int>(roundf(
+    return {static_cast<int>((
                 (PositionInWS.x - GCameraInterface::gameCameraX->posInWs.x) /
                     pixSize +
                 WINW / 2.f)),
-            static_cast<int>(roundf(
+            static_cast<int>((
                 (PositionInWS.y - GCameraInterface::gameCameraX->posInWs.y) /
                     pixSize +
                 WINH / 2.f - (PositionInWS.z / pixSize)))};

@@ -11,7 +11,7 @@ GWorld::GWorld() {
     // playerCharacter = new GPlayerChar;
     sprPt = &spr;   
     setWorld(this);
-    
+    createLand();
 }
 
 GWorld::~GWorld() {}
@@ -19,7 +19,7 @@ GWorld::~GWorld() {}
 void GWorld::dataLoop() {}
 
 void GWorld::drawLoop() {
-    sprPt->setPosition(wsToWin(posWs).x, wsToWin(posWs).y);
-    getWindow()->draw(*sprPt);
+    // sprPt->setPosition(wsToWin(posWs).x, wsToWin(posWs).y);
+    // getWindow()->draw(*sprPt);
 }
 

@@ -4,7 +4,7 @@
 #include "GObject.h"
 #include<nlohmann_json/json.hpp>
 #include<fstream>
-
+#include<GLandBlock.h>
 class GWorld : public GObject {
   private:
     /* data */
@@ -17,6 +17,11 @@ class GWorld : public GObject {
     sf::Texture tex;
     virtual void dataLoop();
     virtual void drawLoop();
+    virtual void createLand(){
+      for(int i=0;i<10000;i++){
+        GLandBlock::spawnLandBlock(i);
+      }
+    };
     virtual nlohmann::json loadDataFromJson(const char* path_){
         
         std::ifstream file("res/datalist/world/world1.json");

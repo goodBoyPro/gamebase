@@ -22,4 +22,15 @@
     <originX>128</originX>
     <originY>250</originY>
   </node>
+  <node>
+    <id>3</id>
+    <name>grass.png</name>
+    <path>res/grass.png</path>
+    <sizex>256</sizex>
+    <sizey>256</sizey>
+    <row>3</row>
+    <column>3</column>
+    <originX>0</originX>
+    <originY>0</originY>
+  </node>
 </root>
