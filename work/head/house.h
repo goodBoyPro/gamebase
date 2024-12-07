@@ -14,7 +14,7 @@ struct houseTexture {
 class house : public GActor {
 
   public:
-    gameSprte spr;
+    gameSprite spr;
     void eventBegin() {}
     void eventTick() {
           }

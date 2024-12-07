@@ -24,7 +24,6 @@ public:
     {   
         ownerPtr->updateState();
         animationBpPtr->updateAnim();
-        animationBpPtr->updateSound();
         animationBpPtr->animPt->update();
     };
 };

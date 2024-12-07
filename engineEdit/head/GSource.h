@@ -6,21 +6,26 @@
 #include <map>
 #include <unordered_map>
 #include <xmlRead.hpp>
-class SourceInteface
-{
-};
-class textureArray
-{
-private:
+class SourceInteface {};
+class textureArray {
+  private:
     std::vector<sf::Sprite> sprs;
+    int sizex, sizey, row, column, originX, originY;
 
-public:
+  public:
     sf::Texture tex;
     sf::Sprite spr;
-    int sizex, sizey, row, column, originX, originY;
+
+    void setSprite(gameSprite &spr_, int index) {
+        if (index >= column * row)
+            return;
+        spr_.setTexture(tex);
+        spr_.setTextureRect(
+            {index % column * sizex, index /column * sizey, sizex, sizey});
+        spr_.setOrigin(originX, originY);
+    }
     textureArray() = default;
-    textureArray(std::map<std::string, std::string> &list_)
-    {
+    textureArray(std::map<std::string, std::string> &list_) {
         if (!tex.loadFromFile(list_["path"]))
             printf("%s load failed", list_["path"].c_str());
         spr.setTexture(tex);
@@ -33,17 +38,18 @@ public:
         spr.setOrigin(originX, originY);
         createSprs();
     }
+
+    sf::Sprite &getSprite(int index) { return sprs[index]; }
+
+  private:
     // 第一格编号为0
-    void selectSprite(int index)
-    {
+    void selectSprite(int index) {
         spr.setTextureRect(
             {index % column * sizex, index / column * sizey, sizex, sizey});
     }
-    void createSprs()
-    {
+    void createSprs() {
         int num = row * column;
-        for (int i = 0; i < num; i++)
-        {
+        for (int i = 0; i < num; i++) {
             ;
             sf::Sprite &sprLoc = sprs.emplace_back(tex);
             sprLoc.setTextureRect(
@@ -51,30 +57,25 @@ public:
             sprLoc.setOrigin(originX, originY);
         }
     }
-    sf::Sprite &getSprite(int index) { return sprs[index]; }
 };
-class textureAndSprite
-{
-public:
+class textureAndSprite {
+  public:
     sf::Texture tex;
     sf::Sprite spr;
     textureAndSprite() = default;
-    textureAndSprite(std::map<std::string, std::string> &list_)
-    {
+    textureAndSprite(std::map<std::string, std::string> &list_) {
         if (!tex.loadFromFile(list_["path"]))
             printf("file[%s] load failed\n", list_["path"].c_str());
         spr.setTexture(tex);
         spr.setOrigin(tex.getSize().x / 2, tex.getSize().y / 2);
     }
 };
-class soundRes
-{
-public:
+class soundRes {
+  public:
     sf::Sound sound;
     sf::SoundBuffer soundBuf;
     soundRes() = default;
-    soundRes(std::map<std::string, std::string> &list_)
-    {
+    soundRes(std::map<std::string, std::string> &list_) {
         if (!soundBuf.loadFromFile(list_["path"]))
             printf("file[%s] load failed\n", list_["path"].c_str());
         sound.setBuffer(soundBuf);
@@ -88,15 +89,13 @@ public:
 /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 /// @brief
 /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-class GSource
-{
-public:
+class GSource {
+  public:
     bool isLoadComplete = false;
 
-public:
+  public:
     GSource(std::string pathTexArray, std::string pathTexture,
-            std::string pathSound, std::string pathAnimation)
-    {
+            std::string pathSound, std::string pathAnimation) {
         loadAllTextureArray(pathTexArray);
         loadTextureRes(pathTexture);
         loadSoundRes(pathSound);
@@ -105,53 +104,47 @@ public:
     }
 
     textureArray &getTexArray(int id) { return allTextureArrays[id]; };
+    void setSprite(gameSprite &spr_, int fileId, int picIndex) {
+        getTexArray(fileId).setSprite(spr_, picIndex);
+    }
     sf::Sprite &getSprite(int id) { return texSpr[id].spr; }
     sf::Sound &getSound(int id) { return sounds[id].sound; }
     GAnimation &getAnimation(int id) { return animations[id]; }
     // 全局资源
-    static GSource &getSource()
-    {
+    static GSource &getSource() {
         static GSource gs__("res/textureArray.xml", "res/picData.xml",
                             "res/soundData.xml", "res/animData.xml");
         return gs__;
     }
 
-private:
+  private:
     std::map<int, textureAndSprite> texSpr;
     std::map<int, soundRes> sounds;
     std::map<int, GAnimation> animations;
     std::map<int, textureArray> allTextureArrays;
 
-private:
-    void loadAllTextureArray(const std::string &pathTexArrays)
-    {
+  private:
+    void loadAllTextureArray(const std::string &pathTexArrays) {
         xmlRead xr(pathTexArrays.c_str());
-        for (auto &pair : xr.mapData)
-        {
+        for (auto &pair : xr.mapData) {
             allTextureArrays.emplace(pair.first, pair.second);
         }
     }
-    void loadTextureRes(const std::string &pathTexture)
-    {
+    void loadTextureRes(const std::string &pathTexture) {
         xmlRead xr(pathTexture.c_str());
-        for (auto &pair : xr.mapData)
-        {
+        for (auto &pair : xr.mapData) {
             texSpr.emplace(pair.first, pair.second);
         }
     }
-    void loadSoundRes(const std::string &pathSound)
-    {
+    void loadSoundRes(const std::string &pathSound) {
         xmlRead xr(pathSound.c_str());
-        for (auto &pair : xr.mapData)
-        {
+        for (auto &pair : xr.mapData) {
             sounds.emplace(pair.first, pair.second);
         }
     }
-    void loadAnimation(const std::string &pathAnimation)
-    {
+    void loadAnimation(const std::string &pathAnimation) {
         xmlRead xr(pathAnimation.c_str());
-        for (auto &pair : xr.mapData)
-        {
+        for (auto &pair : xr.mapData) {
             //  animations[pair.first] = {pair.second};不是原地构造，发生了拷贝
             //   animations.emplace(std::piecewise_construct,
             //                      std::forward_as_tuple(pair.first),
@@ -160,7 +153,8 @@ private:
         }
     };
 };
+inline GSource &getSource() { return GSource::getSource(); }
 
-GSource &getSource();
-sf::Sprite &getSprite(int id);
+inline sf::Sprite &getSprite(int id) { return getSource().getSprite(id); }
+
 #endif // GSOURCE_H

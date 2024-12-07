@@ -3,14 +3,14 @@
 #include <actorTest.h>
 #include <house.h>
 #include <playertest.h>
-#include <trees.h>
+#include <GActorStatic.h>
 class worldTest : public GWorld {
   private:
     /* data */
   public:
     sf::RenderTexture mapTex;
     GDebug deb;
-    std::vector<trees *> treeVec;
+    std::vector<GActorStatic *> treeVec;
     std::vector<house *> houseVec;
     worldTest() {
         mapTex.create(3840, 3840);
@@ -38,7 +38,7 @@ class worldTest : public GWorld {
             int fileID = std::stoi(fileIDs);
             int picIndex=std::stoi(picIndexs);
             FVector3 pos = nsg::strTo3Float(positionS);
-            spawnActorArgsAtLocation(new trees(fileID,picIndex),
+            spawnActorArgsAtLocation(new GActorStatic(fileID,picIndex),
                                      pos);
         }
 

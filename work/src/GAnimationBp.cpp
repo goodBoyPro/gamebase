@@ -5,8 +5,14 @@ GAnimationBp::GAnimationBp():isPlayed(64,0){
     animPt = &getSource().getAnimation(1);
     animPt->spr.setScale(2,2);
     animPt->play(40, 59);
-    sprPt = &animPt->spr;
-    animPt->scale = {2, 2,0};
+    // sprPt = &animPt->spr;
+    // animPt->scale = {2, 2,0};
+    sprPt = &spr;
+    animPt->bindSprite(spr);
+    animPt->bindSound(3,getSource().getSound(2));
+    animPt->bindSound(13,getSource().getSound(2));
+    spr.setTexture(animPt->tex);
+    setScale(2,2);
 }
 
 void GAnimationBp::updateAnim() {
@@ -17,7 +23,7 @@ void GAnimationBp::updateAnim() {
         animPt->play(40, 59);
         break;
     case walk:
-        sprPt->setScale(animPt->scale.x * orientation, animPt->scale.y);
+        sprPt->setScale(getScale().x * orientation, getScale().y);
         animPt->play(0, 19);
         break;
     case jump:
@@ -27,18 +33,9 @@ void GAnimationBp::updateAnim() {
     default:
         break;
     }
-    animPt->update();
+    animPt->updateOnSprite(spr);
      
-    //getWindow()->draw(*sprPt);
-    
-    
-}
-
-void GAnimationBp::updateSound() {
-    
-    // animPt->playSoundAtFrame(getSource().getSound(2), 3, (bool&)isPlayed[0]);    
-    // animPt->playSoundAtFrame(getSource().getSound(2), 13, (bool&)isPlayed[1]);
-    animPt->playSoundAtFrameOnce(3,sound1);
-    animPt->playSoundAtFrameOnce(13,sound2);
    
+    
+    
 }

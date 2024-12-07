@@ -36,7 +36,7 @@ typedef sf::Vector2f FVector2;
 typedef sf::Vector2i IVector;
 typedef std::atomic<int> intAtomic;
 typedef std::atomic<float> floatAtomic;
-typedef sf::Sprite gameSprte;
+typedef sf::Sprite gameSprite;
 
 template <class T> struct GVector {
     GVector() {};
@@ -132,13 +132,14 @@ float smoothInterpolateTo(float current, float target, float speed,
 class DoOnce {
   public:
   template<class T>
-    DoOnce(T func) : callbackFunc(func) {}
+    DoOnce(T func) : callbackFunc(std::move(func)) {}
     void operator()() {
         if (canDo) {
             callbackFunc();
             canDo = false;
         }
     }
+    DoOnce(){}
     void reset() { canDo = true; }
 
   private:
