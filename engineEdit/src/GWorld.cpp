@@ -11,7 +11,7 @@ GWorld::GWorld() {
     // playerCharacter = new GPlayerChar;
     sprPt = &spr;   
     setWorld(this);
-    createLand();
+    //createLand(10000,3,9);
 }
 
 GWorld::~GWorld() {}

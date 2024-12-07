@@ -17,9 +17,10 @@ class GWorld : public GObject {
     sf::Texture tex;
     virtual void dataLoop();
     virtual void drawLoop();
-    virtual void createLand(){
-      for(int i=0;i<10000;i++){
-        GLandBlock::spawnLandBlock(i);
+    //picNum是最大数量，不是编号
+    virtual void createLand(int num,int fileId_,int picNum){
+      for(int i=0;i<num;i++){
+        GLandBlock::spawnLandBlock(i,fileId_,rand()%picNum);
       }
     };
     virtual nlohmann::json loadDataFromJson(const char* path_){

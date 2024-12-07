@@ -31,7 +31,7 @@ class worldTest : public GWorld {
         getPlayerCharactor()->setPosInWs({0 * pixSize, 0 * pixSize, 0});
         nlohmann::json info =
             loadDataFromJson("res/datalist/world/world1.json");
-        for (auto ob : info) {
+        for (auto ob : info["actors"]) {
             std::string fileIDs = ob["fileID"];
             std::string picIndexs = ob["picIndex"];
             std::string positionS = ob["position"];
@@ -40,6 +40,13 @@ class worldTest : public GWorld {
             FVector3 pos = nsg::strTo3Float(positionS);
             spawnActorArgsAtLocation(new GActorStatic(fileID,picIndex),
                                      pos);
+        }   
+        int i=0;
+        for(auto ob:info["landBlocks"]){
+         int fi=ob["fileId"];
+         int pi=ob["picIndex"];
+          GLandBlock::spawnLandBlock(i,fi,pi);
+          i++;
         }
 
         // float n = 0;

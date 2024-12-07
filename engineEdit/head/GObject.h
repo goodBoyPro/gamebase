@@ -88,11 +88,11 @@ inline GCameraInterface *getGameCamera() {
 }
 inline IVector wsToWin(const FVector3 &PositionInWS) {
     return {static_cast<int>((
-                (PositionInWS.x - GCameraInterface::gameCameraX->posInWs.x) /
+                (PositionInWS.x - GCameraInterface::posForDraw.x) /
                     pixSize +
                 WINW / 2.f)),
             static_cast<int>((
-                (PositionInWS.y - GCameraInterface::gameCameraX->posInWs.y) /
+                (PositionInWS.y - GCameraInterface::posForDraw.y) /
                     pixSize +
                 WINH / 2.f - (PositionInWS.z / pixSize)))};
 }

@@ -84,6 +84,7 @@ void Game::renderLoop2D() {
         if (getWorld())
             getWorld()->drawLoop();
         // 绘制actor
+        GCameraInterface::posForDraw=GCameraInterface::getGameCamera()->posInWs;
         GActor::gridMapOfActor.setActorsAlive(getPlayerCharactor()->mapNodeId);
         for (auto elem : GActor::gridMapOfActor.actorsAlive) {
             elem->eventTick();
