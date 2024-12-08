@@ -105,7 +105,6 @@ namespace ens
         };
         static MovableEditObj *selectedObjForMove;
         static MovableEditObj *selectedObjForEdit;
-       
 
         sf::Sprite spr;
         sf::Texture tex;
@@ -113,7 +112,7 @@ namespace ens
         sf::ConvexShape shapeForSelect;
         FVector3 posInWs = {0, 0, 0};
         bool isValid = true;
-       
+
         void destroy() { isValid = false; }
         static IVector mousePos;
         static IVector deltaMove;
@@ -179,7 +178,6 @@ namespace ens
                 else
                 {
                     selectedObjForMove->posInWs += deltaWorldMove;
-                   
                 }
             }
             if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
@@ -223,7 +221,7 @@ namespace ens
     class LandBlock : public MovableEditObj
     {
     public:
-        LandBlock(int fileId_, int picIndex_) : MovableEditObj(fileId_, picIndex_) { type =elandBlock; }
+        LandBlock(int fileId_, int picIndex_) : MovableEditObj(fileId_, picIndex_) { type = elandBlock; }
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -302,24 +300,35 @@ namespace ens
         editorCommand::edc.command["cr"] = [&]()
         {
             Actor *obj = createAtLocation(new Actor(std::stoi(editorCommand::edc.input[1]),
-                                                                      std::stoi(editorCommand::edc.input[2])),
-                                                   WindowFlag::flag.posInWs);
+                                                    std::stoi(editorCommand::edc.input[2])),
+                                          WindowFlag::flag.posInWs);
             MovableEditObj::selectedObjForEdit = obj;
         };
         editorCommand::edc.command["crm"] = [&]()
         {
             MovableEditObj *obj = createAtLocation(new Actor(std::stoi(editorCommand::edc.input[1]),
-                                                                      std::stoi(editorCommand::edc.input[2])),
+                                                             std::stoi(editorCommand::edc.input[2])),
                                                    {winToWs(sf::Mouse::getPosition(*getWindow())).x,
                                                     winToWs(sf::Mouse::getPosition(*getWindow())).y, 0});
             MovableEditObj::selectedObjForEdit = obj;
         };
+        editorCommand::edc.command["crl"] = [&]()
+        {
+            for (int i = 0; i < std::stoi(editorCommand::edc.input[3]); i++)
+            {
+                MovableEditObj *obj = createAtLocation(new Actor(std::stoi(editorCommand::edc.input[1]),
+                                                                 std::stoi(editorCommand::edc.input[2])),
+                                                       {winToWs(sf::Mouse::getPosition(*getWindow())).x,
+                                                        winToWs(sf::Mouse::getPosition(*getWindow())).y, 0});
+                MovableEditObj::selectedObjForEdit = obj;
+            }
+        };
     };
 }; // namespace ens
 #endif // GAMEEDITOR
-//////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
-//cr fileid picindex
-//crm fileid picindex
-//settex fileid picindex
+       //////////////////////////////////////////////////////////////////////////////////
+       //////////////////////////////////////////////////////////////////////////////////
+       //////////////////////////////////////////////////////////////////////////////////
+       // cr fileid picindex
+// crm fileid picindex
+// settex fileid picindex
