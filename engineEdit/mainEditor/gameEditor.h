@@ -7,9 +7,11 @@
 #include <vector>
 #include "editorCommand.h"
 #include <GSource.h>
+#define ACTORMODE 0
+#define LANDMODE 1
 namespace ens
 {
-
+    inline int editMode;
     inline sf::RenderWindow &getEditorWindow()
     {
         static sf::RenderWindow window(sf::VideoMode(WINW, WINH), "editor");
@@ -74,6 +76,12 @@ namespace ens
     {
 
     public:
+        enum EType
+        {
+            eactor,
+            elandBlock
+        };
+        EType type = eactor;
         struct Compare
         {
             bool operator()(const MovableEditObj *a,
@@ -97,14 +105,15 @@ namespace ens
         };
         static MovableEditObj *selectedObjForMove;
         static MovableEditObj *selectedObjForEdit;
+       
 
         sf::Sprite spr;
         sf::Texture tex;
         sf::ConvexShape centerPoint;
         sf::ConvexShape shapeForSelect;
-        // IVector posInWin;
         FVector3 posInWs = {0, 0, 0};
         bool isValid = true;
+       
         void destroy() { isValid = false; }
         static IVector mousePos;
         static IVector deltaMove;
@@ -170,6 +179,7 @@ namespace ens
                 else
                 {
                     selectedObjForMove->posInWs += deltaWorldMove;
+                   
                 }
             }
             if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
@@ -202,6 +212,19 @@ namespace ens
         ptr->posInWs = pos_;
         return ptr;
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    class Actor : public MovableEditObj
+    {
+    public:
+        Actor(int fileId_, int picIndex_) : MovableEditObj(fileId_, picIndex_) { type = eactor; }
+    };
+    class LandBlock : public MovableEditObj
+    {
+    public:
+        LandBlock(int fileId_, int picIndex_) : MovableEditObj(fileId_, picIndex_) { type =elandBlock; }
+    };
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -276,16 +299,16 @@ namespace ens
     };
     inline void Editor::setCommand()
     {
-        editorCommand::edc.command["create"] = [&]()
+        editorCommand::edc.command["cr"] = [&]()
         {
-            MovableEditObj *obj = createAtLocation(new MovableEditObj(std::stoi(editorCommand::edc.input[1]),
+            Actor *obj = createAtLocation(new Actor(std::stoi(editorCommand::edc.input[1]),
                                                                       std::stoi(editorCommand::edc.input[2])),
                                                    WindowFlag::flag.posInWs);
             MovableEditObj::selectedObjForEdit = obj;
         };
-        editorCommand::edc.command["createm"] = [&]()
+        editorCommand::edc.command["crm"] = [&]()
         {
-            MovableEditObj *obj = createAtLocation(new MovableEditObj(std::stoi(editorCommand::edc.input[1]),
+            MovableEditObj *obj = createAtLocation(new Actor(std::stoi(editorCommand::edc.input[1]),
                                                                       std::stoi(editorCommand::edc.input[2])),
                                                    {winToWs(sf::Mouse::getPosition(*getWindow())).x,
                                                     winToWs(sf::Mouse::getPosition(*getWindow())).y, 0});
@@ -294,3 +317,9 @@ namespace ens
     };
 }; // namespace ens
 #endif // GAMEEDITOR
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+//cr fileid picindex
+//crm fileid picindex
+//settex fileid picindex

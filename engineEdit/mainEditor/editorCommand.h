@@ -2,8 +2,16 @@
 #define EDITORCOMMAND_H
 #include <GObject.h>
 #include <iostream>
+struct CommandObj{
+    float arg[10];
+    std::function<void()>func;
+    static std::queue<std::function<void()>> histiryCmd;
+};
+inline std::queue<std::function<void()>> CommandObj::histiryCmd;
 class editorCommand
 {
+    
+    
 private:
     /* data */
 public:
