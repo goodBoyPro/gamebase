@@ -92,6 +92,9 @@ namespace ens
             }
         };
 
+    private:
+        FVector3 posInWs = {0, 0, 0};
+
     public:
         static std::multiset<MovableEditObj *> allMEO;
         void allMeoInsert(MovableEditObj *ptr)
@@ -112,7 +115,9 @@ namespace ens
         sf::ConvexShape centerPoint;
         sf::ConvexShape shapeBound;
         sf::ConvexShape shapeForSelect;
-        FVector3 posInWs = {0, 0, 0};
+
+        const FVector3 getPosInWs() const { return posInWs; }
+        virtual void setPosInWs(const FVector3 &pos_) { posInWs = pos_; }
         IVector psInWin;
         bool isValid = true;
 
@@ -159,12 +164,12 @@ namespace ens
             centerPoint.setPosition(psInWin.x, psInWin.y);
             window_.draw(centerPoint);
         }
-        void drawBound(sf::RenderWindow &window_)
+        static void drawBound(sf::RenderWindow &window_)
         {
-            if (selectedObjForEdit == this)
+            if (selectedObjForEdit)
             {
-                shapeBound.setPosition(psInWin.x, psInWin.y);
-                window_.draw(shapeBound);
+                selectedObjForEdit->shapeBound.setPosition(selectedObjForEdit->psInWin.x, selectedObjForEdit->psInWin.y);
+                window_.draw(selectedObjForEdit->shapeBound);
             }
         }
         void drawHandler(sf::RenderWindow &window_)
@@ -173,55 +178,7 @@ namespace ens
             window_.draw(shapeForSelect);
         }
 
-        static void pollKey(sf::RenderWindow &window_, sf::Event &event_)
-        {
-            mousePos = sf::Mouse::getPosition(window_);
-            deltaMove = mousePos - posPre;
-            FVector3 deltaWorldMove = {deltaMove.x * pixSize, deltaMove.y * pixSize,
-                                       0};
-            posPre = sf::Mouse::getPosition(window_);
-
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-            {
-                if (!selectedObjForMove)
-                {
-                    selectedObjForEdit = nullptr;
-                    for (auto it=allMEO.rbegin();it!=allMEO.rend();++it)
-                    {
-                        sf::FloatRect bound;
-                        if (editMode == ACTORMODE && (*it)->type == MovableEditObj::eactor)
-                            bound = (*it)->shapeForSelect.getGlobalBounds();
-                        else if (editMode == LANDMODE && (*it)->type == MovableEditObj::elandBlock)
-                            bound = (*it)->shapeForSelect.getGlobalBounds();
-                        if (bound.contains(window_.mapPixelToCoords(mousePos)))
-                        {
-                            selectedObjForMove = (*it);
-                            selectedObjForEdit = (*it);
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    selectedObjForMove->posInWs += deltaWorldMove;
-                }
-            }
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-            {
-                if (window_.hasFocus())
-                    WindowFlag::flag.posInWs = {
-                        winToWs(sf::Mouse::getPosition(*getWindow())).x,
-                        winToWs(sf::Mouse::getPosition(*getWindow())).y, 0};
-            }
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Middle))
-            {
-                EditorCamera::editorCamera.posInWs -= deltaWorldMove;
-            }
-            if (event_.type == sf::Event::MouseButtonReleased)
-            {
-                selectedObjForMove = nullptr;
-            }
-        }
+        static void pollKey(sf::RenderWindow &window_, sf::Event &event_);
     };
 
     inline std::multiset<MovableEditObj *> MovableEditObj::allMEO;
@@ -233,7 +190,7 @@ namespace ens
     template <class T>
     inline T *createAtLocation(T *ptr, const FVector3 &pos_)
     {
-        ptr->posInWs = pos_;
+        ptr->setPosInWs(pos_);
         return ptr;
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -249,24 +206,53 @@ namespace ens
         virtual void draw(sf::RenderWindow &window_)
         {
             MovableEditObj::draw(window_);
-            if (editMode == ACTORMODE)
-                drawBound(window_);
+            // if (editMode == ACTORMODE)
+            //     drawBound(window_);
         }
     };
     class LandBlock : public MovableEditObj
     {
     public:
+        static FVector3 beginPoint;
+        static float blockSize;
+        static int rows;
+        static int columns;
+        static void createLand(const FVector3 &bp, float blocksize_, int rows_, int columns_)
+        {
+            beginPoint = bp;
+            blockSize = blocksize_;
+            rows = rows_;
+            columns = columns_;
+        };
+        virtual void setPosInWs(const FVector3 &pos_) override
+        {
+            MovableEditObj::setPosInWs(pos_);
+            normalizePos();
+        }
+        void normalizePos()
+        {
+            int r =( getPosInWs().y-beginPoint.y) / blockSize;
+            int c = (getPosInWs().x-beginPoint.x )/ blockSize;
+            MovableEditObj::setPosInWs(FVector3{c * blockSize, r * blockSize, 0}+beginPoint);
+        };
         LandBlock(int fileId_, int picIndex_) : MovableEditObj(fileId_, picIndex_)
         {
             type = elandBlock;
+            float r = blockSize / pixSize / spr.getLocalBounds().getSize().x;
+            spr.setScale(r, r);
+            shapeBound.setScale(r, r);
         }
         virtual void draw(sf::RenderWindow &window_)
         {
             MovableEditObj::draw(window_);
-            if (editMode == LANDMODE)
-                drawBound(window_);
+            // if (editMode == LANDMODE)
+            //     drawBound(window_);
         }
     };
+    inline FVector3 LandBlock::beginPoint = {-100, -100, 0};
+    inline float LandBlock::blockSize = 3;
+    inline int LandBlock::rows = 50;
+    inline int LandBlock::columns = 50;
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -375,6 +361,7 @@ namespace ens
                         obj->drawHandler(window);
                     }
                 }
+                MovableEditObj::drawBound(window);
                 WindowFlag::flag.draw();
                 // 显示DEBUG////////////////////////////////
                 GDebug::debugDisplay();
@@ -426,12 +413,63 @@ namespace ens
                 MovableEditObj *obj = createAtLocation(
                     new Actor(std::stoi(editorCommand::edc.input[1]),
                               std::stoi(editorCommand::edc.input[2])),
-                    {winToWs(sf::Mouse::getPosition(*getWindow())).x,
-                     winToWs(sf::Mouse::getPosition(*getWindow())).y, 0});
+                    WindowFlag::flag.posInWs);
                 MovableEditObj::selectedObjForEdit = obj;
             }
         };
     };
+
+    inline void MovableEditObj::pollKey(sf::RenderWindow &window_, sf::Event &event_)
+    {
+        mousePos = sf::Mouse::getPosition(window_);
+        deltaMove = mousePos - posPre;
+        FVector3 deltaWorldMove = {deltaMove.x * pixSize, deltaMove.y * pixSize,
+                                   0};
+        posPre = sf::Mouse::getPosition(window_);
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+            if (!selectedObjForMove)
+            {
+                selectedObjForEdit = nullptr;
+                for (auto it = allMEO.rbegin(); it != allMEO.rend(); ++it)
+                {
+                    sf::FloatRect bound;
+                    if (editMode == ACTORMODE && (*it)->type == MovableEditObj::eactor)
+                        bound = (*it)->shapeForSelect.getGlobalBounds();
+                    else if (editMode == LANDMODE && (*it)->type == MovableEditObj::elandBlock)
+                        bound = (*it)->shapeForSelect.getGlobalBounds();
+                    if (bound.contains(window_.mapPixelToCoords(mousePos)))
+                    {
+                        selectedObjForMove = (*it);
+                        selectedObjForEdit = (*it);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                selectedObjForMove->posInWs += deltaWorldMove;
+            }
+        }
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+        {
+            if (window_.hasFocus())
+                WindowFlag::flag.posInWs = {
+                    winToWs(sf::Mouse::getPosition(*getWindow())).x,
+                    winToWs(sf::Mouse::getPosition(*getWindow())).y, 0};
+        }
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Middle))
+        {
+            EditorCamera::editorCamera.posInWs -= deltaWorldMove;
+        }
+        if (event_.type == sf::Event::MouseButtonReleased)
+        {
+            if (selectedObjForMove && editMode == LANDMODE && selectedObjForMove->type == MovableEditObj::elandBlock)
+                ((LandBlock *)selectedObjForMove)->normalizePos();
+            selectedObjForMove = nullptr;
+        }
+    }
 }; // namespace ens
 #endif // GAMEEDITOR
        //////////////////////////////////////////////////////////////////////////////////
@@ -439,4 +477,5 @@ namespace ens
        //////////////////////////////////////////////////////////////////////////////////
        // cr fileid picindex
        // crm fileid picindex
+       // crl fileid picIndex times
        // settex fileid picindex
