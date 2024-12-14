@@ -10,6 +10,7 @@
     <column>5</column>
     <originX>128</originX>
     <originY>245</originY>
+    <type>actor</type>
   </node>
   <node>
     <id>2</id>
@@ -21,6 +22,7 @@
     <column>3</column>
     <originX>128</originX>
     <originY>250</originY>
+    <type>actor</type>
   </node>
   <node>
     <id>3</id>
@@ -32,5 +34,6 @@
     <column>3</column>
     <originX>0</originX>
     <originY>0</originY>
+    <type>landblock</type>
   </node>
 </root>

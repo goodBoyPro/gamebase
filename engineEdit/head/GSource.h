@@ -8,20 +8,27 @@
 #include <xmlRead.hpp>
 class SourceInteface {};
 class textureArray {
+  public:
+    enum Type {
+        actor = 0, //
+        landblock = 1
+    };
+
   private:
     std::vector<sf::Sprite> sprs;
     int sizex, sizey, row, column, originX, originY;
+    
 
   public:
     sf::Texture tex;
     sf::Sprite spr;
-
+    Type type;
     void setSprite(gameSprite &spr_, int index) {
         if (index >= column * row)
             return;
         spr_.setTexture(tex);
         spr_.setTextureRect(
-            {index % column * sizex, index /column * sizey, sizex, sizey});
+            {index % column * sizex, index / column * sizey, sizex, sizey});
         spr_.setOrigin(originX, originY);
     }
     textureArray() = default;
@@ -35,6 +42,10 @@ class textureArray {
         column = std::stoi(list_["column"]);
         originX = std::stoi(list_["originX"]);
         originY = std::stoi(list_["originY"]);
+        if(list_["type"]=="actor")
+            type = actor;
+        else if(list_["type"]=="landblock")
+            type = landblock;
         spr.setOrigin(originX, originY);
         createSprs();
     }
@@ -104,6 +115,14 @@ class GSource {
     }
 
     textureArray &getTexArray(int id) { return allTextureArrays[id]; };
+    bool checkTexArrayValid(int fileId_) {
+        if (allTextureArrays.find(fileId_) == allTextureArrays.end())
+            return false;
+        return true;
+    }
+    textureArray::Type checkTexArrayType(int fileId_){
+        return allTextureArrays[fileId_].type;
+    }
     void setSprite(gameSprite &spr_, int fileId, int picIndex) {
         getTexArray(fileId).setSprite(spr_, picIndex);
     }
