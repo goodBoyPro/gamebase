@@ -1,6 +1,7 @@
 #if !defined(GAMEEDITOR)
 #define GAMEEDITOR
 #include "editorCommand.h"
+#include "editorSave.h"
 #include "editorServer.h"
 #include <GDebug.h>
 #include <GObject.h>
@@ -65,7 +66,7 @@ inline WindowFlag WindowFlag::flag;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
-std::mutex mutForAllMeo;
+inline std::mutex mutForAllMeo;
 class MovableEditObj : public Info {
 
   public:
@@ -101,7 +102,10 @@ class MovableEditObj : public Info {
     sf::ConvexShape shapeForSelect;
 
     const FVector3 getPosInWs() const { return posInWs; }
-    virtual void setPosInWs(const FVector3 &pos_) { posInWs = pos_; }
+    virtual void setPosInWs(const FVector3 &pos_) {
+        posInWs = pos_;
+        info.position = pos_;
+    }
     IVector psInWin;
     bool isValid = true;
 
@@ -109,6 +113,11 @@ class MovableEditObj : public Info {
     static IVector mousePos;
     static IVector deltaMove;
     static IVector posPre;
+    void setSprFileIdPicIndex(int fileId_, int picIndex_) {
+        getSource().setSprite(spr, fileId_, picIndex_);
+        info.fileID = fileId_;
+        info.picIndex = picIndex_;
+    }
     MovableEditObj(int fileId_, int picIndex_) {
         allMeoInsert(this);
         centerPoint.setPointCount(3);
@@ -116,7 +125,7 @@ class MovableEditObj : public Info {
         centerPoint.setPoint(1, {4, 4});
         centerPoint.setPoint(2, {-4, 4});
         centerPoint.setFillColor(sf::Color(255, 0, 0));
-        getSource().setSprite(spr, fileId_, picIndex_);
+        setSprFileIdPicIndex(fileId_, picIndex_);
         shapeBound.setPointCount(4);
         sf::FloatRect lb = spr.getLocalBounds();
         shapeBound.setPoint(0, {lb.left, lb.top});
@@ -142,7 +151,10 @@ class MovableEditObj : public Info {
     virtual void draw(sf::RenderWindow &window_) {
         psInWin = wsToWin(posInWs);
         spr.setPosition(psInWin.x, psInWin.y);
+        FVector2 sc = spr.getScale();
+        spr.scale(GCameraInterface::sceneScale, GCameraInterface::sceneScale);
         window_.draw(spr);
+        spr.setScale(sc);
         centerPoint.setPosition(psInWin.x, psInWin.y);
         window_.draw(centerPoint);
     }
@@ -150,7 +162,11 @@ class MovableEditObj : public Info {
         if (selectedObjForEdit) {
             selectedObjForEdit->shapeBound.setPosition(
                 selectedObjForEdit->psInWin.x, selectedObjForEdit->psInWin.y);
+            FVector2 sc = selectedObjForEdit->shapeBound.getScale();
+            selectedObjForEdit->shapeBound.scale(GCameraInterface::sceneScale,
+                                                 GCameraInterface::sceneScale);
             window_.draw(selectedObjForEdit->shapeBound);
+            selectedObjForEdit->shapeBound.setScale(sc);
         }
     }
     void drawHandler(sf::RenderWindow &window_) {
@@ -181,8 +197,6 @@ class Actor : public MovableEditObj {
     }
     virtual void draw(sf::RenderWindow &window_) {
         MovableEditObj::draw(window_);
-        // if (editMode == ACTORMODE)
-        //     drawBound(window_);
     }
 };
 class LandBlock : public MovableEditObj {
@@ -244,6 +258,7 @@ class Editor {
     }
     void loop() {
         sf::RenderWindow &window = getEditorWindow();
+        window.setPosition(IVector(100, 100));
         auto it = MovableEditObj::allMEO.begin();
         while (window.isOpen()) {
             if (window.pollEvent(event)) {
@@ -260,7 +275,9 @@ class Editor {
                     case sf::Keyboard::Num3:
                         editMode = LANDMODE;
                         break;
-
+                    case sf::Keyboard::K:
+                        editorSave::saveTofile("test");
+                        break;
                     default:
                         break;
                     }
@@ -367,33 +384,34 @@ inline void Editor::setCommand() {
     editorCommand::edc.command["create"] = [&]() {
         int fileid = std::stoi(editorCommand::edc.input[1]);
         if (!getSource().checkTexArrayValid(fileid)) {
-            EditorServer::server.sendMesssage("no such fileId");
+            EditorServer::server.sendMesssage("server:no such fileId");
             return;
         }
         if (getSource().checkTexArrayType(fileid) != textureArray::actor &&
             editMode == ACTORMODE) {
-            EditorServer::server.sendMesssage("not actor");
+            EditorServer::server.sendMesssage("server:not actor");
             return;
         }
         if (getSource().checkTexArrayType(fileid) != textureArray::landblock &&
             editMode == LANDMODE) {
-            EditorServer::server.sendMesssage("not landblock");
+            EditorServer::server.sendMesssage("server:not landblock");
             return;
         }
-        if(editMode==ACTORMODE)
-        for (int i = 0; i < std::stoi(editorCommand::edc.input[3]); i++) {
-            MovableEditObj *obj = createAtLocation(
-                new Actor(fileid, std::stoi(editorCommand::edc.input[2])),
-                WindowFlag::flag.posInWs);
-            MovableEditObj::selectedObjForEdit = obj;
-        }
-        if(editMode==LANDMODE)
-        for (int i = 0; i < std::stoi(editorCommand::edc.input[3]); i++) {
-            MovableEditObj *obj = createAtLocation(
-                new LandBlock(fileid, std::stoi(editorCommand::edc.input[2])),
-                WindowFlag::flag.posInWs);
-            MovableEditObj::selectedObjForEdit = obj;
-        }
+        if (editMode == ACTORMODE)
+            for (int i = 0; i < std::stoi(editorCommand::edc.input[3]); i++) {
+                MovableEditObj *obj = createAtLocation(
+                    new Actor(fileid, std::stoi(editorCommand::edc.input[2])),
+                    WindowFlag::flag.posInWs);
+                MovableEditObj::selectedObjForEdit = obj;
+            }
+        if (editMode == LANDMODE)
+            for (int i = 0; i < std::stoi(editorCommand::edc.input[3]); i++) {
+                MovableEditObj *obj = createAtLocation(
+                    new LandBlock(fileid,
+                                  std::stoi(editorCommand::edc.input[2])),
+                    WindowFlag::flag.posInWs);
+                MovableEditObj::selectedObjForEdit = obj;
+            }
     };
 };
 
@@ -422,7 +440,8 @@ inline void MovableEditObj::pollKey(sf::RenderWindow &window_,
                 }
             }
         } else {
-            selectedObjForMove->posInWs += deltaWorldMove;
+            // selectedObjForMove->posInWs += deltaWorldMove;
+            selectedObjForMove->setPosInWs(selectedObjForMove->getPosInWs()+deltaWorldMove);
         }
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
@@ -439,6 +458,22 @@ inline void MovableEditObj::pollKey(sf::RenderWindow &window_,
             selectedObjForMove->type == MovableEditObj::elandBlock)
             ((LandBlock *)selectedObjForMove)->normalizePos();
         selectedObjForMove = nullptr;
+    }
+    if (event_.type == sf::Event::MouseWheelScrolled) {
+        float delta = event_.mouseWheelScroll.delta;
+        static float pixSize0 = pixSize;
+        if (delta > 0) {
+            GCameraInterface::sceneScale += 0.1;
+            if (GCameraInterface::sceneScale > 5)
+                GCameraInterface::sceneScale = 5;
+            pixSize = pixSize0 / GCameraInterface::sceneScale;
+        }
+        if (delta < 0) {
+            GCameraInterface::sceneScale -= 0.1;
+            if (GCameraInterface::sceneScale < 0.001)
+                GCameraInterface::sceneScale = 0.001;
+            pixSize = pixSize0 / GCameraInterface::sceneScale;
+        }
     }
 }
 }; // namespace ens

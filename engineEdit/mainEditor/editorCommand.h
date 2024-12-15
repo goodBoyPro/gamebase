@@ -65,9 +65,9 @@ inline void editorCommand::executeCommand() {
         command[input[0]]();
 }
 
-editorCommand::editorCommand(/* args */) {}
+inline editorCommand::editorCommand(/* args */) {}
 
-editorCommand::~editorCommand() {}
+inline editorCommand::~editorCommand() {}
 
 inline void editorCommand::loop() {
     while (bRun) {

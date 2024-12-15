@@ -83,6 +83,7 @@ bool GActor::addWsPosOffset(const FVector3 &vec)
 
 void GActor::drawActor()
 {
+    
     IVector psInWin = wsToWin(posInWs);
     (sprPt)->setPosition(psInWin.x, psInWin.y);
     getWindow()->draw(*sprPt);

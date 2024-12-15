@@ -29,7 +29,7 @@ class EditorServer {
 // method//////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 inline EditorServer EditorServer::server;
-EditorServer::EditorServer(/* args */) {
+inline EditorServer::EditorServer(/* args */) {
     WSADATA data;
     int ret = WSAStartup(MAKEWORD(1, 1), &data);
     socketSv = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -46,9 +46,8 @@ EditorServer::EditorServer(/* args */) {
     th = new std::thread(&EditorServer::loop, this);
 }
 
-EditorServer::~EditorServer() {
-    closesocket(socketSv);
-    closesocket(socketCl);
+inline EditorServer::~EditorServer() {
+
     th->join();
     delete th;
 }
@@ -80,7 +79,11 @@ inline void EditorServer::loop() {
     }
 }
 
-inline void EditorServer::close() { bRun = false; }
+inline void EditorServer::close() {
+    bRun = false;
+    closesocket(socketSv);
+    closesocket(socketCl);
+}
 
 inline void EditorServer::sendMesssage(const std::string &msg) {
     send(socketCl, msg.c_str(), strlen(msg.c_str()), 0);

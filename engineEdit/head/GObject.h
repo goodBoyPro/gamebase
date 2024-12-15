@@ -23,8 +23,9 @@ class GControllerInterface : public GObject {
   private:
     static GControllerInterface *playerController;
     int id;
+
   public:
-    static std::vector<GControllerInterface*>&getAllController(){
+    static std::vector<GControllerInterface *> &getAllController() {
         static std::vector<GControllerInterface *> allCtrl;
         return allCtrl;
     }
@@ -34,7 +35,7 @@ class GControllerInterface : public GObject {
   public:
     GControllerInterface() {
         getAllController().push_back(this);
-        id = getAllController().size()-1;
+        id = getAllController().size() - 1;
         for (std::function<void()> &func : bindKey)
             func = []() { printf("No Key Bind\n"); };
         for (std::function<void(float)> &func : bindAxis)
@@ -67,10 +68,12 @@ inline void setPlayerController(GControllerInterface *ptr) {
 class GCameraInterface : public GObject {
   private:
     static GCameraInterface *gameCameraX;
+
     friend IVector wsToWin(const FVector3 &PositionInWS);
     friend FVector3 winToWs(const IVector &positionInWin);
 
   public:
+    static float sceneScale;
     IVector positionInWin = IVector(WINW / 2, WINH / 2);
     FVector3 posInWs = FVector3(0, 0, 0);
     static FVector3 posForDraw;
@@ -78,7 +81,8 @@ class GCameraInterface : public GObject {
     static GCameraInterface *getGameCamera() { return gameCameraX; }
     static void setGameCamera(GCameraInterface *ptr) { gameCameraX = ptr; }
 };
-inline FVector3 GCameraInterface::posForDraw={0,0,0};
+inline float GCameraInterface::sceneScale = 1;
+inline FVector3 GCameraInterface::posForDraw = {0, 0, 0};
 inline GCameraInterface *GCameraInterface::gameCameraX = nullptr;
 inline void setGameCamera(class GCameraInterface *camera_) {
     GCameraInterface::setGameCamera(camera_);
@@ -87,14 +91,12 @@ inline GCameraInterface *getGameCamera() {
     return GCameraInterface::getGameCamera();
 }
 inline IVector wsToWin(const FVector3 &PositionInWS) {
-    return {static_cast<int>((
-                (PositionInWS.x - GCameraInterface::posForDraw.x) /
-                    pixSize +
-                WINW / 2.f)),
-            static_cast<int>((
-                (PositionInWS.y - GCameraInterface::posForDraw.y) /
-                    pixSize +
-                WINH / 2.f - (PositionInWS.z / pixSize)))};
+    return {static_cast<int>(
+                ((PositionInWS.x - GCameraInterface::posForDraw.x) / pixSize +
+                 WINW / 2.f)),
+            static_cast<int>(
+                ((PositionInWS.y - GCameraInterface::posForDraw.y) / pixSize +
+                 WINH / 2.f - (PositionInWS.z / pixSize)))};
 }
 inline FVector3 winToWs(const IVector &positionInWin) {
     return {(positionInWin.x - WINW / 2) * pixSize +
@@ -137,10 +139,10 @@ class WidgetInterface : public GObject {
         static std::vector<WidgetInterface *> allwidget;
         return allwidget;
     }
-    std::stack<WidgetInterface *>&getWidgetStack(){}
+    std::stack<WidgetInterface *> &getWidgetStack() {}
     void setActive() { getAllWidget()[id] = this; }
     void disableActive() { getAllWidget()[id] = nullptr; }
-    virtual ~WidgetInterface(){getAllWidget()[id] = nullptr;};
+    virtual ~WidgetInterface() { getAllWidget()[id] = nullptr; };
     WidgetInterface() {
         getAllWidget().push_back(this);
         id = getAllWidget().size();

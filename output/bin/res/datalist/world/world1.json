@@ -66,27 +66,86 @@
             "position": "4,6,0"
         }
     ],
-    "landcolumn":100,
-    "landrow":100,
-    "landblocksize":[3,3],
-    "landbeiginpoint":[-10,-10],
-    "landBlocks":[
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4},
-        {"fileId":3,"picIndex":4}
+    "worldSet": {
+        "landcolumn": 100,
+        "landrow": 100,
+        "landblocksize": [
+            3,
+            3
+        ],
+        "landbeiginpoint": [
+            -10,
+            -10
+        ]
+    },
+    "landBlocks": [
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        },
+        {
+            "fileId": 3,
+            "picIndex": 4
+        }
     ]
 }
