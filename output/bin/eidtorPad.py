@@ -81,18 +81,15 @@ class mainPad:
         self.root = tk.Tk()
         self.root.title("editor")
         self.root.geometry("400x800+1420+100")
-        self.menupage = tk.Frame(self.root, height=10,borderwidth=2, relief="groove")
-        self.menupage.pack(anchor=tk.W,fill='x')
+        self.menupage = tk.Frame(self.root, height=10, borderwidth=2, relief="groove")
+        self.menupage.pack(anchor=tk.W, fill="x")
         menuBtns = {
             "save": tk.Button(self.menupage, text="保存"),
             "open": tk.Button(self.menupage, text="打开"),
         }
-        btnsSet = {
-            "save":(1,1),
-            "open":(1,2)
-        }
-        for k,v in menuBtns.items():
-            v.grid(row=btnsSet[k][0],column=btnsSet[k][1])
+        btnsSet = {"save": (1, 1), "open": (1, 2)}
+        for k, v in menuBtns.items():
+            v.grid(row=btnsSet[k][0], column=btnsSet[k][1])
 
         notebook = ttk.Notebook(self.root)
         notebook.pack(expand=True, fill="both")
@@ -149,11 +146,23 @@ class padSetPos:
         self.childPage.pack()
         self.content = {
             "title": (tk.Label(self.childPage, text="位置"), (1, 2, 2), None),
-            "l1": (tk.Label(self.childPage, text="x",width=4,anchor=tk.E), (2, 1, 1), None),
+            "l1": (
+                tk.Label(self.childPage, text="x", width=4, anchor=tk.E),
+                (2, 1, 1),
+                None,
+            ),
             "input1": (tk.Entry(self.childPage), (2, 2, 1), tk.StringVar()),
-            "l2": (tk.Label(self.childPage, text="y",width=4,anchor=tk.E), (3, 1, 1), None),
+            "l2": (
+                tk.Label(self.childPage, text="y", width=4, anchor=tk.E),
+                (3, 1, 1),
+                None,
+            ),
             "input2": (tk.Entry(self.childPage), (3, 2, 1), tk.StringVar()),
-            "l3": (tk.Label(self.childPage, text="z",width=4,anchor=tk.E), (4, 1, 1), None),
+            "l3": (
+                tk.Label(self.childPage, text="z", width=4, anchor=tk.E),
+                (4, 1, 1),
+                None,
+            ),
             "input3": (tk.Entry(self.childPage), (4, 2, 1), tk.StringVar()),
             "c": (tk.Button(self.childPage, text="设置"), (5, 2, 2), None),
         }
@@ -234,6 +243,73 @@ class padCreateObj:
             return
 
 
+# 生成默认地图
+class padSpawnDefaultLand:
+    def __init__(self, page_: tk.Frame) -> None:
+        self.childPage = tk.Frame(page_, width=16)
+        self.childPage.pack()
+        self.content = {
+            "title": tk.Label(self.childPage, anchor=tk.W, text="地图起点"),
+            "lableX": tk.Label(self.childPage, anchor=tk.E, text="x", width=6),
+            "entryX": tk.Entry(self.childPage),
+            "lableY": tk.Label(self.childPage, anchor=tk.E, text="y", width=6),
+            "entryY": tk.Entry(self.childPage),
+            "lableZ": tk.Label(self.childPage, anchor=tk.E, text="z", width=6),
+            "entryZ": tk.Entry(self.childPage),
+            "lableblockSize": tk.Label(
+                self.childPage, anchor=tk.E, text="块尺寸", width=6
+            ),
+            "entryBlkSize": tk.Entry(self.childPage),
+            "lableRows": tk.Label(self.childPage, anchor=tk.E, text="行数", width=6),
+            "entryrows": tk.Entry(self.childPage),
+            "lableColumns": tk.Label(self.childPage, anchor=tk.E, text="列数", width=6),
+            "entrycolumns": tk.Entry(self.childPage),
+            "create": tk.Button(self.childPage, text="创建"),
+        }
+        self.contentSet = {
+            "title": (1, 1, 2, tk.W, None),  # row column span var
+            "lableX": (2, 1, 1, tk.E, None),
+            "entryX": (2, 2, 1, tk.E, tk.StringVar()),
+            "lableY": (3, 1, 1, tk.E, None),
+            "entryY": (3, 2, 1, tk.E, tk.StringVar()),
+            "lableZ": (4, 1, 1, tk.E, None),
+            "entryZ": (4, 2, 1, tk.E, tk.StringVar()),
+            "lableblockSize": (5, 1, 1, tk.E, None),
+            "entryBlkSize": (5, 2, 1, tk.E, tk.StringVar()),
+            "lableRows": (6, 1, 1, tk.E, None),
+            "entryrows": (6, 2, 1, tk.E, tk.StringVar()),
+            "lableColumns": (7, 1, 1, tk.E, None),
+            "entrycolumns": (7, 2, 1, tk.E, tk.StringVar()),
+            "create": (8, 2, 1, tk.W, None),
+        }
+        for k, v in self.content.items():
+            v.grid(
+                row=self.contentSet[k][0],
+                column=self.contentSet[k][1],
+                columnspan=self.contentSet[k][2],
+                sticky=self.contentSet[k][3],
+            )
+            if self.contentSet[k][3] != None:
+                v.config(textvariable=self.contentSet[k][4])
+        self.content["create"].config(command=self.btnCbk)
+
+    def btnCbk(self):
+        try:
+            data = [
+                float(self.contentSet["entryX"][4].get()),
+                float(self.contentSet["entryY"][4].get()),
+                float(self.contentSet["entryZ"][4].get()),
+                float(self.contentSet["entryBlkSize"][4].get()),
+                float(self.contentSet["entryrows"][4].get()),
+                float(self.contentSet["entrycolumns"][4].get()),
+            ]
+        except ValueError:
+            root.showLog("should input number")
+            return
+        message = f"createDefaultLand {data[0]} {data[1]} {data[2]} {data[3]} {data[4]} {data[5]}"
+        cl.sendMessage(message)
+
+
 class editorPad:
     def __init__(self):
         x = 1
@@ -258,8 +334,10 @@ def parseMessage():
 def program():
 
     padCreateObj(root.actorpage)
-    padCreateObj(root.landpage)
     padSetPos(root.actorpage)
+
+    padCreateObj(root.landpage)
+    padSpawnDefaultLand(root.landpage)
 
     t = threading.Thread(target=parseMessage)
     t.start()
