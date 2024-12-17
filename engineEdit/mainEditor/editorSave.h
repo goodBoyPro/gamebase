@@ -10,6 +10,7 @@ class editorSave {
     editorSave(/* args */);
     ~editorSave();
     static void saveTofile(std::string path_);
+    static void loadFromFile(std::string path_);
 };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 inline editorSave::editorSave(/* args */) {}

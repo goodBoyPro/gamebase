@@ -1,10 +1,11 @@
 import tkinter as tk
-from tkinter import ttk
-from tkinter import scrolledtext
+from tkinter import scrolledtext,ttk,filedialog,messagebox
 import socket
 import os
 import time
 import threading
+
+
 
 
 class client:
@@ -16,12 +17,14 @@ class client:
 
     def tryconnect(self, root_):
         self.root = root_
+        self.isConnected=False
         self.sockCl = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         while self.bRnuCl:
             try:
                 self.sockCl.connect((self.host, self.port))
                 root.showLog("server connected")
                 print("server connected")
+                self.isConnected=True
                 return
             except ConnectionRefusedError:
                 root.showLog("retry connect")
@@ -29,15 +32,16 @@ class client:
                 time.sleep(0.5)
 
     def sendMessage(self, message: str):
-        try:
-            self.sockCl.sendall(message.encode("utf-8"))
-        except (ConnectionResetError, OSError):
-            self.sockCl.close()
-            self.sockCl = None
-            self.tryconnect(self.root)
-            return
-        # data=self.sockCl.recv(1024)
-        # root.showLog(data.decode('utf-8'))
+        if self.isConnected==True:
+            try:
+                self.sockCl.sendall(message.encode("utf-8"))
+            except (ConnectionResetError, OSError):
+                self.sockCl.close()
+                self.sockCl = None
+                self.tryconnect(self.root)
+                return
+            # data=self.sockCl.recv(1024)
+            # root.showLog(data.decode('utf-8'))
 
     def getMessage(self):
         data = self.sockCl.recv(1024)
@@ -78,6 +82,7 @@ class pageWithScollBar:
 #####################################################################################################
 class mainPad:
     def __init__(self) -> None:
+        self.savename=''
         self.root = tk.Tk()
         self.root.title("editor")
         self.root.geometry("400x800+1420+100")
@@ -86,10 +91,14 @@ class mainPad:
         menuBtns = {
             "save": tk.Button(self.menupage, text="保存"),
             "open": tk.Button(self.menupage, text="打开"),
+            "newWorld":tk.Button(self.menupage, text="新建"),
         }
-        btnsSet = {"save": (1, 1), "open": (1, 2)}
+        btnsSet = {"save": (1, 1), "open": (1, 2),'newWorld':(1,3)}
         for k, v in menuBtns.items():
             v.grid(row=btnsSet[k][0], column=btnsSet[k][1])
+        menuBtns['save'].config(command=self.saveBtnCbk)
+        menuBtns['open'].config(command=self.openBtnCbk)
+        menuBtns['newWorld'].config(command=self.newFileBtnCbk)
 
         notebook = ttk.Notebook(self.root)
         notebook.pack(expand=True, fill="both")
@@ -133,6 +142,19 @@ class mainPad:
 
     def mainLoop(self):
         self.root.mainloop()
+    def saveBtnCbk(self):
+        if self.savename=='':
+            self.savename=filedialog.asksaveasfilename(filetypes=[("json", "*.json")])
+            if self.savename=='':return
+        name,ext=os.path.splitext(self.savename)
+        if not ext:self.savename=self.savename+".json"
+        cl.sendMessage("save "+self.savename)
+    def openBtnCbk(self):
+        self.savename=filedialog.askopenfilename(filetypes=[("json", "*.json")])
+        if self.savename=='':return
+        cl.sendMessage("open "+self.savename)
+    def newFileBtnCbk(self):
+        cl.sendMessage("newWorld")
 
 
 cl = client()

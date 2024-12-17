@@ -99,12 +99,13 @@ namespace ens
 
     public:
         static std::multiset<MovableEditObj *> allMEO;
-        void allMeoInsert(MovableEditObj *ptr)
+        static void clearAllMeo(){ std::unique_lock lk(mutForAllMeo);allMEO.clear();}
+        static void allMeoInsert(MovableEditObj *ptr)
         {
             std::unique_lock lk(mutForAllMeo);
             allMEO.insert(ptr);
         };
-        void allMeoRemove(MovableEditObj *ptr)
+        static void allMeoRemove(MovableEditObj *ptr)
         {
             std::unique_lock lk(mutForAllMeo);
             allMEO.erase(ptr);
@@ -344,15 +345,6 @@ namespace ens
                     {
                         switch (event.key.code)
                         {
-                        case sf::Keyboard::Num1:
-                            editMode = GAMEMODE;
-                            break;
-                        case sf::Keyboard::Num2:
-                            editMode = ACTORMODE;
-                            break;
-                        case sf::Keyboard::Num3:
-                            editMode = LANDMODE;
-                            break;
                         case sf::Keyboard::K:
                             editorSave::saveTofile("test");
                             break;
@@ -403,6 +395,7 @@ namespace ens
                 PRINTDEBUG(L"键鼠位置：%f,%f",
                            winToWs(sf::Mouse::getPosition(*getWindow())).x,
                            winToWs(sf::Mouse::getPosition(*getWindow())).y);
+                PRINTDEBUG(L"对象总数:%d",MovableEditObj::allMEO.size());
                 GCameraInterface::posForDraw =
                     GCameraInterface::getGameCamera()->posInWs;
                 for (auto obj : allObj)
@@ -441,8 +434,18 @@ namespace ens
         editorCommand::edc.command["setmode"] = []()
         {
             editMode = std::stoi(editorCommand::edc.input[1]);
-            MovableEditObj::selectedObjForEdit=nullptr;
+            MovableEditObj::selectedObjForEdit = nullptr;
         };
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        editorCommand::edc.command["save"]=[](){
+            editorSave::saveTofile(editorCommand::edc.input[1]);
+        };
+        editorCommand::edc.command["open"]=[](){
+            MovableEditObj::clearAllMeo();
+            editorSave::loadFromFile(editorCommand::edc.input[1]);
+        };
+        editorCommand::edc.command["newWorld"]=[](){ MovableEditObj::clearAllMeo();};
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
         editorCommand::edc.command["create"] = [&]()
