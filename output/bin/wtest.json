@@ -4,48 +4,25 @@
             "fileID": 1,
             "picIndex": 1,
             "position": [
-                -0.4699999690055847,
-                1.9999998807907104,
+                2.344756603240967,
+                2.627973794937134,
                 0.0
-            ]
-        },
-        {
-            "fileID": 1,
-            "picIndex": 1,
-            "position": [
-                1.549999713897705,
-                1.2999998331069946,
-                0.0
-            ]
-        },
-        {
-            "fileID": 1,
-            "picIndex": 1,
-            "position": [
-                -2.109999895095825,
-                1.0199999809265137,
-                0.0
-            ]
-        },
-        {
-            "fileID": 1,
-            "picIndex": 1,
-            "position": [
-                1.529999852180481,
-                -0.35999998450279236,
-                0.0
-            ]
-        },
-        {
-            "fileID": 1,
-            "picIndex": 1,
-            "position": [
-                -1.4399999380111694,
-                -1.0699999332427979,
-                0.0
-            ]
+            ],
+            "sizeInWs": [
+                1.0,
+                1.0,
+                1.0
+            ],
+            "type": 0
         }
     ],
+    "beginPoint": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "blockSize": 3.0,
+    "columns": 4,
     "landBlocks": [
         {
             "fileID": 3,
@@ -54,7 +31,13 @@
                 0.0,
                 0.0,
                 0.0
-            ]
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
@@ -63,313 +46,224 @@
                 3.0,
                 0.0,
                 0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 7,
-            "position": [
-                6.0,
-                0.0,
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
                 0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 4,
-            "position": [
-                9.0,
-                0.0,
-                0.0
-            ]
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 8,
             "position": [
-                12.0,
                 0.0,
+                3.0,
                 0.0
-            ]
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 1,
             "position": [
-                15.0,
-                0.0,
+                3.0,
+                3.0,
                 0.0
-            ]
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 3,
             "position": [
-                0.0,
+                6.0,
                 3.0,
                 0.0
-            ]
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 0,
             "position": [
+                9.0,
+                3.0,
+                0.0
+            ],
+            "sizeInWs": [
                 3.0,
                 3.0,
                 0.0
-            ]
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 7,
             "position": [
+                0.0,
                 6.0,
+                0.0
+            ],
+            "sizeInWs": [
+                3.0,
                 3.0,
                 0.0
-            ]
+            ],
+            "type": 1
+        },
+        {
+            "fileID": 3,
+            "picIndex": 2,
+            "position": [
+                3.0,
+                6.0,
+                0.0
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 1
+        },
+        {
+            "fileID": 3,
+            "picIndex": 8,
+            "position": [
+                6.0,
+                6.0,
+                0.0
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 2,
             "position": [
                 9.0,
+                6.0,
+                0.0
+            ],
+            "sizeInWs": [
+                3.0,
                 3.0,
                 0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 8,
-            "position": [
-                12.0,
-                3.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 2,
-            "position": [
-                15.0,
-                3.0,
-                0.0
-            ]
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 7,
             "position": [
                 0.0,
-                6.0,
+                9.0,
                 0.0
-            ]
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 6,
             "position": [
                 3.0,
-                6.0,
+                9.0,
                 0.0
-            ]
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 7,
             "position": [
                 6.0,
-                6.0,
+                9.0,
                 0.0
-            ]
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 5,
             "position": [
                 9.0,
-                6.0,
+                9.0,
                 0.0
-            ]
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 7,
             "position": [
-                12.0,
                 6.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 8,
-            "position": [
-                15.0,
-                6.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 3,
-            "position": [
                 0.0,
-                9.0,
                 0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 0,
-            "position": [
+            ],
+            "sizeInWs": [
                 3.0,
-                9.0,
+                3.0,
                 0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 0,
-            "position": [
-                6.0,
-                9.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 6,
-            "position": [
-                9.0,
-                9.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 5,
-            "position": [
-                12.0,
-                9.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 0,
-            "position": [
-                15.0,
-                9.0,
-                0.0
-            ]
+            ],
+            "type": 1
         },
         {
             "fileID": 3,
             "picIndex": 4,
             "position": [
-                0.0,
-                12.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 7,
-            "position": [
-                3.0,
-                12.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 6,
-            "position": [
-                6.0,
-                12.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 5,
-            "position": [
                 9.0,
-                12.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 8,
-            "position": [
-                12.0,
-                12.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 5,
-            "position": [
-                15.0,
-                12.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 2,
-            "position": [
                 0.0,
-                15.0,
                 0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 0,
-            "position": [
+            ],
+            "sizeInWs": [
                 3.0,
-                15.0,
+                3.0,
                 0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 2,
-            "position": [
-                6.0,
-                15.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 0,
-            "position": [
-                9.0,
-                15.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 6,
-            "position": [
-                12.0,
-                15.0,
-                0.0
-            ]
-        },
-        {
-            "fileID": 3,
-            "picIndex": 4,
-            "position": [
-                15.0,
-                15.0,
-                0.0
-            ]
+            ],
+            "type": 1
         }
-    ]
+    ],
+    "rows": 4
 }
