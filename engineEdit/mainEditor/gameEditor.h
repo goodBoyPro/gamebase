@@ -418,11 +418,22 @@ inline void Editor::setCommand() {
             EditorServer::server.sendMesssage("server:not landblock");
             return;
         }
+        FVector3 size={std::stof(editorCommand::edc.input[4]),std::stof(editorCommand::edc.input[5]),std::stof(editorCommand::edc.input[6])};
+        ActorType type=static_cast<ActorType>(std::stoi(editorCommand::edc.input[7]));
+        switch(type){
+            case 1:
+            printf("create 1");
+            break;
+            default:
+            break;
+        }
+            
         if (editMode == ACTORMODE)
             for (int i = 0; i < std::stoi(editorCommand::edc.input[3]); i++) {
                 MovableEditObj *obj = createAtLocation(
                     new Actor(fileid, std::stoi(editorCommand::edc.input[2])),
                     WindowFlag::flag.posInWs);
+                obj->setSizeWS(size);
                 MovableEditObj::selectedObjForEdit = obj;
             }
         if (editMode == LANDMODE)

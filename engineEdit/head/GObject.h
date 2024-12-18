@@ -150,4 +150,8 @@ class WidgetInterface : public GObject {
     }
 };
 
+enum ActorType{
+  eActor=1,//
+  ePlayer=2
+};
 #endif

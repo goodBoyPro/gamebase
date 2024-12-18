@@ -4,9 +4,17 @@ import socket
 import os
 import time
 import threading
+import json
 
 
-
+def getClassType():
+    with open("res/datalist/classType.json",'r',encoding="utf-8")as file:
+        try:
+            typeData=json.load(file)
+        except json.JSONDecodeError:
+            root.showLog("initError")
+        file.close()
+        return typeData
 
 class client:
     def __init__(self) -> None:
@@ -165,7 +173,7 @@ root = mainPad()
 class padSetPos:
     def __init__(self, page_: tk.Frame) -> None:
         self.childPage = tk.Frame(page_, borderwidth=2, relief="groove")
-        self.childPage.pack()
+        self.childPage.pack(anchor=tk.W)
         self.content = {
             "title": (tk.Label(self.childPage, text="位置"), (1, 2, 2), None),
             "l1": (
@@ -219,32 +227,44 @@ class padCreateObj:
     def __init__(self, page_: tk.Frame) -> None:
         self.childPage = tk.Frame(page_, width=16)
         self.childPage.pack()
+        self.classType=getClassType()
+        entWidth=8
         self.content = {
             "title": (
                 tk.Label(self.childPage, text="创建对象"),
-                (1, 1, 2, tk.W),
+                (0, 1, 2, tk.W),
                 None,
             ),  # (row column columnspan sticky),variable
-            "l1": (tk.Label(self.childPage, text="图ID"), (2, 1, 1, tk.W), None),
-            "fileid": (tk.Entry(self.childPage), (2, 2, 1, tk.W), tk.StringVar()),
-            "l2": (tk.Label(self.childPage, text="序号"), (3, 1, 1, tk.W), None),
+            "lX": (tk.Label(self.childPage, text="X"), (1, 2, 1, tk.W), None),
+            "lY": (tk.Label(self.childPage, text="Y"), (1, 3, 1, tk.W), None),
+            "lZ": (tk.Label(self.childPage, text="Z"), (1, 4, 1, tk.W), None),
+            "lSize": (tk.Label(self.childPage, text="尺寸"), (2, 1, 1, tk.W), None),
+            "entX": (tk.Entry(self.childPage,width=entWidth), (2, 2, 1, tk.W), tk.StringVar()),
+            "entY": (tk.Entry(self.childPage,width=entWidth), (2, 3, 1, tk.W), tk.StringVar()),
+            "entZ": (tk.Entry(self.childPage,width=entWidth), (2, 4, 1, tk.W), tk.StringVar()),
+            "l1": (tk.Label(self.childPage, text="图ID"), (3, 1, 1, tk.W), None),
+            "fileid": (tk.Entry(self.childPage,width=entWidth), (3, 2, 1, tk.W), tk.StringVar()),
+            "l2": (tk.Label(self.childPage, text="序号"), (4, 1, 1, tk.W), None),
             "picid": (
                 tk.Entry(
-                    self.childPage,
-                ),
-                (3, 2, 1, tk.W),
-                tk.StringVar(),
-            ),
-            "l3": (tk.Label(self.childPage, text="数量"), (4, 1, 1, tk.W), None),
-            "times": (
-                tk.Entry(
-                    self.childPage,
+                    self.childPage,width=entWidth
                 ),
                 (4, 2, 1, tk.W),
                 tk.StringVar(),
             ),
-            "button": (tk.Button(self.childPage, text="创建"), (5, 2, 2, tk.W), None),
+            "l3": (tk.Label(self.childPage, text="数量"), (6, 1, 1, tk.W), None),
+            "times": (
+                tk.Entry(
+                    self.childPage,width=entWidth
+                ),
+                (6, 2, 1, tk.W),
+                tk.StringVar(),
+            ),
+            "lClassType":(tk.Label(self.childPage, text="类型"), (7, 1, 1, tk.W), None),
+            "cboxClassType":(ttk.Combobox(self.childPage,values=list(self.classType["classType"].keys())),(7, 2, 3, tk.W), tk.StringVar()),
+            "button": (tk.Button(self.childPage, text="创建"), (8, 2, 2, tk.W), None),
         }
+       
         for v in self.content.values():
             v[0].grid(row=v[1][0], column=v[1][1], sticky=v[1][3], columnspan=v[1][2])
             if v[2] != None:
@@ -256,9 +276,13 @@ class padCreateObj:
             self.content["fileid"][2].get(),
             self.content["picid"][2].get(),
             self.content["times"][2].get(),
+            self.content["entX"][2].get(),
+            self.content["entY"][2].get(),
+            self.content["entZ"][2].get(),
+            self.classType["classType"][self.content["cboxClassType"][2].get()]
         ]
         try:
-            message = f"create {float(text[0])} {float(text[1])} {float(text[2])}"
+            message = f"create {float(text[0])} {float(text[1])} {float(text[2])} {float(text[3])} {float(text[4])} {float(text[5])} {float(text[6])}"
             cl.sendMessage(message)
         except ValueError:
             root.showLog("should input number")
@@ -353,8 +377,9 @@ def parseMessage():
             break
 
 
-def program():
 
+def program():
+    
     padCreateObj(root.actorpage)
     padSetPos(root.actorpage)
 
