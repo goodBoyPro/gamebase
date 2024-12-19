@@ -1,0 +1,66 @@
+/* 整体图片列表容器样式 */
+#image-gallery {
+  width: 80%;
+  margin: 20px auto;
+  padding: 0;
+}
+
+/* 每个图片项的容器样式 */
+.image-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+/* 缩略图样式 */
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+/* 图片详细信息样式 */
+.image-info {
+  flex: 1;
+}
+
+/* 悬浮窗（模态框）的样式 */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* 悬浮窗中图片的样式 */
+.modal-content {
+  margin: auto;
+  display: block;
+  max-width: 80%;
+  max-height: 80%;
+}
+
+/* 关闭按钮样式 */
+.close {
+  color: white;
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #ccc;
+  text-decoration: none;
+  cursor: pointer;
+}

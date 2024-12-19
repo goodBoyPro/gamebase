@@ -9,10 +9,7 @@
 class SourceInteface {};
 class textureArray {
   public:
-    enum Type {
-        actor = 0, //
-        landblock = 1
-    };
+   
 
   private:
     std::vector<sf::Sprite> sprs;
@@ -22,7 +19,7 @@ class textureArray {
   public:
     sf::Texture tex;
     sf::Sprite spr;
-    Type type;
+    nsReg::ActorType type;
     void setSprite(gameSprite &spr_, int index) {
         if (index >= column * row)
             return;
@@ -43,9 +40,9 @@ class textureArray {
         originX = std::stoi(list_["originX"]);
         originY = std::stoi(list_["originY"]);
         if(list_["type"]=="actor")
-            type = actor;
+            type = nsReg::eActor;
         else if(list_["type"]=="landblock")
-            type = landblock;
+            type =nsReg::eLandBlock;
         spr.setOrigin(originX, originY);
         createSprs();
     }
@@ -120,7 +117,7 @@ class GSource {
             return false;
         return true;
     }
-    textureArray::Type checkTexArrayType(int fileId_){
+    nsReg::ActorType checkTexArrayType(int fileId_){
         return allTextureArrays[fileId_].type;
     }
     void setSprite(gameSprite &spr_, int fileId, int picIndex) {

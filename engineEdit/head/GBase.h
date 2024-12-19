@@ -16,7 +16,7 @@
 #include <unordered_set>
 #include <vector>
 #include <windows.h>
-
+#include<classReg.h>
 #define WINH 900
 #define WINW 1200
 
@@ -150,6 +150,8 @@ class DoOnce {
 IVector strTo2Int(const std::string &str);
 //从形如“11,13”的字符串接受浮点
 FVector3 strTo3Float(const std::string &str);
+//合并字符串
+std::string combineStrings(std::initializer_list<const std::string>strs);
 }; // namespace nsg
 
 #endif

@@ -51,6 +51,10 @@ namespace ens
             temp<<ifile.rdbuf();
             std::string text=temp.str();
         nlohmann::json jsObj=nlohmann::json::parse(text);
+        if(jsObj.is_null()){
+            EditorServer::server.sendMesssage("invalid world");
+            return;
+        }
         
         ifile.close();
         printf("%s",text.c_str());

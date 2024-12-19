@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XML Image Gallery</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .gallery-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .gallery-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px;
+    }
+    .gallery-thumbnail {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        cursor: pointer;
+    }
+    .modal {
+        display: none; 
+        position: fixed; 
+        z-index: 1; 
+        left: 0;
+        top: 0;
+        width: 100%; 
+        height: 100%; 
+        overflow: auto; 
+        background-color: rgba(0,0,0,0.9); 
+    }
+    .modal-content {
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px;
+        background-color: white;
+    }
+    .modal-content img {
+        max-width: 100%;
+        max-height: 80%;
+    }
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<h1>Image Gallery from XML</h1>
+<ul class="gallery-list" id="galleryList"></ul>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <img class="modal-img" id="modalImg">
+  </div>
+</div>
+
+<script>
+// Function to load and parse XML
+function loadXMLDoc(filename) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", filename, false);
+    xhttp.send();
+    return xhttp.responseXML;
+}
+
+// Function to display images and info in the gallery
+function displayGallery(xmlDoc) {
+    var nodes = xmlDoc.getElementsByTagName("node");
+    var galleryList = document.getElementById("galleryList");
+
+    for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        var id = node.getElementsByTagName("id")[0].childNodes[0].nodeValue;
+        var name = node.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+        var path = node.getElementsByTagName("path")[0].childNodes[0].nodeValue;
+        var fullSizePath = path.replace(/(\d+)x(\d+)\./, function(match, width, height) {
+            // Assuming the filename format is like "res/trees_256x5.png" and full size is the original size mentioned
+            // Here we're just removing the "_WxH" part for simplicity, adjust as needed
+            return match.replace(/_\d+x\d+\./, '.'); // This might need adjustment based on actual filename pattern
+        }); // You might need to adjust this logic to get the correct full-size image path
+
+        // Create list item
+        var listItem = document.createElement("li");
+        listItem.className = "gallery-item";
+
+        // Create thumbnail
+        var thumbnail = document.createElement("img");
+        thumbnail.src = path; // Using the thumbnail path directly, adjust if needed
+        thumbnail.className = "gallery-thumbnail";
+        thumbnail.dataset.fullPath = fullSizePath; // Store full-size path in a data attribute
+        thumbnail.dataset.id = id; // Store ID in a data attribute for additional info
+        thumbnail.addEventListener("click", function() {
+            showModal(this.dataset.fullPath, this.dataset.id);
+        });
+
+        // Create info text (optional)
+        // var infoText = document.createElement("p");
+        // infoText.textContent = "ID: " + id + " | Name: " + name;
+
+        // Append thumbnail and info to list item
+        listItem.appendChild(thumbnail);
+        // listItem.appendChild(infoText); // Uncomment if you want to show info text
+
+        // Append list item to gallery list
+        galleryList.appendChild(listItem);
+    }
+}
+
+// Function to show the modal with the full-size image
+function showModal(fullPath, id) {
+    var modal = document.getElementById("myModal");
+    var modalImg = document.getElementById("modalImg");
+    var modalContent = document.querySelector(".modal-content");
+
+    modalImg.src = fullPath;
+    // You can optionally display the ID or other info in the modal
+    // modalContent.querySelector("p").textContent = "Image ID: " + id; // Uncomment if you have an info <p> in the modal content
+
+    modal.style.display = "block";
+}
+
+// Function to close the modal
+var modal = document.getElementById("myModal");
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Load and display the gallery
+var xmlDoc = loadXMLDoc("res/textureArray.xml"); // Replace with your XML file path
+displayGallery(xmlDoc);
+</script>
+
+</body>
+</html>

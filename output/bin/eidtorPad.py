@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import scrolledtext,ttk,filedialog,messagebox
+from tkinter import scrolledtext, ttk, filedialog, messagebox
 import socket
 import os
 import time
@@ -8,13 +8,14 @@ import json
 
 
 def getClassType():
-    with open("res/datalist/classType.json",'r',encoding="utf-8")as file:
+    with open("res/datalist/classType.json", "r", encoding="utf-8") as file:
         try:
-            typeData=json.load(file)
+            typeData = json.load(file)
         except json.JSONDecodeError:
             root.showLog("initError")
         file.close()
         return typeData
+
 
 class client:
     def __init__(self) -> None:
@@ -25,14 +26,14 @@ class client:
 
     def tryconnect(self, root_):
         self.root = root_
-        self.isConnected=False
+        self.isConnected = False
         self.sockCl = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         while self.bRnuCl:
             try:
                 self.sockCl.connect((self.host, self.port))
                 root.showLog("server connected")
                 print("server connected")
-                self.isConnected=True
+                self.isConnected = True
                 return
             except ConnectionRefusedError:
                 root.showLog("retry connect")
@@ -40,7 +41,7 @@ class client:
                 time.sleep(0.5)
 
     def sendMessage(self, message: str):
-        if self.isConnected==True:
+        if self.isConnected == True:
             try:
                 self.sockCl.sendall(message.encode("utf-8"))
             except (ConnectionResetError, OSError):
@@ -90,7 +91,7 @@ class pageWithScollBar:
 #####################################################################################################
 class mainPad:
     def __init__(self) -> None:
-        self.savename=''
+        self.savename = ""
         self.root = tk.Tk()
         self.root.title("editor")
         self.root.geometry("400x800+1420+100")
@@ -99,14 +100,27 @@ class mainPad:
         menuBtns = {
             "save": tk.Button(self.menupage, text="保存"),
             "open": tk.Button(self.menupage, text="打开"),
-            "newWorld":tk.Button(self.menupage, text="新建"),
+            "newWorld": tk.Button(self.menupage, text="新建"),
+            "copy": tk.Button(self.menupage, text="复制"),
+            "paste": tk.Button(self.menupage, text="粘贴"),
+            "delete": tk.Button(self.menupage, text="删除"),
         }
-        btnsSet = {"save": (1, 1), "open": (1, 2),'newWorld':(1,3)}
+        btnsSet = {
+            "save": (1, 1),
+            "open": (1, 2),
+            "newWorld": (1, 3),
+            "copy": (2,1),
+            "paste": (2,2),
+            "delete": (2,3),
+        }
         for k, v in menuBtns.items():
             v.grid(row=btnsSet[k][0], column=btnsSet[k][1])
-        menuBtns['save'].config(command=self.saveBtnCbk)
-        menuBtns['open'].config(command=self.openBtnCbk)
-        menuBtns['newWorld'].config(command=self.newFileBtnCbk)
+        menuBtns["save"].config(command=self.saveBtnCbk)
+        menuBtns["open"].config(command=self.openBtnCbk)
+        menuBtns["newWorld"].config(command=self.newFileBtnCbk)
+        menuBtns["copy"].config(command=self.copyBtnCbk)
+        menuBtns["paste"].config(command=self.pasteBtnCbk)
+        menuBtns["delete"].config(command=self.deleteBtnCbk)
 
         notebook = ttk.Notebook(self.root)
         notebook.pack(expand=True, fill="both")
@@ -150,19 +164,38 @@ class mainPad:
 
     def mainLoop(self):
         self.root.mainloop()
+
     def saveBtnCbk(self):
-        if self.savename=='':
-            self.savename=filedialog.asksaveasfilename(filetypes=[("json", "*.json")])
-            if self.savename=='':return
-        name,ext=os.path.splitext(self.savename)
-        if not ext:self.savename=self.savename+".json"
-        cl.sendMessage("save "+self.savename)
+        if self.savename == "":
+            self.savename = filedialog.asksaveasfilename(filetypes=[("json", "*.json")])
+            if self.savename == "":
+                return
+        name, ext = os.path.splitext(self.savename)
+        if not ext:
+            self.savename = self.savename + ".json"
+        self.root.title(self.savename)
+        cl.sendMessage("save " + self.savename)
+
     def openBtnCbk(self):
-        self.savename=filedialog.askopenfilename(filetypes=[("json", "*.json")])
-        if self.savename=='':return
-        cl.sendMessage("open "+self.savename)
+        self.savename = filedialog.askopenfilename(filetypes=[("json", "*.json")])
+        if self.savename == "":
+            return
+        self.root.title(self.savename)
+        cl.sendMessage("open " + self.savename)
+
     def newFileBtnCbk(self):
+        self.savename = ""
+        self.root.title("未保存")
         cl.sendMessage("newWorld")
+
+    def copyBtnCbk(self):
+        cl.sendMessage("copy")
+
+    def pasteBtnCbk(self):
+        cl.sendMessage("paste")
+
+    def deleteBtnCbk(self):
+        cl.sendMessage("delete")
 
 
 cl = client()
@@ -227,8 +260,9 @@ class padCreateObj:
     def __init__(self, page_: tk.Frame) -> None:
         self.childPage = tk.Frame(page_, width=16)
         self.childPage.pack()
-        self.classType=getClassType()
-        entWidth=8
+        self.classType = getClassType()
+        types = list(self.classType["classType"].keys())
+        entWidth = 8
         self.content = {
             "title": (
                 tk.Label(self.childPage, text="创建对象"),
@@ -239,37 +273,58 @@ class padCreateObj:
             "lY": (tk.Label(self.childPage, text="Y"), (1, 3, 1, tk.W), None),
             "lZ": (tk.Label(self.childPage, text="Z"), (1, 4, 1, tk.W), None),
             "lSize": (tk.Label(self.childPage, text="尺寸"), (2, 1, 1, tk.W), None),
-            "entX": (tk.Entry(self.childPage,width=entWidth), (2, 2, 1, tk.W), tk.StringVar()),
-            "entY": (tk.Entry(self.childPage,width=entWidth), (2, 3, 1, tk.W), tk.StringVar()),
-            "entZ": (tk.Entry(self.childPage,width=entWidth), (2, 4, 1, tk.W), tk.StringVar()),
+            "entX": (
+                tk.Entry(self.childPage, width=entWidth),
+                (2, 2, 1, tk.W),
+                tk.StringVar(),
+            ),
+            "entY": (
+                tk.Entry(self.childPage, width=entWidth),
+                (2, 3, 1, tk.W),
+                tk.StringVar(),
+            ),
+            "entZ": (
+                tk.Entry(self.childPage, width=entWidth),
+                (2, 4, 1, tk.W),
+                tk.StringVar(),
+            ),
             "l1": (tk.Label(self.childPage, text="图ID"), (3, 1, 1, tk.W), None),
-            "fileid": (tk.Entry(self.childPage,width=entWidth), (3, 2, 1, tk.W), tk.StringVar()),
+            "fileid": (
+                tk.Entry(self.childPage, width=entWidth),
+                (3, 2, 1, tk.W),
+                tk.StringVar(),
+            ),
             "l2": (tk.Label(self.childPage, text="序号"), (4, 1, 1, tk.W), None),
             "picid": (
-                tk.Entry(
-                    self.childPage,width=entWidth
-                ),
+                tk.Entry(self.childPage, width=entWidth),
                 (4, 2, 1, tk.W),
                 tk.StringVar(),
             ),
             "l3": (tk.Label(self.childPage, text="数量"), (6, 1, 1, tk.W), None),
             "times": (
-                tk.Entry(
-                    self.childPage,width=entWidth
-                ),
+                tk.Entry(self.childPage, width=entWidth),
                 (6, 2, 1, tk.W),
                 tk.StringVar(),
             ),
-            "lClassType":(tk.Label(self.childPage, text="类型"), (7, 1, 1, tk.W), None),
-            "cboxClassType":(ttk.Combobox(self.childPage,values=list(self.classType["classType"].keys())),(7, 2, 3, tk.W), tk.StringVar()),
+            "lClassType": (
+                tk.Label(self.childPage, text="类型"),
+                (7, 1, 1, tk.W),
+                None,
+            ),
+            "cboxClassType": (
+                ttk.Combobox(self.childPage, values=types, state="readonly"),
+                (7, 2, 3, tk.W),
+                tk.StringVar(),
+            ),
             "button": (tk.Button(self.childPage, text="创建"), (8, 2, 2, tk.W), None),
         }
-       
+
         for v in self.content.values():
             v[0].grid(row=v[1][0], column=v[1][1], sticky=v[1][3], columnspan=v[1][2])
             if v[2] != None:
                 v[0].config(textvariable=v[2])
         self.content["button"][0].config(command=self.buttonCbk)
+        self.content["cboxClassType"][2].set(types[0])
 
     def buttonCbk(self):
         text = [
@@ -279,7 +334,7 @@ class padCreateObj:
             self.content["entX"][2].get(),
             self.content["entY"][2].get(),
             self.content["entZ"][2].get(),
-            self.classType["classType"][self.content["cboxClassType"][2].get()]
+            self.classType["classType"][self.content["cboxClassType"][2].get()],
         ]
         try:
             message = f"create {float(text[0])} {float(text[1])} {float(text[2])} {float(text[3])} {float(text[4])} {float(text[5])} {float(text[6])}"
@@ -377,13 +432,12 @@ def parseMessage():
             break
 
 
-
 def program():
-    
+
     padCreateObj(root.actorpage)
     padSetPos(root.actorpage)
 
-    padCreateObj(root.landpage)
+    
     padSpawnDefaultLand(root.landpage)
 
     t = threading.Thread(target=parseMessage)

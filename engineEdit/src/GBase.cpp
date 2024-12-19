@@ -240,4 +240,11 @@ FVector3 strTo3Float(const std::string &str) {
     return {a,b,c};
 }
 
+std::string combineStrings(std::initializer_list<const std::string>strs){
+    std::string rtn;
+    for(const std::string &str:strs){
+        rtn += str;
+    }
+    return rtn;
+}
 }; // namespace nsg

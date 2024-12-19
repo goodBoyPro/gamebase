@@ -130,9 +130,7 @@ class MovableEditObj : public Info {
         info.picIndex = picIndex_;
     }
     const FVector3 &getSizeInWs() const { return sizeInWs; }
-    void setSizeWS(const FVector3 &size_) {
-        sizeInWs = size_;
-    }
+    void setSizeWS(const FVector3 &size_) { sizeInWs = size_; }
     MovableEditObj(int fileId_, int picIndex_) {
         allMeoInsert(this);
         centerPoint.setPointCount(3);
@@ -184,10 +182,12 @@ class MovableEditObj : public Info {
             // FVector2 sc = selectedObjForEdit->shapeBound.getScale();
             // selectedObjForEdit->shapeBound.scale(GCameraInterface::sceneScale,
             //  GCameraInterface::sceneScale);
-            float xS = selectedObjForEdit->getSizeInWs().x / pixSize / selectedObjForEdit->spr.getLocalBounds().getSize().x;
-            float yS = selectedObjForEdit->getSizeInWs().y / pixSize / selectedObjForEdit->spr.getLocalBounds().getSize().y;
+            float xS = selectedObjForEdit->getSizeInWs().x / pixSize /
+                       selectedObjForEdit->spr.getLocalBounds().getSize().x;
+            float yS = selectedObjForEdit->getSizeInWs().y / pixSize /
+                       selectedObjForEdit->spr.getLocalBounds().getSize().y;
             window_.draw(selectedObjForEdit->shapeBound);
-            selectedObjForEdit->shapeBound.setScale(xS,yS);
+            selectedObjForEdit->shapeBound.setScale(xS, yS);
         }
     }
     void drawHandler(sf::RenderWindow &window_) {
@@ -328,6 +328,7 @@ class Editor {
                     allObj.insert(*it);
                     it++;
                 } else {
+                    delete (*it);
                     it = MovableEditObj::allMEO.erase(it);
                 }
             }
@@ -383,81 +384,7 @@ class Editor {
         }
     }
 };
-inline void Editor::setCommand() {
-    editorCommand::edc.command["setmode"] = []() {
-        editMode = std::stoi(editorCommand::edc.input[1]);
-        MovableEditObj::selectedObjForEdit = nullptr;
-    };
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    editorCommand::edc.command["save"] = []() {
-        editorSave::saveTofile(editorCommand::edc.input[1]);
-    };
-    editorCommand::edc.command["open"] = []() {
-        MovableEditObj::clearAllMeo();
-        editorSave::loadFromFile(editorCommand::edc.input[1]);
-    };
-    editorCommand::edc.command["newWorld"] = []() {
-        MovableEditObj::clearAllMeo();
-    };
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    editorCommand::edc.command["create"] = [&]() {
-        int fileid = std::stoi(editorCommand::edc.input[1]);
-        if (!getSource().checkTexArrayValid(fileid)) {
-            EditorServer::server.sendMesssage("server:no such fileId");
-            return;
-        }
-        if (getSource().checkTexArrayType(fileid) != textureArray::actor &&
-            editMode == ACTORMODE) {
-            EditorServer::server.sendMesssage("server:not actor");
-            return;
-        }
-        if (getSource().checkTexArrayType(fileid) != textureArray::landblock &&
-            editMode == LANDMODE) {
-            EditorServer::server.sendMesssage("server:not landblock");
-            return;
-        }
-        FVector3 size={std::stof(editorCommand::edc.input[4]),std::stof(editorCommand::edc.input[5]),std::stof(editorCommand::edc.input[6])};
-        ActorType type=static_cast<ActorType>(std::stoi(editorCommand::edc.input[7]));
-        switch(type){
-            case 1:
-            printf("create 1");
-            break;
-            default:
-            break;
-        }
-            
-        if (editMode == ACTORMODE)
-            for (int i = 0; i < std::stoi(editorCommand::edc.input[3]); i++) {
-                MovableEditObj *obj = createAtLocation(
-                    new Actor(fileid, std::stoi(editorCommand::edc.input[2])),
-                    WindowFlag::flag.posInWs);
-                obj->setSizeWS(size);
-                MovableEditObj::selectedObjForEdit = obj;
-            }
-        if (editMode == LANDMODE)
-            for (int i = 0; i < std::stoi(editorCommand::edc.input[3]); i++) {
-                MovableEditObj *obj = createAtLocation(
-                    new LandBlock(fileid,
-                                  std::stoi(editorCommand::edc.input[2])),
-                    WindowFlag::flag.posInWs);
-                MovableEditObj::selectedObjForEdit = obj;
-            }
-    };
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    editorCommand::edc.command["createDefaultLand"] = [&]() {
-        FVector3 bp_ = {std::stof(editorCommand::edc.input[1]),
-                        std::stof(editorCommand::edc.input[2]),
-                        std::stof(editorCommand::edc.input[3])};
-        float blocksize_ = std::stof(editorCommand::edc.input[4]);
-        int rows_ = std::stoi(editorCommand::edc.input[5]);
-        int columns_ = std::stoi(editorCommand::edc.input[6]);
-        LandBlock::setLandOptions(bp_, blocksize_, rows_, columns_);
-        LandBlock::spawnRandomLandblocks();
-    };
-};
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
