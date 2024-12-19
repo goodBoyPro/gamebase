@@ -17,7 +17,7 @@ void Editor::setCommand() {
         MovableEditObj::clearAllMeo();
         editorSave::loadFromFile(editorCommand::edc.input[1]);
         const std::string &message = nsg::combineStrings(
-            {"success save to ", editorCommand::edc.input[1]});
+            {"success open ", editorCommand::edc.input[1]});
         EditorServer::server.sendMesssage(message);
     };
     editorCommand::edc.command["newWorld"] = []() {
@@ -28,12 +28,12 @@ void Editor::setCommand() {
         if(MovableEditObj::selectedObjForEdit){}
     };
      editorCommand::edc.command["paste"] = []() {
-       
+       int a=1;
     };
      editorCommand::edc.command["delete"] = []() {
         if(MovableEditObj::selectedObjForEdit){
             MovableEditObj::selectedObjForEdit->destroy();
-            MovableEditObj::selectedObjForEdit = nullptr;
+            MovableEditObj::selectedObjForEdit = nullptr;           
         }
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////

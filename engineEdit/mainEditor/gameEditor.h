@@ -305,7 +305,7 @@ class Editor {
         window.setPosition(IVector(100, 100));
         auto it = MovableEditObj::allMEO.begin();
         while (window.isOpen()) {
-            if (window.pollEvent(event)) {
+            if (window.pollEvent(event)&&window.hasFocus()) {
                 if (event.type == sf::Event::Closed)
                     window.close();
                 if (event.type == sf::Event::KeyPressed) {

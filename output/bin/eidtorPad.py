@@ -93,31 +93,26 @@ class mainPad:
     def __init__(self) -> None:
         self.savename = ""
         self.root = tk.Tk()
+        self.root.protocol("WM_DELETE_WINDOW",lambda:root.showLog('close abandoned'))
         self.root.title("editor")
         self.root.geometry("400x800+1420+100")
         self.menupage = tk.Frame(self.root, height=10, borderwidth=2, relief="groove")
         self.menupage.pack(anchor=tk.W, fill="x")
         menuBtns = {
-            "save": tk.Button(self.menupage, text="保存"),
-            "open": tk.Button(self.menupage, text="打开"),
-            "newWorld": tk.Button(self.menupage, text="新建"),
+          
             "copy": tk.Button(self.menupage, text="复制"),
             "paste": tk.Button(self.menupage, text="粘贴"),
             "delete": tk.Button(self.menupage, text="删除"),
         }
         btnsSet = {
-            "save": (1, 1),
-            "open": (1, 2),
-            "newWorld": (1, 3),
+            
             "copy": (2,1),
             "paste": (2,2),
             "delete": (2,3),
         }
         for k, v in menuBtns.items():
             v.grid(row=btnsSet[k][0], column=btnsSet[k][1])
-        menuBtns["save"].config(command=self.saveBtnCbk)
-        menuBtns["open"].config(command=self.openBtnCbk)
-        menuBtns["newWorld"].config(command=self.newFileBtnCbk)
+        
         menuBtns["copy"].config(command=self.copyBtnCbk)
         menuBtns["paste"].config(command=self.pasteBtnCbk)
         menuBtns["delete"].config(command=self.deleteBtnCbk)
@@ -201,7 +196,16 @@ class mainPad:
 cl = client()
 root = mainPad()
 
-
+class menuClass:
+    def __init__(self,root_:tk.Tk) -> None:
+        self.menus=tk.Menu(root_,tearoff=False)
+        root_.config(menu=self.menus)
+        self.menuFile=tk.Menu(self.menus)
+        self.menuFile.add_command(label="打开",command=root.openBtnCbk)
+        self.menuFile.add_command(label="保存",command=root.saveBtnCbk)
+        self.menuFile.add_command(label="新建",command=root.newFileBtnCbk)
+        self.menus.add_cascade(label="文件",menu=self.menuFile)
+menus=menuClass(root.root)
 # 设置位置
 class padSetPos:
     def __init__(self, page_: tk.Frame) -> None:
