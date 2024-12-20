@@ -16,24 +16,23 @@ void Editor::setCommand() {
     editorCommand::edc.command["open"] = []() {
         MovableEditObj::clearAllMeo();
         editorSave::loadFromFile(editorCommand::edc.input[1]);
-        const std::string &message = nsg::combineStrings(
-            {"success open ", editorCommand::edc.input[1]});
+        const std::string &message =
+            nsg::combineStrings({"success open ", editorCommand::edc.input[1]});
         EditorServer::server.sendMesssage(message);
     };
     editorCommand::edc.command["newWorld"] = []() {
         MovableEditObj::clearAllMeo();
         EditorServer::server.sendMesssage("editor reset");
     };
-     editorCommand::edc.command["copy"] = []() {
-        if(MovableEditObj::selectedObjForEdit){}
+    editorCommand::edc.command["copy"] = []() {
+        if (MovableEditObj::selectedObjForEdit) {
+        }
     };
-     editorCommand::edc.command["paste"] = []() {
-       int a=1;
-    };
-     editorCommand::edc.command["delete"] = []() {
-        if(MovableEditObj::selectedObjForEdit){
+    editorCommand::edc.command["paste"] = []() { int a = 1; };
+    editorCommand::edc.command["delete"] = []() {
+        if (MovableEditObj::selectedObjForEdit) {
             MovableEditObj::selectedObjForEdit->destroy();
-            MovableEditObj::selectedObjForEdit = nullptr;           
+            MovableEditObj::selectedObjForEdit = nullptr;
         }
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,5 +96,14 @@ void Editor::setCommand() {
         LandBlock::spawnRandomLandblocks();
         EditorServer::server.sendMesssage("land created");
     };
+}
+bool Editor::isMouseInWindow(sf::RenderWindow &window_) {
+    IVector mousePosition = sf::Mouse::getPosition(window_);
+    sf::Vector2u windowSize = window_.getSize();
+    if (mousePosition.x >= 0 && mousePosition.x < windowSize.x &&
+        mousePosition.y >= 0 && mousePosition.y < windowSize.y) {
+        return true;
+    }
+    return false;
 };
 }; // namespace ens

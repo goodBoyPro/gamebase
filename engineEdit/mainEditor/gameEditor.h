@@ -186,8 +186,9 @@ class MovableEditObj : public Info {
                        selectedObjForEdit->spr.getLocalBounds().getSize().x;
             float yS = selectedObjForEdit->getSizeInWs().y / pixSize /
                        selectedObjForEdit->spr.getLocalBounds().getSize().y;
-            window_.draw(selectedObjForEdit->shapeBound);
+            selectedObjForEdit->shapeBound.setOutlineThickness(400 * pixSize);
             selectedObjForEdit->shapeBound.setScale(xS, yS);
+            window_.draw(selectedObjForEdit->shapeBound);
         }
     }
     void drawHandler(sf::RenderWindow &window_) {
@@ -290,6 +291,7 @@ class Editor {
     sf::RenderWindow *window;
     sf::Event event;
     void setCommand();
+    static bool isMouseInWindow(sf::RenderWindow &window_);
     Editor() {
         initTools();
 
@@ -305,7 +307,7 @@ class Editor {
         window.setPosition(IVector(100, 100));
         auto it = MovableEditObj::allMEO.begin();
         while (window.isOpen()) {
-            if (window.pollEvent(event)&&window.hasFocus()) {
+            if (window.pollEvent(event) && window.hasFocus()) {
                 if (event.type == sf::Event::Closed)
                     window.close();
                 if (event.type == sf::Event::KeyPressed) {
@@ -385,15 +387,18 @@ class Editor {
     }
 };
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 inline void MovableEditObj::pollKey(sf::RenderWindow &window_,
                                     sf::Event &event_) {
-    mousePos = sf::Mouse::getPosition(window_);
-    deltaMove = mousePos - posPre;
+    if (Editor::isMouseInWindow(window_)) {
+        mousePos = sf::Mouse::getPosition(window_);
+        deltaMove = mousePos - posPre;
+         posPre = sf::Mouse::getPosition(window_);
+    }
+
     FVector3 deltaWorldMove = {deltaMove.x * pixSize, deltaMove.y * pixSize, 0};
-    posPre = sf::Mouse::getPosition(window_);
+   
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         if (!selectedObjForMove) {
