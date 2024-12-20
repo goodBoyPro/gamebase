@@ -320,14 +320,16 @@ class padCreateObj:
                 (7, 2, 3, tk.W),
                 tk.StringVar(),
             ),
-            "button": (tk.Button(self.childPage, text="创建"), (8, 2, 2, tk.W), None),
+            "btnCreate": (tk.Button(self.childPage, text="创建",width=8), (8, 2, 1, tk.W), None),
+            "btnSet":(tk.Button(self.childPage, text="设置",width=8), (8, 3, 1, tk.W), None)
         }
 
         for v in self.content.values():
             v[0].grid(row=v[1][0], column=v[1][1], sticky=v[1][3], columnspan=v[1][2])
             if v[2] != None:
                 v[0].config(textvariable=v[2])
-        self.content["button"][0].config(command=self.buttonCbk)
+        self.content["btnCreate"][0].config(command=self.buttonCbk)
+        self.content["btnSet"][0].config(command=self.btnSetCbk)
         self.content["cboxClassType"][2].set(types[0])
 
     def buttonCbk(self):
@@ -345,7 +347,22 @@ class padCreateObj:
             cl.sendMessage(message)
         except ValueError:
             root.showLog("should input number")
-            return
+            
+    def btnSetCbk(self):
+        text = [
+            self.content["fileid"][2].get(),
+            self.content["picid"][2].get(),
+            self.content["times"][2].get(),
+            self.content["entX"][2].get(),
+            self.content["entY"][2].get(),
+            self.content["entZ"][2].get(),
+            self.classType["classType"][self.content["cboxClassType"][2].get()],
+        ]
+        try:
+            message = f"setActor {float(text[0])} {float(text[1])} {float(text[2])} {float(text[3])} {float(text[4])} {float(text[5])} {float(text[6])}"
+            cl.sendMessage(message)
+        except ValueError:
+            root.showLog("should input number")
 
 
 # 生成默认地图

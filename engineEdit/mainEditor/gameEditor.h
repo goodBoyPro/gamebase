@@ -77,6 +77,8 @@ namespace ens
     {
     public:
         static bool bDraw;
+        // 确保只在第一次点击时设置
+        bool bSetBegin = true;
         static SelectRect rect;
         sf::ConvexShape bound;
         FVector2 beginPoint;
@@ -93,17 +95,18 @@ namespace ens
         }
         void draw(sf::RenderWindow &window_)
         {
-            if(bDraw){
-            bound.setPosition(beginPoint);
-            FVector2 size = {sf::Mouse::getPosition(window_).x - beginPoint.x,
-                             sf::Mouse::getPosition(window_).y - beginPoint.y};
-            bound.setOutlineThickness(3/size.x);                 
-            bound.setScale(size);
-            window_.draw(bound);
+            if (bDraw)
+            {
+                bound.setPosition(beginPoint);
+                FVector2 size = {sf::Mouse::getPosition(window_).x - beginPoint.x,
+                                 sf::Mouse::getPosition(window_).y - beginPoint.y};
+                bound.setOutlineThickness(3 / size.x);
+                bound.setScale(size);
+                window_.draw(bound);
             }
         }
     };
-    inline  bool SelectRect::bDraw=true;
+    inline bool SelectRect::bDraw = false;
     inline SelectRect SelectRect::rect;
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -497,7 +500,8 @@ namespace ens
 
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            if (!selectedObjForMove)
+            if(SelectRect::bDraw){selectedObjForMove=nullptr;}
+            else if (!selectedObjForMove)
             {
                 selectedObjForEdit = nullptr;
                 for (auto it = allMEO.rbegin(); it != allMEO.rend(); ++it)
@@ -516,8 +520,19 @@ namespace ens
                         break;
                     }
                 }
+                // 如果没找到
+                if (!selectedObjForEdit)
+                {
+                    if (SelectRect::rect.bSetBegin)
+                    {
+                        SelectRect::rect.beginPoint = {sf::Mouse::getPosition(window_).x,
+                                                       sf::Mouse::getPosition(window_).y};
+                        SelectRect::rect.bDraw = true;
+                        SelectRect::rect.bSetBegin = false;
+                    }
+                }
             }
-            else
+            else 
             {
                 // selectedObjForMove->posInWs += deltaWorldMove;
                 selectedObjForMove->setPosInWs(selectedObjForMove->getPosInWs() +
@@ -535,12 +550,14 @@ namespace ens
         {
             EditorCamera::editorCamera.posInWs -= deltaWorldMove;
         }
-        if (event_.type == sf::Event::MouseButtonReleased)
+        if (event_.type == sf::Event::MouseButtonReleased) // 有问题，需要指定按键
         {
             if (selectedObjForMove && editMode == LANDMODE &&
                 selectedObjForMove->type == MovableEditObj::elandBlock)
                 ((LandBlock *)selectedObjForMove)->normalizePos();
             selectedObjForMove = nullptr;
+            SelectRect::rect.bDraw = false;
+            SelectRect::rect.bSetBegin = true;
         }
         if (event_.type == sf::Event::MouseWheelScrolled)
         {
