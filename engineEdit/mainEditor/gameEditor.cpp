@@ -3,7 +3,7 @@ namespace ens {
 void Editor::setCommand() {
     editorCommand::edc.command["setmode"] = []() {
         editMode = std::stoi(editorCommand::edc.input[1]);
-        MovableEditObj::selectedObjForEdit = nullptr;
+        MovableEditObj::selectedObjs.clear();
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,15 +25,16 @@ void Editor::setCommand() {
         EditorServer::server.sendMesssage("editor reset");
     };
     editorCommand::edc.command["copy"] = []() {
-        if (MovableEditObj::selectedObjForEdit) {
-        }
+       
     };
     editorCommand::edc.command["paste"] = []() { int a = 1; };
     editorCommand::edc.command["delete"] = []() {
-        if (MovableEditObj::selectedObjForEdit) {
-            MovableEditObj::selectedObjForEdit->destroy();
-            MovableEditObj::selectedObjForEdit = nullptr;
+        for(MovableEditObj*meo:MovableEditObj::selectedObjs){
+            delete meo;
+            meo = nullptr;
         }
+        MovableEditObj::selectedObjs.clear();
+
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +73,7 @@ void Editor::setCommand() {
                     new Actor(fileid, std::stoi(editorCommand::edc.input[2])),
                     WindowFlag::flag.posInWs);
                 obj->setSizeWS(size);
-                MovableEditObj::selectedObjForEdit = obj;
+                MovableEditObj::selectedObjs.push_back(obj);
             }
         if (editMode == LANDMODE)
             for (int i = 0; i < std::stoi(editorCommand::edc.input[3]); i++) {
@@ -80,7 +81,7 @@ void Editor::setCommand() {
                     new LandBlock(fileid,
                                   std::stoi(editorCommand::edc.input[2])),
                     WindowFlag::flag.posInWs);
-                MovableEditObj::selectedObjForEdit = obj;
+                MovableEditObj::selectedObjs.push_back(obj);
             }
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////

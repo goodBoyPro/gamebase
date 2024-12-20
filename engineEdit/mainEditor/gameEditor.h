@@ -160,7 +160,7 @@ namespace ens
             }
         }
         static MovableEditObj *selectedObjForMove;
-        static MovableEditObj *selectedObjForEdit;
+        // static MovableEditObj *selectedObjForEdit;
         static std::vector<MovableEditObj *> selectedObjs;
 
         sf::Sprite spr;
@@ -240,9 +240,6 @@ namespace ens
             for(auto s:selectedObjs){
                 s->shapeBound.setPosition(
                 s->psInWin.x, s->psInWin.y);
-                // FVector2 sc = selectedObjForEdit->shapeBound.getScale();
-                // selectedObjForEdit->shapeBound.scale(GCameraInterface::sceneScale,
-                //  GCameraInterface::sceneScale);
                 float xS = s->getSizeInWs().x / pixSize /
                            s->spr.getLocalBounds().getSize().x;
                 float yS = s->getSizeInWs().y / pixSize /
@@ -250,24 +247,6 @@ namespace ens
                 s->shapeBound.setOutlineThickness(400 * pixSize);
                 s->shapeBound.setScale(xS, yS);
                 window_.draw(s->shapeBound);
-            }
-        }
-        static void drawBound(sf::RenderWindow &window_)
-        {
-            if (selectedObjForEdit)
-            {
-                selectedObjForEdit->shapeBound.setPosition(
-                    selectedObjForEdit->psInWin.x, selectedObjForEdit->psInWin.y);
-                // FVector2 sc = selectedObjForEdit->shapeBound.getScale();
-                // selectedObjForEdit->shapeBound.scale(GCameraInterface::sceneScale,
-                //  GCameraInterface::sceneScale);
-                float xS = selectedObjForEdit->getSizeInWs().x / pixSize /
-                           selectedObjForEdit->spr.getLocalBounds().getSize().x;
-                float yS = selectedObjForEdit->getSizeInWs().y / pixSize /
-                           selectedObjForEdit->spr.getLocalBounds().getSize().y;
-                selectedObjForEdit->shapeBound.setOutlineThickness(400 * pixSize);
-                selectedObjForEdit->shapeBound.setScale(xS, yS);
-                window_.draw(selectedObjForEdit->shapeBound);
             }
         }
         void drawHandler(sf::RenderWindow &window_)
@@ -281,7 +260,6 @@ namespace ens
 
     inline std::multiset<MovableEditObj *> MovableEditObj::allMEO;
     inline MovableEditObj *MovableEditObj::selectedObjForMove;
-    inline MovableEditObj *MovableEditObj::selectedObjForEdit;
     inline std::vector<MovableEditObj *> MovableEditObj::selectedObjs;
     inline IVector MovableEditObj::mousePos;
     inline IVector MovableEditObj::deltaMove;
@@ -355,7 +333,6 @@ namespace ens
         virtual void setPosInWs(const FVector3 &pos_) override
         {
             MovableEditObj::setPosInWs(pos_);
-            // normalizePos();
         }
         void normalizePos()
         {
@@ -374,8 +351,6 @@ namespace ens
         virtual void draw(sf::RenderWindow &window_)
         {
             MovableEditObj::draw(window_);
-            // if (editMode == LANDMODE)
-            //     drawBound(window_);
         }
     };
     inline FVector3 LandBlock::beginPoint = {-100, -100, 0};
@@ -490,7 +465,6 @@ namespace ens
                         obj->drawHandler(window);
                     }
                 }
-                MovableEditObj::drawBound(window);
                 MovableEditObj::drawBounds(window);
                 SelectRect::rect.draw(window);
                 WindowFlag::flag.draw();
@@ -522,7 +496,6 @@ namespace ens
             if(SelectRect::bDraw){selectedObjForMove=nullptr;}
             else if (!selectedObjForMove)
             {
-                selectedObjForEdit = nullptr;
                 MovableEditObj::selectedObjs.clear();
                 for (auto it = allMEO.rbegin(); it != allMEO.rend(); ++it)
                 {
@@ -536,13 +509,12 @@ namespace ens
                     if (bound.contains(window_.mapPixelToCoords(mousePos)))
                     {
                         selectedObjForMove = (*it);
-                        selectedObjForEdit = (*it);
+                        MovableEditObj::selectedObjs.push_back(*it);
                         break;
                     }
                 }
                 // 如果没找到
-                if (!selectedObjForEdit)
-                {
+                if (MovableEditObj ::selectedObjs.empty()) {
                     if (SelectRect::rect.bSetBegin)
                     {
                         SelectRect::rect.beginPoint = {sf::Mouse::getPosition(window_).x,
@@ -554,7 +526,6 @@ namespace ens
             }
             else 
             {
-                // selectedObjForMove->posInWs += deltaWorldMove;
                 selectedObjForMove->setPosInWs(selectedObjForMove->getPosInWs() +
                                                deltaWorldMove);
             }
