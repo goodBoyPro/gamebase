@@ -135,16 +135,15 @@ class MovableEditObj : public Info {
             cbk(meo);
         }
     }
-    static MovableEditObj *selectedObjForMove;
-    // static MovableEditObj *selectedObjForEdit;
-    static std::set<MovableEditObj *> selectedObjs;
 
+    static std::set<MovableEditObj *> selectedObjs;
+    static std::mutex mutForSelectedObjs;
     sf::Sprite spr;
     sf::Texture tex;
     sf::ConvexShape centerPoint;
     sf::ConvexShape shapeBound;
     sf::ConvexShape shapeForSelect;
-
+    
     const FVector3 getPosInWs() const { return posInWs; }
     virtual void setPosInWs(const FVector3 &pos_) {
         posInWs = pos_;
@@ -154,8 +153,15 @@ class MovableEditObj : public Info {
     bool isValid = true;
 
     void destroy() { isValid = false; }
+    static void updateMouseState(sf::RenderWindow &window_) {
+        mousePos = sf::Mouse::getPosition(window_);
+        deltaMove = mousePos - posPre;
+        posPre = sf::Mouse::getPosition(window_);
+        deltaWorldMove = {deltaMove.x * pixSize, deltaMove.y * pixSize, 0};
+    };
     static IVector mousePos;
     static IVector deltaMove;
+    static FVector3 deltaWorldMove;
     static IVector posPre;
     void setSprFileIdPicIndex(int fileId_, int picIndex_) {
         getSource().setSprite(spr, fileId_, picIndex_);
@@ -209,6 +215,8 @@ class MovableEditObj : public Info {
         window_.draw(centerPoint);
     }
     static void drawBounds(sf::RenderWindow &window_) {
+        std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
+        if(!selectedObjs.empty())
         for (auto s : selectedObjs) {
             s->shapeBound.setPosition(s->psInWin.x, s->psInWin.y);
             float xS = s->getSizeInWs().x / pixSize /
@@ -225,14 +233,17 @@ class MovableEditObj : public Info {
         window_.draw(shapeForSelect);
     }
 
+    static void pollKeyActorMdoe(sf::RenderWindow &window_, sf::Event &event_);
+    static void pollKeyLandMdoe(sf::RenderWindow &window_, sf::Event &event_);
     static void pollKey(sf::RenderWindow &window_, sf::Event &event_);
 };
 
 inline std::multiset<MovableEditObj *> MovableEditObj::allMEO;
-inline MovableEditObj *MovableEditObj::selectedObjForMove;
+inline std::mutex MovableEditObj::mutForSelectedObjs;
 inline std::set<MovableEditObj *> MovableEditObj::selectedObjs;
 inline IVector MovableEditObj::mousePos;
 inline IVector MovableEditObj::deltaMove;
+inline FVector3 MovableEditObj::deltaWorldMove;
 inline IVector MovableEditObj::posPre;
 template <class T> inline T *createAtLocation(T *ptr, const FVector3 &pos_) {
     ptr->setPosInWs(pos_);
@@ -332,7 +343,9 @@ class Editor {
         sf::RenderWindow &window = getEditorWindow();
         window.setPosition(IVector(100, 100));
         auto it = MovableEditObj::allMEO.begin();
+        std::multiset<MovableEditObj *, MovableEditObj::Compare> allObj;
         while (window.isOpen()) {
+            MovableEditObj::updateMouseState(window);
             if (window.pollEvent(event) && window.hasFocus()) {
                 if (event.type == sf::Event::Closed)
                     window.close();
@@ -345,10 +358,14 @@ class Editor {
                         break;
                     }
                 }
-
                 MovableEditObj::pollKey(window, event);
+                if (editMode == ACTORMODE) {
+                    MovableEditObj::pollKeyActorMdoe(window, event);
+                } else if (editMode == LANDMODE) {
+                    MovableEditObj::pollKeyLandMdoe(window, event);
+                }
             }
-            std::multiset<MovableEditObj *, MovableEditObj::Compare> allObj;
+            allObj.clear();
             std::unique_lock lk(mutForAllMeo);
             for (it = MovableEditObj::allMEO.begin();
                  it != MovableEditObj::allMEO.end();) {
@@ -400,6 +417,7 @@ class Editor {
                     obj->drawHandler(window);
                 }
             }
+           
             MovableEditObj::drawBounds(window);
             SelectRect::rect.draw(window);
             WindowFlag::flag.draw();
@@ -416,94 +434,7 @@ class Editor {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-inline void MovableEditObj::pollKey(sf::RenderWindow &window_,
-                                    sf::Event &event_) {
-    static bool bMove = false;
-    mousePos = sf::Mouse::getPosition(window_);
-    deltaMove = mousePos - posPre;
-    posPre = sf::Mouse::getPosition(window_);
-    FVector3 deltaWorldMove = {deltaMove.x * pixSize, deltaMove.y * pixSize, 0};
 
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-
-        for (auto it = allMEO.rbegin(); it != allMEO.rend(); ++it) {
-            sf::FloatRect bound;
-            if (editMode == ACTORMODE && (*it)->type == MovableEditObj::eactor)
-                bound = (*it)->shapeForSelect.getGlobalBounds();
-            else if (editMode == LANDMODE &&
-                     (*it)->type == MovableEditObj::elandBlock)
-                bound = (*it)->shapeForSelect.getGlobalBounds();
-            if (bound.contains(window_.mapPixelToCoords(mousePos))) {
-                if (MovableEditObj::selectedObjs.find(*it) ==
-                    MovableEditObj::selectedObjs.end()) {
-                    MovableEditObj::selectedObjs.clear();
-                    MovableEditObj::selectedObjs.insert(*it);
-                }
-                bMove = true;
-                break;
-            }
-        }
-        // 如果没找到
-        if (!bMove) {
-            if (SelectRect::rect.bSetBegin) {
-                SelectRect::rect.beginPoint = {
-                    sf::Mouse::getPosition(window_).x,
-                    sf::Mouse::getPosition(window_).y};
-                SelectRect::rect.bDraw = true;
-                SelectRect::rect.bSetBegin = false;
-            }
-            MovableEditObj::selectedObjs.clear();
-        }
-
-        else if (!SelectRect::bDraw) {
-            for (MovableEditObj *meo : MovableEditObj::selectedObjs) {
-                meo->setPosInWs(meo->getPosInWs() + deltaWorldMove);
-            }
-        }
-    }
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-        if (window_.hasFocus())
-            WindowFlag::flag.posInWs = {
-                winToWs(sf::Mouse::getPosition(*getWindow())).x,
-                winToWs(sf::Mouse::getPosition(*getWindow())).y, 0};
-    }
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
-        EditorCamera::editorCamera.posInWs -= deltaWorldMove;
-    }
-    if (event_.type == sf::Event::MouseButtonReleased) // 有问题，需要指定按键
-    {
-        if (selectedObjForMove && editMode == LANDMODE &&
-            selectedObjForMove->type == MovableEditObj::elandBlock)
-            ((LandBlock *)selectedObjForMove)->normalizePos();
-        bMove = false;
-        if (SelectRect::rect.bDraw) {
-            for (MovableEditObj *meo : MovableEditObj::allMEO) {
-                if (SelectRect::rect.bound.getGlobalBounds().contains(
-                        meo->spr.getPosition())) {
-                    MovableEditObj::selectedObjs.insert(meo);
-                }
-            }
-        }
-        SelectRect::rect.bDraw = false;
-        SelectRect::rect.bSetBegin = true;
-    }
-    if (event_.type == sf::Event::MouseWheelScrolled) {
-        float delta = event_.mouseWheelScroll.delta;
-        static float pixSize0 = pixSize;
-        if (delta > 0) {
-            GCameraInterface::sceneScale += 0.1;
-            if (GCameraInterface::sceneScale > 5)
-                GCameraInterface::sceneScale = 5;
-            pixSize = pixSize0 / GCameraInterface::sceneScale;
-        }
-        if (delta < 0) {
-            GCameraInterface::sceneScale -= 0.1;
-            if (GCameraInterface::sceneScale < 0.001)
-                GCameraInterface::sceneScale = 0.001;
-            pixSize = pixSize0 / GCameraInterface::sceneScale;
-        }
-    }
-}
 }; // namespace ens
 #endif // GAMEEDITOR
        //////////////////////////////////////////////////////////////////////////////////

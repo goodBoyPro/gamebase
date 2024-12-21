@@ -3,7 +3,11 @@ namespace ens {
 void Editor::setCommand() {
     editorCommand::edc.command["setmode"] = []() {
         editMode = std::stoi(editorCommand::edc.input[1]);
+        std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
         MovableEditObj::selectedObjs.clear();
+        lk.unlock();
+        SelectRect::rect.bDraw = false;
+        SelectRect::rect.bSetBegin = true;
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,16 +29,15 @@ void Editor::setCommand() {
         EditorServer::server.sendMesssage("editor reset");
     };
     editorCommand::edc.command["copy"] = []() {
-       
+
     };
     editorCommand::edc.command["paste"] = []() { int a = 1; };
     editorCommand::edc.command["delete"] = []() {
-        for(MovableEditObj*meo:MovableEditObj::selectedObjs){
-            delete meo;
-            meo = nullptr;
+        std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
+        for (MovableEditObj *meo : MovableEditObj::selectedObjs) {
+            meo->destroy();
         }
         MovableEditObj::selectedObjs.clear();
-
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +76,9 @@ void Editor::setCommand() {
                     new Actor(fileid, std::stoi(editorCommand::edc.input[2])),
                     WindowFlag::flag.posInWs);
                 obj->setSizeWS(size);
+                std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
                 MovableEditObj::selectedObjs.insert(obj);
+                lk.unlock();
             }
         if (editMode == LANDMODE)
             for (int i = 0; i < std::stoi(editorCommand::edc.input[3]); i++) {
@@ -81,7 +86,9 @@ void Editor::setCommand() {
                     new LandBlock(fileid,
                                   std::stoi(editorCommand::edc.input[2])),
                     WindowFlag::flag.posInWs);
+                std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
                 MovableEditObj::selectedObjs.insert(obj);
+                lk.unlock();
             }
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////

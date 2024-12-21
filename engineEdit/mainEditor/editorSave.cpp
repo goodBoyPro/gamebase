@@ -72,6 +72,7 @@ namespace ens
         FVector3 bp ={p[0],p[1],p[2]};
         int rows = jsObj["rows"];
         int columns = jsObj["columns"];
+        LandBlock::blockSize = blockSize;
         LandBlock::beginPoint = bp;
         LandBlock::rows = rows;
         LandBlock::columns = columns;
