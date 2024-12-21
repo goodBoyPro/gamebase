@@ -73,7 +73,7 @@ void Editor::setCommand() {
                     new Actor(fileid, std::stoi(editorCommand::edc.input[2])),
                     WindowFlag::flag.posInWs);
                 obj->setSizeWS(size);
-                MovableEditObj::selectedObjs.push_back(obj);
+                MovableEditObj::selectedObjs.insert(obj);
             }
         if (editMode == LANDMODE)
             for (int i = 0; i < std::stoi(editorCommand::edc.input[3]); i++) {
@@ -81,7 +81,7 @@ void Editor::setCommand() {
                     new LandBlock(fileid,
                                   std::stoi(editorCommand::edc.input[2])),
                     WindowFlag::flag.posInWs);
-                MovableEditObj::selectedObjs.push_back(obj);
+                MovableEditObj::selectedObjs.insert(obj);
             }
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
