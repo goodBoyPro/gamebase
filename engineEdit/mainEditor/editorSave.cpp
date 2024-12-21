@@ -20,11 +20,11 @@ namespace ens
             info["position"] = nlohmann::json({meo->info.position.x, meo->info.position.y, meo->info.position.z});
             info["type"] = meo->type;
             info["sizeInWs"] = {meo->getSizeInWs().x,meo->getSizeInWs().y,meo->getSizeInWs().z};
-            if (meo->type == MovableEditObj::eactor)
+            if (meo->type == nsReg::eActor)
             {
                 child_actors.push_back(info);
             }
-            else if (meo->type == MovableEditObj::elandBlock)
+            else if (meo->type == nsReg::eLandBlock)
             {
                 child_landBlocks.push_back(info);
             }

@@ -5,10 +5,10 @@ void MovableEditObj::pollKeyActorMdoe(sf::RenderWindow &window_,
     static bool bMove = false;
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-
+        if(!bMove)
         for (auto it = allMEO.rbegin(); it != allMEO.rend(); ++it) {
             sf::FloatRect bound;
-            if ((*it)->type != MovableEditObj::elandBlock)
+            if ((*it)->type != nsReg::eLandBlock)
                 bound = (*it)->shapeForSelect.getGlobalBounds();
 
             if (bound.contains(window_.mapPixelToCoords(mousePos))) {
@@ -52,8 +52,8 @@ void MovableEditObj::pollKeyActorMdoe(sf::RenderWindow &window_,
                 for (MovableEditObj *meo : MovableEditObj::allMEO) {
                     if (SelectRect::rect.bound.getGlobalBounds().contains(
                             meo->spr.getPosition()) &&
-                        meo->type == MovableEditObj::eactor) {
-                            std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
+                        meo->type == nsReg::eActor) {
+                        std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
                         MovableEditObj::selectedObjs.insert(meo);
                         lk.unlock();
                     }
@@ -69,24 +69,24 @@ void MovableEditObj::pollKeyLandMdoe(sf::RenderWindow &window_,
     static bool bMove = false;
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        if(!bMove)
+            for (auto it = allMEO.rbegin(); it != allMEO.rend(); ++it) {
+                sf::FloatRect bound;
+                if ((*it)->type == nsReg::eLandBlock)
+                    bound = (*it)->shapeForSelect.getGlobalBounds();
 
-        for (auto it = allMEO.rbegin(); it != allMEO.rend(); ++it) {
-            sf::FloatRect bound;
-            if ((*it)->type == MovableEditObj::elandBlock)
-                bound = (*it)->shapeForSelect.getGlobalBounds();
-
-            if (bound.contains(window_.mapPixelToCoords(mousePos))) {
-                if (MovableEditObj::selectedObjs.find(*it) ==
-                    MovableEditObj::selectedObjs.end()) {
+                if (bound.contains(window_.mapPixelToCoords(mousePos))) {
+                    if (MovableEditObj::selectedObjs.find(*it) ==
+                        MovableEditObj::selectedObjs.end()) {
                         std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
-                    MovableEditObj::selectedObjs.clear();
-                    MovableEditObj::selectedObjs.insert(*it);
-                    lk.unlock();
+                        MovableEditObj::selectedObjs.clear();
+                        MovableEditObj::selectedObjs.insert(*it);
+                        lk.unlock();
+                    }
+                    bMove = true;
+                    break;
                 }
-                bMove = true;
-                break;
             }
-        }
         // 如果没找到
         if (!bMove) {
             if (SelectRect::rect.bSetBegin) {
@@ -118,7 +118,7 @@ void MovableEditObj::pollKeyLandMdoe(sf::RenderWindow &window_,
             for (MovableEditObj *meo : MovableEditObj::allMEO) {
                 if (SelectRect::rect.bound.getGlobalBounds().contains(
                         meo->spr.getPosition()) &&
-                    meo->type == MovableEditObj::elandBlock) {
+                    meo->type == nsReg::eLandBlock) {
                     MovableEditObj::selectedObjs.insert(meo);
                 }
             }
@@ -128,7 +128,6 @@ void MovableEditObj::pollKeyLandMdoe(sf::RenderWindow &window_,
     }
 }
 void MovableEditObj::pollKey(sf::RenderWindow &window_, sf::Event &event_) {
-   
 
     if (event_.type == sf::Event::MouseWheelScrolled) {
         float delta = event_.mouseWheelScroll.delta;

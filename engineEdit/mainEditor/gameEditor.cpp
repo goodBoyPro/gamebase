@@ -6,8 +6,8 @@ void Editor::setCommand() {
         std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
         MovableEditObj::selectedObjs.clear();
         lk.unlock();
-        SelectRect::rect.bDraw = false;
-        SelectRect::rect.bSetBegin = true;
+        // SelectRect::rect.bDraw = false;
+        // SelectRect::rect.bSetBegin = true;
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +63,7 @@ void Editor::setCommand() {
         nsReg::ActorType type = static_cast<nsReg::ActorType>(
             std::stoi(editorCommand::edc.input[7]));
         switch (type) {
-        case 1:
+        case nsReg::eActor:
             printf("create 1");
             break;
         default:
@@ -90,6 +90,57 @@ void Editor::setCommand() {
                 MovableEditObj::selectedObjs.insert(obj);
                 lk.unlock();
             }
+    };
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    editorCommand::edc.command["setActor"] = []() {
+        int fileid = std::stoi(editorCommand::edc.input[1]);
+        if (!getSource().checkTexArrayValid(fileid)) {
+            EditorServer::server.sendMesssage("server:no such fileId");
+            return;
+        }
+        if (getSource().checkTexArrayType(fileid) == nsReg::eLandBlock &&
+            editMode == ACTORMODE) {
+            EditorServer::server.sendMesssage("server:not actor");
+            return;
+        }
+        if (getSource().checkTexArrayType(fileid) != nsReg::eLandBlock &&
+            editMode == LANDMODE) {
+            EditorServer::server.sendMesssage("server:not landblock");
+            return;
+        }
+        FVector3 size = {std::stof(editorCommand::edc.input[4]),
+                         std::stof(editorCommand::edc.input[5]),
+                         std::stof(editorCommand::edc.input[6])};
+        nsReg::ActorType type = static_cast<nsReg::ActorType>(
+            std::stoi(editorCommand::edc.input[7]));
+        switch (type) {
+        case nsReg::eActor:
+            printf("create 1");
+            break;
+        default:
+            break;
+        }
+
+        if (editMode == ACTORMODE) {
+            std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
+            for (MovableEditObj *obj : MovableEditObj::selectedObjs) {
+                obj->setSizeWS(size);
+                getSource().setSprite(obj->spr, fileid,
+                                      std::stoi(editorCommand::edc.input[2]));
+            }
+            lk.unlock();
+        }
+
+        if (editMode == LANDMODE) {
+            std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
+            for (MovableEditObj *obj : MovableEditObj::selectedObjs) {
+                obj->setSizeWS(size);
+                getSource().setSprite(obj->spr, fileid,
+                                      std::stoi(editorCommand::edc.input[2]));
+            }
+            lk.unlock();
+        }
     };
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////

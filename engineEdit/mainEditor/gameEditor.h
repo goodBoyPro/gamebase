@@ -102,8 +102,8 @@ inline std::mutex mutForAllMeo;
 class MovableEditObj : public Info {
 
   public:
-    enum EType { eactor, elandBlock };
-    EType type = eactor;
+    // enum EType { eactor, elandBlock };
+    nsReg::ActorType type = nsReg::eActor;
     struct Compare {
         bool operator()(const MovableEditObj *a,
                         const MovableEditObj *b) const {
@@ -255,7 +255,7 @@ template <class T> inline T *createAtLocation(T *ptr, const FVector3 &pos_) {
 class Actor : public MovableEditObj {
   public:
     Actor(int fileId_, int picIndex_) : MovableEditObj(fileId_, picIndex_) {
-        type = eactor;
+        type = nsReg::eActor;
     }
     virtual void draw(sf::RenderWindow &window_) {
         MovableEditObj::draw(window_);
@@ -279,7 +279,7 @@ class LandBlock : public MovableEditObj {
         for (auto it = MovableEditObj::allMEO.begin();
              it != MovableEditObj::allMEO.end();) {
 
-            if ((*it)->type == MovableEditObj::elandBlock) {
+            if ((*it)->type == nsReg::eLandBlock) {
                 it = MovableEditObj::allMEO.erase(it);
             } else
                 it++;
@@ -307,7 +307,7 @@ class LandBlock : public MovableEditObj {
                                    beginPoint);
     };
     LandBlock(int fileId_, int picIndex_) : MovableEditObj(fileId_, picIndex_) {
-        type = elandBlock;
+        type = nsReg::eLandBlock;
         float r = blockSize / pixSize / spr.getLocalBounds().getSize().x;
         spr.setScale(r, r);
         shapeBound.setScale(r, r);
@@ -410,10 +410,10 @@ class Editor {
 
             for (auto obj : allObj) {
                 if (editMode == LANDMODE &&
-                    obj->type == MovableEditObj::elandBlock) {
+                    obj->type == nsReg::eLandBlock) {
                     obj->drawHandler(window);
                 } else if (editMode == ACTORMODE &&
-                           obj->type == MovableEditObj::eactor) {
+                           obj->type ==nsReg::eActor) {
                     obj->drawHandler(window);
                 }
             }
