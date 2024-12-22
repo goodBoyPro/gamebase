@@ -363,7 +363,14 @@ class padCreateObj:
             cl.sendMessage(message)
         except ValueError:
             root.showLog("should input number")
-
+    def infoReturn(self,a,b,c,d,e,f):
+        self.content["entX"][2].set(a),
+        self.content["entY"][2].set(b),
+        self.content["entZ"][2].set(c),
+        self.content["fileid"][2].set(str(int(d))),
+        self.content["picid"][2].set(str(int(e))),
+        self.content["times"][2].set(str(int(f))),
+        
 
 # 生成默认地图
 class padSpawnDefaultLand:
@@ -434,8 +441,10 @@ class padSpawnDefaultLand:
 
 class editorPad:
     def __init__(self):
-        x = 1
-
+        self.pco=padCreateObj(root.actorpage)
+        padSetPos(root.actorpage)
+        padSpawnDefaultLand(root.landpage)
+ep=editorPad() 
 
 ##################################################################################################################
 ##################################################################################################################
@@ -448,6 +457,9 @@ def parseMessage():
             data = cl.sockCl.recv(1024).decode("utf-8")
             root.showLog(data)
             msgs = data.split()
+            if msgs[0]=="selected":
+                ep.pco.infoReturn(msgs[1],msgs[2],msgs[3],msgs[4],msgs[5],msgs[6])
+
         except ConnectionResetError:
             root.root.quit()
             break
@@ -455,12 +467,8 @@ def parseMessage():
 
 def program():
 
-    padCreateObj(root.actorpage)
-    padSetPos(root.actorpage)
-
     
-    padSpawnDefaultLand(root.landpage)
-
+    
     t = threading.Thread(target=parseMessage)
     t.start()
     root.mainLoop()

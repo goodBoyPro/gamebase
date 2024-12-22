@@ -126,8 +126,9 @@ void Editor::setCommand() {
             std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
             for (MovableEditObj *obj : MovableEditObj::selectedObjs) {
                 obj->setSizeWS(size);
-                getSource().setSprite(obj->spr, fileid,
-                                      std::stoi(editorCommand::edc.input[2]));
+                // getSource().setSprite(obj->spr, fileid,
+                //                       std::stoi(editorCommand::edc.input[2]));
+                obj->setSprite(fileid,std::stoi(editorCommand::edc.input[2]));
             }
             lk.unlock();
         }
@@ -136,8 +137,9 @@ void Editor::setCommand() {
             std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
             for (MovableEditObj *obj : MovableEditObj::selectedObjs) {
                 obj->setSizeWS(size);
-                getSource().setSprite(obj->spr, fileid,
-                                      std::stoi(editorCommand::edc.input[2]));
+                // getSource().setSprite(obj->spr, fileid,
+                //                       std::stoi(editorCommand::edc.input[2]));
+                obj->setSprite(fileid,std::stoi(editorCommand::edc.input[2]));
             }
             lk.unlock();
         }

@@ -17,7 +17,7 @@ namespace ens
             nlohmann::json info;
             info["fileID"] = meo->info.fileID;
             info["picIndex"] = meo->info.picIndex;
-            info["position"] = nlohmann::json({meo->info.position.x, meo->info.position.y, meo->info.position.z});
+            info["position"] = nlohmann::json({meo->getPosInWs().x, meo->getPosInWs().y, meo->getPosInWs().z});
             info["type"] = meo->type;
             info["sizeInWs"] = {meo->getSizeInWs().x,meo->getSizeInWs().y,meo->getSizeInWs().z};
             if (meo->type == nsReg::eActor)

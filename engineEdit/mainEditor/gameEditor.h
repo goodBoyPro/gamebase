@@ -26,7 +26,6 @@ class Info {
     struct Information {
         int fileID;
         int picIndex;
-        FVector3 position;
     } info;
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,12 +142,9 @@ class MovableEditObj : public Info {
     sf::ConvexShape centerPoint;
     sf::ConvexShape shapeBound;
     sf::ConvexShape shapeForSelect;
-    
+
     const FVector3 getPosInWs() const { return posInWs; }
-    virtual void setPosInWs(const FVector3 &pos_) {
-        posInWs = pos_;
-        info.position = pos_;
-    }
+    virtual void setPosInWs(const FVector3 &pos_) { posInWs = pos_; }
     IVector psInWin;
     bool isValid = true;
 
@@ -163,7 +159,7 @@ class MovableEditObj : public Info {
     static IVector deltaMove;
     static FVector3 deltaWorldMove;
     static IVector posPre;
-    void setSprFileIdPicIndex(int fileId_, int picIndex_) {
+    void setSprite(int fileId_, int picIndex_) {
         getSource().setSprite(spr, fileId_, picIndex_);
         info.fileID = fileId_;
         info.picIndex = picIndex_;
@@ -177,7 +173,7 @@ class MovableEditObj : public Info {
         centerPoint.setPoint(1, {4, 4});
         centerPoint.setPoint(2, {-4, 4});
         centerPoint.setFillColor(sf::Color(255, 0, 0));
-        setSprFileIdPicIndex(fileId_, picIndex_);
+        setSprite(fileId_, picIndex_);
         shapeBound.setPointCount(4);
         sf::FloatRect lb = spr.getLocalBounds();
         shapeBound.setPoint(0, {lb.left, lb.top});
@@ -216,17 +212,17 @@ class MovableEditObj : public Info {
     }
     static void drawBounds(sf::RenderWindow &window_) {
         std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
-        if(!selectedObjs.empty())
-        for (auto s : selectedObjs) {
-            s->shapeBound.setPosition(s->psInWin.x, s->psInWin.y);
-            float xS = s->getSizeInWs().x / pixSize /
-                       s->spr.getLocalBounds().getSize().x;
-            float yS = s->getSizeInWs().y / pixSize /
-                       s->spr.getLocalBounds().getSize().y;
-            s->shapeBound.setOutlineThickness(400 * pixSize);
-            s->shapeBound.setScale(xS, yS);
-            window_.draw(s->shapeBound);
-        }
+        if (!selectedObjs.empty())
+            for (auto s : selectedObjs) {
+                s->shapeBound.setPosition(s->psInWin.x, s->psInWin.y);
+                float xS = s->getSizeInWs().x / pixSize /
+                           s->spr.getLocalBounds().getSize().x;
+                float yS = s->getSizeInWs().y / pixSize /
+                           s->spr.getLocalBounds().getSize().y;
+                s->shapeBound.setOutlineThickness(400 * pixSize);
+                s->shapeBound.setScale(xS, yS);
+                window_.draw(s->shapeBound);
+            }
     }
     void drawHandler(sf::RenderWindow &window_) {
         shapeForSelect.setPosition(psInWin.x, psInWin.y);
@@ -236,6 +232,14 @@ class MovableEditObj : public Info {
     static void pollKeyActorMdoe(sf::RenderWindow &window_, sf::Event &event_);
     static void pollKeyLandMdoe(sf::RenderWindow &window_, sf::Event &event_);
     static void pollKey(sf::RenderWindow &window_, sf::Event &event_);
+    void returnMessage() {
+        const std::string &msg = nsg::combineStrings(
+            {"selected ", std::to_string(sizeInWs.x), " ",
+             std::to_string(sizeInWs.y), " ", std::to_string(sizeInWs.z), " ",
+             std::to_string(info.fileID), " ", std::to_string(info.picIndex),
+             " ", std::to_string(0)});
+        EditorServer::server.sendMesssage(msg);
+    }
 };
 
 inline std::multiset<MovableEditObj *> MovableEditObj::allMEO;
@@ -409,15 +413,14 @@ class Editor {
             }
 
             for (auto obj : allObj) {
-                if (editMode == LANDMODE &&
-                    obj->type == nsReg::eLandBlock) {
+                if (editMode == LANDMODE && obj->type == nsReg::eLandBlock) {
                     obj->drawHandler(window);
                 } else if (editMode == ACTORMODE &&
-                           obj->type ==nsReg::eActor) {
+                           obj->type == nsReg::eActor) {
                     obj->drawHandler(window);
                 }
             }
-           
+
             MovableEditObj::drawBounds(window);
             SelectRect::rect.draw(window);
             WindowFlag::flag.draw();

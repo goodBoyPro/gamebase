@@ -17,6 +17,7 @@ void MovableEditObj::pollKeyActorMdoe(sf::RenderWindow &window_,
                     std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
                     MovableEditObj::selectedObjs.clear();
                     MovableEditObj::selectedObjs.insert(*it);
+                    (*it)->returnMessage();
                     lk.unlock();
                 }
                 bMove = true;
