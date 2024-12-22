@@ -14,7 +14,8 @@ private:
 
 public:
     GLandBlock(int index_,int fileId_,int picIndex_);
-    ~GLandBlock();
+    GLandBlock() {};
+    virtual ~GLandBlock();
     static void spawnLandBlock(int index_,int fileID_,int picIndex_);
     virtual void eventBegin() {};
     virtual void eventTick() {};

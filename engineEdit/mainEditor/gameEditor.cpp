@@ -47,7 +47,7 @@ void Editor::setCommand() {
             EditorServer::server.sendMesssage("server:no such fileId");
             return;
         }
-        if (getSource().checkTexArrayType(fileid) != nsReg::eActor &&
+        if (getSource().checkTexArrayType(fileid) != nsReg::eActorStatic &&
             editMode == ACTORMODE) {
             EditorServer::server.sendMesssage("server:not actor");
             return;
@@ -63,7 +63,7 @@ void Editor::setCommand() {
         nsReg::ActorType type = static_cast<nsReg::ActorType>(
             std::stoi(editorCommand::edc.input[7]));
         switch (type) {
-        case nsReg::eActor:
+        case nsReg::eActorStatic:
             printf("create 1");
             break;
         default:
@@ -115,7 +115,7 @@ void Editor::setCommand() {
         nsReg::ActorType type = static_cast<nsReg::ActorType>(
             std::stoi(editorCommand::edc.input[7]));
         switch (type) {
-        case nsReg::eActor:
+        case nsReg::eActorStatic:
             printf("create 1");
             break;
         default:

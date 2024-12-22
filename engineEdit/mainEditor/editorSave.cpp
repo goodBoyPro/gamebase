@@ -18,9 +18,9 @@ namespace ens
             info["fileID"] = meo->info.fileID;
             info["picIndex"] = meo->info.picIndex;
             info["position"] = nlohmann::json({meo->getPosInWs().x, meo->getPosInWs().y, meo->getPosInWs().z});
-            info["type"] = meo->type;
+            info["type"] = (int)(meo->type);
             info["sizeInWs"] = {meo->getSizeInWs().x,meo->getSizeInWs().y,meo->getSizeInWs().z};
-            if (meo->type == nsReg::eActor)
+            if (meo->type == nsReg::eActorStatic)
             {
                 child_actors.push_back(info);
             }

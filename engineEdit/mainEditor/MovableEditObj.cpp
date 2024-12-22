@@ -53,7 +53,7 @@ void MovableEditObj::pollKeyActorMdoe(sf::RenderWindow &window_,
                 for (MovableEditObj *meo : MovableEditObj::allMEO) {
                     if (SelectRect::rect.bound.getGlobalBounds().contains(
                             meo->spr.getPosition()) &&
-                        meo->type == nsReg::eActor) {
+                        meo->type == nsReg::eActorStatic) {
                         std::unique_lock lk(MovableEditObj::mutForSelectedObjs);
                         MovableEditObj::selectedObjs.insert(meo);
                         lk.unlock();

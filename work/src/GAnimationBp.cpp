@@ -24,6 +24,7 @@ void GAnimationBp::updateAnim() {
         break;
     case walk:
         sprPt->setScale(getScale().x * orientation, getScale().y);
+        
         animPt->play(0, 19);
         break;
     case jump:

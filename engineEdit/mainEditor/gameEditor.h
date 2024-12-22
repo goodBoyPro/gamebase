@@ -102,7 +102,7 @@ class MovableEditObj : public Info {
 
   public:
     // enum EType { eactor, elandBlock };
-    nsReg::ActorType type = nsReg::eActor;
+    nsReg::ActorType type = nsReg::eActorStatic;
     struct Compare {
         bool operator()(const MovableEditObj *a,
                         const MovableEditObj *b) const {
@@ -199,14 +199,10 @@ class MovableEditObj : public Info {
     virtual void draw(sf::RenderWindow &window_) {
         psInWin = wsToWin(posInWs);
         spr.setPosition(psInWin.x, psInWin.y);
-        // FVector2 sc = spr.getScale();
-        // spr.scale(GCameraInterface::sceneScale,
-        // GCameraInterface::sceneScale);
         float xS = sizeInWs.x / pixSize / spr.getLocalBounds().getSize().x;
         float yS = sizeInWs.y / pixSize / spr.getLocalBounds().getSize().y;
         spr.setScale(xS, yS);
         window_.draw(spr);
-        // spr.setScale(sc);
         centerPoint.setPosition(psInWin.x, psInWin.y);
         window_.draw(centerPoint);
     }
@@ -259,7 +255,7 @@ template <class T> inline T *createAtLocation(T *ptr, const FVector3 &pos_) {
 class Actor : public MovableEditObj {
   public:
     Actor(int fileId_, int picIndex_) : MovableEditObj(fileId_, picIndex_) {
-        type = nsReg::eActor;
+        type = nsReg::eActorStatic;
     }
     virtual void draw(sf::RenderWindow &window_) {
         MovableEditObj::draw(window_);
@@ -416,7 +412,7 @@ class Editor {
                 if (editMode == LANDMODE && obj->type == nsReg::eLandBlock) {
                     obj->drawHandler(window);
                 } else if (editMode == ACTORMODE &&
-                           obj->type == nsReg::eActor) {
+                           obj->type == nsReg::eActorStatic) {
                     obj->drawHandler(window);
                 }
             }

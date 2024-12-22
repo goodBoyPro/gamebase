@@ -10,11 +10,15 @@ class GActor : public GObject {
   protected:
   private:
     sf::Sprite *sprPt = nullptr;
+    gameSprite __spr____;
     FVector3 posInWs={0,0,0};
+    FVector3 sizeInWs = {1,1,1};
     static sf::Texture texDefault;
     static sf::Sprite spriteDefault;
     // 接口
   public:
+    const FVector3 &getSizeInWs() const { return sizeInWs; }
+    void setSizeInWs(const FVector3 &size_) { sizeInWs = size_; }
     int mapNodeId;
     static long drawCallNum;
     static GridMap<GActor *> gridMapOfActor;
@@ -40,6 +44,7 @@ class GActor : public GObject {
     float z = 0;
 
   public:
+    void setSprite(int fileId_, int picIndex_);
     void setSize(float x,float y){if(sprPt){
       const FVector2 &texSize = sprPt->getLocalBounds().getSize();
             sprPt->setScale(x/texSize.x,y/texSize.y);

@@ -25,7 +25,7 @@ class GWorld : public GObject {
     };
     virtual nlohmann::json loadDataFromJson(const char* path_){
         
-        std::ifstream file("res/datalist/world/world1.json");
+        std::ifstream file(path_);
         if(!file.is_open())
            { printf(path_);
             PRINTF("json load failed");}

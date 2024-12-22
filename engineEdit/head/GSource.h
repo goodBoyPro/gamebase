@@ -40,7 +40,7 @@ class textureArray {
         originX = std::stoi(list_["originX"]);
         originY = std::stoi(list_["originY"]);
         if(list_["type"]=="actor")
-            type = nsReg::eActor;
+            type = nsReg::eActorStatic;
         else if(list_["type"]=="landblock")
             type =nsReg::eLandBlock;
         spr.setOrigin(originX, originY);

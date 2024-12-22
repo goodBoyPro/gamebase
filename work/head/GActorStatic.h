@@ -13,12 +13,12 @@ class GActorStatic : public GActor {
         spr.setOrigin({128, 256});
         spr.setTextureRect({index / 5 * 256, index % 5 * 256, 256, 256});
     }
-    GActorStatic(){}
+    GActorStatic(){setRenderSprite(&(this->spr));}
     GActorStatic(int fileID, int picIndex) {
         setRenderSprite(&(this->spr));
         getSource().setSprite(spr,fileID,picIndex);
     };
-    ~GActorStatic() {};
+    virtual ~GActorStatic() {};
     int index;
 
     

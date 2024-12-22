@@ -2,10 +2,10 @@
 #define CLASSREG_H
 namespace nsReg {
 enum ActorType {
-    eActor = 1, //
+    eActorStatic = 1, //
     ePlayer = 2,
     eLandBlock=3
 };
 }; // namespace nsReg
-
+class GActor *createActorFromJson(int type_);
 #endif // CLASSREG_H

@@ -1,6 +1,8 @@
 {
     "classType": {
-        "actor":1,
-        "palyer":2
+        "actorStatic":1,
+        "palyer":2,
+        "LandBlock":3
+
     }
 }

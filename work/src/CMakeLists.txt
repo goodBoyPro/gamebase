@@ -15,7 +15,7 @@ file(GLOB_RECURSE srcEditor   ${CMAKE_CURRENT_SOURCE_DIR}/*.c *.cpp
 
 #aux_source_directory(. src)
 #游戏exe
-if(0)
+if(1)
 link_directories(${ABS_DIR}/gamebase/lib/outlib
                 ${ABS_DIR}/gamebase/extern/lib
                 ${ABS_DIR}/gamebase/extern/lib/sfml)
