@@ -91,12 +91,11 @@ inline GCameraInterface *getGameCamera() {
     return GCameraInterface::getGameCamera();
 }
 inline IVector wsToWin(const FVector3 &PositionInWS) {
-    return {static_cast<int>(
+    return {
                 ((PositionInWS.x - GCameraInterface::posForDraw.x) / pixSize +
-                 WINW / 2.f)),
-            static_cast<int>(
+                 WINW / 2.f),           
                 ((PositionInWS.y - GCameraInterface::posForDraw.y) / pixSize +
-                 WINH / 2.f - (PositionInWS.z / pixSize)))};
+                 WINH / 2.f - (PositionInWS.z / pixSize))};
 }
 inline FVector3 winToWs(const IVector &positionInWin) {
     return {(positionInWin.x - WINW / 2) * pixSize +

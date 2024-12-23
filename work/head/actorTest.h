@@ -64,13 +64,6 @@ class actorComponentTest : public GActorComponent {
   public:
     void eventTick() {}
     void eventBegin() {
-        // createDelayTask(10, [&]() {
-        //     static float a;
-        //     FVector3 pos = {sinf(a / 30) / 4, cosf(a / 30) / 4, 0.7};
-        //     a++;
-
-        //     setRelativePosition(pos);
-        // });
         funcR();
     }
     void funcR() {
@@ -87,7 +80,7 @@ class actorComponentTest : public GActorComponent {
         spr.setTexture(tex);
         setRenderSprite(&spr);
         spr.setOrigin(tex.getSize().x / 2, tex.getSize().x / 2);
-        spr.setScale(0.7, 0.7);
+        setSizeInWs({0.5,0.5,0.5});
     }
     sf::Sprite spr;
     sf::Texture tex;

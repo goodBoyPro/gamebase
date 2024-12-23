@@ -43,6 +43,12 @@ void GController::pollKey() {
             case sf::Keyboard::BackSpace:
                 bindKey[GController::uiOpenOrClose]();
                 break;
+            case sf::Keyboard::RBracket:
+                pixSize+=0.0005;
+                break;
+             case sf::Keyboard::LBracket:
+                pixSize-=0.0005;
+                break;
             default:
                 break;
             }
