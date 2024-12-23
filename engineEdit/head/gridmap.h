@@ -4,7 +4,7 @@
 #include <list>
 #include <listsafe.h>
 #include <set>
-#include<shared_mutex>
+#include <shared_mutex>
 inline float gridmapNodeWidth;
 inline float gridmapNodeHeight;
 inline int releasedActorNum = 0;
@@ -26,13 +26,15 @@ template <class T> struct gridmapNode {
         return pos.x >= point.x && pos.x < point.x + gridmapNodeWidth &&
                pos.y >= point.y && pos.y < point.y + gridmapNodeHeight;
     }
-
-    ~gridmapNode() {
+    void clear() {
         for (auto elem : actors) {
-            delete elem;
+            delete elem; // 不能释放的原因可能是任然被线程池引用
             releasedActorNum++;
+            printf("%d\n", releasedActorNum);
         }
+        actors.clear();
     }
+    ~gridmapNode() { clear(); }
 };
 
 template <class T> class GridMap {
@@ -48,10 +50,12 @@ template <class T> class GridMap {
     float edgeDown;
     gridmapNode<T> *allNode;
     struct compare {
-        bool operator()(const T a, const T b) const{ return a->getPosInWs().y < b->getPosInWs().y; }
+        bool operator()(const T a, const T b) const {
+            return a->getPosInWs().y < b->getPosInWs().y;
+        }
     };
 
-    std::multiset<T,compare> actorsAlive;
+    std::multiset<T, compare> actorsAlive;
     int getPositionIndex(const FVector3 &pos) {
         if (pos.x < edgeLeft || pos.x >= edgeRight || pos.y < edgeUp ||
             pos.y >= edgeDown)
@@ -148,10 +152,9 @@ template <class T> class GridMap {
         //     if (!areFloatsEqual(a->getPosInWs().y, b->getPosInWs().y))
         //         return a->getPosInWs().y < b->getPosInWs().y;
         //     return a->getPosInWs().x < b->getPosInWs().x;
-           
+
         // });
-        
-        }
+    }
     std::shared_mutex sortMut;
     void changeActorNode(T ptr, int idNew, int idOld) {
         allNode[idOld].actors.remove(ptr);

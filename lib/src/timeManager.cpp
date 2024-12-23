@@ -71,6 +71,7 @@ TimeManager::~TimeManager() {
     thread_pool::getThreadPool().isStop = true;
     t1->join();
     delete t1;
+    printf("timerManager released\n");
 }
 
 TimeManager &getTimer() {

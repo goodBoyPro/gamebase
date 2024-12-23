@@ -199,8 +199,7 @@ class TIMERAPI thread_pool {
     bool isStop = 0;
 
   public:
-    
-
+    void stop() { isStop = true; }
     template <class T> void addTask(T f) {
 
         std::unique_lock lk(mutex_);
@@ -209,10 +208,10 @@ class TIMERAPI thread_pool {
         cond_.notify_one();
     }
     ~thread_pool() {
-        isStop = 1;
         cond_.notify_all();
         for (auto &x : threads)
             x.join();
+        printf("thread pool released\n");
     };
 
   private:

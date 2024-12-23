@@ -14,13 +14,13 @@ class GDebug : public GObject {
   private:
     int yPosition = 0;
     int texHight = 10;
-    void drawLog(int index);
+    void drawLog(sf::RenderWindow&window_,int index);
     static std::mutex mtxDebugs___;
   public:
     wchar_t wchar_[128] = {0};
     GDebug();
     virtual ~GDebug();
-    static void debugDisplay();
+    static void debugDisplay(sf::RenderWindow&window_);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -30,7 +30,7 @@ class GDebug : public GObject {
 inline std::set<GDebug *> debugs__;
 inline std::mutex GDebug::mtxDebugs___;
 
-inline void GDebug::debugDisplay()
+inline void GDebug::debugDisplay(sf::RenderWindow&window_)
 {
     // 非必要操作，应避免在堆区创建对象；
     //  debugs__.erase(std::remove_if(debugs__.begin(), debugs__.end(),
@@ -40,7 +40,7 @@ inline void GDebug::debugDisplay()
     for (auto a : debugs__)
     {   
         if(a==nullptr)continue;
-        a->drawLog(i);
+        a->drawLog(window_,i);
         i++;
     }
 }
@@ -56,9 +56,9 @@ inline GDebug::~GDebug() {
    debugs__.erase(this);//可能存在线程安全问题，遇到时解决//与clearDebugs()冲突
 }
 
-inline void GDebug::drawLog(int index)
+inline void GDebug::drawLog(sf::RenderWindow&window_,int index)
 {
-    printText(wchar_, 0, 30 * index);
+    printText(window_,wchar_, 0, 30 * index);
 }
 
 

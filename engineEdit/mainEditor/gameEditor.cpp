@@ -1,4 +1,5 @@
 #include <gameEditor.h>
+#include <gameEmulator.h>
 namespace ens {
 void Editor::setCommand() {
     editorCommand::edc.command["setmode"] = []() {
@@ -128,7 +129,7 @@ void Editor::setCommand() {
                 obj->setSizeWS(size);
                 // getSource().setSprite(obj->spr, fileid,
                 //                       std::stoi(editorCommand::edc.input[2]));
-                obj->setSprite(fileid,std::stoi(editorCommand::edc.input[2]));
+                obj->setSprite(fileid, std::stoi(editorCommand::edc.input[2]));
             }
             lk.unlock();
         }
@@ -139,7 +140,7 @@ void Editor::setCommand() {
                 obj->setSizeWS(size);
                 // getSource().setSprite(obj->spr, fileid,
                 //                       std::stoi(editorCommand::edc.input[2]));
-                obj->setSprite(fileid,std::stoi(editorCommand::edc.input[2]));
+                obj->setSprite(fileid, std::stoi(editorCommand::edc.input[2]));
             }
             lk.unlock();
         }
@@ -156,6 +157,14 @@ void Editor::setCommand() {
         LandBlock::setLandOptions(bp_, blocksize_, rows_, columns_);
         LandBlock::spawnRandomLandblocks();
         EditorServer::server.sendMesssage("land created");
+    };
+    editorCommand::edc.command["emulator"] = []() {
+        std::thread t([]() {
+            GCameraInterface *temp = GCameraInterface::getGameCamera();
+            gameEmulator(editorCommand::edc.input[1]);
+            GCameraInterface::setGameCamera(temp);
+        });
+        t.join();
     };
 }
 bool Editor::isMouseInWindow(sf::RenderWindow &window_) {

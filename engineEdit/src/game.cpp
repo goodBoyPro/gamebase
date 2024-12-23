@@ -61,13 +61,11 @@ void Game::dataLoop() {
 
         deltaTime = GetTickCount() - timeFlag;
     } // while
-    for (auto ac : actors)
-        delete ac;
+   
 }
-
+static std::mutex mut;
 void Game::renderLoop2D() {
     getWindow()->setFramerateLimit(frameLimit);
-    std::unique_lock lk(actorsMutex, std::defer_lock);
     std::vector<GControllerInterface *> &allController =
         GControllerInterface::getAllController();
     xlib::getTimer().setPause(false);
@@ -91,9 +89,9 @@ void Game::renderLoop2D() {
             elem->dataLoop();
             elem->drawActor();
         }
-        lk.lock();
+        
         GActor::gridMapOfActor.actorsAlive.clear();
-        lk.unlock();
+        
         // 绘制UI
         if (getWidgetPtr()) {
             getWidgetPtr()->draw();
@@ -105,7 +103,7 @@ void Game::renderLoop2D() {
         // 显示碰撞
         GCollision::showCollisions();
         // 显示DEBUG////////////////////////////////
-        GDebug::debugDisplay();
+        GDebug::debugDisplay(*getWindow());
         PRINTDEBUG(L"drawCall:%ld", GActor::drawCallNum);
         GActor::drawCallNum = 0;
 

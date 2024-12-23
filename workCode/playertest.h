@@ -59,7 +59,7 @@ class Playertest : public GPlayerChar {
     }
     GComponentAnimation *aniCom;
     Playertest() {
-        createActorComponent<actorComponentTest>(new actorComponentTest);
+        // createActorComponent<actorComponentTest>(new actorComponentTest);
         GTalk *gt = createActorComponent<GTalk>(new GTalk);
         aniCom = createAnimationComponent<anicomponenttest>();
         gt->playerSpr = aniCom->getRenderSprite();

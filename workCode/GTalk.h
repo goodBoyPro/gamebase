@@ -48,7 +48,7 @@ class GTalk : public GActorComponent {
         sprTemp.setOrigin(0, 256);
         getWindow()->draw(*getRenderSprite());
 
-        printText(consStr, posWin.x + leftEdge,
+        printText(*getWindow(),consStr, posWin.x + leftEdge,
                   posWin.y - sprTemp.getGlobalBounds().height + topEdge-playerSpr->getGlobalBounds().height);
     }
 };

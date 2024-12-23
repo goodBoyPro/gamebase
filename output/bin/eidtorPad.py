@@ -437,13 +437,16 @@ class padSpawnDefaultLand:
             return
         message = f"createDefaultLand {data[0]} {data[1]} {data[2]} {data[3]} {data[4]} {data[5]}"
         cl.sendMessage(message)
-
-
+class padGameMode():
+    def __init__(self,page_:tk.Frame):
+        self.btnEmulator=tk.Button(page_,text="开始模拟",command=lambda:cl.sendMessage("emulator "+root.savename))
+        self.btnEmulator.grid(row=1,column=1)
 class editorPad:
     def __init__(self):
         self.pco=padCreateObj(root.actorpage)
         padSetPos(root.actorpage)
         padSpawnDefaultLand(root.landpage)
+        padGameMode(root.gamepage)
 ep=editorPad() 
 
 ##################################################################################################################

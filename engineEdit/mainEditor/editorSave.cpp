@@ -57,7 +57,6 @@ namespace ens
         }
         
         ifile.close();
-        printf("%s",text.c_str());
         for(auto it=jsObj["actors"].begin();it!=jsObj["actors"].end();it++){
             int fileId=it.value()["fileID"];
             int picIndex=it.value()["picIndex"];

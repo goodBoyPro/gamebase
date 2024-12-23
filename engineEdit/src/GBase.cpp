@@ -58,13 +58,6 @@ void setWorld(class GWorld *world_) { world = world_; }
 void setWidgetPtr(class GWidget *widget_) { widgetPtr = widget_; }
 void setWindow(sf::RenderWindow *window_) { window = window_; }
 
-std::mutex actorsMutex;
-std::list<class GActor *> actors;
-void addActors(GActor *actor) {
-    std::unique_lock lk(actorsMutex);
-    actors.push_back(actor);
-    // actors.emplace(actor);
-};
 
 sf::Font font[4];
 
@@ -107,7 +100,7 @@ void initTools() {
         PRINTF("font3加载失败\n");
 }
 
-void printText(std::wstring str, int x, int y, int size, sf::Color color,
+void printText(sf::RenderWindow&window_,std::wstring str, int x, int y, int size, sf::Color color,
                sf::Font &font_) {
     static sf::Text text;
     text.setFont(font_);
@@ -115,22 +108,21 @@ void printText(std::wstring str, int x, int y, int size, sf::Color color,
     text.setPosition(sf::Vector2f(x, y));
     text.setFillColor(color);
     text.setCharacterSize(size);
-
-    window->draw(text);
+    window_.draw(text);
 }
 
-void printNum(float __float, int x, int y, int size, sf::Color color,
+void printNum(sf::RenderWindow&window_,float __float, int x, int y, int size, sf::Color color,
               sf::Font &font_) {
     wchar_t num[32];
     swprintf_s(num, L"%f", __float);
-    printText(num, x, y, size, color, font_);
+    printText(window_,num, x, y, size, color, font_);
 }
 
-void printNum(int __int, int x, int y, int size, sf::Color color,
+void printNum(sf::RenderWindow&window_,int __int, int x, int y, int size, sf::Color color,
               sf::Font &font_) {
     wchar_t num[32];
     swprintf_s(num, L"%d", __int);
-    printText(num, x, y, size, color, font_);
+    printText(window_,num, x, y, size, color, font_);
 }
 
 FVector3 normalize(const FVector3 &G) {
@@ -139,10 +131,7 @@ FVector3 normalize(const FVector3 &G) {
         return {G.x / a, G.y / a, 0};
     return {0, 0, 0};
 };
-void mouseCursor() {
-    printText(L"我是鼠标", sf::Mouse::getPosition(*window).x,
-              sf::Mouse::getPosition(*window).y, 60, sf::Color(255, 0, 0));
-};
+
 
 namespace nsg {
 // 变量

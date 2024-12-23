@@ -14,10 +14,10 @@
 #define GAMEMODE 2
 namespace ens {
 inline int editMode = 2;
-inline sf::RenderWindow &getEditorWindow() {
-    static sf::RenderWindow window(sf::VideoMode(WINW, WINH), "editor");
-    return window;
-}
+// inline sf::RenderWindow &getEditorWindow() {
+//     static sf::RenderWindow window(sf::VideoMode(WINW, WINH), "editor");
+//     return window;
+// }
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,10 +55,10 @@ class WindowFlag {
         shape.setPoint(2, {-4, 4});
         shape.setFillColor(sf::Color(0, 255, 0, 255));
     }
-    void draw() {
+    void draw(sf::RenderWindow &window_) {
         IVector piwin = wsToWin(flag.posInWs);
         flag.shape.setPosition(piwin.x, piwin.y);
-        getWindow()->draw(flag.shape);
+        window_.draw(flag.shape);
     };
 };
 inline WindowFlag WindowFlag::flag;
@@ -325,22 +325,22 @@ inline int LandBlock::columns = 50;
 ////////////////////////////////////////////////////////////////////////////////////////////////
 class Editor {
   public:
-    sf::RenderWindow *window;
+    sf::RenderWindow *windowEditor;
     sf::Event event;
     void setCommand();
     static bool isMouseInWindow(sf::RenderWindow &window_);
     Editor() {
         initTools();
 
-        window = &getEditorWindow();
-        setWindow(window);
+        windowEditor =new sf::RenderWindow(sf::VideoMode(WINW, WINH), "editor");
         setCommand();
         // std::thread tInput(&editorCommand::loop, &editorCommand::edc);
         loop();
         // tInput.join();
     }
+    ~Editor() { delete windowEditor; }
     void loop() {
-        sf::RenderWindow &window = getEditorWindow();
+        sf::RenderWindow &window = *windowEditor;
         window.setPosition(IVector(100, 100));
         auto it = MovableEditObj::allMEO.begin();
         std::multiset<MovableEditObj *, MovableEditObj::Compare> allObj;
@@ -399,8 +399,8 @@ class Editor {
             }
             PRINTDEBUG(L"%S", temp);
             PRINTDEBUG(L"键鼠位置：%f,%f",
-                       winToWs(sf::Mouse::getPosition(*getWindow())).x,
-                       winToWs(sf::Mouse::getPosition(*getWindow())).y);
+                       winToWs(sf::Mouse::getPosition(window)).x,
+                       winToWs(sf::Mouse::getPosition(window)).y);
             PRINTDEBUG(L"对象总数:%d", MovableEditObj::allMEO.size());
             GCameraInterface::posForDraw =
                 GCameraInterface::getGameCamera()->posInWs;
@@ -419,9 +419,9 @@ class Editor {
 
             MovableEditObj::drawBounds(window);
             SelectRect::rect.draw(window);
-            WindowFlag::flag.draw();
+            WindowFlag::flag.draw(window);
             // 显示DEBUG////////////////////////////////
-            GDebug::debugDisplay();
+            GDebug::debugDisplay(window);
             window.display();
         }
         editorCommand::edc.bRun = false;

@@ -12,12 +12,12 @@ class worldTest : public GWorld {
     GDebug deb;
     std::vector<GActorStatic *> treeVec;
 
-    worldTest() {
+    worldTest(std::string path_) {
 
         Playertest *player = spawnActorAtLocation<Playertest>();
         setPlayerCharactor(player);
         getPlayerCharactor()->setPosInWs({0 * pixSize, 0 * pixSize, 0});
-        nlohmann::json info = loadDataFromJson("res/datalist/world/wtest.json");
+        nlohmann::json info = loadDataFromJson(path_.c_str());
         for (auto ob : info["actors"]) {
             int fileID = ob["fileID"].get<int>();
             int picIndex = ob["picIndex"].get<int>();
