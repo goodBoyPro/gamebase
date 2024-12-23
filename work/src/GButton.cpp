@@ -20,9 +20,9 @@ GButton::GButton(IVector pos__, int width_, int height_,const wchar_t *wchar_) {
 }
 bool bOnce = 1;
 
-void GButton::drawLoop() {
+void GButton::drawLoop(sf::RenderWindow&window_) {
     static sf::Color *colorPtr = nullptr;
-    if (isMouseOn()) {
+    if (isMouseOn(window_)) {
         state = GButton::hovered;
         colorPtr = &textColorHovered;
         if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
@@ -43,12 +43,12 @@ void GButton::drawLoop() {
     spr.setPosition(position.x, position.y);
     spr.setTextureRect({state * sprOriginSize.y, 0,
                         sprOriginSize.y, sprOriginSize.y});
-    getWindow()->draw(spr);
-    printText(*getWindow(),wchar,position.x+height*0.5,position.y+height*0.3,height*0.3,*colorPtr,font[2]);
+    window_.draw(spr);
+    printText(window_,wchar,position.x+height*0.5,position.y+height*0.3,height*0.3,*colorPtr,font[2]);
 }
-bool GButton::isMouseOn() {
-    int x = sf::Mouse::getPosition(*getWindow()).x - position.x;
-    int y = sf::Mouse::getPosition(*getWindow()).y - position.y;
+bool GButton::isMouseOn(sf::RenderWindow&window_) {
+    int x = sf::Mouse::getPosition(window_).x - position.x;
+    int y = sf::Mouse::getPosition(window_).y - position.y;
     if (x < 0 || x > width || y < 0 || y > height)
         return false;
     return true;

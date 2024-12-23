@@ -25,8 +25,8 @@ class GTalk : public GActorComponent {
     int strFlag = 0;
     canRun cr;
     canRun sr;
-    virtual void drawActor() override { setContent(); }
-    void setContent() {
+    virtual void drawActor(sf::RenderWindow&window_) override { setContent(window_); }
+    void setContent(sf::RenderWindow&window_) {
         const wchar_t *consStr;
         if (cr.delay(200)) {
             if (textFlag < 50)
@@ -46,9 +46,9 @@ class GTalk : public GActorComponent {
         IVector posWin = wsToWin(pos);
         sprTemp.setPosition(posWin.x, posWin.y-playerSpr->getGlobalBounds().height);
         sprTemp.setOrigin(0, 256);
-        getWindow()->draw(*getRenderSprite());
+        window_.draw(*getRenderSprite());
 
-        printText(*getWindow(),consStr, posWin.x + leftEdge,
+        printText(window_,consStr, posWin.x + leftEdge,
                   posWin.y - sprTemp.getGlobalBounds().height + topEdge-playerSpr->getGlobalBounds().height);
     }
 };

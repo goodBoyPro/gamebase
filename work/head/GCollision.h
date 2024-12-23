@@ -58,11 +58,11 @@ class CollisionInterface : public GComponent {
     virtual bool isStock() = 0;
     virtual bool test(CollisionInterface *other) = 0;
     static std::set<CollisionInterface *> allCollisions;
-    static void showCollisions() {
+    static void showCollisions(sf::RenderWindow&window_) {
         for (auto c : allCollisions) {
           IVector pos = wsToWin(c->position);
             c->poly->shape->setPosition(pos.x, pos.y);
-            getWindow()->draw(*c->poly->shape);
+            window_.draw(*c->poly->shape);
             
         }
     }

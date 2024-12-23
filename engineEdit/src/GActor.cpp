@@ -69,7 +69,7 @@ bool GActor::addWsPosOffset(const FVector3 &vec) {
     return 1;
 }
 
-void GActor::drawActor() {
+void GActor::drawActor(sf::RenderWindow&window_) {
 
     IVector psInWin = wsToWin(posInWs);
     (sprPt)->setPosition(psInWin.x, psInWin.y);
@@ -78,7 +78,7 @@ void GActor::drawActor() {
     float yScale =
         sizeInWs.y / pixSize / sprPt->getLocalBounds().getSize().y;
     sprPt->setScale(xScale,yScale);
-    getWindow()->draw(*sprPt);
+    window_.draw(*sprPt);
     drawCallNum++;
 }
 

@@ -1,8 +1,7 @@
 #include "GController.h"
-
 #include <game.h>
 
-void GController::pollKey() {
+void GController::pollKey(sf::RenderWindow&window_) {
 
     // 无延迟按键
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -23,13 +22,13 @@ void GController::pollKey() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
         bindKey[GController::b]();
 
-    if (getWindow()->pollEvent(getGameIns()->event)) {
+    if (window_.pollEvent(getGameIns()->event)) {
         if (getGameIns()->event.type == sf::Event::Closed) {
-            getWindow()->close();
+            window_.close();
             getGameIns()->bGameContinue = 0;
         }
         if (getGameIns()->event.type == sf::Event::Resized)
-            resizeWindow(getWindow());
+            resizeWindow(&window_);
 
         // 键盘按键
         if (getGameIns()->event.type == sf::Event::KeyPressed) {

@@ -56,7 +56,7 @@ inline void editorCommand::parseString(const std::string &str) {
 
 inline void editorCommand::executeCommand() {
     if (input[0] == "quit") {
-        getWindow()->close();
+        // getWindow()->close();
         bRun = false;
     }
     if (command.find(input[0]) == command.end()) {

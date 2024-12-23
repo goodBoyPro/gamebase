@@ -149,8 +149,8 @@ void MovableEditObj::pollKey(sf::RenderWindow &window_, sf::Event &event_) {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
         if (window_.hasFocus())
             WindowFlag::flag.posInWs = {
-                winToWs(sf::Mouse::getPosition(*getWindow())).x,
-                winToWs(sf::Mouse::getPosition(*getWindow())).y, 0};
+                winToWs(sf::Mouse::getPosition(window_)).x,
+                winToWs(sf::Mouse::getPosition(window_)).y, 0};
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
         EditorCamera::editorCamera.posInWs -= deltaWorldMove;

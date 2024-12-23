@@ -25,7 +25,7 @@ class GActor : public GObject {
     virtual void eventBegin() = 0;
     virtual void eventTick() = 0;
     //
-    virtual void drawActor();
+    virtual void drawActor(sf::RenderWindow&window_);
     // 计时精度只有30ms
     template <class T> void createDelayTask(int delay, const T &callback) {
         return allDelaytasks.push_back(new DelayTask(delay, callback));

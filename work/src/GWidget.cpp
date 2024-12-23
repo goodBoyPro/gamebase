@@ -25,16 +25,16 @@ GWidget::GWidget(IVector pos, int width__, int height__) {
     btns.emplace_back(IVector(getLeftTopPoint().x+100,getLeftTopPoint().y+200),160,80,L"关闭游戏");
 
     btns[0].onClicked = [&]() { remove(); };
-    btns[1].onClicked = []() {  getWindow()->setMouseCursorGrabbed(false);getGameIns()->bGameContinue = 0; };
+    btns[1].onClicked = []() {Game::gameIns->gameWindow->setMouseCursorGrabbed(false);getGameIns()->bGameContinue = 0; };
 }
 
 GWidget::~GWidget() {}
 
-void GWidget::draw() {
-    getWindow()->draw(spr);
+void GWidget::draw(sf::RenderWindow&window_) {
+    window_.draw(spr);
 
     for (GButton &a : btns) {
-        a.drawLoop();
+        a.drawLoop(window_);
     }
     
    

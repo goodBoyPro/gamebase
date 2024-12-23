@@ -32,7 +32,7 @@ class GPlayerChar : public GActorWithAnim {
     void moveUp(float value);
     void moveRight(float value);
     FVector3 posMouseClicked;
-    void setPosMouse(float value);
+    void setPosMouse(sf::RenderWindow&window_,float value);
 
     void moveToMouse();
     void moveByKey();

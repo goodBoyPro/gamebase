@@ -21,8 +21,8 @@ class GButton : public GObject {
 
     ~GButton() = default;
     std::function<void()> onClicked;
-    void drawLoop();
-    bool isMouseOn();
+    void drawLoop(sf::RenderWindow&window_);
+    bool isMouseOn(sf::RenderWindow&window_);
 };
 struct texButton {
     sf::Texture tex;

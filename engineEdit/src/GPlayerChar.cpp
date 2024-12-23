@@ -28,7 +28,7 @@ GPlayerChar::GPlayerChar() {
     controller->bindKey[GController::dr] = [this]() { isMovingD = 0; };
     controller->bindKey[GController::ar] = [this]() { isMovingA = 0; };
     //
-    controller->bindKey[GController::mouseLeft] = [this]() { setPosMouse(1); };
+    controller->bindKey[GController::mouseLeft] = [this]() { setPosMouse(*(Game::gameIns->gameWindow),1); };
     controller->AXISX =
         std::bind(&GPlayerChar::moveRight, this, std::placeholders::_1);
     controller->AXISY =
@@ -70,9 +70,9 @@ void GPlayerChar::moveRight(float value) {
     isMouseMove = 0;
 }
 
-void GPlayerChar::setPosMouse(float value) {
+void GPlayerChar::setPosMouse(sf::RenderWindow&window_,float value) {
     isMouseMove = 1;
-    posMouseClicked = winToWs(sf::Mouse::getPosition(*getWindow()));
+    posMouseClicked = winToWs(sf::Mouse::getPosition(window_));
 }
 
 void GPlayerChar::moveToMouse() {

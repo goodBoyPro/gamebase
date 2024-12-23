@@ -61,14 +61,14 @@ class GWorld *getWorld();
 
 class GWidget *getWidgetPtr();
 //需要在第一次调用前先调用createWindow()
-class sf::RenderWindow *getWindow();
+// class sf::RenderWindow *getWindow();
 sf::RenderWindow *createwindow();
 void setPlayerCharactor(class GPlayerChar *player_);
 
 void setWorld(class GWorld *world_);
 
 void setWidgetPtr(class GWidget *widget_);
-void setWindow(sf::RenderWindow *window_);
+// void setWindow(sf::RenderWindow *window_);
 
 // 全局变量
 extern int frameLimit;

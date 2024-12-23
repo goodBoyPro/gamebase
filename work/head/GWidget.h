@@ -14,7 +14,7 @@ class GWidget : public GObject {
     GWidget(/* args */);
     GWidget(IVector pos,int width__,int height__);
     ~GWidget();
-    void draw();
+    void draw(sf::RenderWindow&window_);
     void addToViewport();
     void remove();
     void resizeView();

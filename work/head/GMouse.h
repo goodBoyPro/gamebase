@@ -11,12 +11,12 @@ class GMouse {
     sf::Sprite spr;
 
     
-    void drawMouseCusor() {
-        spr.setPosition((sf::Vector2f)(sf::Mouse::getPosition(*getWindow())));
-        getWindow()->draw(spr);
+    void drawMouseCusor(sf::RenderWindow&window_) {
+        spr.setPosition((sf::Vector2f)(sf::Mouse::getPosition(window_)));
+        window_.draw(spr);
     }
-    void setMouseVisible(bool isVisible){
-        getWindow()->setMouseCursorVisible(isVisible);
+    void setMouseVisible(sf::RenderWindow&window_,bool isVisible){
+        window_.setMouseCursorVisible(isVisible);
     }
 };
 

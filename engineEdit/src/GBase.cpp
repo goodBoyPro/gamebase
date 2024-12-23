@@ -19,16 +19,16 @@ GPlayerChar *getPlayerCharactor() { return playerCharacter; }
 GWorld *getWorld() { return world; }
 sf::RenderWindow *getWindow() { return window; }
 sf::RenderWindow *createwindow() {
-    sf::ContextSettings settings;
+    // sf::ContextSettings settings;
 
-    settings.depthBits = 24;
-    settings.stencilBits = 8;
+    // settings.depthBits = 24;
+    // settings.stencilBits = 8;
     // const float W_H_ratio = static_cast<float>(WINW) / WINH;
     // const float FOV = 45.0f;
     const sf::String TITLE = "game";
     static sf::RenderWindow window(
         sf::VideoMode(WINW, WINH, 32), TITLE,
-        sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize, settings);
+        sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
 
     window.setActive();
 
@@ -36,11 +36,11 @@ sf::RenderWindow *createwindow() {
     window.setMouseCursorGrabbed(true);
 
     // 初始化GLEW 必须再窗口之后
-    glewExperimental = GL_TRUE;
-    glewInit();
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_TEXTURE_2D);
-    setWindow(&window);
+    // glewExperimental = GL_TRUE;
+    // glewInit();
+    // glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_TEXTURE_2D);
+    
     return &window;
 }
 

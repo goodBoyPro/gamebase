@@ -1,8 +1,8 @@
 #include "game.h"
 #include <GActor.h>
-#include <GL/glew.h>
 #include <GController.h>
 #include <GDebug.h>
+#include <GL/glew.h>
 #include <GMouse.h>
 #include <worldTest.h>
 
@@ -28,12 +28,10 @@ sf::RenderTexture *createRenderTexGl(sf::RenderWindow *window) {
 Game::Game() {
     // 首先调用来初始化opengl
     // window = new sf::RenderWindow(sf::VideoMode(WINW, WINH), "game");
-
-    createwindow();
-    setWinIcon();   
+    gameIns = this;
+    gameWindow = createwindow();
+    setWinIcon(*gameWindow);
     mousePtr = new GMouse;
-   
-    
 }
 
 Game::~Game() {
@@ -52,7 +50,7 @@ void Game::dataLoop() {
     static DWORD timeFlag = 0;
 
     while (bGameContinue) {
-        timeFlag = GetTickCount();         
+        timeFlag = GetTickCount();
 
         if (getWorld())
             getWorld()->dataLoop();
@@ -61,61 +59,62 @@ void Game::dataLoop() {
 
         deltaTime = GetTickCount() - timeFlag;
     } // while
-   
 }
 static std::mutex mut;
 void Game::renderLoop2D() {
-    getWindow()->setFramerateLimit(frameLimit);
+    sf::RenderWindow &window_ = *gameWindow;
+    window_.setFramerateLimit(frameLimit);
     std::vector<GControllerInterface *> &allController =
         GControllerInterface::getAllController();
     xlib::getTimer().setPause(false);
     while (bGameContinue) {
 
-       getPlayerController()->pollKey();
+        getPlayerController()->pollKey(window_);
         // for(auto ctrl:allController){
         //     if(ctrl)
         //         ctrl->pollKey();
-        // }       
+        // }
 
         // resizeWindow(window);
         // 绘制地图//////////////////////////////
         if (getWorld())
             getWorld()->drawLoop();
         // 绘制actor
-        GCameraInterface::posForDraw=GCameraInterface::getGameCamera()->posInWs;
+        GCameraInterface::posForDraw =
+            GCameraInterface::getGameCamera()->posInWs;
         GActor::gridMapOfActor.setActorsAlive(getPlayerCharactor()->mapNodeId);
         for (auto elem : GActor::gridMapOfActor.actorsAlive) {
             elem->eventTick();
             elem->dataLoop();
-            elem->drawActor();
+            elem->drawActor(window_);
         }
-        
+
         GActor::gridMapOfActor.actorsAlive.clear();
-        
+
         // 绘制UI
         if (getWidgetPtr()) {
-            getWidgetPtr()->draw();
+            getWidgetPtr()->draw(window_);
         }
 
         //  绘制鼠标/////////////////////////////
         if (mousePtr)
-            mousePtr->drawMouseCusor();
+            mousePtr->drawMouseCusor(window_);
         // 显示碰撞
-        GCollision::showCollisions();
+        GCollision::showCollisions(window_);
         // 显示DEBUG////////////////////////////////
-        GDebug::debugDisplay(*getWindow());
+        GDebug::debugDisplay(window_);
         PRINTDEBUG(L"drawCall:%ld", GActor::drawCallNum);
         GActor::drawCallNum = 0;
 
-        getWindow()->display();
-        getWindow()->clear();
+        window_.display();
+        window_.clear();
 
     } // while
 }
-void Game::setWinIcon() {
+void Game::setWinIcon(sf::RenderWindow &window_) {
     sf::Image ic;
     ic.loadFromFile("res/a.png");
-    getWindow()->setIcon(48, 48, ic.getPixelsPtr());
+    window_.setIcon(48, 48, ic.getPixelsPtr());
 }
 
 // 测试内容////////////////////////////////////////////////////////////////////////////////////////////////////////////////
