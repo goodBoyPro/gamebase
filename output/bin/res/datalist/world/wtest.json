@@ -1,17 +1,17 @@
 {
     "actors": [
         {
-            "fileID": 2,
+            "fileID": 1,
             "picIndex": 1,
             "position": [
-                1.3000001907348633,
-                1.8111121654510498,
+                3.633333206176758,
+                1.7833330631256104,
                 0.0
             ],
             "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
+                3.0,
+                3.0,
+                3.0
             ],
             "type": 1
         },
@@ -19,14 +19,14 @@
             "fileID": 1,
             "picIndex": 1,
             "position": [
-                -3.6000001430511475,
-                -1.022222876548767,
+                0.6433353424072266,
+                1.743333101272583,
                 0.0
             ],
             "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
+                3.0,
+                3.0,
+                3.0
             ],
             "type": 1
         },
@@ -34,29 +34,14 @@
             "fileID": 1,
             "picIndex": 1,
             "position": [
-                -2.888888120651245,
-                -0.8777777552604675,
+                6.863335132598877,
+                1.6133331060409546,
                 0.0
             ],
             "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
-            ],
-            "type": 1
-        },
-        {
-            "fileID": 2,
-            "picIndex": 1,
-            "position": [
-                1.6888896226882935,
-                0.655555784702301,
-                0.0
-            ],
-            "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
+                3.0,
+                3.0,
+                3.0
             ],
             "type": 1
         },
@@ -64,14 +49,14 @@
             "fileID": 1,
             "picIndex": 1,
             "position": [
-                3.6777760982513428,
-                -0.8000006079673767,
+                2.2433340549468994,
+                1.243333339691162,
                 0.0
             ],
             "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
+                3.0,
+                3.0,
+                3.0
             ],
             "type": 1
         },
@@ -79,167 +64,32 @@
             "fileID": 1,
             "picIndex": 1,
             "position": [
-                2.722222089767456,
-                -0.811111569404602,
+                5.313335418701172,
+                1.4133331775665283,
                 0.0
             ],
             "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
-            ],
-            "type": 1
-        },
-        {
-            "fileID": 2,
-            "picIndex": 1,
-            "position": [
-                0.011111116968095303,
-                1.1111115217208862,
-                0.0
-            ],
-            "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
-            ],
-            "type": 1
-        },
-        {
-            "fileID": 1,
-            "picIndex": 1,
-            "position": [
-                1.588889479637146,
-                -1.066667079925537,
-                0.0
-            ],
-            "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
-            ],
-            "type": 1
-        },
-        {
-            "fileID": 2,
-            "picIndex": 1,
-            "position": [
-                -1.8666664361953735,
-                0.31111112236976624,
-                0.0
-            ],
-            "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
-            ],
-            "type": 1
-        },
-        {
-            "fileID": 1,
-            "picIndex": 1,
-            "position": [
-                -0.2666666805744171,
-                -1.1111116409301758,
-                0.0
-            ],
-            "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
-            ],
-            "type": 1
-        },
-        {
-            "fileID": 1,
-            "picIndex": 1,
-            "position": [
-                -1.9555563926696777,
-                -1.0000003576278687,
-                0.0
-            ],
-            "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
-            ],
-            "type": 1
-        },
-        {
-            "fileID": 1,
-            "picIndex": 1,
-            "position": [
-                1.588889241218567,
-                -0.6222223043441772,
-                0.0
-            ],
-            "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
-            ],
-            "type": 1
-        },
-        {
-            "fileID": 1,
-            "picIndex": 1,
-            "position": [
-                0.6111114025115967,
-                -1.0222225189208984,
-                0.0
-            ],
-            "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
-            ],
-            "type": 1
-        },
-        {
-            "fileID": 1,
-            "picIndex": 1,
-            "position": [
-                -0.7555556893348694,
-                -0.7666667699813843,
-                0.0
-            ],
-            "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
-            ],
-            "type": 1
-        },
-        {
-            "fileID": 2,
-            "picIndex": 1,
-            "position": [
-                -2.844444751739502,
-                -0.41111108660697937,
-                0.0
-            ],
-            "sizeInWs": [
-                1.5,
-                1.5,
-                1.5
+                3.0,
+                3.0,
+                3.0
             ],
             "type": 1
         }
     ],
     "beginPoint": [
-        -10.0,
-        -10.0,
-        -10.0
+        -3.0,
+        -3.0,
+        0.0
     ],
     "blockSize": 3.0,
-    "columns": 8,
+    "columns": 5,
     "landBlocks": [
         {
             "fileID": 3,
             "picIndex": 5,
             "position": [
-                -10.0,
-                -10.0,
+                -3.0,
+                -3.0,
                 0.0
             ],
             "sizeInWs": [
@@ -253,8 +103,8 @@
             "fileID": 3,
             "picIndex": 8,
             "position": [
-                -7.0,
-                -10.0,
+                0.0,
+                -3.0,
                 0.0
             ],
             "sizeInWs": [
@@ -268,8 +118,8 @@
             "fileID": 3,
             "picIndex": 7,
             "position": [
-                -4.0,
-                -10.0,
+                3.0,
+                -3.0,
                 0.0
             ],
             "sizeInWs": [
@@ -283,8 +133,8 @@
             "fileID": 3,
             "picIndex": 4,
             "position": [
-                -1.0,
-                -10.0,
+                6.0,
+                -3.0,
                 0.0
             ],
             "sizeInWs": [
@@ -298,8 +148,8 @@
             "fileID": 3,
             "picIndex": 8,
             "position": [
-                2.0,
-                -10.0,
+                9.0,
+                -3.0,
                 0.0
             ],
             "sizeInWs": [
@@ -313,8 +163,8 @@
             "fileID": 3,
             "picIndex": 1,
             "position": [
-                5.0,
-                -10.0,
+                -3.0,
+                0.0,
                 0.0
             ],
             "sizeInWs": [
@@ -328,8 +178,8 @@
             "fileID": 3,
             "picIndex": 3,
             "position": [
-                8.0,
-                -10.0,
+                0.0,
+                0.0,
                 0.0
             ],
             "sizeInWs": [
@@ -343,8 +193,8 @@
             "fileID": 3,
             "picIndex": 0,
             "position": [
-                11.0,
-                -10.0,
+                3.0,
+                0.0,
                 0.0
             ],
             "sizeInWs": [
@@ -358,8 +208,8 @@
             "fileID": 3,
             "picIndex": 7,
             "position": [
-                -10.0,
-                -7.0,
+                6.0,
+                0.0,
                 0.0
             ],
             "sizeInWs": [
@@ -373,8 +223,8 @@
             "fileID": 3,
             "picIndex": 2,
             "position": [
-                -7.0,
-                -7.0,
+                9.0,
+                0.0,
                 0.0
             ],
             "sizeInWs": [
@@ -388,8 +238,8 @@
             "fileID": 3,
             "picIndex": 8,
             "position": [
-                -4.0,
-                -7.0,
+                -3.0,
+                3.0,
                 0.0
             ],
             "sizeInWs": [
@@ -403,8 +253,8 @@
             "fileID": 3,
             "picIndex": 2,
             "position": [
-                -1.0,
-                -7.0,
+                0.0,
+                3.0,
                 0.0
             ],
             "sizeInWs": [
@@ -418,8 +268,8 @@
             "fileID": 3,
             "picIndex": 5,
             "position": [
-                11.0,
-                -7.0,
+                3.0,
+                9.0,
                 0.0
             ],
             "sizeInWs": [
@@ -431,10 +281,25 @@
         },
         {
             "fileID": 3,
-            "picIndex": 6,
+            "picIndex": 0,
             "position": [
-                5.0,
-                -4.0,
+                6.0,
+                9.0,
+                0.0
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 3
+        },
+        {
+            "fileID": 3,
+            "picIndex": 4,
+            "position": [
+                9.0,
+                9.0,
                 0.0
             ],
             "sizeInWs": [
@@ -448,8 +313,8 @@
             "fileID": 3,
             "picIndex": 8,
             "position": [
-                -7.0,
-                -4.0,
+                3.0,
+                6.0,
                 0.0
             ],
             "sizeInWs": [
@@ -463,8 +328,8 @@
             "fileID": 3,
             "picIndex": 7,
             "position": [
-                8.0,
-                -7.0,
+                3.0,
+                3.0,
                 0.0
             ],
             "sizeInWs": [
@@ -476,25 +341,10 @@
         },
         {
             "fileID": 3,
-            "picIndex": 7,
+            "picIndex": 5,
             "position": [
-                2.0,
-                -7.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 7,
-            "position": [
-                -10.0,
-                -4.0,
+                -3.0,
+                6.0,
                 0.0
             ],
             "sizeInWs": [
@@ -508,8 +358,8 @@
             "fileID": 3,
             "picIndex": 3,
             "position": [
-                -4.0,
-                -4.0,
+                6.0,
+                6.0,
                 0.0
             ],
             "sizeInWs": [
@@ -523,8 +373,68 @@
             "fileID": 3,
             "picIndex": 0,
             "position": [
-                -1.0,
-                -4.0,
+                -3.0,
+                9.0,
+                0.0
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 3
+        },
+        {
+            "fileID": 3,
+            "picIndex": 6,
+            "position": [
+                6.0,
+                3.0,
+                0.0
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 3
+        },
+        {
+            "fileID": 3,
+            "picIndex": 6,
+            "position": [
+                0.0,
+                9.0,
+                0.0
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 3
+        },
+        {
+            "fileID": 3,
+            "picIndex": 7,
+            "position": [
+                9.0,
+                3.0,
+                0.0
+            ],
+            "sizeInWs": [
+                3.0,
+                3.0,
+                0.0
+            ],
+            "type": 3
+        },
+        {
+            "fileID": 3,
+            "picIndex": 7,
+            "position": [
+                0.0,
+                6.0,
                 0.0
             ],
             "sizeInWs": [
@@ -538,653 +448,8 @@
             "fileID": 3,
             "picIndex": 0,
             "position": [
-                2.0,
-                -4.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 6,
-            "position": [
-                5.0,
-                -7.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 2,
-            "position": [
-                -4.0,
-                5.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 0,
-            "position": [
-                -7.0,
-                2.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 4,
-            "position": [
-                -1.0,
-                2.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 8,
-            "position": [
-                2.0,
-                2.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 2,
-            "position": [
-                -10.0,
-                5.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 5,
-            "position": [
-                5.0,
-                -1.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 7,
-            "position": [
-                -7.0,
-                -1.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 5,
-            "position": [
-                8.0,
-                -4.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 4,
-            "position": [
-                -10.0,
-                -1.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 2,
-            "position": [
-                8.0,
-                -1.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 0,
-            "position": [
-                11.0,
-                -1.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 6,
-            "position": [
-                -4.0,
-                -1.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 5,
-            "position": [
-                -1.0,
-                -1.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 6,
-            "position": [
-                -4.0,
-                2.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 0,
-            "position": [
-                11.0,
-                -4.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 2,
-            "position": [
-                -10.0,
-                2.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 1,
-            "position": [
-                5.0,
-                2.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 7,
-            "position": [
-                8.0,
-                2.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 3,
-            "position": [
-                11.0,
-                2.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 6,
-            "position": [
-                -7.0,
-                5.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 8,
-            "position": [
-                2.0,
-                -1.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 5,
-            "position": [
-                -1.0,
-                8.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 6,
-            "position": [
-                5.0,
-                8.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 7,
-            "position": [
-                11.0,
-                8.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 3,
-            "position": [
-                8.0,
-                8.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 4,
-            "position": [
-                2.0,
-                11.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 5,
-            "position": [
-                8.0,
-                11.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 3,
-            "position": [
-                8.0,
-                5.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 6,
-            "position": [
-                11.0,
-                11.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 2,
-            "position": [
-                -10.0,
-                11.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 3,
-            "position": [
-                -7.0,
-                11.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 3,
-            "position": [
-                -1.0,
-                5.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 6,
-            "position": [
-                2.0,
-                5.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 5,
-            "position": [
-                -4.0,
-                8.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 7,
-            "position": [
-                11.0,
-                5.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 2,
-            "position": [
-                -10.0,
-                8.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 1,
-            "position": [
-                -7.0,
-                8.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 7,
-            "position": [
-                -4.0,
-                11.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 1,
-            "position": [
-                2.0,
-                8.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 4,
-            "position": [
-                -1.0,
-                11.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 2,
-            "position": [
-                5.0,
-                11.0,
-                0.0
-            ],
-            "sizeInWs": [
-                3.0,
-                3.0,
-                0.0
-            ],
-            "type": 3
-        },
-        {
-            "fileID": 3,
-            "picIndex": 2,
-            "position": [
-                5.0,
-                5.0,
+                9.0,
+                6.0,
                 0.0
             ],
             "sizeInWs": [
@@ -1195,5 +460,5 @@
             "type": 3
         }
     ],
-    "rows": 8
+    "rows": 5
 }

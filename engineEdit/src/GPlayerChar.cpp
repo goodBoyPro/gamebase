@@ -53,6 +53,7 @@ void GPlayerChar::move(FVector3 _fvector, float _value) {
     if (t1.delay(MOVETICK)) {
         posPrevious = getPosInWs();
         bool flag = addWsPosOffset(_fvector * (_value * MOVETICK / 1000));
+        
         if (!flag)
             isMouseMove = 0;
         moveUpVec = {0, 0,0};

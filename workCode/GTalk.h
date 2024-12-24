@@ -11,7 +11,9 @@ class GTalk : public GActorComponent {
   private:
     /* data */
   public:
-    GTalk(/* args */) { setRenderSprite(&getSprite(11)); };
+    GTalk(/* args */) { setRenderSprite(&getSprite(11));
+        getRenderSprite()->setOrigin(0,getRenderSprite()->getTextureRect().getSize().y);
+    };
     ~GTalk() = default;
     int leftEdge = 10;
     int topEdge = 5;
@@ -25,7 +27,10 @@ class GTalk : public GActorComponent {
     int strFlag = 0;
     canRun cr;
     canRun sr;
-    virtual void drawActor(sf::RenderWindow&window_) override { setContent(window_); }
+    virtual void drawActor(sf::RenderWindow&window_) override {
+        GActor::drawActor(window_);
+        setContent(window_);
+    }
     void setContent(sf::RenderWindow&window_) {
         const wchar_t *consStr;
         if (cr.delay(200)) {
@@ -40,16 +45,14 @@ class GTalk : public GActorComponent {
         }
 
         consStr = str[strFlag].substr(0, textFlag).c_str();
-        sf::Sprite &sprTemp = *getRenderSprite();
-        sprTemp.setScale(1, 0.5);
+        
+        
         const FVector3 &pos = getPosInWs();
-        IVector posWin = wsToWin(pos);
-        sprTemp.setPosition(posWin.x, posWin.y-playerSpr->getGlobalBounds().height);
-        sprTemp.setOrigin(0, 256);
-        window_.draw(*getRenderSprite());
+        
 
-        printText(window_,consStr, posWin.x + leftEdge,
-                  posWin.y - sprTemp.getGlobalBounds().height + topEdge-playerSpr->getGlobalBounds().height);
+        sf::FloatRect bound = getRenderSprite()->getGlobalBounds();
+        printText(window_,consStr, bound.left + leftEdge,
+                  bound.top + topEdge,0.3/pixSize);
     }
 };
 

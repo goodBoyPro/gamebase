@@ -43,10 +43,10 @@ void GController::pollKey(sf::RenderWindow&window_) {
                 bindKey[GController::uiOpenOrClose]();
                 break;
             case sf::Keyboard::RBracket:
-                pixSize+=0.0005;
+                pixSize+=0.001;
                 break;
              case sf::Keyboard::LBracket:
-                pixSize-=0.0005;
+                pixSize-=0.001;
                 break;
             default:
                 break;

@@ -56,13 +56,17 @@ class Playertest : public GPlayerChar {
         PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
         PRINTDEBUG(L"玩家节点：%d,%d", mapNodeId,
                    gridMapOfActor.getPositionIndex(getPosInWs()));
+        PRINTDEBUG(L"像素尺寸：%f",pixSize);
     }
     GComponentAnimation *aniCom;
     Playertest() {
+        setSizeInWs({1,1,0});
         // createActorComponent<actorComponentTest>(new actorComponentTest);
         GTalk *gt = createActorComponent<GTalk>(new GTalk);
+        gt->setRelativePosition({0,-0.001,1});
+        gt->setSizeInWs({2,1,0});
         aniCom = createAnimationComponent<anicomponenttest>();
-        gt->playerSpr = aniCom->getRenderSprite();
+        aniCom->setSizeInWs({1,1,0});
         gph.gravity = -30;
         controller->bindKey[GController::space] = [&]() {
             if (!gph.speedZ)

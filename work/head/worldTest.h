@@ -45,5 +45,5 @@ class worldTest : public GWorld {
             ac->setSizeInWs({sizeTemp[0],sizeTemp[1],sizeTemp[2]});
         }
     };
-    ~worldTest() { delete getPlayerCharactor(); };
+    ~worldTest() {  };
 };

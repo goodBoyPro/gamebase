@@ -13,7 +13,7 @@ class GWidget : public GObject {
     int height;
     GWidget(/* args */);
     GWidget(IVector pos,int width__,int height__);
-    ~GWidget();
+    virtual ~GWidget();
     void draw(sf::RenderWindow&window_);
     void addToViewport();
     void remove();

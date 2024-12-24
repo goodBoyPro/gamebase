@@ -98,17 +98,17 @@ GActor::GActor() {
 }
 
 GActor::~GActor() {
-    //    for (auto component : allComponents)
-    //     {
-    //         delete component;
-    //         component = nullptr;
-    //     }
-    //     for (auto component : allActorComponents)
-    //     {
-    //         component->destroyActor();
-    //         component = nullptr;
-    //     }
-    //     for (auto task : allDelaytasks){
-    //         delete task;
-    //     }
+       for (auto component : allComponents)
+        {
+            delete component;
+            component = nullptr;
+        }
+        for (auto component : allActorComponents)
+        {
+            component->destroyActor();
+            component = nullptr;
+        }
+        for (auto task : allDelaytasks){
+            delete task;
+        }
 }
