@@ -7,7 +7,7 @@
 #include <math.h>
 // 全局变量
 GPlayerChar *playerCharacter = nullptr;
-sf::RenderWindow *window = nullptr;
+
 GWorld *world = nullptr;
 int frameLimit = 60;
 float pixSize = 0.01;
@@ -17,7 +17,7 @@ GWidget *widgetPtr = nullptr;
 // 接口
 GPlayerChar *getPlayerCharactor() { return playerCharacter; }
 GWorld *getWorld() { return world; }
-sf::RenderWindow *getWindow() { return window; }
+
 sf::RenderWindow *createwindow() {
     // sf::ContextSettings settings;
 
@@ -26,14 +26,14 @@ sf::RenderWindow *createwindow() {
     // const float W_H_ratio = static_cast<float>(WINW) / WINH;
     // const float FOV = 45.0f;
     const sf::String TITLE = "game";
-    static sf::RenderWindow window(
+    sf::RenderWindow *window=new sf::RenderWindow(
         sf::VideoMode(WINW, WINH, 32), TITLE,
-        sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
+        sf::Style::Titlebar|sf::Style::Close| sf::Style::Resize);
 
-    window.setActive();
+    window->setActive();
 
-    window.setMouseCursorVisible(false);
-    window.setMouseCursorGrabbed(true);
+    // window.setMouseCursorVisible(false);
+    // window.setMouseCursorGrabbed(true);
 
     // 初始化GLEW 必须再窗口之后
     // glewExperimental = GL_TRUE;
@@ -41,7 +41,7 @@ sf::RenderWindow *createwindow() {
     // glEnable(GL_DEPTH_TEST);
     // glEnable(GL_TEXTURE_2D);
     
-    return &window;
+    return window;
 }
 
 GWidget *getWidgetPtr() { return widgetPtr; }
@@ -56,7 +56,7 @@ void setPlayerCharactor(class GPlayerChar *player_) {
 void setWorld(class GWorld *world_) { world = world_; }
 
 void setWidgetPtr(class GWidget *widget_) { widgetPtr = widget_; }
-void setWindow(sf::RenderWindow *window_) { window = window_; }
+
 
 
 sf::Font font[4];

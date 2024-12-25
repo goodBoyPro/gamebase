@@ -339,6 +339,7 @@ class Editor {
         // tInput.join();
     }
     ~Editor() { delete windowEditor; }
+    static void openPad(){}
     void loop() {
         sf::RenderWindow &window = *windowEditor;
         window.setPosition(IVector(100, 100));
@@ -353,6 +354,9 @@ class Editor {
                     switch (event.key.code) {
                     case sf::Keyboard::K:
                         editorSave::saveTofile("test");
+                        break;
+                    case sf::Keyboard::Tab:
+                        Editor::openPad();
                         break;
                     default:
                         break;

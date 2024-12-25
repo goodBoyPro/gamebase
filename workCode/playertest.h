@@ -13,60 +13,50 @@ class Playertest : public GPlayerChar {
   private:
     /* data */
   public:
-    
-    // virtual void drawActor() override {
-    //     // 阴影
-    //     GSource::getSource().getSprite(10).setScale(0.3, 0.2);
-    //     const FVector3 &posShadow = {getPosInWs().x, getPosInWs().y, 0.f};
-    //     IVector posTemp = wsToWin({posShadow.x, posShadow.y, 0});
-    //     GSource::getSource().getSprite(10).setPosition(posTemp.x, posTemp.y);
-    //     getWindow()->draw(getSource().getSprite(10));
-    // }
-
-    virtual void eventBegin() override {
-        // for(int i=0;i<5000;i++)spawnActorAtLocation<actorTest>(getPosInWs());
-        
-        }
-        void func() {
-            DELAY(4, [&]() {
-                spawnActorAtLocation<actorTest>(getPosInWs());
-                func();
-            });
-        }
-        void SpawnAt() {
-            DELAY(
-                500,
-                [&]() {
-                    actorTest *a =
-                        spawnActorAtLocation<actorTest>(getPosInWs());
-                    a->velocity = getVelocity() * 2.f;
-                },
-                true);
+    virtual void eventBegin() override {}
+    void func() {
+        DELAY(4, [&]() {
+            spawnActorAtLocation<actorTest>(getPosInWs());
+            func();
+        });
+    }
+    void SpawnAt() {
+        DELAY(
+            500,
+            [&]() {
+                actorTest *a = spawnActorAtLocation<actorTest>(getPosInWs());
+                a->velocity = getVelocity() * 2.f;
+            },
+            true);
     };
-    DelayTask taskSpawnAT = {500, [&]() {  actorTest *a = spawnActorAtLocation<actorTest>(getPosInWs());
-            a->velocity = getVelocity() * 2.f; }};
+    DelayTask taskSpawnAT = {500, [&]() {
+                                 actorTest *a = spawnActorAtLocation<actorTest>(
+                                     getPosInWs());
+                                 a->velocity = getVelocity() * 2.f;
+                             }};
 
     void eventTick() {
-        
+
         PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
         PRINTDEBUG(L"场景对象数量：%d", gridMapOfActor.getActorsNumber());
-        PRINTDEBUG(L"键鼠位置：%f,%f",
-                   winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow))).x,
-                   winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow))).y);
+        PRINTDEBUG(
+            L"键鼠位置：%f,%f",
+            winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow))).x,
+            winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow))).y);
         PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
         PRINTDEBUG(L"玩家节点：%d,%d", mapNodeId,
                    gridMapOfActor.getPositionIndex(getPosInWs()));
-        PRINTDEBUG(L"像素尺寸：%f",pixSize);
+        PRINTDEBUG(L"像素尺寸：%f", pixSize);
     }
     GComponentAnimation *aniCom;
     Playertest() {
-        setSizeInWs({1,1,0});
+       
         // createActorComponent<actorComponentTest>(new actorComponentTest);
-        GTalk *gt = createActorComponent<GTalk>(new GTalk);
-        gt->setRelativePosition({0,-0.001,1});
-        gt->setSizeInWs({2,1,0});
+        // GTalk *gt = createActorComponent<GTalk>(new GTalk);
+        // gt->setRelativePosition({0, -0.001, 1});
+        // gt->setSizeInWs({2, 1, 0});
         aniCom = createAnimationComponent<anicomponenttest>();
-        aniCom->setSizeInWs({1,1,0});
+        aniCom->setSizeInWs({1, 1, 0});
         gph.gravity = -30;
         controller->bindKey[GController::space] = [&]() {
             if (!gph.speedZ)
@@ -74,9 +64,7 @@ class Playertest : public GPlayerChar {
         };
 
         controller->bindKey[GController::uiOpenOrClose] = [&]() {
-            widget.addToViewport();
-              
-
+            // widget.addToViewport();
         };
         controller->bindKey[GController::b] = [&]() {
             spawnActorAtLocation<actorTest>(getPosInWs());
@@ -89,14 +77,14 @@ class Playertest : public GPlayerChar {
     };
 
     GPhysix gph;
-    GWidget widget = {{WINW / 2, WINH / 2}, 800, 600};
+    // GWidget widget = {{WINW / 2, WINH / 2}, 800, 600};
     DelayTask task = {100, []() { printf("task"); }};
     virtual void dataLoop() {
         GPlayerChar::dataLoop();
         static canRun vTest;
         if (vTest.delay(25)) {
         }
-        //gph.drop(getPosInWs().z);
+        // gph.drop(getPosInWs().z);
     }
     virtual ~Playertest() {};
 
@@ -104,14 +92,18 @@ class Playertest : public GPlayerChar {
         GAnimationBp *aniBpPtr =
             (GAnimationBp *)(getAnimationComponent()->getAnimationBp());
         FVector3 v = getVelocity();
-        if (v.x > 0)
-            {aniBpPtr->orientation = RIGHT_ORTN;
-            if(aniCom->getSizeInWs().x>0)
-            aniCom->setSizeInWs({aniCom->getSizeInWs().x*(-1),aniCom->getSizeInWs().y,aniCom->getSizeInWs().z});
-        } else if (v.x < 0)
-           { aniBpPtr->orientation = LEFT_ORTN;
-            if(aniCom->getSizeInWs().x<0)
-            aniCom->setSizeInWs({aniCom->getSizeInWs().x*(-1),aniCom->getSizeInWs().y,aniCom->getSizeInWs().z});
+        if (v.x > 0) {
+            aniBpPtr->orientation = RIGHT_ORTN;
+            if (aniCom->getSizeInWs().x > 0)
+                aniCom->setSizeInWs({aniCom->getSizeInWs().x * (-1),
+                                     aniCom->getSizeInWs().y,
+                                     aniCom->getSizeInWs().z});
+        } else if (v.x < 0) {
+            aniBpPtr->orientation = LEFT_ORTN;
+            if (aniCom->getSizeInWs().x < 0)
+                aniCom->setSizeInWs({aniCom->getSizeInWs().x * (-1),
+                                     aniCom->getSizeInWs().y,
+                                     aniCom->getSizeInWs().z});
         }
 
         if (getPosInWs().z > 0.001) {
@@ -123,6 +115,4 @@ class Playertest : public GPlayerChar {
                 aniBpPtr->state = GAnimationBp::idle;
         }
     }
-
-    
 };

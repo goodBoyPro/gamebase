@@ -60,8 +60,7 @@ class GPlayerChar *getPlayerCharactor();
 class GWorld *getWorld();
 
 class GWidget *getWidgetPtr();
-//需要在第一次调用前先调用createWindow()
-// class sf::RenderWindow *getWindow();
+//需要手动释放delete
 sf::RenderWindow *createwindow();
 void setPlayerCharactor(class GPlayerChar *player_);
 
@@ -105,8 +104,6 @@ void printNum(sf::RenderWindow&window_,int __int, int x = 0, int y = 0, int size
 // 显示鼠标
 
 // 空间变换
-IVector wsToWin(const FVector3 &PositionInWS);
-FVector3 winToWs(const IVector &positionInWin);
 template <class T> float getLength(const T &vec) {
     return sqrtf(vec.x * vec.x + vec.y * vec.y);
 }

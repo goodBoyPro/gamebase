@@ -35,7 +35,7 @@ Game::Game() {
 }
 
 Game::~Game() {
-    // delete getWindow();是静态对象，不需要清理
+    delete gameWindow;
     delete mousePtr;
 }
 void Game::gameBegin() {
@@ -60,7 +60,7 @@ void Game::dataLoop() {
         deltaTime = GetTickCount() - timeFlag;
     } // while
 }
-static std::mutex mut;
+
 void Game::renderLoop2D() {
     sf::RenderWindow &window_ = *gameWindow;
     window_.setFramerateLimit(frameLimit);
