@@ -100,9 +100,9 @@ inline IVector wsToWin(const FVector3 &PositionInWS) {
 }
 inline FVector3 winToWs(const IVector &positionInWin) {
     return {(positionInWin.x - WINW / 2) * pixSize +
-                GCameraInterface::gameCameraX->posInWs.x,
+                GCameraInterface::posForDraw.x,
             (positionInWin.y - WINH / 2) * pixSize +
-                GCameraInterface::gameCameraX->posInWs.y,
+                GCameraInterface::posForDraw.y,
             0};
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

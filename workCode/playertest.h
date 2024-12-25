@@ -51,10 +51,10 @@ class Playertest : public GPlayerChar {
     GComponentAnimation *aniCom;
     Playertest() {
        
-        // createActorComponent<actorComponentTest>(new actorComponentTest);
-        // GTalk *gt = createActorComponent<GTalk>(new GTalk);
-        // gt->setRelativePosition({0, -0.001, 1});
-        // gt->setSizeInWs({2, 1, 0});
+        createActorComponent<actorComponentTest>(new actorComponentTest);
+        GTalk *gt = createActorComponent<GTalk>(new GTalk);
+        gt->setRelativePosition({0, -0.001, 1});
+        gt->setSizeInWs({2, 1, 0});
         aniCom = createAnimationComponent<anicomponenttest>();
         aniCom->setSizeInWs({1, 1, 0});
         gph.gravity = -30;
@@ -64,7 +64,7 @@ class Playertest : public GPlayerChar {
         };
 
         controller->bindKey[GController::uiOpenOrClose] = [&]() {
-            // widget.addToViewport();
+            widget.addToViewport();
         };
         controller->bindKey[GController::b] = [&]() {
             spawnActorAtLocation<actorTest>(getPosInWs());
@@ -77,7 +77,7 @@ class Playertest : public GPlayerChar {
     };
 
     GPhysix gph;
-    // GWidget widget = {{WINW / 2, WINH / 2}, 800, 600};
+    GWidget widget = {{WINW / 2, WINH / 2}, 800, 600};
     DelayTask task = {100, []() { printf("task"); }};
     virtual void dataLoop() {
         GPlayerChar::dataLoop();
