@@ -11,6 +11,7 @@ int main() {
     initTools();
     gametest g;
     xlib::getTimer().stop();
+    Sleep(1000);
     printf("\nprogram has ended without error\n");
     return 0;
 }

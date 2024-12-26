@@ -1,7 +1,7 @@
 #include "GController.h"
 #include <game.h>
 
-void GController::pollKey(sf::RenderWindow&window_) {
+void GController::pollKey(sf::RenderWindow&window_,sf::Event&event_) {
 
     // 无延迟按键
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -22,16 +22,17 @@ void GController::pollKey(sf::RenderWindow&window_) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
         bindKey[GController::b]();
 
-    if (window_.pollEvent(getGameIns()->event)) {
-        if (getGameIns()->event.type == sf::Event::Closed) {
+    if (window_.pollEvent(event_)) 
+    {
+        if (event_.type == sf::Event::Closed) {
             window_.close();
             getGameIns()->bGameContinue = 0;
         }
-        if (getGameIns()->event.type == sf::Event::Resized)
+        if (event_.type == sf::Event::Resized)
             resizeWindow(&window_);
 
         // 键盘按键
-        if (getGameIns()->event.type == sf::Event::KeyPressed) {
+        if (event_.type == sf::Event::KeyPressed) {
             switch (getGameIns()->event.key.code) {
             case sf::Keyboard::Grave:
                 openConsoleWindow();
@@ -52,8 +53,8 @@ void GController::pollKey(sf::RenderWindow&window_) {
                 break;
             }
         }
-        if (getGameIns()->event.type == sf::Event::KeyReleased) {
-            switch (getGameIns()->event.key.code) {
+        if (event_.type == sf::Event::KeyReleased) {
+            switch (event_.key.code) {
 
             case sf::Keyboard::A:
                 bindKey[GController::ar]();
@@ -72,8 +73,8 @@ void GController::pollKey(sf::RenderWindow&window_) {
             }
         }
         // 鼠标
-        if (getGameIns()->event.type == sf::Event::MouseButtonPressed) {
-            switch (getGameIns()->event.mouseButton.button) {
+        if (event_.type == sf::Event::MouseButtonPressed) {
+            switch (event_.mouseButton.button) {
             case sf::Mouse::Left:
                 bindKey[GController::mouseLeft]();
 

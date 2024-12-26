@@ -67,9 +67,9 @@ void Game::renderLoop2D() {
     std::vector<GControllerInterface *> &allController =
         GControllerInterface::getAllController();
     xlib::getTimer().setPause(false);
-    while (bGameContinue) {
-
-        getPlayerController()->pollKey(window_);
+    while (bGameContinue&&window_.isOpen()) {
+        
+        getPlayerController()->pollKey(window_,event);
         // for(auto ctrl:allController){
         //     if(ctrl)
         //         ctrl->pollKey();
@@ -109,7 +109,8 @@ void Game::renderLoop2D() {
         window_.display();
         window_.clear();
 
-    } // while
+    }// while 
+    window_.close();
 }
 void Game::setWinIcon(sf::RenderWindow &window_) {
     sf::Image ic;

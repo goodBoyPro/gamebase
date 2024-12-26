@@ -54,7 +54,8 @@ class TIMERAPI TimeManager {
     };
     typedef DelayTask delaytaskPtr;
 
-    void stop() { brun = false; }
+    void stop() {brun=false;
+    cond_.notify_all(); }
 
   private:
     // 单例模式

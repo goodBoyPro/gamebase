@@ -2,7 +2,7 @@
 #include <GController.h>
 #include <GDebug.h>
 #include<game.h>
-sf::View GWidget::viewPort;
+
 //GController GWidget::widgetController;
 GWidget::GWidget() {}
 

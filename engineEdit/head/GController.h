@@ -47,7 +47,7 @@ class GController : public GControllerInterface {
     };
   public:
    
-    virtual void pollKey(sf::RenderWindow&window_);
+    virtual void pollKey(sf::RenderWindow&window_,sf::Event&event_);
 };
 
 #endif

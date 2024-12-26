@@ -18,7 +18,7 @@ class GWidget : public GObject {
     void addToViewport();
     void remove();
     void resizeView();
-    static sf::View viewPort;
+  
     sf::Sprite spr;
     sf::Texture tex;
     std::vector<GButton> btns;

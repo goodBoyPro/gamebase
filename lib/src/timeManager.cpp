@@ -27,8 +27,12 @@ void TimeManager::loop() {
             continue;
         static int timecost = 0;
         int a = getTime();
-        //lk.lock();
-        cond_.wait(lk, [&]() { return !tasks.empty(); });
+        lk.lock();
+        cond_.wait(lk, [this]() { return (!tasks.empty())||(!brun); });
+        if(!brun){
+            lk.unlock();
+            printf("timerManager released\n");
+            break;}
         it = tasks.begin();
         static int temp = getTime();
         for (; it != tasks.end();) {
@@ -50,28 +54,24 @@ void TimeManager::loop() {
             it++;
             temp = getTime();
         } // for
-        // lk.unlock();
+        lk.unlock();
         //  频率越高性能越差的原因找到了：clock()在切换到别的线程时不计时，被其他线程高频抢占cpu,时间看起来变慢了
         timecost = getTime() - a;
         if (timecost < 1) {
             threadSleep(1);
         }
     }
+    
 }
 
 bool TimeManager::bCont() { return false; }
 
 TimeManager::TimeManager() {
     t1 = new std::thread(loop, this);
-    // assert(timer20240522Ins == nullptr);
-    // timer20240522Ins = this;
 }
-TimeManager::~TimeManager() {
-    brun = 0;
-    thread_pool::getThreadPool().isStop = true;
+TimeManager::~TimeManager() {    
     t1->join();
-    delete t1;
-    printf("timerManager released\n");
+    delete t1;  
 }
 
 TimeManager &getTimer() {

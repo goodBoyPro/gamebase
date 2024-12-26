@@ -43,7 +43,7 @@ class GControllerInterface : public GObject {
     }
     std::function<void()> bindKey[128];
     std::function<void(float)> bindAxis[128];
-    virtual void pollKey(sf::RenderWindow&window_) = 0;
+    virtual void pollKey(sf::RenderWindow&window_,sf::Event&event_) = 0;
     virtual ~GControllerInterface() { getAllController()[id] = nullptr; }
 
   public:
