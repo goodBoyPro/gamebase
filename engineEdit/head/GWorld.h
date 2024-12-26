@@ -5,7 +5,7 @@
 #include<nlohmann_json/json.hpp>
 #include<fstream>
 #include<GLandBlock.h>
-class GWorld : public GObject {
+class GWorld : public GWorldInterface {
   private:
     /* data */
   public:

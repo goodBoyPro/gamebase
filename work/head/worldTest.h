@@ -13,7 +13,7 @@ class worldTest : public GWorld {
     std::vector<GActorStatic *> treeVec;
 
     worldTest(std::string path_) {
-
+        createSpaceManager();
         Playertest *player = spawnActorAtLocation<Playertest>();
         setPlayerCharactor(player);
         getPlayerCharactor()->setPosInWs({0 * pixSize, 0 * pixSize, 0});

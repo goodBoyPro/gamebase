@@ -14,14 +14,14 @@ public:
 
 gametest::gametest(/* args */)
 {
-    world1 = new worldTest("res/datalist/world/wtest.json");
-    setWorld(world1);
+    // world1 = new worldTest("res/datalist/world/wtest.json");
+    // setWorld(world1);
+    createWorld(new worldTest("res/datalist/world/wtest.json"));
     gameBegin();    
 }
 gametest::gametest(std::string path_)
 {
-    world1 = new worldTest(path_);
-    setWorld(world1);
+     createWorld(new worldTest(path_));
     gameBegin();    
 }
 

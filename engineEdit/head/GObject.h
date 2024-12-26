@@ -1,7 +1,7 @@
 #ifndef GOBJECT_H
 #define GOBJECT_H
 #include "GBase.h"
-#include<gridmap.h>
+#include <gridmap.h>
 class GObject {
 
   public:
@@ -44,7 +44,7 @@ class GControllerInterface : public GObject {
     }
     std::function<void()> bindKey[128];
     std::function<void(float)> bindAxis[128];
-    virtual void pollKey(sf::RenderWindow&window_,sf::Event&event_) = 0;
+    virtual void pollKey(sf::RenderWindow &window_, sf::Event &event_) = 0;
     virtual ~GControllerInterface() { getAllController()[id] = nullptr; }
 
   public:
@@ -92,31 +92,31 @@ inline GCameraInterface *getGameCamera() {
     return GCameraInterface::getGameCamera();
 }
 inline IVector wsToWin(const FVector3 &PositionInWS) {
-    return {
-                ((PositionInWS.x - GCameraInterface::posForDraw.x) / pixSize +
-                 WINW / 2.f),           
-                ((PositionInWS.y - GCameraInterface::posForDraw.y) / pixSize +
-                 WINH / 2.f - (PositionInWS.z / pixSize))};
-    
+    return {((PositionInWS.x - GCameraInterface::posForDraw.x) / pixSize +
+             WINW / 2.f),
+            ((PositionInWS.y - GCameraInterface::posForDraw.y) / pixSize +
+             WINH / 2.f - (PositionInWS.z / pixSize))};
 }
 inline FVector3 winToWs(const IVector &positionInWin) {
-    return {(positionInWin.x - WINW / 2) * pixSize +
-                GCameraInterface::posForDraw.x,
-            (positionInWin.y - WINH / 2) * pixSize +
-                GCameraInterface::posForDraw.y,
-            0};
+    return {
+        (positionInWin.x - WINW / 2) * pixSize + GCameraInterface::posForDraw.x,
+        (positionInWin.y - WINH / 2) * pixSize + GCameraInterface::posForDraw.y,
+        0};
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //           WorldInterface
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class GWorldInterface:public GObject {
+class GWorldInterface : public GObject {
   public:
-    GridMap<GActor*> *spaceManager=nullptr;
-    GWorldInterface(){}
+    GridMap<GActor *> *spaceManager = nullptr;
+    GWorldInterface() {}
     virtual ~GWorldInterface() { delete spaceManager; }
-    void createSpaceManager() { spaceManager = new GridMap<GActor *>(FVector2(-10,-10),500,500,5,5); }
+    void createSpaceManager() {
+        delete spaceManager;
+        spaceManager =
+            new GridMap<GActor *>(FVector2(-10, -10), 500, 500, 5, 5);
+    }
 };
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //           gameInterface
@@ -124,32 +124,37 @@ class GWorldInterface:public GObject {
 class GGameInterface : public GObject {
   private:
     static GGameInterface *gameIns;
-    static GWorldInterface* worldActive;
+    GWorldInterface *worldActive = nullptr;
 
   public:
     sf::Event event;
     bool bGameContinue = 1;
-    GGameInterface() { setGameIns(this); };
-    virtual ~GGameInterface() { setGameIns(nullptr); }
+    GGameInterface() {
+        setGameIns(this);
+    };
+    virtual ~GGameInterface() {
+        setGameIns(nullptr);
+        delete worldActive;
+        worldActive = nullptr;
+    }
     virtual void renderLoop2D() = 0;
     static GGameInterface *&getGameIns() { return gameIns; }
     static void setGameIns(GGameInterface *ptr) { gameIns = ptr; }
-    static GWorldInterface *getWorldActive() { return worldActive; }
-    static void setWorldActive(GWorldInterface *world) { worldActive = world; }
-    template <class T> GWorldInterface *createWorld();
-    void destroyWorld(GWorldInterface *world) { delete world; };
+    GWorldInterface *getWorldActive() { return worldActive; }
+    // 说明： createWorld(new worldclass);
+    
+    GWorldInterface *createWorld(GWorldInterface *newWorld);
 };
 inline GGameInterface *GGameInterface::gameIns = nullptr;
-inline GWorldInterface*GGameInterface::worldActive = nullptr;
 inline GGameInterface *&getGameIns() { return GGameInterface::getGameIns(); }
 inline void setGameIns(class GGameInterface *game_) {
     GGameInterface::setGameIns(game_);
 }
-template<class T>
-inline GWorldInterface* GGameInterface::createWorld(){
-    GWorldInterface *ptr = new T;
-    setWorldActive(ptr);
-    return ptr;
+
+inline GWorldInterface *GGameInterface::createWorld(GWorldInterface *newWorld) {
+    delete worldActive;
+    worldActive = newWorld;
+    return newWorld;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////widgetInterface///////////////////////////////////////////////////////////////////////////////////////////
@@ -174,6 +179,5 @@ class WidgetInterface : public GObject {
         disableActive();
     }
 };
-
 
 #endif
