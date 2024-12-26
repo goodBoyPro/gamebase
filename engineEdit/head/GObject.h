@@ -1,6 +1,7 @@
 #ifndef GOBJECT_H
 #define GOBJECT_H
 #include "GBase.h"
+#include<gridmap.h>
 class GObject {
 
   public:
@@ -106,25 +107,49 @@ inline FVector3 winToWs(const IVector &positionInWin) {
             0};
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//           WorldInterface
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class GWorldInterface:public GObject {
+  public:
+    GridMap<GActor*> *spaceManager=nullptr;
+    GWorldInterface(){}
+    virtual ~GWorldInterface() { delete spaceManager; }
+    void createSpaceManager() { spaceManager = new GridMap<GActor *>(FVector2(-10,-10),500,500,5,5); }
+};
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //           gameInterface
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GGameInterface : public GObject {
   private:
     static GGameInterface *gameIns;
+    static GWorldInterface* worldActive;
 
   public:
     sf::Event event;
     bool bGameContinue = 1;
     GGameInterface() { setGameIns(this); };
-    virtual ~GGameInterface() {}
+    virtual ~GGameInterface() { setGameIns(nullptr); }
     virtual void renderLoop2D() = 0;
     static GGameInterface *&getGameIns() { return gameIns; }
     static void setGameIns(GGameInterface *ptr) { gameIns = ptr; }
+    static GWorldInterface *getWorldActive() { return worldActive; }
+    static void setWorldActive(GWorldInterface *world) { worldActive = world; }
+    template <class T> GWorldInterface *createWorld();
+    void destroyWorld(GWorldInterface *world) { delete world; };
 };
 inline GGameInterface *GGameInterface::gameIns = nullptr;
+inline GWorldInterface*GGameInterface::worldActive = nullptr;
 inline GGameInterface *&getGameIns() { return GGameInterface::getGameIns(); }
 inline void setGameIns(class GGameInterface *game_) {
     GGameInterface::setGameIns(game_);
+}
+template<class T>
+inline GWorldInterface* GGameInterface::createWorld(){
+    GWorldInterface *ptr = new T;
+    setWorldActive(ptr);
+    return ptr;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////widgetInterface///////////////////////////////////////////////////////////////////////////////////////////
