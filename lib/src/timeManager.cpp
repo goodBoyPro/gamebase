@@ -62,6 +62,7 @@ void TimeManager::loop() {
             // threadSleep(1);
         }
     }
+    printf("timer loop stoped\n");
 }
 
 bool TimeManager::bCont() { return false; }
@@ -69,7 +70,8 @@ bool TimeManager::bCont() { return false; }
 TimeManager::TimeManager() {
     t1 = new std::thread(&TimeManager::loop, this);
 }
-TimeManager::~TimeManager() { 
+TimeManager::~TimeManager() {
+    stop();
     t1->join();
     delete t1; 
     printf("TimerManagerReleased\n");   

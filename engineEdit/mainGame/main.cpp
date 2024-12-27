@@ -3,19 +3,23 @@
 #include<mylib.h>
 #if 1
 int main() {
+    xlib::createTimeManager();
     system("chcp 65001");
-    mylib::ProgramMutex proMut(L"main");
-    if(proMut.isOtherProgramOn())
-        return 0;
+    // mylib::ProgramMutex proMut(L"main");
+    // if(proMut.isOtherProgramOn())
+    //     return 0;
     
-    initTools();
-    gametest g;
-    // std::atomic<int>a=0;
-    // std::atomic<bool>b=false;
-    // xlib::getTimer().setPause(false);
-    // xlib::getTimer().addTaskSafe(getTime(),50,100,&a,&b,[](){printf("testttttttttttttttttttttttttt\n");});
-    // Sleep(6000);
-    xlib::getTimer().stop();
+    // initTools();
+    // gametest g;
+    std::atomic<int>a=0;
+    std::atomic<bool>b=false;
+    xlib::getTimer().setPause(false);
+    xlib::getTimer().addTaskSafe(getTime(),50,100,&a,&b,[](){printf("testttttttttttttttttttttttttt\n");});
+    Sleep(6000);
+    
+    
+    
+    xlib::destroyTimeManager();
     printf("\nprogram has ended without error\n");
     return 0;
 }

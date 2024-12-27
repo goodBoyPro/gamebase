@@ -4,8 +4,8 @@
 #include <condition_variable>
 #include <functional>
 #include <list>
-//#include <mutex>
-#include<shared_mutex>
+// #include <mutex>
+#include <shared_mutex>
 #include <thread>
 #include <vector>
 #include <windows.h>
@@ -54,13 +54,11 @@ class TIMERAPI TimeManager {
     };
     typedef DelayTask delaytaskPtr;
 
-    void stop() {brun=false;
-    cond_.notify_one(); }
-
   private:
     // 单例模式
     TimeManager(/* args */);
     friend TimeManager &getTimer();
+    friend void createTimeManager();
     // 用于保护容器操作
     std::mutex mut_;
 
@@ -70,6 +68,10 @@ class TIMERAPI TimeManager {
     void loop();
     bool isPaused = true;
     bool brun = true;
+    void stop() {
+        brun = false;
+        cond_.notify_one();
+    }
 
   public:
     std::condition_variable cond_;
@@ -78,7 +80,10 @@ class TIMERAPI TimeManager {
     ~TimeManager();
     bool TIMERAPI bCont();
     void setPause(bool pause_) { isPaused = pause_; }
-    void clearAllTasks(){std::unique_lock lk(mut_);tasks.clear();};
+    void clearAllTasks() {
+        std::unique_lock lk(mut_);
+        tasks.clear();
+    };
     template <class T>
     DelayTask *addTask(int time0, int timeDelay, int times, T funcPtr_) {
 
@@ -100,8 +105,17 @@ class TIMERAPI TimeManager {
         return x;
     }
 };
-inline TimeManager &getTimer(){static TimeManager timerIns;
-    return timerIns;};
+inline TimeManager *___TimeManagerIns = nullptr;
+inline void createTimeManager() { ___TimeManagerIns = new TimeManager; }
+inline void destroyTimeManager() {
+    delete ___TimeManagerIns;
+    ___TimeManagerIns = nullptr;
+}
+inline TimeManager &getTimer() {
+    // static TimeManager timerIns;
+    // return timerIns;
+    return *___TimeManagerIns;
+};
 
 } // namespace xlib
 
@@ -192,7 +206,7 @@ extern "C" void TIMERAPI threadSleep(int time);
 #include <thread>
 #include <vector>
 
-class TIMERAPI thread_pool {
+class  thread_pool {
 
   public:
     static thread_pool &getThreadPool() {
@@ -206,11 +220,12 @@ class TIMERAPI thread_pool {
     template <class T> void addTask(T f) {
 
         std::unique_lock lk(mutex_);
-        //tasks.emplace(f);
+        // tasks.emplace(f);
         tasks.push(f);
         cond_.notify_one();
     }
     ~thread_pool() {
+        stop();
         cond_.notify_all();
         for (auto &x : threads)
             x.join();
@@ -219,10 +234,10 @@ class TIMERAPI thread_pool {
 
   private:
     thread_pool() {
-        //int threadNum = std::thread::hardware_concurrency() * 2 + 2;
-        int threadNum =1;
+        // int threadNum = std::thread::hardware_concurrency() * 2 + 2;
+        int threadNum = 1;
         for (int i = 0; i < threadNum; i++) {
-            threads.emplace_back(threadFunc, this);
+            threads.emplace_back(&thread_pool::threadFunc, this);
         }
     }
     void threadFunc() {
@@ -230,16 +245,17 @@ class TIMERAPI thread_pool {
         while (!isStop) {
             lk.lock();
             cond_.wait(lk, [this]() { return isStop || !tasks.empty(); });
-            if (isStop && tasks.empty()) {
-               lk.unlock();
+            // if (isStop && tasks.empty()) {
+            if (isStop ) {
+                lk.unlock();
                 break;
-            }           
+            }
             xlib::TimeManager::DelayTask *task = tasks.front();
             tasks.pop();
             lk.unlock();
             (*task)();
-            
         }
+        printf("%d\n",isStop);
     }
 
     std::vector<std::thread> threads;
