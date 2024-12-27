@@ -138,7 +138,7 @@ class GGameInterface : public GObject {
         worldActive = nullptr;
     }
     virtual void renderLoop2D() = 0;
-    static GGameInterface *&getGameIns() { return gameIns; }
+    static GGameInterface *getGameIns() { return gameIns; }
     static void setGameIns(GGameInterface *ptr) { gameIns = ptr; }
     GWorldInterface *getWorldActive() { return worldActive; }
     // 说明： createWorld(new worldclass);
@@ -146,10 +146,6 @@ class GGameInterface : public GObject {
     GWorldInterface *createWorld(GWorldInterface *newWorld);
 };
 inline GGameInterface *GGameInterface::gameIns = nullptr;
-inline GGameInterface *&getGameIns() { return GGameInterface::getGameIns(); }
-inline void setGameIns(class GGameInterface *game_) {
-    GGameInterface::setGameIns(game_);
-}
 
 inline GWorldInterface *GGameInterface::createWorld(GWorldInterface *newWorld) {
     delete worldActive;

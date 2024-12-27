@@ -17,6 +17,7 @@ gametest::gametest(/* args */)
     // world1 = new worldTest("res/datalist/world/wtest.json");
     // setWorld(world1);
     createWorld(new worldTest("res/datalist/world/wtest.json"));
+    printf("%p\n%p",GGameInterface::getGameIns(),Game::gameIns);
     gameBegin();    
 }
 gametest::gametest(std::string path_)
