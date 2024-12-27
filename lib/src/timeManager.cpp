@@ -75,11 +75,6 @@ TimeManager::~TimeManager() {
     printf("TimerManagerReleased\n");   
 }
 
-// TimeManager &getTimer() {
-//     static TimeManager timerIns;
-//     return timerIns;
-// }
-
 } // namespace xlib
 
 bool canRun::delay(int delayTime) {
