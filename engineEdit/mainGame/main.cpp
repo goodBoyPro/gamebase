@@ -4,12 +4,12 @@
 #if 1
 int main() {
     system("chcp 65001");
-    // mylib::ProgramMutex proMut(L"main");
-    // if(proMut.isOtherProgramOn())
-    //     return 0;
+    mylib::ProgramMutex proMut(L"main");
+    if(proMut.isOtherProgramOn())
+        return 0;
     
-    // initTools();
-    // gametest g;
+    initTools();
+    gametest g;
     // std::atomic<int>a=0;
     // std::atomic<bool>b=false;
     // xlib::getTimer().setPause(false);
