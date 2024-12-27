@@ -38,14 +38,14 @@ class Playertest : public GPlayerChar {
     void eventTick() {
 
         PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
-        PRINTDEBUG(L"场景对象数量：%d", gridMapOfActor.getActorsNumber());
+        PRINTDEBUG(L"场景对象数量：%d", GGameInterface::getGameIns()->getWorldActive()->spaceManager->getActorsNumber());
         PRINTDEBUG(
             L"键鼠位置：%f,%f",
             winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow))).x,
             winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow))).y);
         PRINTDEBUG(L"玩家位置：%f,%f", getPosInWs().x, getPosInWs().y);
         PRINTDEBUG(L"玩家节点：%d,%d", mapNodeId,
-                   gridMapOfActor.getPositionIndex(getPosInWs()));
+                   GGameInterface::getGameIns()->getWorldActive()->spaceManager->getPositionIndex(getPosInWs()));
         PRINTDEBUG(L"像素尺寸：%f", pixSize);
     }
     GComponentAnimation *aniCom;

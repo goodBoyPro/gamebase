@@ -82,14 +82,14 @@ void Game::renderLoop2D() {
         // 绘制actor
         GCameraInterface::posForDraw =
             GCameraInterface::getGameCamera()->posInWs;
-        GActor::gridMapOfActor.setActorsAlive(getPlayerCharactor()->mapNodeId);
-        for (auto elem : GActor::gridMapOfActor.actorsAlive) {
+        GGameInterface::getGameIns()->getWorldActive()->spaceManager->setActorsAlive(getPlayerCharactor()->mapNodeId);
+        for (auto elem : GGameInterface::getGameIns()->getWorldActive()->spaceManager->actorsAlive) {
             elem->eventTick();
             elem->dataLoop();
             elem->drawActor(window_);
         }
 
-        GActor::gridMapOfActor.actorsAlive.clear();
+        GGameInterface::getGameIns()->getWorldActive()->spaceManager->actorsAlive.clear();
 
         // 绘制UI
         if (getWidgetPtr()) {

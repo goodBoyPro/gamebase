@@ -5,8 +5,8 @@
 sf::Texture GActor::texDefault;
 sf::Sprite GActor::spriteDefault;
 long GActor::drawCallNum = 0;
-GridMap<GActor *> GActor::gridMapOfActor = {FVector2(-10.f, -10.f), 500, 500,
-                                            5.f, 5.f};
+// GridMap<GActor *> GActor::gridMapOfActor = {FVector2(-10.f, -10.f), 500, 500,
+//                                             5.f, 5.f};
 void GActor::eventTick() {}
 
 void GActor::dataLoop() {
@@ -30,7 +30,7 @@ void GActor::setPosInWs(const FVector3 pos_) {
     // std::shared_lock lk(gridMapOfActor.sortMut);
     if (isAllAsyncTaskCanceled)
         return;
-    int id = GActor::gridMapOfActor.getPositionIndex(pos_);
+    int id = GGameInterface::getGameIns()->getWorldActive()->spaceManager->getPositionIndex(pos_);
     if (!id)
         return;
 
@@ -44,7 +44,7 @@ void GActor::setPosInWs(const FVector3 pos_) {
         collisionForMove->setPosition(pos_);
 
     if (id != mapNodeId) {
-        GActor::gridMapOfActor.changeActorNode(this, id, mapNodeId);
+        GGameInterface::getGameIns()->getWorldActive()->spaceManager->changeActorNode(this, id, mapNodeId);
         mapNodeId = id;
     }
 }
@@ -93,7 +93,7 @@ GActor::GActor() {
     }();
     setRenderSprite(&__spr____);
     //////////////////////
-    mapNodeId = gridMapOfActor.addActor(this);
+    mapNodeId = GGameInterface::getGameIns()->getWorldActive()->spaceManager->addActor(this);
     /////////////////////
 }
 

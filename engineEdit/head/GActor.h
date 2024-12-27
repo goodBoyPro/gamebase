@@ -21,7 +21,7 @@ class GActor : public GObject {
     void setSizeInWs(const FVector3 &size_) { sizeInWs = size_; }
     int mapNodeId;
     static long drawCallNum;
-    static GridMap<GActor *> gridMapOfActor;
+    // static GridMap<GActor *> gridMapOfActor;
     virtual void eventBegin() = 0;
     virtual void eventTick() = 0;
     //

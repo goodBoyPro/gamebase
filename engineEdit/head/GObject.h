@@ -109,7 +109,7 @@ inline FVector3 winToWs(const IVector &positionInWin) {
 class GWorldInterface : public GObject {
   public:
     GridMap<GActor *> *spaceManager = nullptr;
-    GWorldInterface() {}
+    GWorldInterface();
     virtual ~GWorldInterface() { delete spaceManager; }
     void createSpaceManager() {
         delete spaceManager;
@@ -142,16 +142,19 @@ class GGameInterface : public GObject {
     static void setGameIns(GGameInterface *ptr) { gameIns = ptr; }
     GWorldInterface *getWorldActive() { return worldActive; }
     // 说明： createWorld(new worldclass);
-    
     GWorldInterface *createWorld(GWorldInterface *newWorld);
+    void setWorldActive(GWorldInterface *ptr) { worldActive = ptr; }
 };
 inline GGameInterface *GGameInterface::gameIns = nullptr;
 
 inline GWorldInterface *GGameInterface::createWorld(GWorldInterface *newWorld) {
-    delete worldActive;
-    worldActive = newWorld;
+
     return newWorld;
 }
+//全局世界指针需要在最开始设置，而不能在创建完成后设置
+inline GWorldInterface::GWorldInterface(){
+    GGameInterface::getGameIns()->setWorldActive(this);
+};
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////widgetInterface///////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
