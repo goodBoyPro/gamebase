@@ -24,7 +24,7 @@ add_executable(${PROJECT_NAME}  ${src}
 target_link_libraries(${PROJECT_NAME} opengl32 sfml-graphics sfml-window sfml-system sfml-audio timemanager winmm glew32 glfw3dll)
 endif()
 #编辑器exe
-if(1)
+if(0)
 link_directories(${ABS_DIR}/gamebase/lib/outlib
                 ${ABS_DIR}/gamebase/extern/lib
                 ${ABS_DIR}/gamebase/extern/lib/sfml)
@@ -34,7 +34,7 @@ target_include_directories(${PROJECT_NAME}Editor  PUBLIC ${ABS_DIR}/gamebase/eng
 target_link_libraries(${PROJECT_NAME}Editor opengl32 sfml-graphics sfml-window sfml-system sfml-audio timemanager winmm glew32 glfw3dll ws2_32)
 endif()
 #生成库文件
-if(0)  
+if(1)  
 add_definitions(-DEXPORT )
 set(libname timeManager)#设置
 add_library(${libname} SHARED ${ABS_DIR}/gamebase/lib/src/${libname}.cpp)#设置

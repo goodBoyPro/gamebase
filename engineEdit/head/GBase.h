@@ -1,4 +1,4 @@
-
+#include<predefine.h>
 // 声明全局变量和预定义
 #ifndef GBASE_H
 #define GBASE_H

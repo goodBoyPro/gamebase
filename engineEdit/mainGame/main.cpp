@@ -4,14 +4,18 @@
 #if 1
 int main() {
     system("chcp 65001");
-    mylib::ProgramMutex proMut(L"main");
-    if(proMut.isOtherProgramOn())
-        return 0;
+    // mylib::ProgramMutex proMut(L"main");
+    // if(proMut.isOtherProgramOn())
+    //     return 0;
     
-    initTools();
-    gametest g;
+    // initTools();
+    // gametest g;
+    // std::atomic<int>a=0;
+    // std::atomic<bool>b=false;
+    // xlib::getTimer().setPause(false);
+    // xlib::getTimer().addTaskSafe(getTime(),50,100,&a,&b,[](){printf("testttttttttttttttttttttttttt\n");});
+    // Sleep(6000);
     xlib::getTimer().stop();
-    Sleep(1000);
     printf("\nprogram has ended without error\n");
     return 0;
 }

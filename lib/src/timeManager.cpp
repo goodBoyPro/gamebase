@@ -21,17 +21,18 @@ namespace xlib {
 void TimeManager::loop() {
     std::unique_lock lk(mut_, std::defer_lock);
     thread_pool &tp = thread_pool::getThreadPool();
-    while (brun) {
+    while (true) {
         // 动态调整计算频率
         if (isPaused)
             continue;
         static int timecost = 0;
         int a = getTime();
+        
         lk.lock();
         cond_.wait(lk, [this]() { return (!tasks.empty())||(!brun); });
-        if(!brun){
+        if(!brun){     
             lk.unlock();
-            printf("timerManager released\n");
+            
             break;}
         it = tasks.begin();
         static int temp = getTime();
@@ -58,26 +59,26 @@ void TimeManager::loop() {
         //  频率越高性能越差的原因找到了：clock()在切换到别的线程时不计时，被其他线程高频抢占cpu,时间看起来变慢了
         timecost = getTime() - a;
         if (timecost < 1) {
-            threadSleep(1);
+            // threadSleep(1);
         }
     }
-    
 }
 
 bool TimeManager::bCont() { return false; }
 
 TimeManager::TimeManager() {
-    t1 = new std::thread(loop, this);
+    t1 = new std::thread(&TimeManager::loop, this);
 }
-TimeManager::~TimeManager() {    
+TimeManager::~TimeManager() { 
     t1->join();
-    delete t1;  
+    delete t1; 
+    printf("TimerManagerReleased\n");   
 }
 
-TimeManager &getTimer() {
-    static TimeManager timerIns;
-    return timerIns;
-}
+// TimeManager &getTimer() {
+//     static TimeManager timerIns;
+//     return timerIns;
+// }
 
 } // namespace xlib
 

@@ -50,7 +50,6 @@ class Playertest : public GPlayerChar {
     }
     GComponentAnimation *aniCom;
     Playertest() {
-       
         createActorComponent<actorComponentTest>(new actorComponentTest);
         // GTalk *gt = createActorComponent<GTalk>(new GTalk);
         // gt->setRelativePosition({0, -0.001, 1});

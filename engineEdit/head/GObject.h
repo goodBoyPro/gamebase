@@ -153,6 +153,7 @@ inline GWorldInterface *GGameInterface::createWorld(GWorldInterface *newWorld) {
 }
 //全局世界指针需要在最开始设置，而不能在创建完成后设置
 inline GWorldInterface::GWorldInterface(){
+  delete     GGameInterface::getGameIns()->getWorldActive();
     GGameInterface::getGameIns()->setWorldActive(this);
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

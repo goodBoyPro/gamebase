@@ -55,7 +55,7 @@ class TIMERAPI TimeManager {
     typedef DelayTask delaytaskPtr;
 
     void stop() {brun=false;
-    cond_.notify_all(); }
+    cond_.notify_one(); }
 
   private:
     // 单例模式
@@ -78,6 +78,7 @@ class TIMERAPI TimeManager {
     ~TimeManager();
     bool TIMERAPI bCont();
     void setPause(bool pause_) { isPaused = pause_; }
+    void clearAllTasks(){std::unique_lock lk(mut_);tasks.clear();};
     template <class T>
     DelayTask *addTask(int time0, int timeDelay, int times, T funcPtr_) {
 
@@ -99,7 +100,8 @@ class TIMERAPI TimeManager {
         return x;
     }
 };
-TIMERAPI TimeManager &getTimer();
+inline TimeManager &getTimer(){static TimeManager timerIns;
+    return timerIns;};
 
 } // namespace xlib
 

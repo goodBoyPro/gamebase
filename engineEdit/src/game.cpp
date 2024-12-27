@@ -59,6 +59,9 @@ void Game::dataLoop() {
 
         deltaTime = GetTickCount() - timeFlag;
     } // while
+    #ifdef GAMEDEBUG
+    printf("dataloop stoped\n");
+    #endif
 }
 
 void Game::renderLoop2D() {
@@ -111,6 +114,11 @@ void Game::renderLoop2D() {
 
     }// while 
     window_.close();
+    xlib::getTimer().setPause(true);
+    delete getGameIns()->getWorldActive();
+    getGameIns()->setWorldActive(nullptr);
+    xlib::getTimer().clearAllTasks();
+    xlib::getTimer().setPause(false);
 }
 void Game::setWinIcon(sf::RenderWindow &window_) {
     sf::Image ic;
