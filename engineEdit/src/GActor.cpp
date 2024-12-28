@@ -41,7 +41,7 @@ void GActor::setPosInWs(const FVector3 pos_) {
     }
     // 绑定碰撞
     if (collisionForMove)
-        collisionForMove->setPosition(pos_);
+        // collisionForMove->setPosition(pos_);
 
     if (id != mapNodeId) {
         GGameInterface::getGameIns()->getWorldActive()->spaceManager->changeActorNode(this, id, mapNodeId);
@@ -56,9 +56,9 @@ sf::Sprite *GActor::getRenderSprite() { return sprPt; }
 bool GActor::addWsPosOffset(const FVector3 &vec) {
     if (collisionForMove && collisionForMove->isCollisionOn()) {
         FVector3 testPos = getPosInWs() + vec;
-        collisionForMove->setPosition(testPos);
+        // collisionForMove->setPosition(testPos);
         if (collisionForMove->isStock()) {
-            collisionForMove->setPosition(getPosInWs());
+            // collisionForMove->setPosition(getPosInWs());
             return 0;
         } else {
             setPosInWs(testPos);
@@ -69,9 +69,9 @@ bool GActor::addWsPosOffset(const FVector3 &vec) {
     return 1;
 }
 
-void GActor::drawActor(sf::RenderWindow&window_) {
+void GActor::drawActor(sf::RenderWindow&window_,const FVector3&cameraPos_) {
 
-    IVector psInWin = wsToWin(posInWs);
+    IVector psInWin = wsToWin(posInWs,cameraPos_);
     (sprPt)->setPosition(psInWin.x, psInWin.y);
     float xScale =
         sizeInWs.x / pixSize / sprPt->getLocalBounds().getSize().x;

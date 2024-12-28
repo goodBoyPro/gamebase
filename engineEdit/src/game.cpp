@@ -83,13 +83,13 @@ void Game::renderLoop2D() {
         if (getWorld())
             getWorld()->drawLoop();
         // 绘制actor
-        GCameraInterface::posForDraw =
+        FVector3 posForDraw =
             GCameraInterface::getGameCamera()->posInWs;
         GGameInterface::getGameIns()->getWorldActive()->spaceManager->setActorsAlive(getPlayerCharactor()->mapNodeId);
         for (auto elem : GGameInterface::getGameIns()->getWorldActive()->spaceManager->actorsAlive) {
             elem->eventTick();
             elem->dataLoop();
-            elem->drawActor(window_);
+            elem->drawActor(window_,posForDraw);
         }
 
         GGameInterface::getGameIns()->getWorldActive()->spaceManager->actorsAlive.clear();
@@ -103,7 +103,7 @@ void Game::renderLoop2D() {
         if (mousePtr)
             mousePtr->drawMouseCusor(window_);
         // 显示碰撞
-        GCollision::showCollisions(window_);
+        GCollision::showCollisions(window_,posForDraw);
         // 显示DEBUG////////////////////////////////
         GDebug::debugDisplay(window_);
         PRINTDEBUG(L"drawCall:%ld", GActor::drawCallNum);

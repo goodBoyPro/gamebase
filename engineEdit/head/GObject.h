@@ -70,8 +70,7 @@ class GCameraInterface : public GObject {
   private:
     static GCameraInterface *gameCameraX;
 
-    friend IVector wsToWin(const FVector3 &PositionInWS);
-    friend FVector3 winToWs(const IVector &positionInWin);
+  
 
   public:
     static float sceneScale;
@@ -91,10 +90,10 @@ inline void setGameCamera(class GCameraInterface *camera_) {
 inline GCameraInterface *getGameCamera() {
     return GCameraInterface::getGameCamera();
 }
-inline IVector wsToWin(const FVector3 &PositionInWS) {
-    return {((PositionInWS.x - GCameraInterface::posForDraw.x) / pixSize +
+inline IVector wsToWin(const FVector3 &PositionInWS,const FVector3& cameraPos_) {
+    return {((PositionInWS.x - cameraPos_.x) / pixSize +
              WINW / 2.f),
-            ((PositionInWS.y - GCameraInterface::posForDraw.y) / pixSize +
+            ((PositionInWS.y - cameraPos_.y) / pixSize +
              WINH / 2.f - (PositionInWS.z / pixSize))};
 }
 inline FVector3 winToWs(const IVector &positionInWin) {

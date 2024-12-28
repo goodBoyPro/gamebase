@@ -55,8 +55,8 @@ class WindowFlag {
         shape.setPoint(2, {-4, 4});
         shape.setFillColor(sf::Color(0, 255, 0, 255));
     }
-    void draw(sf::RenderWindow &window_) {
-        IVector piwin = wsToWin(flag.posInWs);
+    void draw(sf::RenderWindow &window_, const FVector3 cameraPos_) {
+        IVector piwin = wsToWin(flag.posInWs, cameraPos_);
         flag.shape.setPosition(piwin.x, piwin.y);
         window_.draw(flag.shape);
     };
@@ -196,8 +196,8 @@ class MovableEditObj : public Info {
         shapeForSelect.setOutlineColor(sf::Color(255, 255, 0));
         shapeForSelect.setOutlineThickness(3);
     }
-    virtual void draw(sf::RenderWindow &window_) {
-        psInWin = wsToWin(posInWs);
+    virtual void draw(sf::RenderWindow &window_, const FVector3 &cameraPos_) {
+        psInWin = wsToWin(posInWs, cameraPos_);
         spr.setPosition(psInWin.x, psInWin.y);
         float xS = sizeInWs.x / pixSize / spr.getLocalBounds().getSize().x;
         float yS = sizeInWs.y / pixSize / spr.getLocalBounds().getSize().y;
@@ -257,8 +257,8 @@ class Actor : public MovableEditObj {
     Actor(int fileId_, int picIndex_) : MovableEditObj(fileId_, picIndex_) {
         type = nsReg::eActorStatic;
     }
-    virtual void draw(sf::RenderWindow &window_) {
-        MovableEditObj::draw(window_);
+    virtual void draw(sf::RenderWindow &window_, const FVector3 &cameraPos_) {
+        MovableEditObj::draw(window_, cameraPos_);
     }
 };
 class LandBlock : public MovableEditObj {
@@ -312,8 +312,8 @@ class LandBlock : public MovableEditObj {
         spr.setScale(r, r);
         shapeBound.setScale(r, r);
     }
-    virtual void draw(sf::RenderWindow &window_) {
-        MovableEditObj::draw(window_);
+    virtual void draw(sf::RenderWindow &window_, const FVector3 &cameraPos_) {
+        MovableEditObj::draw(window_, cameraPos_);
     }
 };
 inline FVector3 LandBlock::beginPoint = {-100, -100, 0};
@@ -332,20 +332,24 @@ class Editor {
     Editor() {
         initTools();
 
-        windowEditor =new sf::RenderWindow(sf::VideoMode(WINW, WINH), "editor");
+        windowEditor =
+            new sf::RenderWindow(sf::VideoMode(WINW, WINH), "editor");
         setCommand();
         // std::thread tInput(&editorCommand::loop, &editorCommand::edc);
         loop();
         // tInput.join();
     }
     ~Editor() { delete windowEditor; }
-    static void openPad(){}
+    static void openPad() {}
     void loop() {
         sf::RenderWindow &window = *windowEditor;
         window.setPosition(IVector(100, 100));
         auto it = MovableEditObj::allMEO.begin();
         std::multiset<MovableEditObj *, MovableEditObj::Compare> allObj;
         while (window.isOpen()) {
+            FVector3 cameraPosForRender =
+                winToWs({EditorCamera::editorCamera.posInWs.x,
+                         EditorCamera::editorCamera.posInWs.y});
             MovableEditObj::updateMouseState(window);
             if (window.pollEvent(event) && window.hasFocus()) {
                 if (event.type == sf::Event::Closed)
@@ -406,10 +410,8 @@ class Editor {
                        winToWs(sf::Mouse::getPosition(window)).x,
                        winToWs(sf::Mouse::getPosition(window)).y);
             PRINTDEBUG(L"对象总数:%d", MovableEditObj::allMEO.size());
-            GCameraInterface::posForDraw =
-                GCameraInterface::getGameCamera()->posInWs;
             for (auto obj : allObj) {
-                obj->draw(window);
+                obj->draw(window, cameraPosForRender);
             }
 
             for (auto obj : allObj) {
@@ -423,7 +425,7 @@ class Editor {
 
             MovableEditObj::drawBounds(window);
             SelectRect::rect.draw(window);
-            WindowFlag::flag.draw(window);
+            WindowFlag::flag.draw(window, cameraPosForRender);
             // 显示DEBUG////////////////////////////////
             GDebug::debugDisplay(window);
             window.display();

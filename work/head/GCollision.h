@@ -58,18 +58,18 @@ class CollisionInterface : public GComponent {
     virtual bool isStock() = 0;
     virtual bool test(CollisionInterface *other) = 0;
     static std::set<CollisionInterface *> allCollisions;
-    static void showCollisions(sf::RenderWindow&window_) {
+    static void showCollisions(sf::RenderWindow&window_,const FVector3&cameraPos_) {
         for (auto c : allCollisions) {
-          IVector pos = wsToWin(c->position);
+          IVector pos = wsToWin(c->position,cameraPos_);
             c->poly->shape->setPosition(pos.x, pos.y);
             window_.draw(*c->poly->shape);
             
         }
     }
     FVector3 &getPosition() { return position; }
-    void setPosition(const FVector3 &position_) {
+    void setPosition(const FVector3 &position_,const FVector3&cameraPos_) {
         position = position_;
-        IVector pos = wsToWin(position_);
+        IVector pos = wsToWin(position_,cameraPos_);
         poly->shape->setPosition(pos.x, pos.y);
     }
     float getRadius() { return radius; }
@@ -89,7 +89,7 @@ class GCollision : public CollisionInterface {
   public:
     GCollision() = default;
     GCollision(float radius_, FVector3 position_) {
-        setPosition(position_);
+        // setPosition(position_);
         setRadius(radius_);
     }
     virtual bool test(CollisionInterface *other) override {

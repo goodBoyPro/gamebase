@@ -27,8 +27,8 @@ class GTalk : public GActorComponent {
     int strFlag = 0;
     canRun cr;
     canRun sr;
-    virtual void drawActor(sf::RenderWindow&window_) override {
-        GActor::drawActor(window_);
+    virtual void drawActor(sf::RenderWindow&window_,const FVector3&cameraPos_) override {
+        GActor::drawActor(window_,cameraPos_);
         setContent(window_);
     }
     void setContent(sf::RenderWindow&window_) {
