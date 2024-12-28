@@ -160,9 +160,9 @@ void Editor::setCommand() {
     };
     editorCommand::edc.command["emulator"] = []() {
         std::thread t([]() {
-            GCameraInterface *temp = GCameraInterface::getGameCamera();
+            
             gameEmulator(editorCommand::edc.input[1]);
-            GCameraInterface::setGameCamera(temp);
+            
         });
         t.join();
     };

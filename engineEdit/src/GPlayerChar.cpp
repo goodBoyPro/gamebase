@@ -38,8 +38,7 @@ GPlayerChar::GPlayerChar() {
         if (!isMouseMove)
             move({0, 0,0}, 0);
     };
-    GComponentCamera*cameraComPtr=createActorComponent(new GComponentCamera);
-    setGameCamera(&(cameraComPtr->camera));
+    cameraComPtr=createActorComponent(new GComponentCamera);
     
 }
 
@@ -73,7 +72,7 @@ void GPlayerChar::moveRight(float value) {
 
 void GPlayerChar::setPosMouse(sf::RenderWindow&window_,float value) {
     isMouseMove = 1;
-    posMouseClicked = winToWs(sf::Mouse::getPosition(window_));
+    posMouseClicked = winToWs(sf::Mouse::getPosition(window_),cameraComPtr->camera.posInWs);
 }
 
 void GPlayerChar::moveToMouse() {

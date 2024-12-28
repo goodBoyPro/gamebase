@@ -20,8 +20,7 @@ class GPlayerChar : public GActorWithAnim {
    
 
   public:
- 
-
+    GComponentCamera *cameraComPtr = nullptr;
     GPlayerChar(/* args */);
     virtual ~GPlayerChar();
     class GController *controller = nullptr;

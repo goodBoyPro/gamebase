@@ -33,7 +33,7 @@ class Info {
 ////////////////////////////////////////////////////////////////////////////////////////////////
 class EditorCamera : public GCameraInterface {
   public:
-    EditorCamera() { GCameraInterface::setGameCamera(this); }
+    EditorCamera() {}
     static EditorCamera editorCamera;
     static void pollKey(sf::Event &event) {}
 };
@@ -227,7 +227,7 @@ class MovableEditObj : public Info {
 
     static void pollKeyActorMdoe(sf::RenderWindow &window_, sf::Event &event_);
     static void pollKeyLandMdoe(sf::RenderWindow &window_, sf::Event &event_);
-    static void pollKey(sf::RenderWindow &window_, sf::Event &event_);
+    static void pollKey(sf::RenderWindow &window_, sf::Event &event_,const FVector3 &cameraPos_);
     void returnMessage() {
         const std::string &msg = nsg::combineStrings(
             {"selected ", std::to_string(sizeInWs.x), " ",
@@ -347,9 +347,7 @@ class Editor {
         auto it = MovableEditObj::allMEO.begin();
         std::multiset<MovableEditObj *, MovableEditObj::Compare> allObj;
         while (window.isOpen()) {
-            FVector3 cameraPosForRender =
-                winToWs({EditorCamera::editorCamera.posInWs.x,
-                         EditorCamera::editorCamera.posInWs.y});
+            FVector3 cameraPosForRender = EditorCamera::editorCamera.posInWs;
             MovableEditObj::updateMouseState(window);
             if (window.pollEvent(event) && window.hasFocus()) {
                 if (event.type == sf::Event::Closed)
@@ -366,7 +364,7 @@ class Editor {
                         break;
                     }
                 }
-                MovableEditObj::pollKey(window, event);
+                MovableEditObj::pollKey(window, event,cameraPosForRender);
                 if (editMode == ACTORMODE) {
                     MovableEditObj::pollKeyActorMdoe(window, event);
                 } else if (editMode == LANDMODE) {
@@ -407,8 +405,8 @@ class Editor {
             }
             PRINTDEBUG(L"%S", temp);
             PRINTDEBUG(L"键鼠位置：%f,%f",
-                       winToWs(sf::Mouse::getPosition(window)).x,
-                       winToWs(sf::Mouse::getPosition(window)).y);
+                       winToWs(sf::Mouse::getPosition(window),cameraPosForRender).x,
+                       winToWs(sf::Mouse::getPosition(window),cameraPosForRender).y);
             PRINTDEBUG(L"对象总数:%d", MovableEditObj::allMEO.size());
             for (auto obj : allObj) {
                 obj->draw(window, cameraPosForRender);

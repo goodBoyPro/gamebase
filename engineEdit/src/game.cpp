@@ -24,7 +24,6 @@ sf::RenderTexture *createRenderTexGl(sf::RenderWindow *window) {
     return &rt;
 }
 
-
 Game::Game() {
     // 首先调用来初始化opengl
     // window = new sf::RenderWindow(sf::VideoMode(WINW, WINH), "game");
@@ -59,9 +58,9 @@ void Game::dataLoop() {
 
         deltaTime = GetTickCount() - timeFlag;
     } // while
-    #ifdef GAMEDEBUG
+#ifdef GAMEDEBUG
     printf("dataloop stoped\n");
-    #endif
+#endif
 }
 
 void Game::renderLoop2D() {
@@ -70,9 +69,9 @@ void Game::renderLoop2D() {
     std::vector<GControllerInterface *> &allController =
         GControllerInterface::getAllController();
     xlib::getTimer().setPause(false);
-    while (bGameContinue&&window_.isOpen()) {
-        
-        getPlayerController()->pollKey(window_,event);
+    while (bGameContinue && window_.isOpen()) {
+
+        getPlayerController()->pollKey(window_, event);
         // for(auto ctrl:allController){
         //     if(ctrl)
         //         ctrl->pollKey();
@@ -83,16 +82,25 @@ void Game::renderLoop2D() {
         if (getWorld())
             getWorld()->drawLoop();
         // 绘制actor
-        FVector3 posForDraw =
-            GCameraInterface::getGameCamera()->posInWs;
-        GGameInterface::getGameIns()->getWorldActive()->spaceManager->setActorsAlive(getPlayerCharactor()->mapNodeId);
-        for (auto elem : GGameInterface::getGameIns()->getWorldActive()->spaceManager->actorsAlive) {
+        FVector3 posForDraw = getPlayerCharactor()->cameraComPtr->camera.posInWs;
+        PRINTDEBUG(
+            L"键鼠位置：%f,%f",
+            winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow)),posForDraw).x,
+            winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow)),posForDraw).y);
+        GGameInterface::getGameIns()
+            ->getWorldActive()
+            ->spaceManager->setActorsAlive(getPlayerCharactor()->mapNodeId);
+        for (auto elem : GGameInterface::getGameIns()
+                             ->getWorldActive()
+                             ->spaceManager->actorsAlive) {
             elem->eventTick();
             elem->dataLoop();
-            elem->drawActor(window_,posForDraw);
+            elem->drawActor(window_, posForDraw);
         }
 
-        GGameInterface::getGameIns()->getWorldActive()->spaceManager->actorsAlive.clear();
+        GGameInterface::getGameIns()
+            ->getWorldActive()
+            ->spaceManager->actorsAlive.clear();
 
         // 绘制UI
         if (getWidgetPtr()) {
@@ -103,7 +111,7 @@ void Game::renderLoop2D() {
         if (mousePtr)
             mousePtr->drawMouseCusor(window_);
         // 显示碰撞
-        GCollision::showCollisions(window_,posForDraw);
+        GCollision::showCollisions(window_, posForDraw);
         // 显示DEBUG////////////////////////////////
         GDebug::debugDisplay(window_);
         PRINTDEBUG(L"drawCall:%ld", GActor::drawCallNum);
@@ -112,7 +120,7 @@ void Game::renderLoop2D() {
         window_.display();
         window_.clear();
 
-    }// while 
+    } // while
     window_.close();
     xlib::getTimer().setPause(true);
     delete getGameIns()->getWorldActive();

@@ -30,7 +30,9 @@ void GActor::setPosInWs(const FVector3 pos_) {
     // std::shared_lock lk(gridMapOfActor.sortMut);
     if (isAllAsyncTaskCanceled)
         return;
-    int id = GGameInterface::getGameIns()->getWorldActive()->spaceManager->getPositionIndex(pos_);
+    int id = GGameInterface::getGameIns()
+                 ->getWorldActive()
+                 ->spaceManager->getPositionIndex(pos_);
     if (!id)
         return;
 
@@ -43,10 +45,12 @@ void GActor::setPosInWs(const FVector3 pos_) {
     if (collisionForMove)
         // collisionForMove->setPosition(pos_);
 
-    if (id != mapNodeId) {
-        GGameInterface::getGameIns()->getWorldActive()->spaceManager->changeActorNode(this, id, mapNodeId);
-        mapNodeId = id;
-    }
+        if (id != mapNodeId) {
+            GGameInterface::getGameIns()
+                ->getWorldActive()
+                ->spaceManager->changeActorNode(this, id, mapNodeId);
+            mapNodeId = id;
+        }
 }
 
 void GActor::setRenderSprite(sf::Sprite *sprPt_) { sprPt = sprPt_; }
@@ -69,15 +73,13 @@ bool GActor::addWsPosOffset(const FVector3 &vec) {
     return 1;
 }
 
-void GActor::drawActor(sf::RenderWindow&window_,const FVector3&cameraPos_) {
+void GActor::drawActor(sf::RenderWindow &window_, const FVector3 &cameraPos_) {
 
-    IVector psInWin = wsToWin(posInWs,cameraPos_);
+    IVector psInWin = wsToWin(posInWs, cameraPos_);
     (sprPt)->setPosition(psInWin.x, psInWin.y);
-    float xScale =
-        sizeInWs.x / pixSize / sprPt->getLocalBounds().getSize().x;
-    float yScale =
-        sizeInWs.y / pixSize / sprPt->getLocalBounds().getSize().y;
-    sprPt->setScale(xScale,yScale);
+    float xScale = sizeInWs.x / pixSize / sprPt->getLocalBounds().getSize().x;
+    float yScale = sizeInWs.y / pixSize / sprPt->getLocalBounds().getSize().y;
+    sprPt->setScale(xScale, yScale);
     window_.draw(*sprPt);
     drawCallNum++;
 }
@@ -93,22 +95,25 @@ GActor::GActor() {
     }();
     setRenderSprite(&__spr____);
     //////////////////////
-    mapNodeId = GGameInterface::getGameIns()->getWorldActive()->spaceManager->addActor(this);
+    mapNodeId =
+        GGameInterface::getGameIns()->getWorldActive()->spaceManager->addActor(
+            this);
     /////////////////////
 }
 
 GActor::~GActor() {
-       for (auto component : allComponents)
-        {
-            delete component;
-            component = nullptr;
-        }
-        for (auto component : allActorComponents)
-        {
+    for (auto component : allComponents) {
+        delete component;
+        component = nullptr;
+    }
+    if (GGameInterface::getGameIns()
+            ->getWorldActive()
+            ->spaceManager->noteToActor)
+        for (auto component : allActorComponents) {
             component->destroyActor();
             component = nullptr;
         }
-        for (auto task : allDelaytasks){
-            delete task;
-        }
+    for (auto task : allDelaytasks) {
+        delete task;
+    }
 }

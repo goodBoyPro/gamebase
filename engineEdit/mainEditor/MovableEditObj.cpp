@@ -128,7 +128,7 @@ void MovableEditObj::pollKeyLandMdoe(sf::RenderWindow &window_,
         SelectRect::rect.bSetBegin = true;
     }
 }
-void MovableEditObj::pollKey(sf::RenderWindow &window_, sf::Event &event_) {
+void MovableEditObj::pollKey(sf::RenderWindow &window_, sf::Event &event_,const FVector3 &cameraPos_) {
 
     if (event_.type == sf::Event::MouseWheelScrolled) {
         float delta = event_.mouseWheelScroll.delta;
@@ -149,8 +149,8 @@ void MovableEditObj::pollKey(sf::RenderWindow &window_, sf::Event &event_) {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
         if (window_.hasFocus())
             WindowFlag::flag.posInWs = {
-                winToWs(sf::Mouse::getPosition(window_)).x,
-                winToWs(sf::Mouse::getPosition(window_)).y, 0};
+                winToWs(sf::Mouse::getPosition(window_),cameraPos_).x,
+                winToWs(sf::Mouse::getPosition(window_),cameraPos_).y, 0};
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
         EditorCamera::editorCamera.posInWs -= deltaWorldMove;

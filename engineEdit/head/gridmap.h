@@ -169,8 +169,10 @@ template <class T> class GridMap {
 
         return a;
     }
-
+    //actor在游戏中释放和在此处释放行为要有区别，这里的释放可能会访问已经释放的actor，用这个标记通知
+    bool noteToActor = true;
     ~GridMap() {
+        noteToActor = false;
         delete[] allNode;
         printf("releasedActorNumber:%d\n", releasedActorNum);
     }
