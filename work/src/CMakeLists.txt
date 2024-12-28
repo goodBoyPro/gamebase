@@ -24,7 +24,7 @@ add_executable(${PROJECT_NAME}  ${src}
 target_link_libraries(${PROJECT_NAME} opengl32 sfml-graphics sfml-window sfml-system sfml-audio timemanager winmm glew32 glfw3dll)
 endif()
 #编辑器exe
-if(0)
+if(1)
 link_directories(${ABS_DIR}/gamebase/lib/outlib
                 ${ABS_DIR}/gamebase/extern/lib
                 ${ABS_DIR}/gamebase/extern/lib/sfml)

@@ -2,9 +2,9 @@
 #include <chrono>
 #include <timeManager.h>
 #include <windows.h>
-
-// thread_pool thread_pool::ThreadPool;
-// 时间流
+// 注意 头文件中定义的全局对象，单例对象在跨dll时可能会生成不同实例
+//  thread_pool thread_pool::ThreadPool;
+//  时间流
 float timeScale = 1.f;
 int ts1 = 2;
 unsigned int getTime() {
@@ -17,6 +17,10 @@ unsigned int getTime() {
     //  return GetTickCount64();
 }
 namespace xlib {
+TimeManager &getTimer() {
+    static TimeManager timerIns;
+    return timerIns;
+};
 
 void TimeManager::loop() {
     std::unique_lock lk(mut_, std::defer_lock);
@@ -27,13 +31,14 @@ void TimeManager::loop() {
             continue;
         static int timecost = 0;
         int a = getTime();
-        
+
         lk.lock();
-        cond_.wait(lk, [this]() { return (!tasks.empty())||(!brun); });
-        if(!brun){     
+        cond_.wait(lk, [this]() { return (!tasks.empty()) || (!brun); });
+        if (!brun) {
             lk.unlock();
-            
-            break;}
+
+            break;
+        }
         it = tasks.begin();
         static int temp = getTime();
         for (; it != tasks.end();) {
@@ -50,7 +55,6 @@ void TimeManager::loop() {
                 tp.addTask(&(*it));
 
                 (*it).____time0 = temp;
-                
             }
             it++;
             temp = getTime();
@@ -65,16 +69,20 @@ void TimeManager::loop() {
     printf("timer loop stoped\n");
 }
 
-bool TimeManager::bCont() { return false; }
-
-TimeManager::TimeManager() {
-    t1 = new std::thread(&TimeManager::loop, this);
-}
+TimeManager::TimeManager() { t1 = new std::thread(&TimeManager::loop, this); }
 TimeManager::~TimeManager() {
     stop();
     t1->join();
-    delete t1; 
-    printf("TimerManagerReleased\n");   
+    delete t1;
+    printf("TimerManagerReleased\n");
+}
+
+void TimeManager::clearAllTasks() {
+    setPause(true);
+    std::unique_lock lk(mut_);
+    tasks.clear();
+    thread_pool::getThreadPool().clear();
+    setPause(false);
 }
 
 } // namespace xlib
@@ -96,4 +104,8 @@ void threadSleep(int time) {
     timeBeginPeriod(1);
     Sleep(time);
     timeEndPeriod(1);
+}
+thread_pool &thread_pool::getThreadPool() {
+    static thread_pool pool;
+    return pool;
 }
