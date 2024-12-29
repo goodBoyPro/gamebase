@@ -56,7 +56,7 @@ class WindowFlag {
         shape.setFillColor(sf::Color(0, 255, 0, 255));
     }
     void draw(sf::RenderWindow &window_, const FVector3 cameraPos_) {
-        IVector piwin = wsToWin(flag.posInWs, cameraPos_);
+        FVector2 piwin = wsToWin(flag.posInWs, cameraPos_);
         flag.shape.setPosition(piwin.x, piwin.y);
         window_.draw(flag.shape);
     };
@@ -145,7 +145,7 @@ class MovableEditObj : public Info {
 
     const FVector3 getPosInWs() const { return posInWs; }
     virtual void setPosInWs(const FVector3 &pos_) { posInWs = pos_; }
-    IVector psInWin;
+    FVector2 psInWin;
     bool isValid = true;
 
     void destroy() { isValid = false; }

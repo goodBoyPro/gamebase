@@ -6,7 +6,7 @@ texButton tbtn;
 GButton::GButton(IVector pos__, int width_, int height_,const wchar_t *wchar_) {
     // 防止未定义按键导致程序崩溃
     onClicked = []() {};
-
+    colorPtr = &textColorIdle;
     position = pos__;
     width = width_;
     height = height_;
@@ -21,7 +21,22 @@ GButton::GButton(IVector pos__, int width_, int height_,const wchar_t *wchar_) {
 bool bOnce = 1;
 
 void GButton::drawLoop(sf::RenderWindow&window_) {
-    static sf::Color *colorPtr = nullptr;
+    
+    spr.setPosition(position.x, position.y);
+    spr.setTextureRect({state * sprOriginSize.y, 0,
+                        sprOriginSize.y, sprOriginSize.y});
+    window_.draw(spr);
+    printText(window_,wchar,position.x+height*0.5,position.y+height*0.3,height*0.3,*colorPtr,font[2]);
+}
+bool GButton::isMouseOn(sf::RenderWindow&window_) {
+    int x = sf::Mouse::getPosition(window_).x - position.x;
+    int y = sf::Mouse::getPosition(window_).y - position.y;
+    if (x < 0 || x > width || y < 0 || y > height)
+        return false;
+    return true;
+}
+void GButton::pollKey(sf::RenderWindow&window_) {
+     
     if (isMouseOn(window_)) {
         state = GButton::hovered;
         colorPtr = &textColorHovered;
@@ -40,16 +55,4 @@ void GButton::drawLoop(sf::RenderWindow&window_) {
        { state = GButton::idle;
         colorPtr = &textColorIdle;
        }
-    spr.setPosition(position.x, position.y);
-    spr.setTextureRect({state * sprOriginSize.y, 0,
-                        sprOriginSize.y, sprOriginSize.y});
-    window_.draw(spr);
-    printText(window_,wchar,position.x+height*0.5,position.y+height*0.3,height*0.3,*colorPtr,font[2]);
-}
-bool GButton::isMouseOn(sf::RenderWindow&window_) {
-    int x = sf::Mouse::getPosition(window_).x - position.x;
-    int y = sf::Mouse::getPosition(window_).y - position.y;
-    if (x < 0 || x > width || y < 0 || y > height)
-        return false;
-    return true;
 };

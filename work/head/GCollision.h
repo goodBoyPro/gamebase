@@ -60,7 +60,7 @@ class CollisionInterface : public GComponent {
     static std::set<CollisionInterface *> allCollisions;
     static void showCollisions(sf::RenderWindow&window_,const FVector3&cameraPos_) {
         for (auto c : allCollisions) {
-          IVector pos = wsToWin(c->position,cameraPos_);
+          FVector2 pos = wsToWin(c->position,cameraPos_);
             c->poly->shape->setPosition(pos.x, pos.y);
             window_.draw(*c->poly->shape);
             

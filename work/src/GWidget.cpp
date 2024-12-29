@@ -1,71 +1,57 @@
 #include "GWidget.h"
 #include <GController.h>
 #include <GDebug.h>
-#include<game.h>
+#include <game.h>
 
-//GController GWidget::widgetController;
+// GController GWidget::widgetController;
 GWidget::GWidget() {}
 
 GWidget::GWidget(IVector pos, int width__, int height__) {
-    position=pos;
+    position = pos;
     width = width__;
     height = height__;
     tex.loadFromFile("res/widget.png");
     spr.setTexture(tex);
-    spr.setOrigin(spr.getTexture()->getSize().x/2,spr.getTexture()->getSize().y/2);
-    spr.setPosition(pos.x,pos.y);
-    spr.setScale(width/spr.getTexture()->getSize().x,height/spr.getTexture()->getSize().y);
-   
-    //widgetController.bindKey[GController::closeUi] = [&]() { remove(); };
-    widgetController.bindKey[GController::uiOpenOrClose] = [this]() {
-        UiSwitch();
-       
-    };
-    btns.emplace_back(IVector(getLeftTopPoint().x+100,getLeftTopPoint().y+100),160,80,L"开始游戏");
-    btns.emplace_back(IVector(getLeftTopPoint().x+100,getLeftTopPoint().y+200),160,80,L"关闭游戏");
+    spr.setOrigin(spr.getTexture()->getSize().x / 2,
+                  spr.getTexture()->getSize().y / 2);
+    spr.setPosition(pos.x, pos.y);
+    spr.setScale(width / spr.getTexture()->getSize().x,
+                 height / spr.getTexture()->getSize().y);
 
-    btns[0].onClicked = [&]() { remove(); };
-    btns[1].onClicked = []() {Game::gameIns->gameWindow->setMouseCursorGrabbed(false);GGameInterface::getGameIns()->bGameContinue = 0; };
+    btns.emplace_back(
+        IVector(getLeftTopPoint().x + 100, getLeftTopPoint().y + 100), 160, 80,
+        L"开始游戏");
+    btns.emplace_back(
+        IVector(getLeftTopPoint().x + 100, getLeftTopPoint().y + 200), 160, 80,
+        L"关闭游戏");
+
+    btns[0].onClicked = [&]() { pop(); };
+    btns[1].onClicked = []() {
+        ((Game *)(GGameInterface::getGameIns()))
+            ->gameWindow->setMouseCursorGrabbed(false);
+        GGameInterface::getGameIns()->bGameContinue = 0;
+    };
 }
 
 GWidget::~GWidget() {}
 
-void GWidget::draw(sf::RenderWindow&window_) {
+void GWidget::draw(sf::RenderWindow &window_) {
     window_.draw(spr);
-
+    
     for (GButton &a : btns) {
         a.drawLoop(window_);
     }
-    
-   
 }
 
-void GWidget::addToViewport() {
-
-    setWidgetPtr(this);
-    saveController =(GController*)getPlayerController();
-    setPlayerController(&widgetController);
-    
-    isOpened = true;
-}
-
-void GWidget::remove() {
-    ;
-   setWidgetPtr(nullptr);
-    setPlayerController(saveController);
-    widgetController.disableActive();
-    isOpened = false;
+void GWidget::onEventAny(sf::RenderWindow &window_) {
+    for (GButton &a : btns) {
+        a.pollKey(window_);
+    }
 }
 
 void GWidget::resizeView() {}
 
 IVector GWidget::getLeftTopPoint() {
-    ;    
-    return {position.x-width/2,position.y-height/2};
-}
-
-void GWidget::UiSwitch() {
-    if(isOpened)
-        remove();else
-        addToViewport();
+    ;
+    return {position.x - width / 2, position.y - height / 2};
 }

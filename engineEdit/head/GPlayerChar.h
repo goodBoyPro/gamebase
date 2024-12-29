@@ -3,7 +3,7 @@
 #include <GActorWithAnim.h>
 #include<component/GComponentCamera.h>
 #include <component/GComponentAnimation.h>
-#define MOVETICK 10
+#define MOVETICK 16
 class GPlayerChar : public GActorWithAnim {
   private:
     bool isMovingW = 0;

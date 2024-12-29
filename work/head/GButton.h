@@ -18,11 +18,12 @@ class GButton : public GObject {
 
     sf::Sprite spr;
     btnState state = idle;
-
+    sf::Color *colorPtr = nullptr;
     ~GButton() = default;
     std::function<void()> onClicked;
     void drawLoop(sf::RenderWindow&window_);
     bool isMouseOn(sf::RenderWindow&window_);
+    void pollKey(sf::RenderWindow&window_);
 };
 struct texButton {
     sf::Texture tex;

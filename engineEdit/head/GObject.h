@@ -75,7 +75,7 @@ class GCameraInterface : public GObject {
     ~GCameraInterface() {};
 };
 inline float GCameraInterface::sceneScale = 1;
-inline IVector wsToWin(const FVector3 &PositionInWS,
+inline FVector2 wsToWin(const FVector3 &PositionInWS,
                        const FVector3 &cameraPos_) {
     return {((PositionInWS.x - cameraPos_.x) / pixSize + WINW / 2.f),
             ((PositionInWS.y - cameraPos_.y) / pixSize + WINH / 2.f -
@@ -149,19 +149,27 @@ class GWidgetInterface : public GObject {
     static GWidgetInterface *___focused___;
     int layer = 0;
     bool visible = true;
+    bool isInViewPort = false;
 
   public:
     void setLayer(int layer_) { layer = layer_; }
     void setVisible(bool visible_) { visible = visible_; }
+    virtual void onEventAny(sf::RenderWindow &window_){}
     virtual void onKeyPressed(sf::Keyboard::Key keyCode) {}
     virtual void onMousePressed(sf::Mouse::Button btnCode) {}
     virtual ~GWidgetInterface() {};
     GWidgetInterface() {}
     void addToViewPort() {
+      if(isInViewPort)
+          return;
+        isInViewPort = true;
         __widgetForRender.push_back(this);
         ___focused___ = this;
     }
     void pop() {
+      if(!isInViewPort)
+          return;
+        isInViewPort = false;
         __widgetForRender.pop_back();
         if (__widgetForRender.empty())
             ___focused___ = nullptr;

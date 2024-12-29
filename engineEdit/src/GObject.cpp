@@ -27,9 +27,9 @@ void GWorldInterface::render(sf::RenderWindow&window_)  {
         ->spaceManager->actorsAlive.clear();
 
     // 绘制UI
-    if (getWidgetPtr()) {
-        getWidgetPtr()->draw(window_);
-    }
+    // if (getWidgetPtr()) {
+    //     getWidgetPtr()->draw(window_);
+    // }
     GWidgetInterface::drawAllWidget(window_);
     //  绘制鼠标/////////////////////////////
     if (GMouseInterface::mousePtr)

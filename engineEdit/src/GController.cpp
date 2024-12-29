@@ -25,12 +25,13 @@ void GController::pollKey(sf::RenderWindow&window_,sf::Event&event_) {
         }
         if (event_.type == sf::Event::Resized)
             resizeWindow(&window_);
-
+        if(GWidgetInterface::getTop())
+        GWidgetInterface::getTop()->onEventAny(window_);
         // 键盘按键
         if (event_.type == sf::Event::KeyPressed) {
             if(GWidgetInterface::getTop())
             GWidgetInterface::getTop()->onKeyPressed(event_.key.code);
-            switch (GGameInterface::getGameIns()->event.key.code) {
+            switch (event_.key.code) {
             case sf::Keyboard::Grave:
                 openConsoleWindow();
                 break;

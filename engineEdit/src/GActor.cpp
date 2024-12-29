@@ -73,7 +73,7 @@ bool GActor::addWsPosOffset(const FVector3 &vec) {
 
 void GActor::drawActor(sf::RenderWindow &window_, const FVector3 &cameraPos_) {
 
-    IVector psInWin = wsToWin(posInWs, cameraPos_);
+    FVector2 psInWin = wsToWin(posInWs, cameraPos_);
     (sprPt)->setPosition(psInWin.x, psInWin.y);
     float xScale = sizeInWs.x / pixSize / sprPt->getLocalBounds().getSize().x;
     float yScale = sizeInWs.y / pixSize / sprPt->getLocalBounds().getSize().y;

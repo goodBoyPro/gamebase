@@ -51,7 +51,7 @@ void GPlayerChar::move(FVector3 _fvector, float _value) {
     static canRun t1;
     if (t1.delay(MOVETICK)) {
         posPrevious = getPosInWs();
-        bool flag = addWsPosOffset(_fvector * (_value * MOVETICK / 1000));
+        bool flag = addWsPosOffset(_fvector * (_value));
         
         if (!flag)
             isMouseMove = 0;
@@ -79,7 +79,7 @@ void GPlayerChar::moveToMouse() {
 
     if (isMouseMove) {
 
-        static float precision = 0.1;
+        static float precision = 0.01;
 
         FVector3 a = normalize(posMouseClicked - getPosInWs());
         if (fabs(getPosInWs().x - posMouseClicked.x) > precision ||
@@ -102,7 +102,7 @@ void GPlayerChar::dataLoop() {
     else
         moveByKey();
     if (isMovingA || isMovingD || isMovingS || isMovingW || isMouseMove)
-        speed = 1;
+        speed = 0.01;
     else
         speed = 0;
     //updateState();
