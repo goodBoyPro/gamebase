@@ -1,9 +1,11 @@
-#include<GObject.h>
-#include<GPlayerChar.h>
-#include<GWidget.h>
-void GWorldInterface::render(sf::RenderWindow&window_)  {
+#include <GObject.h>
+#include <GPlayerChar.h>
+#include <GWidget.h>
+void GWorldInterface::render(sf::RenderWindow &window_) {
     // 绘制actor
-    FVector3 posForDraw = getPlayerCharactor()->cameraComPtr->camera.posInWs;
+    FVector3 posForDraw = {((int)(getPlayerCharactor()->cameraComPtr->camera.posInWs.x*1000))/1000.f,
+                           ((int)(getPlayerCharactor()->cameraComPtr->camera.posInWs.y*1000))/1000.f,
+                           0};
     PRINTDEBUG(L"键鼠位置：%f,%f",
                winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow)),
                        posForDraw)
@@ -39,5 +41,3 @@ void GWorldInterface::render(sf::RenderWindow&window_)  {
     // 显示DEBUG////////////////////////////////
     GDebug::debugDisplay(window_);
 };
-
-
