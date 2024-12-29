@@ -5,8 +5,6 @@
 sf::Texture GActor::texDefault;
 sf::Sprite GActor::spriteDefault;
 long GActor::drawCallNum = 0;
-// GridMap<GActor *> GActor::gridMapOfActor = {FVector2(-10.f, -10.f), 500, 500,
-//                                             5.f, 5.f};
 void GActor::eventTick() {}
 
 void GActor::dataLoop() {
@@ -43,7 +41,7 @@ void GActor::setPosInWs(const FVector3 pos_) {
     }
     // 绑定碰撞
     if (collisionForMove)
-        // collisionForMove->setPosition(pos_);
+        collisionForMove->setPosition(pos_);
 
         if (id != mapNodeId) {
             GGameInterface::getGameIns()
@@ -60,9 +58,9 @@ sf::Sprite *GActor::getRenderSprite() { return sprPt; }
 bool GActor::addWsPosOffset(const FVector3 &vec) {
     if (collisionForMove && collisionForMove->isCollisionOn()) {
         FVector3 testPos = getPosInWs() + vec;
-        // collisionForMove->setPosition(testPos);
+        collisionForMove->setPosition(testPos);
         if (collisionForMove->isStock()) {
-            // collisionForMove->setPosition(getPosInWs());
+            collisionForMove->setPosition(getPosInWs());
             return 0;
         } else {
             setPosInWs(testPos);

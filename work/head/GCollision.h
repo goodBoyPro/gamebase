@@ -67,10 +67,8 @@ class CollisionInterface : public GComponent {
         }
     }
     FVector3 &getPosition() { return position; }
-    void setPosition(const FVector3 &position_,const FVector3&cameraPos_) {
+    void setPosition(const FVector3 &position_) {
         position = position_;
-        IVector pos = wsToWin(position_,cameraPos_);
-        poly->shape->setPosition(pos.x, pos.y);
     }
     float getRadius() { return radius; }
     void setRadius(float radius_) {
@@ -89,7 +87,7 @@ class GCollision : public CollisionInterface {
   public:
     GCollision() = default;
     GCollision(float radius_, FVector3 position_) {
-        // setPosition(position_);
+        setPosition(position_);
         setRadius(radius_);
     }
     virtual bool test(CollisionInterface *other) override {

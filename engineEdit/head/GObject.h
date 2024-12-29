@@ -70,8 +70,6 @@ class GCameraInterface : public GObject {
   private:
     static GCameraInterface *gameCameraX;
 
-  
-
   public:
     static float sceneScale;
     IVector positionInWin = IVector(WINW / 2, WINH / 2);
@@ -88,17 +86,16 @@ inline GCameraInterface *GCameraInterface::gameCameraX = nullptr;
 // inline GCameraInterface *getGameCamera() {
 //     return GCameraInterface::getGameCamera();
 // }
-inline IVector wsToWin(const FVector3 &PositionInWS,const FVector3& cameraPos_) {
-    return {((PositionInWS.x - cameraPos_.x) / pixSize +
-             WINW / 2.f),
-            ((PositionInWS.y - cameraPos_.y) / pixSize +
-             WINH / 2.f - (PositionInWS.z / pixSize))};
+inline IVector wsToWin(const FVector3 &PositionInWS,
+                       const FVector3 &cameraPos_) {
+    return {((PositionInWS.x - cameraPos_.x) / pixSize + WINW / 2.f),
+            ((PositionInWS.y - cameraPos_.y) / pixSize + WINH / 2.f -
+             (PositionInWS.z / pixSize))};
 }
-inline FVector3 winToWs(const IVector &positionInWin,const FVector3&cameraPos_) {
-    return {
-        (positionInWin.x - WINW / 2) * pixSize + cameraPos_.x,
-        (positionInWin.y - WINH / 2) * pixSize + cameraPos_.y,
-        0};
+inline FVector3 winToWs(const IVector &positionInWin,
+                        const FVector3 &cameraPos_) {
+    return {(positionInWin.x - WINW / 2) * pixSize + cameraPos_.x,
+            (positionInWin.y - WINH / 2) * pixSize + cameraPos_.y, 0};
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //           WorldInterface
@@ -108,6 +105,7 @@ class GWorldInterface : public GObject {
     GridMap<GActor *> *spaceManager = nullptr;
     GWorldInterface();
     virtual ~GWorldInterface() { delete spaceManager; }
+    virtual void render();
     void createSpaceManager() {
         delete spaceManager;
         spaceManager =
@@ -126,9 +124,7 @@ class GGameInterface : public GObject {
   public:
     sf::Event event;
     bool bGameContinue = 1;
-    GGameInterface() {
-        setGameIns(this);
-    };
+    GGameInterface() { setGameIns(this); };
     virtual ~GGameInterface() {
         setGameIns(nullptr);
         delete worldActive;
@@ -148,33 +144,30 @@ inline GWorldInterface *GGameInterface::createWorld(GWorldInterface *newWorld) {
 
     return newWorld;
 }
-//全局世界指针需要在最开始设置，而不能在创建完成后设置
-inline GWorldInterface::GWorldInterface(){
-  delete     GGameInterface::getGameIns()->getWorldActive();
+// 全局世界指针需要在最开始设置，而不能在创建完成后设置
+inline GWorldInterface::GWorldInterface() {
+    delete GGameInterface::getGameIns()->getWorldActive();
     GGameInterface::getGameIns()->setWorldActive(this);
-};
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////widgetInterface///////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <stack>
 class WidgetInterface : public GObject {
   private:
-    int id;
-
+    std::stack<WidgetInterface *> ___widgetStack__;
+    static WidgetInterface *___focused;
+    int layer=0;
   public:
-    std::vector<WidgetInterface *> &getAllWidget() {
-        static std::vector<WidgetInterface *> allwidget;
-        return allwidget;
-    }
-    std::stack<WidgetInterface *> &getWidgetStack() {}
-    void setActive() { getAllWidget()[id] = this; }
-    void disableActive() { getAllWidget()[id] = nullptr; }
-    virtual ~WidgetInterface() { getAllWidget()[id] = nullptr; };
-    WidgetInterface() {
-        getAllWidget().push_back(this);
-        id = getAllWidget().size();
-        disableActive();
-    }
+    void setLayer(int layer_) { layer = layer_; }
+    std::stack<WidgetInterface *> &getWidgetStack() { return ___widgetStack__; }
+    virtual void onKeyPressed(sf::Keyboard::Key keyCode){}
+    virtual void onMousePressed(sf::Mouse::Button btnCode){}
+    virtual ~WidgetInterface() {};
+    WidgetInterface() {}
 };
+inline WidgetInterface *WidgetInterface::___focused=nullptr;
 
+inline void GWorldInterface::render() {};
 #endif

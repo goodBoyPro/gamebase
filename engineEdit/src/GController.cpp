@@ -14,11 +14,6 @@ void GController::pollKey(sf::RenderWindow&window_,sf::Event&event_) {
         bindKey[GController::d]();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         bindKey[GController::space]();
-    // if (!sf::Keyboard::isKeyPressed(sf::Keyboard::W) &&
-    //     !sf::Keyboard::isKeyPressed(sf::Keyboard::A) &&
-    //     !sf::Keyboard::isKeyPressed(sf::Keyboard::S) &&
-    //     !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-    //     playerController->KEYIDLE();
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::B))
         bindKey[GController::b]();
 

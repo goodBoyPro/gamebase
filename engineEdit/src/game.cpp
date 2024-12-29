@@ -66,8 +66,6 @@ void Game::dataLoop() {
 void Game::renderLoop2D() {
     sf::RenderWindow &window_ = *gameWindow;
     window_.setFramerateLimit(frameLimit);
-    std::vector<GControllerInterface *> &allController =
-        GControllerInterface::getAllController();
     xlib::getTimer().setPause(false);
     while (bGameContinue && window_.isOpen()) {
 
@@ -78,9 +76,8 @@ void Game::renderLoop2D() {
         // }
 
         // resizeWindow(window);
-        // 绘制地图//////////////////////////////
-        if (getWorld())
-            getWorld()->drawLoop();
+
+      
         // 绘制actor
         FVector3 posForDraw = getPlayerCharactor()->cameraComPtr->camera.posInWs;
         PRINTDEBUG(
