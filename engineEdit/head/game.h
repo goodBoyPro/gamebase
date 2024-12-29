@@ -14,10 +14,7 @@ class Game : public GGameInterface {
     sf::RenderWindow *gameWindow;
     static Game *gameIns;
     // 响应按键  
-    virtual void setWinIcon(sf::RenderWindow&window_);
-    // 由于控制器的全局指针随时会变，每个对象的控制器需要单独标记
-    class GMouse *mousePtr;
-    class GWorld *world1;    
+    virtual void setWinIcon(sf::RenderWindow&window_);   
     // 超过此距离的对象不执行逻辑
     float loopDistance=5;
 };

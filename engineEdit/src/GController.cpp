@@ -28,6 +28,8 @@ void GController::pollKey(sf::RenderWindow&window_,sf::Event&event_) {
 
         // 键盘按键
         if (event_.type == sf::Event::KeyPressed) {
+            if(GWidgetInterface::getTop())
+            GWidgetInterface::getTop()->onKeyPressed(event_.key.code);
             switch (GGameInterface::getGameIns()->event.key.code) {
             case sf::Keyboard::Grave:
                 openConsoleWindow();
@@ -69,6 +71,8 @@ void GController::pollKey(sf::RenderWindow&window_,sf::Event&event_) {
         }
         // 鼠标
         if (event_.type == sf::Event::MouseButtonPressed) {
+            if(GWidgetInterface::getTop())
+            GWidgetInterface::getTop()->onMousePressed(event_.mouseButton.button);
             switch (event_.mouseButton.button) {
             case sf::Mouse::Left:
                 bindKey[GController::mouseLeft]();

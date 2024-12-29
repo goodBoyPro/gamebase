@@ -1,6 +1,7 @@
 #ifndef GOBJECT_H
 #define GOBJECT_H
 #include "GBase.h"
+#include <GDebug.h>
 #include <gridmap.h>
 class GObject {
 
@@ -67,25 +68,13 @@ inline void setPlayerController(GControllerInterface *ptr) {
 //          cameraInterface
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GCameraInterface : public GObject {
-  private:
-    static GCameraInterface *gameCameraX;
-
   public:
     static float sceneScale;
     IVector positionInWin = IVector(WINW / 2, WINH / 2);
     FVector3 posInWs = FVector3(0, 0, 0);
     ~GCameraInterface() {};
-    // static GCameraInterface *getGameCamera() { return gameCameraX; }
-    // static void setGameCamera(GCameraInterface *ptr) { gameCameraX = ptr; }
 };
 inline float GCameraInterface::sceneScale = 1;
-inline GCameraInterface *GCameraInterface::gameCameraX = nullptr;
-// inline void setGameCamera(class GCameraInterface *camera_) {
-//     GCameraInterface::setGameCamera(camera_);
-// }
-// inline GCameraInterface *getGameCamera() {
-//     return GCameraInterface::getGameCamera();
-// }
 inline IVector wsToWin(const FVector3 &PositionInWS,
                        const FVector3 &cameraPos_) {
     return {((PositionInWS.x - cameraPos_.x) / pixSize + WINW / 2.f),
@@ -105,7 +94,7 @@ class GWorldInterface : public GObject {
     GridMap<GActor *> *spaceManager = nullptr;
     GWorldInterface();
     virtual ~GWorldInterface() { delete spaceManager; }
-    virtual void render();
+    virtual void render(sf::RenderWindow &window_);
     void createSpaceManager() {
         delete spaceManager;
         spaceManager =
@@ -154,20 +143,55 @@ inline GWorldInterface::GWorldInterface() {
 //////////widgetInterface///////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <stack>
-class WidgetInterface : public GObject {
+class GWidgetInterface : public GObject {
   private:
-    std::stack<WidgetInterface *> ___widgetStack__;
-    static WidgetInterface *___focused;
-    int layer=0;
+    static std::vector<GWidgetInterface *> __widgetForRender;
+    static GWidgetInterface *___focused___;
+    int layer = 0;
+    bool visible = true;
+
   public:
     void setLayer(int layer_) { layer = layer_; }
-    std::stack<WidgetInterface *> &getWidgetStack() { return ___widgetStack__; }
-    virtual void onKeyPressed(sf::Keyboard::Key keyCode){}
-    virtual void onMousePressed(sf::Mouse::Button btnCode){}
-    virtual ~WidgetInterface() {};
-    WidgetInterface() {}
+    void setVisible(bool visible_) { visible = visible_; }
+    virtual void onKeyPressed(sf::Keyboard::Key keyCode) {}
+    virtual void onMousePressed(sf::Mouse::Button btnCode) {}
+    virtual ~GWidgetInterface() {};
+    GWidgetInterface() {}
+    void addToViewPort() {
+        __widgetForRender.push_back(this);
+        ___focused___ = this;
+    }
+    void pop() {
+        __widgetForRender.pop_back();
+        if (__widgetForRender.empty())
+            ___focused___ = nullptr;
+        else
+            ___focused___ = *(__widgetForRender.end() - 1);
+    }
+    static GWidgetInterface *getTop() { return ___focused___; }
+    static void drawAllWidget(sf::RenderWindow &window_);
+    virtual void draw(sf::RenderWindow &window_) {};
 };
-inline WidgetInterface *WidgetInterface::___focused=nullptr;
+inline void GWidgetInterface::drawAllWidget(sf::RenderWindow &window_) {
+    for (GWidgetInterface *w : GWidgetInterface::__widgetForRender) {
+        if (w->visible)
+            w->draw(window_);
+    }
+}
+inline GWidgetInterface *GWidgetInterface::___focused___ = nullptr;
+inline std::vector<GWidgetInterface *> GWidgetInterface::__widgetForRender;
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+/// GMouseInterface
+/// ////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+class GMouseInterface {
+  public:
+    static GMouseInterface *mousePtr;
+    GMouseInterface() { mousePtr = this; }
+    virtual~GMouseInterface(){}
+    virtual void drawMouseCusor(sf::RenderWindow &window_) {};
+};
+inline GMouseInterface *GMouseInterface::mousePtr = nullptr;
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-inline void GWorldInterface::render() {};
 #endif

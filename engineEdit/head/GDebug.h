@@ -1,6 +1,6 @@
 #if !defined(GDBUG)
 #define GDBUG
-#include <GObject.h>
+#include <GBase.h>
 #include <mutex>
 #include <set>
 #define PRINTDEBUG(...)                                                        \
@@ -10,7 +10,7 @@
     }                                                                          \
                                                                                \
 // 已实现线程安全
-class GDebug : public GObject {
+class GDebug{
   private:
     int yPosition = 0;
     int texHight = 10;

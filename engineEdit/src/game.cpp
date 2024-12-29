@@ -30,12 +30,12 @@ Game::Game() {
     gameIns = this;
     gameWindow = createwindow();
     setWinIcon(*gameWindow);
-    mousePtr = new GMouse;
+    GMouseInterface *mouse = new GMouse;
 }
 
 Game::~Game() {
     delete gameWindow;
-    delete mousePtr;
+   
 }
 void Game::gameBegin() {
     std::thread dLoop(dataLoop, this);
@@ -70,47 +70,7 @@ void Game::renderLoop2D() {
     while (bGameContinue && window_.isOpen()) {
 
         getPlayerController()->pollKey(window_, event);
-        // for(auto ctrl:allController){
-        //     if(ctrl)
-        //         ctrl->pollKey();
-        // }
-
-        // resizeWindow(window);
-
-      
-        // 绘制actor
-        FVector3 posForDraw = getPlayerCharactor()->cameraComPtr->camera.posInWs;
-        PRINTDEBUG(
-            L"键鼠位置：%f,%f",
-            winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow)),posForDraw).x,
-            winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow)),posForDraw).y);
-        GGameInterface::getGameIns()
-            ->getWorldActive()
-            ->spaceManager->setActorsAlive(getPlayerCharactor()->mapNodeId);
-        for (auto elem : GGameInterface::getGameIns()
-                             ->getWorldActive()
-                             ->spaceManager->actorsAlive) {
-            elem->eventTick();
-            elem->dataLoop();
-            elem->drawActor(window_, posForDraw);
-        }
-
-        GGameInterface::getGameIns()
-            ->getWorldActive()
-            ->spaceManager->actorsAlive.clear();
-
-        // 绘制UI
-        if (getWidgetPtr()) {
-            getWidgetPtr()->draw(window_);
-        }
-
-        //  绘制鼠标/////////////////////////////
-        if (mousePtr)
-            mousePtr->drawMouseCusor(window_);
-        // 显示碰撞
-        GCollision::showCollisions(window_, posForDraw);
-        // 显示DEBUG////////////////////////////////
-        GDebug::debugDisplay(window_);
+        getWorldActive()->render(window_);
         PRINTDEBUG(L"drawCall:%ld", GActor::drawCallNum);
         GActor::drawCallNum = 0;
 
