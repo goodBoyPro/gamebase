@@ -61,6 +61,7 @@ class Playertest : public GPlayerChar {
 
         controller->bindKey[GController::uiOpenOrClose] = [&]() {
             widget.addToViewPort();
+             GControllerInterface::getPlayerController()->setFoucusOnWidget(true);
         };
         controller->bindKey[GController::b] = [&]() {
             spawnActorAtLocation<actorTest>(getPosInWs());

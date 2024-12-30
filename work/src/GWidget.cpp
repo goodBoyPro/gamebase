@@ -7,6 +7,7 @@
 GWidget::GWidget() {}
 
 GWidget::GWidget(IVector pos, int width__, int height__) {
+   
     position = pos;
     width = width__;
     height = height__;
@@ -25,7 +26,7 @@ GWidget::GWidget(IVector pos, int width__, int height__) {
         IVector(getLeftTopPoint().x + 100, getLeftTopPoint().y + 200), 160, 80,
         L"关闭游戏");
 
-    btns[0].onClicked = [&]() { pop(); };
+    btns[0].onClicked = [&]() { if(pop()){GControllerInterface::getPlayerController()->setFoucusOnWidget(false);}; };
     btns[1].onClicked = []() {
         ((Game *)(GGameInterface::getGameIns()))
             ->gameWindow->setMouseCursorGrabbed(false);
@@ -43,9 +44,21 @@ void GWidget::draw(sf::RenderWindow &window_) {
     }
 }
 
-void GWidget::onEventAny(sf::RenderWindow &window_) {
+void GWidget::onEventAny(sf::RenderWindow &window_,sf::Event&event_) {
     for (GButton &a : btns) {
         a.pollKey(window_);
+    }
+    if(event_.type==sf::Event::KeyPressed){
+        switch (event_.key.code)
+        {
+        case sf::Keyboard::Backspace:
+            
+            if(pop()){GControllerInterface::getPlayerController()->setFoucusOnWidget(false);};
+            break;
+        
+        default:
+            break;
+        }
     }
 }
 

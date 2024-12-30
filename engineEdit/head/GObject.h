@@ -25,8 +25,11 @@ class GControllerInterface : public GObject {
   private:
     static GControllerInterface *playerController;
     int id;
-
+  protected:
+    bool __focusOnWidget=false;
   public:
+    void setFoucusOnWidget(bool bFocusOnUi){__focusOnWidget=bFocusOnUi;}
+    bool getIsFocusOnWidget(){return __focusOnWidget;}
     static std::vector<GControllerInterface *> &getAllController() {
         static std::vector<GControllerInterface *> allCtrl;
         return allCtrl;
@@ -154,7 +157,7 @@ class GWidgetInterface : public GObject {
   public:
     void setLayer(int layer_) { layer = layer_; }
     void setVisible(bool visible_) { visible = visible_; }
-    virtual void onEventAny(sf::RenderWindow &window_){}
+    virtual void onEventAny(sf::RenderWindow &window_,sf::Event&event_){}
     virtual void onKeyPressed(sf::Keyboard::Key keyCode) {}
     virtual void onMousePressed(sf::Mouse::Button btnCode) {}
     virtual ~GWidgetInterface() {};
@@ -166,15 +169,18 @@ class GWidgetInterface : public GObject {
         __widgetForRender.push_back(this);
         ___focused___ = this;
     }
-    void pop() {
+    GWidgetInterface * pop() {
+     
       if(!isInViewPort)
-          return;
+          return nullptr;
         isInViewPort = false;
+         GWidgetInterface *cur=*(__widgetForRender.end() - 1);
         __widgetForRender.pop_back();
         if (__widgetForRender.empty())
             ___focused___ = nullptr;
         else
             ___focused___ = *(__widgetForRender.end() - 1);
+        return cur;
     }
     static GWidgetInterface *getTop() { return ___focused___; }
     static void drawAllWidget(sf::RenderWindow &window_);

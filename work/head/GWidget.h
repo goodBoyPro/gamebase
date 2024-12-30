@@ -16,10 +16,10 @@ class GWidget : public GWidgetInterface {
     virtual ~GWidget();
     void draw(sf::RenderWindow &window_);
     virtual void onKeyPressed(sf::Keyboard::Key keycode) override {
-        if (keycode == sf::Keyboard::U)
+        if (keycode == sf::Keyboard::Backspace)
             pop();
     }
-    virtual void onEventAny(sf::RenderWindow &window_) override;
+    virtual void onEventAny(sf::RenderWindow &window_,sf::Event&event_) override;
     void resizeView();
 
     sf::Sprite spr;
