@@ -34,10 +34,11 @@ target_include_directories(${PROJECT_NAME}Editor  PUBLIC ${ABS_DIR}/gamebase/eng
 target_link_libraries(${PROJECT_NAME}Editor opengl32 sfml-graphics sfml-window sfml-system sfml-audio timemanager winmm glew32 glfw3dll ws2_32)
 endif()
 #生成库文件
-if(0)  
-add_definitions(-DEXPORT )
+if(1)  
+# add_definitions(-DEXPORT )
 set(libname timeManager)#设置
 add_library(${libname} SHARED ${ABS_DIR}/gamebase/lib/src/${libname}.cpp)#设置
+target_compile_definitions(${libname} PRIVATE -DEXPORT)
 target_link_libraries(${libname}  winmm)
 add_custom_command(TARGET ${libname} POST_BUILD
                     COMMAND ${CMAKE_COMMAND} -E copy lib${libname}.dll lib${libname}.dll.a ${ABS_DIR}/gamebase/lib/outlib
