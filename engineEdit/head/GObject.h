@@ -238,6 +238,7 @@ class GUiInterface : public GObject {
 };
 
 class GButtonInterface : public GUiInterface {
+
   public:
     enum EState { idle, hover, clicked };
     EState state = idle;
@@ -265,6 +266,7 @@ class GButtonInterface : public GUiInterface {
         }
         GUiInterface::draw(window_);
     }
+    bool isSelected = false;
     virtual void pollKey(sf::RenderWindow &window_,
                          sf::Event &event_) override {
         if (isMouseOn(window_)) {
@@ -273,29 +275,34 @@ class GButtonInterface : public GUiInterface {
             if (event_.type == sf::Event::MouseButtonPressed) {
                 switch (event_.mouseButton.button) {
                 case sf::Mouse::Left:
-                    onMouseLeftClicked();
+                    isSelected = true;
                     state = clicked;
                     break;
                 default:
                     break;
                 }
-            }            
-        }else{
-          if(state!=clicked)
-            state = idle;
+            }
+        } else {
+            if (state != clicked)
+                state = idle;
         }
         if (event_.type == sf::Event::MouseButtonReleased) {
-                switch (event_.mouseButton.button) {
-                case sf::Mouse::Left:
-                    if(isMouseOn(window_))
-                    state = hover;
-                    else
-                        state = idle;
-                    break;
-                default:
-                    break;
+            switch (event_.mouseButton.button) {
+            case sf::Mouse::Left:
+                if (isSelected) {
+                    onMouseLeftClicked();
+                    isSelected = false;
                 }
+
+                if (isMouseOn(window_))
+                    state = hover;
+                else
+                    state = idle;
+                break;
+            default:
+                break;
             }
+        }
     };
 };
 

@@ -17,10 +17,17 @@ class UIMain : public GUiInterface {
     UIMain() {
         getSource().setSprite(spr, 4, 0);
         setSize({WINW * 0.8, WINH * 0.8});
+        int edge = 30;
+        int height = getSize().y - edge * 2;
+        int width = getSize().x - edge * 2;
+        int row = 10;
+        int column = 10;
+        int w = width / column - 4;
+        int h = height / row - 4;
         for (int i = 0; i < 100; i++) {
             buttonTest *btn = (buttonTest *)createUI<buttonTest>();
-            btn->setPosition({i%10*90, i/10*40});
-            btn->setSize({80, 30});
+            btn->setPosition({i%10*(w+4)+edge+2, i/10*(h+4)+edge+2});
+            btn->setSize({w, h});
             btn->addToViewPort();
             btn->setLayer(1);
             int x = i;
