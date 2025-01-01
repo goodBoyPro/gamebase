@@ -7,7 +7,7 @@
 #include <GPlayerChar.h>
 #include <GSource.h>
 #include <GTalk.h>
-#include <GWidget.h>
+// #include <GWidget.h>
 #include <actorTest.h>
 class Playertest : public GPlayerChar {
   private:
@@ -60,7 +60,7 @@ class Playertest : public GPlayerChar {
         };
 
         controller->bindKey[GController::uiOpenOrClose] = [&]() {
-            widget.addToViewPort();
+            // widget.addToViewPort();
              GControllerInterface::getPlayerController()->setFoucusOnWidget(true);
         };
         controller->bindKey[GController::b] = [&]() {
@@ -74,7 +74,7 @@ class Playertest : public GPlayerChar {
     };
 
     GPhysix gph;
-    GWidget widget = {{WINW / 2, WINH / 2}, 800, 600};
+    // GWidget widget = {{WINW / 2, WINH / 2}, 800, 600};
     DelayTask task = {100, []() { printf("task"); }};
     virtual void dataLoop() {
         GPlayerChar::dataLoop();

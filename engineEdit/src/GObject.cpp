@@ -1,6 +1,6 @@
 #include <GObject.h>
 #include <GPlayerChar.h>
-#include <GWidget.h>
+// #include <GWidget.h>
 void GWorldInterface::render(sf::RenderWindow &window_) {
     // 绘制actor
     FVector3 posForDraw = {((int)(getPlayerCharactor()->cameraComPtr->camera.posInWs.x*1000))/1000.f,

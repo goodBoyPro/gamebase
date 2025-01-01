@@ -1,6 +1,6 @@
 #include "GButton.h"
 #include <GDebug.h>
-#include <GWidget.h>
+// #include <GWidget.h>
 #include <game.h>
 texButton tbtn;
 GButton::GButton(IVector pos__, int width_, int height_,const wchar_t *wchar_) {

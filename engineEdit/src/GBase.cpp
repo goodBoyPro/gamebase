@@ -1,7 +1,7 @@
 #include "GBase.h"
 #include "GPlayerChar.h"
 #include <GL/glew.h>
-#include <GWidget.h>
+// #include <GWidget.h>
 #include <GWorld.h>
 #include <cmath>
 #include <math.h>
