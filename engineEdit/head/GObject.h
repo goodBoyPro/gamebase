@@ -145,84 +145,160 @@ inline GWorldInterface::GWorldInterface() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////ui///////////////////////////////////////////////////////////////////////////////////////////
+//////////UiInterface///////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class safeMultiset {};
-class _______ui : public GObject {
+// 变换依赖容器的变换状态，不要在构造函数中调用变换
+class GUiInterface : public GObject {
   public:
     struct compare {
-        const bool operator()(_______ui *a, _______ui *b) const {
+        const bool operator()(GUiInterface *a, GUiInterface *b) const {
             return a->layer < b->layer;
         }
     };
 
   private:
-    std::multiset<_______ui *, compare> viewPortChild;
-    std::set<_______ui *> allChildUi;
-    _______ui *__parent = nullptr;
-    FVector2 __size = {1, 1};
+    std::multiset<GUiInterface *, compare> viewPortChild;
+    std::set<GUiInterface *> allChildUi;
+    GUiInterface *__parent = nullptr;
+    FVector2 __size = {50, 50};
     FVector2 __positionRltv = {0, 0};
-    FVector2 __positionABS = {0, 0};
     int layer = 0;
 
   public:
     bool isButton = false;
-    void setLayer(int layer_) { layer = layer_; }
-    _______ui(_______ui *parent_) {}
-    _______ui() {}
-    virtual ~_______ui() {
-      for(_______ui*u:allChildUi){
-          delete u;
-      }
+    FVector2 getPositionABS() {
+        if (__parent)
+            return __parent->getPositionABS() + __positionRltv;
+        return __positionRltv;
+    }
+    void setLayer(int layer_) {
+        if (viewPortChild.contains(this)) {
+            viewPortChild.erase(this);
+            layer = layer_;
+            viewPortChild.insert(this);
+        } else
+            layer = layer_;
+    }
+    GUiInterface(GUiInterface *parent_) : __parent(parent_) {}
+    GUiInterface() {}
+    virtual ~GUiInterface() {
+        for (GUiInterface *u : allChildUi) {
+            delete u;
+        }
     }
     gameSprite spr;
     void setSize(const FVector2 &size_) { __size = size_; };
+    const FVector2 &getSize() const { return __size; }
     void setPosition(const FVector2 &pos_) {
         __positionRltv = pos_;
-        __positionABS = __parent->__positionABS + __positionRltv;
-        spr.setPosition(__positionABS);
-        for (_______ui *u : allChildUi) {
+        for (GUiInterface *u : allChildUi) {
             u->setPosition(u->__positionRltv);
         }
     }
-    void addToViewPort() { __parent->viewPortChild.insert(this); }
-    void removeFromViewPort(){__parent->viewPortChild.erase(this);}
+    bool isMouseOn(sf::RenderWindow &window_) {
+        FVector2 mousePos = {sf::Mouse::getPosition(window_).x,
+                             sf::Mouse::getPosition(window_).y};
+
+        return spr.getGlobalBounds().contains(mousePos);
+    }
+    void addToViewPort() {
+        if (__parent->viewPortChild.contains(this))
+            return;
+        __parent->viewPortChild.insert(this);
+    }
+    void removeFromViewPort() { __parent->viewPortChild.erase(this); }
     virtual void draw(sf::RenderWindow &window_) {
         const FVector2 &sizeTemp = spr.getLocalBounds().getSize();
         FVector2 scale = {__size.x / sizeTemp.x, __size.y / sizeTemp.y};
         spr.setScale(scale);
+        spr.setPosition(getPositionABS());
         window_.draw(spr);
-        for(_______ui*u:viewPortChild){
-            window_.draw(u->spr);
+        for (GUiInterface *u : viewPortChild) {
+            u->draw(window_);
         }
     }
-    virtual void pollKey(){for(_______ui*u:viewPortChild){
-            pollKey();
+    virtual void pollKey(sf::RenderWindow &window_, sf::Event &event_) {
+        for (GUiInterface *u : viewPortChild) {
+            u->pollKey(window_, event_);
         }
     }
-    template <class T> _______ui createUI() { _______ui*x= new T(this);
+
+    template <class T> GUiInterface *createUI() {
+        GUiInterface *x = new T;
+        x->__parent = this;
         allChildUi.insert(x);
         return x;
     }
-    void destroy() { __parent->allChildUi.erase(this);
+    void destroy() {
+        __parent->allChildUi.erase(this);
         __parent->viewPortChild.erase(this);
         delete this;
     }
 };
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////GUiInterface///////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class GButtonInterface : public _______ui {
-  public:
-    ~GButtonInterface() { isButton = true; }
-};
-class GUiInterface : public _______ui {
-  private:
-    std::vector<GButtonInterface *> ___btns;
 
+class GButtonInterface : public GUiInterface {
   public:
-    virtual ~GUiInterface() {}
+    enum EState { idle, hover, clicked };
+    EState state = idle;
+    GButtonInterface() { isButton = true; }
+    ~GButtonInterface() {}
+    std::function<void()> onMouseLeftClicked = []() {};
+    virtual void setSprIdle() = 0;
+    virtual void setSprHover() = 0;
+    virtual void setSprClicked() = 0;
+    virtual void draw(sf::RenderWindow &window_) override {
+
+        switch (state) {
+        case idle:
+            setSprIdle();
+            break;
+        case hover:
+            setSprHover();
+            break;
+        case clicked:
+            setSprClicked();
+            break;
+
+        default:
+            break;
+        }
+        GUiInterface::draw(window_);
+    }
+    virtual void pollKey(sf::RenderWindow &window_,
+                         sf::Event &event_) override {
+        if (isMouseOn(window_)) {
+            if (state != clicked)
+                state = hover;
+            if (event_.type == sf::Event::MouseButtonPressed) {
+                switch (event_.mouseButton.button) {
+                case sf::Mouse::Left:
+                    onMouseLeftClicked();
+                    state = clicked;
+                    break;
+                default:
+                    break;
+                }
+            }            
+        }else{
+          if(state!=clicked)
+            state = idle;
+        }
+        if (event_.type == sf::Event::MouseButtonReleased) {
+                switch (event_.mouseButton.button) {
+                case sf::Mouse::Left:
+                    if(isMouseOn(window_))
+                    state = hover;
+                    else
+                        state = idle;
+                    break;
+                default:
+                    break;
+                }
+            }
+    };
 };
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////widgetInterface///////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -234,22 +310,18 @@ class GWidgetInterface : public GObject {
     int layer = 0;
     bool visible = true;
     bool isInViewPort = false;
-    std::multiset<GUiInterface *> __child;
-    _______ui root;
+    GUiInterface root;
 
   public:
     void setLayer(int layer_) { layer = layer_; }
     void setVisible(bool visible_) { visible = visible_; }
-    void setPosition(const FVector2 pos_) { root.setPosition(pos_); }
+    void setPosition(const FVector2 &pos_) { root.setPosition(pos_); }
     virtual void onEventAny(sf::RenderWindow &window_, sf::Event &event_) {
-        root.pollKey();
+        root.pollKey(window_, event_);
     }
-    virtual void onKeyPressed(sf::Keyboard::Key keyCode) {}
-    virtual void onMousePressed(sf::Mouse::Button btnCode) {}
     virtual ~GWidgetInterface() {};
     GWidgetInterface() {}
-    template<class T>
-    _______ui* createUI() { root.createUI<T>(); }
+    template <class T> GUiInterface *createUI() { return root.createUI<T>(); }
     void addToViewPort() {
         if (isInViewPort)
             return;

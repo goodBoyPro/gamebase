@@ -36,4 +36,28 @@
     <originY>0</originY>
     <type>landblock</type>
   </node>
+   <node>
+    <id>4</id>
+    <name>ui1.png</name>
+    <path>res/ui1.png</path>
+    <sizex>1024</sizex>
+    <sizey>1024</sizey>
+    <row>1</row>
+    <column>1</column>
+    <originX>0</originX>
+    <originY>0</originY>
+    <type>ui</type>
+  </node>
+  <node>
+    <id>5</id>
+    <name>button1356x1356+6x6.png</name>
+    <path>res/button1356x1356+6x6.png</path>
+    <sizex>256</sizex>
+    <sizey>256</sizey>
+    <row>6</row>
+    <column>6</column>
+    <originX>0</originX>
+    <originY>0</originY>
+    <type>ui</type>
+  </node>
 </root>
