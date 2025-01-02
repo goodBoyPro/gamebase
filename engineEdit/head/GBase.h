@@ -92,7 +92,7 @@ extern sf::Font font[4];
 void initTools();
 // 缺省值应该写在声明中才会重载
 // 输出文字，参数列表：文字内容，位置x,位置y,尺寸，颜色，字体
-void printText(sf::RenderWindow&window_,std::wstring str = L"未输入文字", int x = 0, int y = 0,
+void printText(sf::RenderWindow&window_,const std::wstring &str = L"未输入文字", int x = 0, int y = 0,
                int size = 30, sf::Color color = sf::Color(255, 255, 255),
                sf::Font &font_ = font[0]);
 void printNum(sf::RenderWindow&window_,float __float, int x = 0, int y = 0, int size = 30,

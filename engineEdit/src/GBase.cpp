@@ -100,7 +100,7 @@ void initTools() {
         PRINTF("font3加载失败\n");
 }
 
-void printText(sf::RenderWindow&window_,std::wstring str, int x, int y, int size, sf::Color color,
+void printText(sf::RenderWindow&window_,const std::wstring &str, int x, int y, int size, sf::Color color,
                sf::Font &font_) {
     static sf::Text text;
     text.setFont(font_);

@@ -242,12 +242,21 @@ class GButtonInterface : public GUiInterface {
   public:
     enum EState { idle, hover, clicked };
     EState state = idle;
+    std::wstring text;
+    
     GButtonInterface() { isButton = true; }
     ~GButtonInterface() {}
     std::function<void()> onMouseLeftClicked = []() {};
     virtual void setSprIdle() = 0;
     virtual void setSprHover() = 0;
     virtual void setSprClicked() = 0;
+    virtual void showText(sf::RenderWindow&window_){
+        int x=spr.getPosition().x;
+        int y=spr.getPosition().y;
+        int size=getSize().y*0.7;
+
+        printText(window_,text,x,y,size);
+    }
     virtual void draw(sf::RenderWindow &window_) override {
 
         switch (state) {
@@ -265,6 +274,7 @@ class GButtonInterface : public GUiInterface {
             break;
         }
         GUiInterface::draw(window_);
+        showText(window_);
     }
     bool isSelected = false;
     virtual void pollKey(sf::RenderWindow &window_,

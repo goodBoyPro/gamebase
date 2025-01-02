@@ -31,6 +31,7 @@ class UIMain : public GUiInterface {
             btn->addToViewPort();
             btn->setLayer(1);
             int x = i;
+            btn->text=L"测试";
             btn->onMouseLeftClicked = [=]() { printf("%d\n",x); };
         }
        
