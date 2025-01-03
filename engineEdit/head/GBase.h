@@ -95,6 +95,9 @@ void initTools();
 void printText(sf::RenderWindow&window_,const std::wstring &str = L"未输入文字", int x = 0, int y = 0,
                int size = 30, sf::Color color = sf::Color(255, 255, 255),
                sf::Font &font_ = font[0]);
+void printTextLimit(sf::RenderWindow&window_,const std::wstring &str = L"未输入文字",  float x=0, float y=0,
+               int size = 30,const FVector2&sprSize={1,1}, const sf::Color &color = sf::Color(255, 255, 255),
+               sf::Font &font_ = font[0]);
 void printNum(sf::RenderWindow&window_,float __float, int x = 0, int y = 0, int size = 30,
               sf::Color color = sf::Color(255, 255, 255),
               sf::Font &font_ = font[0]);
@@ -149,6 +152,8 @@ IVector strTo2Int(const std::string &str);
 FVector3 strTo3Float(const std::string &str);
 //合并字符串
 std::string combineStrings(std::initializer_list<const std::string>strs);
+
+void drawBound(sf::RenderWindow &window_, const sf::FloatRect &rect);
 }; // namespace nsg
 
 #endif

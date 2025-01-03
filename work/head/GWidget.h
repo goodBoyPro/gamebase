@@ -8,9 +8,18 @@ class buttonTest : public GButtonInterface {
   public:
     textureArray *tex = nullptr;
     buttonTest() { tex = &(getSource().getTexArray(5)); }
-    virtual void setSprIdle() { tex->setSprite(spr, 0); };
-    virtual void setSprHover() { tex->setSprite(spr, 6); };
-    virtual void setSprClicked() { tex->setSprite(spr, 12); };
+    virtual void setSprIdle() {
+        tex->setSprite(spr, 0);
+        textState.textColor = {255, 255, 255};
+    };
+    virtual void setSprHover() {
+        tex->setSprite(spr, 6);
+        textState.textColor = {255, 255, 255};
+    };
+    virtual void setSprClicked() {
+        tex->setSprite(spr, 12);
+        textState.textColor = {255, 0, 0};
+    };
 };
 class UIMain : public GUiInterface {
   public:
@@ -26,15 +35,15 @@ class UIMain : public GUiInterface {
         int h = height / row - 4;
         for (int i = 0; i < 100; i++) {
             buttonTest *btn = (buttonTest *)createUI<buttonTest>();
-            btn->setPosition({i%10*(w+4)+edge+2, i/10*(h+4)+edge+2});
+            btn->setPosition(
+                {i % 10 * (w + 4) + edge + 2, i / 10 * (h + 4) + edge + 2});
             btn->setSize({w, h});
             btn->addToViewPort();
             btn->setLayer(1);
             int x = i;
-            btn->text=L"测试";
-            btn->onMouseLeftClicked = [=]() { printf("%d\n",x); };
+            btn->text = L"测试";
+            btn->onMouseLeftClicked = [=]() { printf("%d\n", x); };
         }
-       
     }
     std::function<void()> onKeyPressed = []() {};
     virtual void pollKey(sf::RenderWindow &window_,

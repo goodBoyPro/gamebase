@@ -240,22 +240,30 @@ class GUiInterface : public GObject {
 class GButtonInterface : public GUiInterface {
 
   public:
+    struct textInfo {
+        float textWidth = 0.8;
+        float textHeight = 0.7;
+        sf::Color textColor = {255, 255, 255};
+    } textState;
     enum EState { idle, hover, clicked };
     EState state = idle;
     std::wstring text;
-    
+
     GButtonInterface() { isButton = true; }
     ~GButtonInterface() {}
     std::function<void()> onMouseLeftClicked = []() {};
     virtual void setSprIdle() = 0;
     virtual void setSprHover() = 0;
     virtual void setSprClicked() = 0;
-    virtual void showText(sf::RenderWindow&window_){
-        int x=spr.getPosition().x;
-        int y=spr.getPosition().y;
-        int size=getSize().y*0.7;
-
-        printText(window_,text,x,y,size);
+    virtual void showText(sf::RenderWindow &window_) {
+        int x = spr.getPosition().x + spr.getGlobalBounds().getSize().x *
+                                          (1.f - textState.textWidth) / 2.f;
+        int y = spr.getPosition().y+spr.getGlobalBounds().getSize().y*0.05;
+        FVector2 size = {
+            spr.getGlobalBounds().getSize().x * textState.textWidth,
+            spr.getGlobalBounds().getSize().y * textState.textHeight};
+        printTextLimit(window_, text, x, y, 30, size, textState.textColor);
+        
     }
     virtual void draw(sf::RenderWindow &window_) override {
 

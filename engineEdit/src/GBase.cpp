@@ -26,9 +26,9 @@ sf::RenderWindow *createwindow() {
     // const float W_H_ratio = static_cast<float>(WINW) / WINH;
     // const float FOV = 45.0f;
     const sf::String TITLE = "game";
-    sf::RenderWindow *window=new sf::RenderWindow(
+    sf::RenderWindow *window = new sf::RenderWindow(
         sf::VideoMode(WINW, WINH, 32), TITLE,
-        sf::Style::Titlebar|sf::Style::Close| sf::Style::Resize);
+        sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
 
     window->setActive();
 
@@ -40,7 +40,7 @@ sf::RenderWindow *createwindow() {
     // glewInit();
     // glEnable(GL_DEPTH_TEST);
     // glEnable(GL_TEXTURE_2D);
-    
+
     return window;
 }
 
@@ -56,8 +56,6 @@ void setPlayerCharactor(class GPlayerChar *player_) {
 void setWorld(class GWorld *world_) { world = world_; }
 
 void setWidgetPtr(class GWidget *widget_) { widgetPtr = widget_; }
-
-
 
 sf::Font font[4];
 
@@ -100,8 +98,8 @@ void initTools() {
         PRINTF("font3加载失败\n");
 }
 
-void printText(sf::RenderWindow&window_,const std::wstring &str, int x, int y, int size, sf::Color color,
-               sf::Font &font_) {
+void printText(sf::RenderWindow &window_, const std::wstring &str, int x, int y,
+               int size, sf::Color color, sf::Font &font_) {
     static sf::Text text;
     text.setFont(font_);
     text.setString(str);
@@ -110,19 +108,33 @@ void printText(sf::RenderWindow&window_,const std::wstring &str, int x, int y, i
     text.setCharacterSize(size);
     window_.draw(text);
 }
-
-void printNum(sf::RenderWindow&window_,float __float, int x, int y, int size, sf::Color color,
-              sf::Font &font_) {
+void printTextLimit(sf::RenderWindow &window_, const std::wstring &str, float x,
+                    float y, int size, const FVector2 &sprSize,
+                    const sf::Color &color, sf::Font &font_) {
+    static sf::Text text;
+    text.setFont(font_);
+    text.setString(str);
+    text.setPosition(x, y);
+    text.setFillColor(color);
+    text.setCharacterSize(size);
+    FVector2 scale = {sprSize.x / text.getLocalBounds().getSize().x,
+                      sprSize.y / text.getLocalBounds().getSize().y};
+    text.setScale(scale);
+    window_.draw(text);
+    
+}
+void printNum(sf::RenderWindow &window_, float __float, int x, int y, int size,
+              sf::Color color, sf::Font &font_) {
     wchar_t num[32];
     swprintf_s(num, L"%f", __float);
-    printText(window_,num, x, y, size, color, font_);
+    printText(window_, num, x, y, size, color, font_);
 }
 
-void printNum(sf::RenderWindow&window_,int __int, int x, int y, int size, sf::Color color,
-              sf::Font &font_) {
+void printNum(sf::RenderWindow &window_, int __int, int x, int y, int size,
+              sf::Color color, sf::Font &font_) {
     wchar_t num[32];
     swprintf_s(num, L"%d", __int);
-    printText(window_,num, x, y, size, color, font_);
+    printText(window_, num, x, y, size, color, font_);
 }
 
 FVector3 normalize(const FVector3 &G) {
@@ -131,7 +143,6 @@ FVector3 normalize(const FVector3 &G) {
         return {G.x / a, G.y / a, 0};
     return {0, 0, 0};
 };
-
 
 namespace nsg {
 // 变量
@@ -223,17 +234,29 @@ FVector3 strTo3Float(const std::string &str) {
     float a, b, c;
     size_t pos1 = str.find(',');
     a = std::stof(str.substr(0, pos1));
-    size_t pos2 = str.find(',',pos1+1);
-    b = std::stof(str.substr(pos1+1, pos2-pos1-1));
-    c = std::stof(str.substr(pos2+1));
-    return {a,b,c};
+    size_t pos2 = str.find(',', pos1 + 1);
+    b = std::stof(str.substr(pos1 + 1, pos2 - pos1 - 1));
+    c = std::stof(str.substr(pos2 + 1));
+    return {a, b, c};
 }
 
-std::string combineStrings(std::initializer_list<const std::string>strs){
+std::string combineStrings(std::initializer_list<const std::string> strs) {
     std::string rtn;
-    for(const std::string &str:strs){
+    for (const std::string &str : strs) {
         rtn += str;
     }
     return rtn;
+}
+void drawBound(sf::RenderWindow &window_,const sf::FloatRect &rect) {
+    sf::ConvexShape shape;
+    shape.setPointCount(4);
+    shape.setPoint(0, {rect.left, rect.top});
+    shape.setPoint(1, {rect.left + rect.width, rect.top});
+    shape.setPoint(2, {rect.left + rect.width, rect.top + rect.height});
+    shape.setPoint(3, {rect.left, rect.top + rect.height});
+    shape.setFillColor(sf::Color(255, 0, 0, 0));
+    shape.setOutlineThickness(2);
+    shape.setOutlineColor({255,0,0,255});
+    window_.draw(shape);
 }
 }; // namespace nsg
