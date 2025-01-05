@@ -60,7 +60,7 @@ inline void GDebug::drawLog(sf::RenderWindow&window_,int index)
 {
     printText(window_,wchar_, 0, 30 * index);
 }
-
+ 
 
 
 #endif // GDBUG
