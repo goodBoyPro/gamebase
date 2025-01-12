@@ -154,6 +154,7 @@ FVector3 strTo3Float(const std::string &str);
 std::string combineStrings(std::initializer_list<const std::string>strs);
 
 void drawBound(sf::RenderWindow &window_, const sf::FloatRect &rect);
+std::wstring utf8ToWstr(const std::string &utf8Str);
 }; // namespace nsg
 
 #endif

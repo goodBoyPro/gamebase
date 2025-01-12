@@ -259,4 +259,20 @@ void drawBound(sf::RenderWindow &window_,const sf::FloatRect &rect) {
     shape.setOutlineColor({255,0,0,255});
     window_.draw(shape);
 }
+std::wstring utf8ToWstr(const std::string &utf8Str) {
+  // 确定转换后的宽字符串所需的字符数（包括空字符）
+  int wcharCount =
+      MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, nullptr, 0);
+  // 检查是否转换失败
+  if (wcharCount == 0) {
+    throw std::runtime_error("MultiByteToWideChar failed");
+  }
+  // 为宽字符串分配内存，并包括一个额外的字符用于空字符
+  std::wstring wideStr(wcharCount, L'\0');
+  wchar_t *wideStringBuffer = const_cast<wchar_t *>(wideStr.data());
+  // 执行转换
+  MultiByteToWideChar(CP_UTF8, 0, utf8Str.c_str(), -1, wideStringBuffer,
+                      wcharCount);
+  return wideStr;
+}
 }; // namespace nsg

@@ -1,7 +1,9 @@
 #include <assert.h>
 #include <chrono>
+#define EXPORT
 #include <timeManager.h>
 #include <windows.h>
+
 // 注意 头文件中定义的全局对象，单例对象在跨dll时可能会生成不同实例
 //  thread_pool thread_pool::ThreadPool;
 //  时间流
