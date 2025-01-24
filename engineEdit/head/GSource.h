@@ -71,9 +71,9 @@ class textureAndSprite {
     sf::Texture tex;
     sf::Sprite spr;
     textureAndSprite() = default;
-    textureAndSprite(std::map<std::string, std::string> &list_) {
-        if (!tex.loadFromFile(list_["path"]))
-            printf("file[%s] load failed\n", list_["path"].c_str());
+    textureAndSprite(const std::map<std::string, std::string> &list_) {
+        if (!tex.loadFromFile(list_.at("path")))
+            printf("file[%s] load failed\n", list_.at("path").c_str());
         spr.setTexture(tex);
         spr.setOrigin(tex.getSize().x / 2, tex.getSize().y / 2);
     }
@@ -104,7 +104,7 @@ class GSource {
   public:
     GSource(std::string pathTexArray, std::string pathTexture,
             std::string pathSound, std::string pathAnimation) {
-        loadAllTextureArray(pathTexArray);
+        loadAllTextureArrayFromJson(pathTexArray);
         loadTextureRes(pathTexture);
         loadSoundRes(pathSound);
         loadAnimation(pathAnimation);
@@ -128,7 +128,7 @@ class GSource {
     GAnimation &getAnimation(int id) { return animations[id]; }
     // 全局资源
     static GSource &getSource() {
-        static GSource gs__("res/textureArray.xml", "res/picData.xml",
+        static GSource gs__("res/textureArray.json", "res/picData.xml",
                             "res/soundData.xml", "res/animData.xml");
         return gs__;
     }
@@ -140,10 +140,18 @@ class GSource {
     std::map<int, textureArray> allTextureArrays;
 
   private:
-    void loadAllTextureArray(const std::string &pathTexArrays) {
+    void loadAllTextureArrayFromXml(const std::string &pathTexArrays) {
         xmlRead xr(pathTexArrays.c_str());
         for (auto &pair : xr.mapData) {
             allTextureArrays.emplace(pair.first, pair.second);
+        }
+    }
+     void loadAllTextureArrayFromJson(const std::string &pathTexArrays) {
+         const nlohmann::json &js = nsg::loadDataFromJson(pathTexArrays.c_str());
+         for (auto &obj : js) {
+             int id =std::stoi(obj["id"].get<std::string>());
+             std::map<std::string, std::string> m=obj.get<std::map<std::string,std::string>>();
+             allTextureArrays.emplace(id, m);
         }
     }
     void loadTextureRes(const std::string &pathTexture) {

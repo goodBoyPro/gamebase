@@ -1,0 +1,62 @@
+[
+    {
+        "id": "1",
+        "name": "trees.png",
+        "path": "res/trees_256x5.png",
+        "sizex": "256",
+        "sizey": "256",
+        "row": "5",
+        "column": "5",
+        "originX": "128",
+        "originY": "245",
+        "type": "actor"
+    },
+    {
+        "id": "2",
+        "name": "house.png",
+        "path": "res/house_256x3.png",
+        "sizex": "256",
+        "sizey": "256",
+        "row": "3",
+        "column": "3",
+        "originX": "128",
+        "originY": "250",
+        "type": "actor"
+    },
+    {
+        "id": "3",
+        "name": "grass.png",
+        "path": "res/grass.png",
+        "sizex": "256",
+        "sizey": "256",
+        "row": "3",
+        "column": "3",
+        "originX": "0",
+        "originY": "0",
+        "type": "landblock"
+    },
+    {
+        "id": "4",
+        "name": "ui1.png",
+        "path": "res/ui1.png",
+        "sizex": "1024",
+        "sizey": "1024",
+        "row": "1",
+        "column": "1",
+        "originX": "0",
+        "originY": "0",
+        "type": "ui"
+    },
+    {
+        "id": "5",
+        "name": "button1356x1356+6x6.png",
+        "path": "res/button1356x1356+6x6.png",
+        "sizex": "256",
+        "sizey": "256",
+        "row": "6",
+        "column": "6",
+        "originX": "0",
+        "originY": "0",
+        "type": "ui"
+    }
+]

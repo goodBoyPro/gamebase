@@ -25,13 +25,6 @@ class xmlRead {
                                      " in function " + std::string(__func__) +
                                      ": " + path+" open failed\n");
         }
-        // try {
-
-        // } catch (const std::exception &e) {
-        //     std::cerr << "Error in " << __FILE__ << " at line " << __LINE__
-        //               << " in function " << __func__ << ": " << e.what()
-        //               << std::endl;
-        // }
         string xmlString;
         string line;
         while (getline(file, line)) {

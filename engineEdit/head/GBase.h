@@ -3,7 +3,7 @@
 #ifndef GBASE_H
 #define GBASE_H
 #include <string>
-
+#include<nlohmann_json/json.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <algorithm>
@@ -155,6 +155,7 @@ std::string combineStrings(std::initializer_list<const std::string>strs);
 
 void drawBound(sf::RenderWindow &window_, const sf::FloatRect &rect);
 std::wstring utf8ToWstr(const std::string &utf8Str);
+nlohmann::json loadDataFromJson(const char *path_);
 }; // namespace nsg
 
 #endif

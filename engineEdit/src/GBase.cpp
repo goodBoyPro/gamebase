@@ -275,4 +275,13 @@ std::wstring utf8ToWstr(const std::string &utf8Str) {
                       wcharCount);
   return wideStr;
 }
+
+nlohmann::json loadDataFromJson(const char* path_){
+        
+        std::ifstream file(path_);
+        if(!file.is_open())
+           { printf(path_);
+            PRINTF("json load failed");}
+        return nlohmann::json::parse(file);
+    }
 }; // namespace nsg
