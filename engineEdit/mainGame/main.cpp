@@ -14,6 +14,7 @@ int main() {
     xlib::getTimer().stop();
     thread_pool::getThreadPool().stop();
     printf("\nprogram has ended without error\n");
+    system("pause");
     return 0;
 }
 #endif

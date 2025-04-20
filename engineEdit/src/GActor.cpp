@@ -81,6 +81,16 @@ void GActor::drawActor(sf::RenderWindow &window_, const FVector3 &cameraPos_) {
     window_.draw(*sprPt);
     drawCallNum++;
 }
+void GActor::drawActor(RenderTex &layer, const FVector3 &cameraPos_) {
+
+    FVector2 psInWin = wsToWin(posInWs, cameraPos_);
+    (sprPt)->setPosition(psInWin.x, psInWin.y);
+    float xScale = sizeInWs.x / pixSize / sprPt->getLocalBounds().getSize().x;
+    float yScale = sizeInWs.y / pixSize / sprPt->getLocalBounds().getSize().y;
+    sprPt->setScale(xScale, yScale);
+    layer.draw(*sprPt);
+    drawCallNum++;
+}
 
 void GActor::bindActorComponent(GActorComponent *ptr) {
     ptr->setPosInWs(posInWs + ptr->getRelativePosition());

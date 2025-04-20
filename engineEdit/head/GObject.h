@@ -96,6 +96,8 @@ inline FVector3 winToWs(const IVector &positionInWin,
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GWorldInterface : public GObject {
   public:
+    RenderTex layerGameRtt;
+    gameSprite layerGame;
     GridMap<GActor *> *spaceManager = nullptr;
     GWorldInterface();
     virtual ~GWorldInterface() { delete spaceManager; }
@@ -142,6 +144,9 @@ inline GWorldInterface *GGameInterface::createWorld(GWorldInterface *newWorld) {
 inline GWorldInterface::GWorldInterface() {
     delete GGameInterface::getGameIns()->getWorldActive();
     GGameInterface::getGameIns()->setWorldActive(this);
+    layerGameRtt.create(WINW, WINH);
+    layerGameRtt.setSmooth(true);
+    layerGame.setTexture(layerGameRtt.getTexture());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -258,12 +263,11 @@ class GButtonInterface : public GUiInterface {
     virtual void showText(sf::RenderWindow &window_) {
         int x = spr.getPosition().x + spr.getGlobalBounds().getSize().x *
                                           (1.f - textState.textWidth) / 2.f;
-        int y = spr.getPosition().y+spr.getGlobalBounds().getSize().y*0.05;
+        int y = spr.getPosition().y + spr.getGlobalBounds().getSize().y * 0.05;
         FVector2 size = {
             spr.getGlobalBounds().getSize().x * textState.textWidth,
             spr.getGlobalBounds().getSize().y * textState.textHeight};
         printTextLimit(window_, text, x, y, 30, size, textState.textColor);
-        
     }
     virtual void draw(sf::RenderWindow &window_) override {
 

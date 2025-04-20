@@ -37,6 +37,7 @@ typedef sf::Vector2i IVector;
 typedef std::atomic<int> intAtomic;
 typedef std::atomic<float> floatAtomic;
 typedef sf::Sprite gameSprite;
+typedef sf::RenderTexture RenderTex;
 
 template <class T> struct GVector {
     GVector() {};
