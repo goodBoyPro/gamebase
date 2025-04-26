@@ -30,7 +30,7 @@ Game::Game() {
     gameIns = this;
     gameWindow = createwindow();
     setWinIcon(*gameWindow);
-    GMouseInterface *mouse = new GMouse;
+    GIMouse *mouse = new GMouse;
 }
 
 Game::~Game() {
@@ -55,8 +55,6 @@ void Game::dataLoop() {
             getWorld()->dataLoop();
         if (GetTickCount() == timeFlag)
             threadSleep(1);
-
-        deltaTime = GetTickCount() - timeFlag;
     } // while
 #ifdef GAMEDEBUG
     printf("dataloop stoped\n");
@@ -67,8 +65,9 @@ void Game::renderLoop2D() {
     sf::RenderWindow &window_ = *gameWindow;
     window_.setFramerateLimit(frameLimit);
     xlib::getTimer().setPause(false);
+    
     while (bGameContinue && window_.isOpen()) {
-
+        
         getPlayerController()->pollKey(window_, event);
         getWorldActive()->render(window_);
         PRINTDEBUG(L"drawCall:%ld", GActor::drawCallNum);
@@ -76,7 +75,7 @@ void Game::renderLoop2D() {
 
         window_.display();
         window_.clear();
-
+        setDeltaTime();
     } // while
     window_.close();
     xlib::getTimer().setPause(true);

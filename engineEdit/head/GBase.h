@@ -73,7 +73,7 @@ void setWidgetPtr(class GWidget *widget_);
 // 全局变量
 extern int frameLimit;
 extern float pixSize;
-extern int deltaTime;
+
 
 
 

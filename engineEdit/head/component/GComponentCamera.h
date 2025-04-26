@@ -5,7 +5,7 @@ class GComponentCamera : public GActorComponent {
   private:
     /* data */
   public:
-    GCameraInterface camera;
+    GICamera camera;
     GComponentCamera(/* args */);
     ~GComponentCamera();
 

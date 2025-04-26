@@ -4,7 +4,7 @@
 #include <GController.h>
 #include <GObject.h>
 #include <GSource.h>
-class buttonTest : public GButtonInterface {
+class buttonTest : public GIButton {
   public:
     textureArray *tex = nullptr;
     buttonTest() { tex = &(getSource().getTexArray(5)); }
@@ -21,7 +21,7 @@ class buttonTest : public GButtonInterface {
         textState.textColor = {255, 0, 0};
     };
 };
-class UIMain : public GUiInterface {
+class UIMain : public GIUi {
   public:
     UIMain() {
         getSource().setSprite(spr, 4, 0);
@@ -48,7 +48,7 @@ class UIMain : public GUiInterface {
     std::function<void()> onKeyPressed = []() {};
     virtual void pollKey(sf::RenderWindow &window_,
                          sf::Event &event_) override {
-        GUiInterface::pollKey(window_, event_);
+        GIUi::pollKey(window_, event_);
         if (event_.type == sf::Event::KeyPressed)
             switch (event_.key.code) {
             case sf::Keyboard::Backspace:
@@ -60,7 +60,7 @@ class UIMain : public GUiInterface {
             }
     }
 };
-class GWidget : public GWidgetInterface {
+class GWidget : public GIWidget {
   private:
   public:
     GWidget() {

@@ -26,13 +26,13 @@ void GController::pollKey(sf::RenderWindow &window_, sf::Event &event_)
         if (event_.type == sf::Event::Closed)
         {
             window_.close();
-            GGameInterface::getGameIns()->bGameContinue = 0;
+            GIGame::getGameIns()->bGameContinue = 0;
         }
         if (event_.type == sf::Event::Resized)
             resizeWindow(&window_);
-        if (__focusOnWidget && GWidgetInterface::getTop())
+        if (__focusOnWidget && GIWidget::getTop())
         {
-            GWidgetInterface::getTop()->onEventAny(window_, event_);
+            GIWidget::getTop()->onEventAny(window_, event_);
         }
         else
         {

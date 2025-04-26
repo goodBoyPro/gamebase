@@ -38,8 +38,7 @@ class GActor : public GObject {
     // 系统函数,所有子类重写时都应先运行
     virtual void dataLoop();
 
-    // 引用计数
-    std::atomic<int> count = 1;
+   
     // 资源在此处统一释放，用户不要delete
     virtual void destroyActor();
     float z = 0;

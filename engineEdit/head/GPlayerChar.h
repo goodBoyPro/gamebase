@@ -16,7 +16,7 @@ class GPlayerChar : public GActorWithAnim {
     FVector3 moveVector = {0, 0, 0};
     FVector3 moveUpVec = {0, 0, 0};
     FVector3 moveRightVec = {0, 0, 0};
-    float speed = 0;
+    float speed = 2.f;
    
 
   public:

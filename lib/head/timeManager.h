@@ -47,7 +47,7 @@ class TIMERAPI TimeManager {
         int ____Delay = 0;
         int ____times = 1;
         // 线程安全
-        // 被计时队列持有时+1，被线程池队列持有时也+1
+        // 被计时队列持有时+1，被线程池队列持有时也+1,执行中也+1
         std::atomic<int> *____taskNumber = nullptr;
         std::atomic<bool> *____isAllTaskCanceled = nullptr;
         std::function<void()> ____funcPtr = nullptr;

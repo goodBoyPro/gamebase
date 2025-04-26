@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# 获取当前时间，格式为 HHMMSS（无空格）
+# current_time=$(date -d "+8 hours" +"%Y-%m-%d %H:%M:%S Linux平台")
+current_time=$(date -d "+0 hours" +"%Y-%m-%d %H:%M:%S Linux平台")
+
+
+
+# 组合日期和时间
+#time="$current_time Linux平台"
+
+# 使用 Git 添加并提交更改，使用组合后的日期和时间作为提交信息
+git add .
+git commit -m "$current_time"
+git push
+
+# 暂停脚本执行，等待用户输入（类似于 Windows CMD 中的 pause 命令）
+echo "Press any key to continue..."
+read -n 1 -s
+echo

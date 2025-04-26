@@ -21,9 +21,9 @@ class GComponent : public GObject {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //          GControllerInterface
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class GControllerInterface : public GObject {
+class GIController : public GObject {
   private:
-    static GControllerInterface *playerController;
+    static GIController *playerController;
     int id;
 
   protected:
@@ -32,15 +32,15 @@ class GControllerInterface : public GObject {
   public:
     void setFoucusOnWidget(bool bFocusOnUi) { __focusOnWidget = bFocusOnUi; }
     bool getIsFocusOnWidget() { return __focusOnWidget; }
-    static std::vector<GControllerInterface *> &getAllController() {
-        static std::vector<GControllerInterface *> allCtrl;
+    static std::vector<GIController *> &getAllController() {
+        static std::vector<GIController *> allCtrl;
         return allCtrl;
     }
     void setActive() { getAllController()[id] = this; }
     void disableActive() { getAllController()[id] = nullptr; }
 
   public:
-    GControllerInterface() {
+    GIController() {
         getAllController().push_back(this);
         id = getAllController().size() - 1;
         for (std::function<void()> &func : bindKey)
@@ -51,35 +51,33 @@ class GControllerInterface : public GObject {
     std::function<void()> bindKey[128];
     std::function<void(float)> bindAxis[128];
     virtual void pollKey(sf::RenderWindow &window_, sf::Event &event_) = 0;
-    virtual ~GControllerInterface() { getAllController()[id] = nullptr; }
+    virtual ~GIController() { getAllController()[id] = nullptr; }
 
   public:
-    static GControllerInterface *getPlayerController() {
-        return playerController;
-    }
-    static void setPlayerController(GControllerInterface *ptr) {
+    static GIController *getPlayerController() { return playerController; }
+    static void setPlayerController(GIController *ptr) {
         playerController = ptr;
     }
 };
-inline GControllerInterface *GControllerInterface::playerController = nullptr;
-inline GControllerInterface *getPlayerController() {
-    return GControllerInterface::getPlayerController();
+inline GIController *GIController::playerController = nullptr;
+inline GIController *getPlayerController() {
+    return GIController::getPlayerController();
 }
-inline void setPlayerController(GControllerInterface *ptr) {
-    GControllerInterface::setPlayerController(ptr);
+inline void setPlayerController(GIController *ptr) {
+    GIController::setPlayerController(ptr);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //          cameraInterface
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class GCameraInterface : public GObject {
+class GICamera : public GObject {
   public:
     static float sceneScale;
     IVector positionInWin = IVector(WINW / 2, WINH / 2);
     FVector3 posInWs = FVector3(0, 0, 0);
-    ~GCameraInterface() {};
+    ~GICamera() {};
 };
-inline float GCameraInterface::sceneScale = 1;
+inline float GICamera::sceneScale = 1;
 inline FVector2 wsToWin(const FVector3 &PositionInWS,
                         const FVector3 &cameraPos_) {
     return {((PositionInWS.x - cameraPos_.x) / pixSize + WINW / 2.f),
@@ -94,13 +92,13 @@ inline FVector3 winToWs(const IVector &positionInWin,
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //           WorldInterface
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class GWorldInterface : public GObject {
+class GIWorld : public GObject {
   public:
     RenderTex layerGameRtt;
     gameSprite layerGame;
     GridMap<GActor *> *spaceManager = nullptr;
-    GWorldInterface();
-    virtual ~GWorldInterface() { delete spaceManager; }
+    GIWorld();
+    virtual ~GIWorld() { delete spaceManager; }
     virtual void render(sf::RenderWindow &window_);
     void createSpaceManager() {
         delete spaceManager;
@@ -112,38 +110,42 @@ class GWorldInterface : public GObject {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //           gameInterface
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class GGameInterface : public GObject {
+class GIGame : public GObject {
   private:
-    static GGameInterface *gameIns;
-    GWorldInterface *worldActive = nullptr;
+    static GIGame *gameIns;
+    GIWorld *worldActive = nullptr;
 
   public:
     sf::Event event;
     bool bGameContinue = 1;
-    GGameInterface() { setGameIns(this); };
-    virtual ~GGameInterface() {
+    GIGame() { setGameIns(this); };
+    virtual ~GIGame() {
         setGameIns(nullptr);
         delete worldActive;
         worldActive = nullptr;
     }
+    void setDeltaTime();
+    float deltaTime = 0;
     virtual void renderLoop2D() = 0;
-    static GGameInterface *getGameIns() { return gameIns; }
-    static void setGameIns(GGameInterface *ptr) { gameIns = ptr; }
-    GWorldInterface *getWorldActive() { return worldActive; }
+    static GIGame *getGameIns() { return gameIns; }
+    static void setGameIns(GIGame *ptr) { gameIns = ptr; }
+    GIWorld *getWorldActive() { return worldActive; }
     // 说明： createWorld(new worldclass);
-    GWorldInterface *createWorld(GWorldInterface *newWorld);
-    void setWorldActive(GWorldInterface *ptr) { worldActive = ptr; }
+    GIWorld *createWorld(GIWorld *newWorld);
+    void setWorldActive(GIWorld *ptr) { worldActive = ptr; }
 };
-inline GGameInterface *GGameInterface::gameIns = nullptr;
+inline GIGame *GIGame::gameIns = nullptr;
 
-inline GWorldInterface *GGameInterface::createWorld(GWorldInterface *newWorld) {
-
-    return newWorld;
+inline void GIGame::setDeltaTime() {
+    static sf::Clock clock;
+    deltaTime= clock.restart().asSeconds();
 }
+
+inline GIWorld *GIGame::createWorld(GIWorld *newWorld) { return newWorld; }
 // 全局世界指针需要在最开始设置，而不能在创建完成后设置
-inline GWorldInterface::GWorldInterface() {
-    delete GGameInterface::getGameIns()->getWorldActive();
-    GGameInterface::getGameIns()->setWorldActive(this);
+inline GIWorld::GIWorld() {
+    delete GIGame::getGameIns()->getWorldActive();
+    GIGame::getGameIns()->setWorldActive(this);
     layerGameRtt.create(WINW, WINH);
     layerGameRtt.setSmooth(true);
     layerGame.setTexture(layerGameRtt.getTexture());
@@ -154,18 +156,18 @@ inline GWorldInterface::GWorldInterface() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class safeMultiset {};
 // 变换依赖容器的变换状态，不要在构造函数中调用变换
-class GUiInterface : public GObject {
+class GIUi : public GObject {
   public:
     struct compare {
-        const bool operator()(GUiInterface *a, GUiInterface *b) const {
+        const bool operator()(GIUi *a, GIUi *b) const {
             return a->layer < b->layer;
         }
     };
 
   private:
-    std::multiset<GUiInterface *, compare> viewPortChild;
-    std::set<GUiInterface *> allChildUi;
-    GUiInterface *__parent = nullptr;
+    std::multiset<GIUi *, compare> viewPortChild;
+    std::set<GIUi *> allChildUi;
+    GIUi *__parent = nullptr;
     FVector2 __size = {50, 50};
     FVector2 __positionRltv = {0, 0};
     int layer = 0;
@@ -185,10 +187,10 @@ class GUiInterface : public GObject {
         } else
             layer = layer_;
     }
-    GUiInterface(GUiInterface *parent_) : __parent(parent_) {}
-    GUiInterface() {}
-    virtual ~GUiInterface() {
-        for (GUiInterface *u : allChildUi) {
+    GIUi(GIUi *parent_) : __parent(parent_) {}
+    GIUi() {}
+    virtual ~GIUi() {
+        for (GIUi *u : allChildUi) {
             delete u;
         }
     }
@@ -197,7 +199,7 @@ class GUiInterface : public GObject {
     const FVector2 &getSize() const { return __size; }
     void setPosition(const FVector2 &pos_) {
         __positionRltv = pos_;
-        for (GUiInterface *u : allChildUi) {
+        for (GIUi *u : allChildUi) {
             u->setPosition(u->__positionRltv);
         }
     }
@@ -219,18 +221,18 @@ class GUiInterface : public GObject {
         spr.setScale(scale);
         spr.setPosition(getPositionABS());
         window_.draw(spr);
-        for (GUiInterface *u : viewPortChild) {
+        for (GIUi *u : viewPortChild) {
             u->draw(window_);
         }
     }
     virtual void pollKey(sf::RenderWindow &window_, sf::Event &event_) {
-        for (GUiInterface *u : viewPortChild) {
+        for (GIUi *u : viewPortChild) {
             u->pollKey(window_, event_);
         }
     }
 
-    template <class T> GUiInterface *createUI() {
-        GUiInterface *x = new T;
+    template <class T> GIUi *createUI() {
+        GIUi *x = new T;
         x->__parent = this;
         allChildUi.insert(x);
         return x;
@@ -242,7 +244,7 @@ class GUiInterface : public GObject {
     }
 };
 
-class GButtonInterface : public GUiInterface {
+class GIButton : public GIUi {
 
   public:
     struct textInfo {
@@ -254,8 +256,8 @@ class GButtonInterface : public GUiInterface {
     EState state = idle;
     std::wstring text;
 
-    GButtonInterface() { isButton = true; }
-    ~GButtonInterface() {}
+    GIButton() { isButton = true; }
+    ~GIButton() {}
     std::function<void()> onMouseLeftClicked = []() {};
     virtual void setSprIdle() = 0;
     virtual void setSprHover() = 0;
@@ -285,7 +287,7 @@ class GButtonInterface : public GUiInterface {
         default:
             break;
         }
-        GUiInterface::draw(window_);
+        GIUi::draw(window_);
         showText(window_);
     }
     bool isSelected = false;
@@ -332,14 +334,14 @@ class GButtonInterface : public GUiInterface {
 //////////widgetInterface///////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <stack>
-class GWidgetInterface : public GObject {
+class GIWidget : public GObject {
   private:
-    static std::vector<GWidgetInterface *> __widgetForRender;
-    static GWidgetInterface *___focused___;
+    static std::vector<GIWidget *> __widgetForRender;
+    static GIWidget *___focused___;
     int layer = 0;
     bool visible = true;
     bool isInViewPort = false;
-    GUiInterface root;
+    GIUi root;
 
   public:
     void setLayer(int layer_) { layer = layer_; }
@@ -348,9 +350,9 @@ class GWidgetInterface : public GObject {
     virtual void onEventAny(sf::RenderWindow &window_, sf::Event &event_) {
         root.pollKey(window_, event_);
     }
-    virtual ~GWidgetInterface() {};
-    GWidgetInterface() {}
-    template <class T> GUiInterface *createUI() { return root.createUI<T>(); }
+    virtual ~GIWidget() {};
+    GIWidget() {}
+    template <class T> GIUi *createUI() { return root.createUI<T>(); }
     void addToViewPort() {
         if (isInViewPort)
             return;
@@ -358,12 +360,12 @@ class GWidgetInterface : public GObject {
         __widgetForRender.push_back(this);
         ___focused___ = this;
     }
-    GWidgetInterface *pop() {
+    GIWidget *pop() {
 
         if (!isInViewPort)
             return nullptr;
         isInViewPort = false;
-        GWidgetInterface *cur = *(__widgetForRender.end() - 1);
+        GIWidget *cur = *(__widgetForRender.end() - 1);
         __widgetForRender.pop_back();
         if (__widgetForRender.empty())
             ___focused___ = nullptr;
@@ -371,30 +373,30 @@ class GWidgetInterface : public GObject {
             ___focused___ = *(__widgetForRender.end() - 1);
         return cur;
     }
-    static GWidgetInterface *getTop() { return ___focused___; }
+    static GIWidget *getTop() { return ___focused___; }
     static void drawAllWidget(sf::RenderWindow &window_);
     virtual void draw(sf::RenderWindow &window_) { root.draw(window_); };
 };
-inline void GWidgetInterface::drawAllWidget(sf::RenderWindow &window_) {
-    for (GWidgetInterface *w : GWidgetInterface::__widgetForRender) {
+inline void GIWidget::drawAllWidget(sf::RenderWindow &window_) {
+    for (GIWidget *w : GIWidget::__widgetForRender) {
         if (w->visible)
             w->draw(window_);
     }
 }
-inline GWidgetInterface *GWidgetInterface::___focused___ = nullptr;
-inline std::vector<GWidgetInterface *> GWidgetInterface::__widgetForRender;
+inline GIWidget *GIWidget::___focused___ = nullptr;
+inline std::vector<GIWidget *> GIWidget::__widgetForRender;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 /// GMouseInterface
 /// ////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-class GMouseInterface {
+class GIMouse {
   public:
-    static GMouseInterface *mousePtr;
-    GMouseInterface() { mousePtr = this; }
-    virtual ~GMouseInterface() {}
+    static GIMouse *mousePtr;
+    GIMouse() { mousePtr = this; }
+    virtual ~GIMouse() {}
     virtual void drawMouseCusor(sf::RenderWindow &window_) {};
 };
-inline GMouseInterface *GMouseInterface::mousePtr = nullptr;
+inline GIMouse *GIMouse::mousePtr = nullptr;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #endif

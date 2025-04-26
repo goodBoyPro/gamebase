@@ -8,19 +8,19 @@ GPlayerChar::GPlayerChar() {
 
     controller->bindKey[GController::w] = [&]() {
         isMovingW = 1;
-        moveUp(-1);
+        moveUp(-1.f);
     };
     controller->bindKey[GController::s] = [&]() {
         isMovingS = 1;
-        moveUp(1);
+        moveUp(1.f);
     };
     controller->bindKey[GController::d] = [this]() {
         isMovingD = 1;
-        moveRight(1);
+        moveRight(1.f);
     };
     controller->bindKey[GController::a] = [this]() {
         isMovingA = 1;
-        moveRight(-1);
+        moveRight(-1.f);
     };
     // 松開按鍵
     controller->bindKey[GController::wr] = [&]() { isMovingW = 0; };
@@ -48,16 +48,24 @@ FVector3 GPlayerChar::getVelocity() { return getPosInWs() - posPrevious; }
 
 
 void GPlayerChar::move(FVector3 _fvector, float _value) {
-    static canRun t1;
-    if (t1.delay(MOVETICK)) {
-        posPrevious = getPosInWs();
-        bool flag = addWsPosOffset(_fvector * (_value));
+    // static canRun t1;
+    // if (t1.delay(MOVETICK)) {
+    //     posPrevious = getPosInWs();
+    //     bool flag = addWsPosOffset(_fvector * (_value));
         
-        if (!flag)
-            isMouseMove = 0;
-        moveUpVec = {0, 0,0};
-        moveRightVec = {0, 0,0};
-    }
+    //     if (!flag)
+    //         isMouseMove = 0;
+    //     moveUpVec = {0, 0,0};
+    //     moveRightVec = {0, 0,0};
+    // }
+    posPrevious = getPosInWs();
+    float spd = _value *GIGame::getGameIns()->deltaTime;
+    bool flag = addWsPosOffset(_fvector * spd);
+    
+    if (!flag)
+        isMouseMove = 0;
+    moveUpVec = {0, 0,0};
+    moveRightVec = {0, 0,0};
 }
 
 void GPlayerChar::moveUp(float value) {
@@ -102,7 +110,7 @@ void GPlayerChar::dataLoop() {
     else
         moveByKey();
     if (isMovingA || isMovingD || isMovingS || isMovingW || isMouseMove)
-        speed = 0.01;
+        speed = 1.f;
     else
         speed = 0;
     //updateState();

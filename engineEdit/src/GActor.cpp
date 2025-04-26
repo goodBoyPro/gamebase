@@ -28,7 +28,7 @@ void GActor::setPosInWs(const FVector3 pos_) {
     // std::shared_lock lk(gridMapOfActor.sortMut);
     if (isAllAsyncTaskCanceled)
         return;
-    int id = GGameInterface::getGameIns()
+    int id = GIGame::getGameIns()
                  ->getWorldActive()
                  ->spaceManager->getPositionIndex(pos_);
     if (!id)
@@ -44,7 +44,7 @@ void GActor::setPosInWs(const FVector3 pos_) {
         collisionForMove->setPosition(pos_);
 
         if (id != mapNodeId) {
-            GGameInterface::getGameIns()
+            GIGame::getGameIns()
                 ->getWorldActive()
                 ->spaceManager->changeActorNode(this, id, mapNodeId);
             mapNodeId = id;
@@ -104,7 +104,7 @@ GActor::GActor() {
     setRenderSprite(&__spr____);
     //////////////////////
     mapNodeId =
-        GGameInterface::getGameIns()->getWorldActive()->spaceManager->addActor(
+        GIGame::getGameIns()->getWorldActive()->spaceManager->addActor(
             this);
     /////////////////////
 }
@@ -114,7 +114,7 @@ GActor::~GActor() {
         delete component;
         component = nullptr;
     }
-    if (GGameInterface::getGameIns()
+    if (GIGame::getGameIns()
             ->getWorldActive()
             ->spaceManager->noteToActor)
         for (auto component : allActorComponents) {

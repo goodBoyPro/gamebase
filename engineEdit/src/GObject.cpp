@@ -1,7 +1,7 @@
 #include <GObject.h>
 #include <GPlayerChar.h>
 // #include <GWidget.h>
-void GWorldInterface::render(sf::RenderWindow &window_) {  
+void GIWorld::render(sf::RenderWindow &window_) {  
     // 绘制actor
     layerGameRtt.clear();
     FVector3 posForDraw = {((int)(getPlayerCharactor()->cameraComPtr->camera.posInWs.x*1000))/1000.f,
@@ -14,10 +14,10 @@ void GWorldInterface::render(sf::RenderWindow &window_) {
                winToWs(sf::Mouse::getPosition(*(Game::gameIns->gameWindow)),
                        posForDraw)
                    .y);
-    GGameInterface::getGameIns()
+    GIGame::getGameIns()
         ->getWorldActive()
         ->spaceManager->setActorsAlive(getPlayerCharactor()->mapNodeId);
-    for (auto elem : GGameInterface::getGameIns()
+    for (auto elem : GIGame::getGameIns()
                          ->getWorldActive()
                          ->spaceManager->actorsAlive) {
         elem->eventTick();
@@ -27,15 +27,15 @@ void GWorldInterface::render(sf::RenderWindow &window_) {
     layerGameRtt.display();
     
     window_.draw(layerGame);
-    GGameInterface::getGameIns()
+    GIGame::getGameIns()
         ->getWorldActive()
         ->spaceManager->actorsAlive.clear();
 
     // 绘制UI
-    GWidgetInterface::drawAllWidget(window_);
+    GIWidget::drawAllWidget(window_);
     //  绘制鼠标/////////////////////////////
-    if (GMouseInterface::mousePtr)
-        GMouseInterface::mousePtr->drawMouseCusor(window_);
+    if (GIMouse::mousePtr)
+        GIMouse::mousePtr->drawMouseCusor(window_);
     // 显示碰撞
     GCollision::showCollisions(window_, posForDraw);
     // 显示DEBUG////////////////////////////////

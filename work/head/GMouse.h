@@ -1,7 +1,7 @@
 #if !defined(GMOUSE_H)
 #define GMOUSE_H
 #include <GObject.h>
-class GMouse:public GMouseInterface {
+class GMouse:public GIMouse {
   private:
     /* data */
   public:
@@ -10,7 +10,7 @@ class GMouse:public GMouseInterface {
         spr.setTexture(tex);
         spr.setScale(0.3, 0.3);
         setMouseVisible(*(Game::gameIns->gameWindow), 0);
-        GMouseInterface::mousePtr = this;
+        GIMouse::mousePtr = this;
     };
     ~GMouse() {};
     sf::Texture tex;

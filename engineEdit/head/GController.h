@@ -17,7 +17,7 @@
 #include <functional>
 #include <string.h>
 
-class GController : public GControllerInterface {
+class GController : public GIController {
   private:
     /* data */
   public:

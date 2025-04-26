@@ -2,7 +2,7 @@
 #define GAME_H
 #include "GObject.h"
 
-class Game : public GGameInterface {
+class Game : public GIGame {
   private:
     /* data */
   public:

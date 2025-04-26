@@ -11,7 +11,6 @@ GPlayerChar *playerCharacter = nullptr;
 GWorld *world = nullptr;
 int frameLimit = 60;
 float pixSize = 0.01;
-int deltaTime;
 GWidget *widgetPtr = nullptr;
 
 // 接口

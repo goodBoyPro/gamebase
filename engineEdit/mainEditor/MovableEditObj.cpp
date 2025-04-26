@@ -134,16 +134,16 @@ void MovableEditObj::pollKey(sf::RenderWindow &window_, sf::Event &event_,const 
         float delta = event_.mouseWheelScroll.delta;
         static float pixSize0 = pixSize;
         if (delta > 0) {
-            GCameraInterface::sceneScale += 0.1;
-            if (GCameraInterface::sceneScale > 5)
-                GCameraInterface::sceneScale = 5;
-            pixSize = pixSize0 / GCameraInterface::sceneScale;
+            GICamera::sceneScale += 0.1;
+            if (GICamera::sceneScale > 5)
+                GICamera::sceneScale = 5;
+            pixSize = pixSize0 / GICamera::sceneScale;
         }
         if (delta < 0) {
-            GCameraInterface::sceneScale -= 0.1;
-            if (GCameraInterface::sceneScale < 0.001)
-                GCameraInterface::sceneScale = 0.001;
-            pixSize = pixSize0 / GCameraInterface::sceneScale;
+            GICamera::sceneScale -= 0.1;
+            if (GICamera::sceneScale < 0.001)
+                GICamera::sceneScale = 0.001;
+            pixSize = pixSize0 / GICamera::sceneScale;
         }
     }
     if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
